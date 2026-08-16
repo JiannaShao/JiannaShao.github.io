@@ -325,7 +325,7 @@ function createFish(data) {
                 `${data.name} noticed you!`;
 
             fish.style.filter =
-                "brightness(1.5)";
+                "brightness(1.3)";
 
 
             setTimeout(function() {
@@ -422,7 +422,7 @@ function updateFishBehavior(
             35
         );
 
-        fish.angleChangeTimer =
+        .angleChangeTimer =
             randomNumber(
                 1500,
                 4000
