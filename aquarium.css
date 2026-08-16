@@ -589,7 +589,7 @@ button:active {
 
     color: #72c9c3;
 
-    font-size: 14px;
+    font-size: 28px;
 
     text-decoration: none;
 }
@@ -736,6 +736,8 @@ button:active {
 
     border: none;
 
+    background: transparent;
+
     color: inherit;
 
     cursor: pointer;
@@ -850,7 +852,7 @@ button:active {
             33, 
             68, 
             94,
-            0.8
+            1
         );
 
     border:
