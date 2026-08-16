@@ -15,14 +15,14 @@ body {
 
 
 body {
-    background: #faf6e8;
+    background: #071b24;
 
     color: #e8f3f3;
 
     font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
+        "Times New Roman",
+        Times,
+        serif;
 }
 
 
@@ -97,7 +97,7 @@ h1 {
 .subtitle {
     margin: 14px 0 0;
 
-    color: #a8c4c6;
+    color: #7ea8ab;
 
     font-size: 17px;
 
@@ -126,19 +126,19 @@ h1 {
 
     background:
         rgba(
-            44,
-            103,
-            108,
-            0.25
+            126,
+            168,
+            171,
+            1
         );
 
     border:
         1px solid
         rgba(
-            114,
-            201,
-            195,
-            0.2
+            255,
+            255,
+            255,
+            1
         );
 
     border-radius: 8px;
@@ -559,7 +559,7 @@ button:active {
 
     color: #83a9ab;
 
-    font-size: 14px;
+    font-size: 22px;
 
     text-align: center;
 }
@@ -655,7 +655,7 @@ button:active {
 
     color: #72c9c3;
 
-    font-size: 12px;
+    font-size: 20px;
 
     font-weight: 700;
 
@@ -679,9 +679,9 @@ button:active {
 
     margin: 12px auto 35px;
 
-    color: #8eabad;
+    color: #7ea8ab;
 
-    font-size: 15px;
+    font-size: 18px;
 
     line-height: 1.6;
 }
@@ -809,7 +809,7 @@ button:active {
 
     margin-top: 14px;
 
-    color: #dce9e8;
+    color: #21445e;
 
     font-size: 15px;
 
@@ -833,19 +833,19 @@ button:active {
 
     background:
         rgba(
-            25,
-            53,
-            60,
+            33, 
+            68, 
+            94
             0.55
         );
 
     border:
         1px solid
         rgba(
-            114,
-            201,
-            195,
-            0.25
+            255,
+            255,
+            255,
+            1
         );
 
     border-radius: 10px;
