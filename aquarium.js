@@ -1,21 +1,9 @@
-const tank =
-    document.getElementById("tank");
-
-const fishLayer =
-    document.getElementById("fish-layer");
-
-const foodLayer =
-    document.getElementById("food-layer");
-
-const bubbleLayer =
-    document.getElementById("bubble-layer");
-
-const message =
-    document.getElementById("message");
-
-const foodCount =
-    document.getElementById("food-count");
-
+const tank = document.getElementById("tank");
+const fishLayer = document.getElementById("fish-layer");
+const foodLayer = document.getElementById("food-layer");
+const bubbleLayer = document.getElementById("bubble-layer");
+const message = document.getElementById("message");
+const foodCount = document.getElementById("food-count");
 
 
 /* =========================
@@ -23,29 +11,16 @@ const foodCount =
 ========================= */
 
 let food = 0;
-
 let lastTime = 0;
-
 let bubbleTimer = 0;
 
-
-/*
-    How frequently bubbles can appear.
-
-    This is intentionally somewhat random
-    so the bubbles don't look synchronized.
-*/
-
 const minimumBubbleTime = 350;
-
 const maximumBubbleTime = 1400;
 
-let nextBubbleTime =
-    randomNumber(
-        minimumBubbleTime,
-        maximumBubbleTime
-    );
-
+let nextBubbleTime = randomNumber(
+    minimumBubbleTime,
+    maximumBubbleTime
+);
 
 
 /* =========================
@@ -53,23 +28,15 @@ let nextBubbleTime =
 ========================= */
 
 /*
-    There are exactly 15 fish.
-
     All fish drawings face LEFT.
 
-    Therefore:
+    direction:
+        1  = swimming RIGHT
+       -1  = swimming LEFT
 
-    direction = 1
-        Fish faces RIGHT
-
-    direction = -1
-        Fish faces LEFT
-
-
-    The original speeds have been divided
-    by 8 to make the swimming slower.
+    The speeds below are the previous
+    speeds divided by 8.
 */
-
 
 const fishData = [
 
@@ -82,7 +49,6 @@ const fishData = [
         direction: 1
     },
 
-
     {
         name: "Bluegill",
         image: "Fih/Bluegill.png",
@@ -91,7 +57,6 @@ const fishData = [
         targetSpeed: 0.045 / 8,
         direction: -1
     },
-
 
     {
         name: "Burbot",
@@ -102,7 +67,6 @@ const fishData = [
         direction: 1
     },
 
-
     {
         name: "Carp",
         image: "Fih/Carp.png",
@@ -111,7 +75,6 @@ const fishData = [
         targetSpeed: 0.050 / 8,
         direction: -1
     },
-
 
     {
         name: "Catfish",
@@ -122,7 +85,6 @@ const fishData = [
         direction: 1
     },
 
-
     {
         name: "Crappie",
         image: "Fih/Crappie.png",
@@ -131,7 +93,6 @@ const fishData = [
         targetSpeed: 0.028 / 8,
         direction: -1
     },
-
 
     {
         name: "Freshwater Drum",
@@ -142,7 +103,6 @@ const fishData = [
         direction: 1
     },
 
-
     {
         name: "Golden Dorado",
         image: "Fih/GoldenDorado.png",
@@ -151,7 +111,6 @@ const fishData = [
         targetSpeed: 0.055 / 8,
         direction: -1
     },
-
 
     {
         name: "Minnow",
@@ -162,7 +121,6 @@ const fishData = [
         direction: 1
     },
 
-
     {
         name: "Perch",
         image: "Fih/Perch.png",
@@ -171,7 +129,6 @@ const fishData = [
         targetSpeed: 0.048 / 8,
         direction: -1
     },
-
 
     {
         name: "Pike",
@@ -182,7 +139,6 @@ const fishData = [
         direction: 1
     },
 
-
     {
         name: "Pumpkinseed",
         image: "Fih/Pumpkinseed.png",
@@ -191,7 +147,6 @@ const fishData = [
         targetSpeed: 0.033 / 8,
         direction: -1
     },
-
 
     {
         name: "Round Goby",
@@ -202,7 +157,6 @@ const fishData = [
         direction: 1
     },
 
-
     {
         name: "Salmon",
         image: "Fih/Salmon.png",
@@ -211,7 +165,6 @@ const fishData = [
         targetSpeed: 0.036 / 8,
         direction: -1
     },
-
 
     {
         name: "Sucker",
@@ -225,81 +178,54 @@ const fishData = [
 ];
 
 
-
 /* =========================
    RANDOM STARTING POSITIONS
 ========================= */
 
 /*
-    Give every fish a random starting
-    position inside the aquarium.
+    Every fish starts somewhere different.
 
     X = left/right
-
     Y = up/down
 */
 
-fishData.forEach(
-    function(fish) {
+fishData.forEach(function(fish) {
 
-        fish.x =
-            randomNumber(
-                5,
-                88
-            );
+    fish.x = randomNumber(5, 88);
+    fish.y = randomNumber(10, 80);
 
+    /*
+        Each fish gets a random initial
+        swimming angle.
 
-        fish.y =
-            randomNumber(
-                10,
-                80
-            );
+        0 degrees   = right
+        90 degrees  = down
+        -90 degrees = up
+        180 degrees = left
+    */
 
+    fish.angle = randomNumber(-45, 45);
 
-        /*
-            Vertical movement.
+    /*
+        Some fish start swimming left.
+    */
 
-            This determines whether the fish
-            is currently moving upward or
-            downward.
-
-            The amount is intentionally small
-            compared with horizontal movement.
-        */
-
-        fish.verticalDirection =
-            randomNumber(
-                -1,
-                1
-            );
-
-
-        /*
-            How strongly this fish is
-            currently moving vertically.
-        */
-
-        fish.verticalSpeed =
-            randomNumber(
-                0.15,
-                0.45
-            );
-
-
-        /*
-            Each fish periodically changes
-            its vertical direction.
-        */
-
-        fish.verticalChangeTimer =
-            randomNumber(
-                1500,
-                4000
-            );
-
+    if (Math.random() < 0.5) {
+        fish.direction = -1;
+        fish.angle += 180;
     }
-);
 
+    /*
+        Controls how quickly the fish
+        changes its swimming angle.
+    */
+
+    fish.angleChangeTimer = randomNumber(
+        1500,
+        4000
+    );
+
+});
 
 
 /* =========================
@@ -308,15 +234,9 @@ fishData.forEach(
 
 function createFish(data) {
 
-    const fish =
-        document.createElement("div");
+    const fish = document.createElement("div");
 
     fish.className = "fish";
-
-
-    /*
-        Each fish gets its own image.
-    */
 
     fish.innerHTML = `
         <img
@@ -326,64 +246,51 @@ function createFish(data) {
         >
     `;
 
+    fish.style.left = data.x + "%";
+    fish.style.top = data.y + "%";
 
-    fish.style.left =
-        data.x + "%";
+    /*
+        Your artwork faces LEFT.
 
+        When the fish swims RIGHT,
+        flip the image horizontally.
 
-    fish.style.top =
-        data.y + "%";
+        When it swims LEFT,
+        use the original image.
+    */
+
+    if (data.direction === 1) {
+        fish.style.transform = "scaleX(-1)";
+    } else {
+        fish.style.transform = "scaleX(1)";
+    }
 
 
     /*
-        Your drawings face LEFT.
-
-        scaleX(-1) flips them to face RIGHT.
-
-        Therefore:
-
-        direction = 1
-            scaleX(-1)
-
-        direction = -1
-            scaleX(1)
+        Random speed-change timing.
     */
 
-    fish.style.transform =
-        `scaleX(${-data.direction})`;
+    data.speedChangeTimer = randomNumber(
+        1500,
+        4500
+    );
 
 
     /*
-        Each fish gets its own random
-        timing for changing speed.
+        Random burst timing.
     */
 
-    data.speedChangeTimer =
-        randomNumber(
-            1500,
-            4500
-        );
-
-
-    /*
-        Each fish gets its own random
-        timing for occasional bursts.
-    */
-
-    data.burstTimer =
-        randomNumber(
-            5000,
-            12000
-        );
-
+    data.burstTimer = randomNumber(
+        6000,
+        14000
+    );
 
     data.burstMultiplier = 1;
 
 
     /*
-        Clicking a fish makes it
-        change direction and temporarily
-        swim faster.
+        Clicking a fish makes it turn around
+        and temporarily speed up.
     */
 
     fish.addEventListener(
@@ -392,32 +299,26 @@ function createFish(data) {
 
             event.stopPropagation();
 
-
             data.direction *= -1;
 
+            data.angle += 180;
 
-            data.speed =
-                data.speed * 1.5;
-
+            data.speed *= 1.5;
 
             message.textContent =
                 `${data.name} noticed you!`;
-
 
             fish.style.filter =
                 "brightness(1.2)";
 
 
-            setTimeout(
-                function() {
+            setTimeout(function() {
 
-                    data.speed /= 1.5;
+                data.speed /= 1.5;
 
-                    fish.style.filter = "";
+                fish.style.filter = "";
 
-                },
-                800
-            );
+            }, 800);
 
         }
     );
@@ -425,27 +326,21 @@ function createFish(data) {
 
     data.element = fish;
 
-
     fishLayer.appendChild(fish);
-
 }
 
 
+/*
+    Create exactly 15 fish.
+*/
 
-/* Create all 15 fish */
-
-fishData.forEach(
-    function(fish) {
-
-        createFish(fish);
-
-    }
-);
-
+fishData.forEach(function(fish) {
+    createFish(fish);
+});
 
 
 /* =========================
-   CHANGING FISH SPEED
+   FISH BEHAVIOR
 ========================= */
 
 function updateFishBehavior(
@@ -454,152 +349,78 @@ function updateFishBehavior(
 ) {
 
     /*
-        Count down until the fish
-        chooses a new speed.
+        =========================
+        CHANGE SPEED
+        =========================
     */
 
-    fish.speedChangeTimer -=
-        deltaTime;
+    fish.speedChangeTimer -= deltaTime;
 
-
-    /*
-        Choose a new target speed.
-
-        The fish can slow down or
-        speed up gradually.
-    */
-
-    if (
-        fish.speedChangeTimer <= 0
-    ) {
-
-        const variation =
-            randomNumber(
-                0.60,
-                1.30
-            );
-
+    if (fish.speedChangeTimer <= 0) {
 
         fish.targetSpeed =
             fish.baseSpeed *
-            variation;
-
+            randomNumber(0.6, 1.3);
 
         fish.speedChangeTimer =
-            randomNumber(
-                1800,
-                5000
-            );
-
+            randomNumber(2000, 5000);
     }
 
 
     /*
-        Gradually move toward the
-        target speed.
+        Gradually approach the new speed.
     */
 
-    const accelerationRate =
-        0.00015;
+    const speedChangeRate = 0.00015;
 
-
-    if (
-        fish.speed <
-        fish.targetSpeed
-    ) {
+    if (fish.speed < fish.targetSpeed) {
 
         fish.speed +=
-            accelerationRate *
-            deltaTime;
+            speedChangeRate * deltaTime;
 
-    }
-
-
-    else if (
-        fish.speed >
-        fish.targetSpeed
-    ) {
+    } else {
 
         fish.speed -=
-            accelerationRate *
-            deltaTime;
-
+            speedChangeRate * deltaTime;
     }
 
 
     /*
-        Prevent the speed from becoming
-        negative due to tiny floating-point
-        differences.
+        =========================
+        CHANGE SWIMMING ANGLE
+        =========================
     */
 
-    fish.speed =
-        Math.max(
-            fish.speed,
-            0.0001
-        );
+    fish.angleChangeTimer -= deltaTime;
 
-
-    /*
-        =========================
-        VERTICAL DIRECTION
-        =========================
-
-        Fish periodically decide whether
-        to swim upward or downward.
-    */
-
-    fish.verticalChangeTimer -=
-        deltaTime;
-
-
-    if (
-        fish.verticalChangeTimer <= 0
-    ) {
-
-        fish.verticalDirection =
-            randomNumber(
-                -1,
-                1
-            );
-
+    if (fish.angleChangeTimer <= 0) {
 
         /*
-            Normalize the direction so
-            it is either upward or downward.
+            Change the angle by a random
+            amount instead of suddenly
+            choosing a completely new path.
         */
 
-        fish.verticalDirection =
-            fish.verticalDirection >= 0
-                ? 1
-                : -1;
+        fish.angle += randomNumber(
+            -35,
+            35
+        );
 
-
-        fish.verticalSpeed =
-            randomNumber(
-                0.15,
-                0.45
-            );
-
-
-        fish.verticalChangeTimer =
+        fish.angleChangeTimer =
             randomNumber(
                 1500,
-                4500
+                4000
             );
-
     }
 
 
     /*
         =========================
-        SPEED BURSTS
+        OCCASIONAL SPEED BURST
         =========================
     */
 
-    fish.burstTimer -=
-        deltaTime;
-
+    fish.burstTimer -= deltaTime;
 
     if (
         fish.burstTimer <= 0 &&
@@ -608,51 +429,35 @@ function updateFishBehavior(
 
         fish.burstMultiplier =
             randomNumber(
-                1.4,
-                2.1
+                1.3,
+                1.8
             );
-
 
         fish.burstDuration =
             randomNumber(
-                700,
-                1600
+                600,
+                1400
             );
-
 
         fish.burstTimer =
             randomNumber(
                 6000,
                 14000
             );
-
     }
 
 
-    /*
-        End the burst.
-    */
+    if (fish.burstMultiplier > 1) {
 
-    if (
-        fish.burstMultiplier > 1
-    ) {
+        fish.burstDuration -= deltaTime;
 
-        fish.burstDuration -=
-            deltaTime;
-
-
-        if (
-            fish.burstDuration <= 0
-        ) {
+        if (fish.burstDuration <= 0) {
 
             fish.burstMultiplier = 1;
-
         }
-
     }
 
 }
-
 
 
 /* =========================
@@ -661,159 +466,193 @@ function updateFishBehavior(
 
 function updateFish(deltaTime) {
 
-    fishData.forEach(
-        function(fish) {
+    fishData.forEach(function(fish) {
 
-            if (!fish.element) {
-                return;
-            }
+        if (!fish.element) {
+            return;
+        }
 
 
-            updateFishBehavior(
-                fish,
-                deltaTime
+        updateFishBehavior(
+            fish,
+            deltaTime
+        );
+
+
+        /*
+            Current speed.
+        */
+
+        const actualSpeed =
+            fish.speed *
+            fish.burstMultiplier;
+
+
+        /*
+            Convert the angle to radians.
+        */
+
+        const radians =
+            fish.angle *
+            Math.PI /
+            180;
+
+
+        /*
+            Move horizontally AND vertically.
+
+            cos = horizontal movement
+            sin = vertical movement
+        */
+
+        const horizontalMovement =
+            Math.cos(radians) *
+            actualSpeed *
+            deltaTime;
+
+
+        const verticalMovement =
+            Math.sin(radians) *
+            actualSpeed *
+            deltaTime;
+
+
+        fish.x += horizontalMovement;
+
+        fish.y += verticalMovement;
+
+
+        /*
+            =========================
+            LEFT EDGE
+            =========================
+        */
+
+        if (fish.x <= 2) {
+
+            fish.x = 2;
+
+            fish.direction = 1;
+
+            /*
+                Reflect the horizontal
+                component of movement.
+            */
+
+            fish.angle =
+                180 - fish.angle;
+        }
+
+
+        /*
+            =========================
+            RIGHT EDGE
+            =========================
+        */
+
+        if (fish.x >= 91) {
+
+            fish.x = 91;
+
+            fish.direction = -1;
+
+            fish.angle =
+                180 - fish.angle;
+        }
+
+
+        /*
+            =========================
+            TOP EDGE
+            =========================
+        */
+
+        if (fish.y <= 5) {
+
+            fish.y = 5;
+
+            /*
+                Reverse vertical movement.
+            */
+
+            fish.angle =
+                -fish.angle;
+        }
+
+
+        /*
+            =========================
+            BOTTOM EDGE
+            =========================
+        */
+
+        if (fish.y >= 82) {
+
+            fish.y = 82;
+
+            fish.angle =
+                -fish.angle;
+        }
+
+
+        /*
+            Determine which direction
+            the fish is actually moving.
+        */
+
+        const horizontalDirection =
+            Math.cos(
+                fish.angle *
+                Math.PI /
+                180
             );
 
 
-            /*
-                Actual speed including
-                occasional bursts.
-            */
+        if (horizontalDirection > 0) {
 
-            const actualSpeed =
-                fish.speed *
-                fish.burstMultiplier;
+            fish.direction = 1;
 
+        } else {
 
-            /*
-                =========================
-                HORIZONTAL MOVEMENT
-                =========================
-            */
-
-            const horizontalMovement =
-                actualSpeed *
-                deltaTime;
+            fish.direction = -1;
+        }
 
 
-            fish.x +=
-                horizontalMovement *
-                fish.direction;
+        /*
+            Update position.
+        */
+
+        fish.element.style.left =
+            fish.x + "%";
+
+        fish.element.style.top =
+            fish.y + "%";
 
 
-            /*
-                =========================
-                VERTICAL MOVEMENT
-                =========================
+        /*
+            Your drawings face LEFT.
 
-                Vertical movement is based
-                on the same general speed,
-                but reduced so the fish tend
-                to travel diagonally rather
-                than moving straight up/down.
-            */
+            Swimming RIGHT:
+                flip image
 
-            const verticalMovement =
-                actualSpeed *
-                deltaTime *
-                fish.verticalSpeed;
+            Swimming LEFT:
+                normal image
+        */
 
-
-            fish.y +=
-                verticalMovement *
-                fish.verticalDirection;
-
-
-            /*
-                =========================
-                LEFT EDGE
-                =========================
-            */
-
-            if (fish.x <= 2) {
-
-                fish.x = 2;
-
-                fish.direction = 1;
-
-            }
-
-
-            /*
-                =========================
-                RIGHT EDGE
-                =========================
-            */
-
-            if (fish.x >= 91) {
-
-                fish.x = 91;
-
-                fish.direction = -1;
-
-            }
-
-
-            /*
-                =========================
-                TOP EDGE
-                =========================
-            */
-
-            if (fish.y <= 5) {
-
-                fish.y = 5;
-
-                fish.verticalDirection = 1;
-
-            }
-
-
-            /*
-                =========================
-                BOTTOM EDGE
-                =========================
-            */
-
-            if (fish.y >= 82) {
-
-                fish.y = 82;
-
-                fish.verticalDirection = -1;
-
-            }
-
-
-            /*
-                Update position.
-            */
-
-            fish.element.style.left =
-                fish.x + "%";
-
-
-            fish.element.style.top =
-                fish.y + "%";
-
-
-            /*
-                Your original drawings face LEFT.
-
-                Flip horizontally when the fish
-                is swimming RIGHT.
-
-                direction = 1  -> scaleX(-1)
-                direction = -1 -> scaleX(1)
-            */
+        if (fish.direction === 1) {
 
             fish.element.style.transform =
-                `scaleX(${-fish.direction})`;
+                "scaleX(-1)";
 
+        } else {
+
+            fish.element.style.transform =
+                "scaleX(1)";
         }
-    );
+
+    });
 
 }
-
 
 
 /* =========================
@@ -834,66 +673,44 @@ function createBubble(fish) {
 
 
     /*
-        Find the fish's current position.
-    */
-
-    const fishX =
-        fish.x;
-
-    const fishY =
-        fish.y;
-
-
-    /*
-        Add randomness so bubbles don't
-        always come from exactly the same
-        location.
+        Start approximately where
+        the fish currently is.
     */
 
     const randomX =
-        Math.random() * 5 - 2.5;
+        randomNumber(-2.5, 2.5);
 
     const randomY =
-        Math.random() * 5 - 2.5;
+        randomNumber(-2.5, 2.5);
 
 
     bubble.style.left =
-        `calc(${fishX}% + ${randomX}px)`;
-
+        `calc(${fish.x}% + ${randomX}px)`;
 
     bubble.style.top =
-        `calc(${fishY}% + ${randomY}px)`;
+        `calc(${fish.y}% + ${randomY}px)`;
 
 
     /*
-        Different bubble sizes.
+        Random bubble size.
     */
 
     const size =
-        randomNumber(
-            4,
-            14
-        );
-
+        randomNumber(4, 14);
 
     bubble.style.width =
         size + "px";
-
 
     bubble.style.height =
         size + "px";
 
 
     /*
-        Different rising speeds.
+        Random bubble rise speed.
     */
 
     const duration =
-        randomNumber(
-            3,
-            6
-        );
-
+        randomNumber(3, 6);
 
     bubble.style.setProperty(
         "--bubble-duration",
@@ -906,11 +723,7 @@ function createBubble(fish) {
     */
 
     const drift =
-        randomNumber(
-            -35,
-            35
-        );
-
+        randomNumber(-35, 35);
 
     bubble.style.setProperty(
         "--bubble-drift",
@@ -918,49 +731,33 @@ function createBubble(fish) {
     );
 
 
-    bubbleLayer.appendChild(
-        bubble
-    );
+    bubbleLayer.appendChild(bubble);
 
 
-    /*
-        Remove the bubble after
-        its animation is complete.
-    */
+    setTimeout(function() {
 
-    setTimeout(
-        function() {
+        bubble.remove();
 
-            bubble.remove();
-
-        },
-        duration * 1000
-    );
+    }, duration * 1000);
 
 }
 
 
-
 /* =========================
-   RANDOM BUBBLE GENERATION
+   RANDOM BUBBLES
 ========================= */
 
 function updateBubbles(deltaTime) {
 
-    bubbleTimer +=
-        deltaTime;
+    bubbleTimer += deltaTime;
 
-
-    if (
-        bubbleTimer >=
-        nextBubbleTime
-    ) {
+    if (bubbleTimer >= nextBubbleTime) {
 
         bubbleTimer = 0;
 
 
         /*
-            Choose a random fish.
+            Pick a random fish.
         */
 
         const randomFish =
@@ -972,13 +769,11 @@ function updateBubbles(deltaTime) {
             ];
 
 
-        createBubble(
-            randomFish
-        );
+        createBubble(randomFish);
 
 
         /*
-            Pick another random interval.
+            Pick another random time.
         */
 
         nextBubbleTime =
@@ -986,63 +781,42 @@ function updateBubbles(deltaTime) {
                 minimumBubbleTime,
                 maximumBubbleTime
             );
-
     }
 
 }
-
 
 
 /* =========================
    ANIMATION LOOP
 ========================= */
 
-function animationLoop(
-    timestamp
-) {
+function animationLoop(timestamp) {
 
     if (!lastTime) {
-
-        lastTime =
-            timestamp;
-
+        lastTime = timestamp;
     }
 
 
     const deltaTime =
-        timestamp -
-        lastTime;
+        timestamp - lastTime;
+
+    lastTime = timestamp;
 
 
-    lastTime =
-        timestamp;
+    updateFish(deltaTime);
 
-
-    updateFish(
-        deltaTime
-    );
-
-
-    updateBubbles(
-        deltaTime
-    );
+    updateBubbles(deltaTime);
 
 
     requestAnimationFrame(
         animationLoop
     );
-
 }
 
-
-/*
-    Start the aquarium.
-*/
 
 requestAnimationFrame(
     animationLoop
 );
-
 
 
 /* =========================
@@ -1052,8 +826,7 @@ requestAnimationFrame(
 function feedFish() {
 
     /*
-        Drop several pieces of food
-        into the aquarium.
+        Drop 10 pieces of food.
     */
 
     for (
@@ -1062,52 +835,37 @@ function feedFish() {
         i++
     ) {
 
-        setTimeout(
-            function() {
+        setTimeout(function() {
 
-                createFood();
+            createFood();
 
-            },
-            i * 100
-        );
-
+        }, i * 100);
     }
 
 
     food += 10;
 
-
     foodCount.textContent =
         `Food: ${food}`;
-
 
     message.textContent =
         "Feeding time!";
 
 
     /*
-        Make the fish temporarily
-        move faster.
-
-        They accelerate toward their
-        new target speeds naturally.
+        Fish temporarily become
+        more active.
     */
 
-    fishData.forEach(
-        function(fish) {
+    fishData.forEach(function(fish) {
 
-            fish.targetSpeed =
-                fish.baseSpeed *
-                randomNumber(
-                    1.4,
-                    2.0
-                );
+        fish.targetSpeed =
+            fish.baseSpeed *
+            randomNumber(1.4, 2.0);
 
-        }
-    );
+    });
 
 }
-
 
 
 /* =========================
@@ -1119,40 +877,26 @@ function createFood() {
     const pellet =
         document.createElement("div");
 
-    pellet.className =
-        "food";
+    pellet.className = "food";
 
 
     pellet.style.left =
-        randomNumber(
-            5,
-            95
-        ) + "%";
-
+        randomNumber(5, 95) + "%";
 
     pellet.style.top =
-        randomNumber(
-            2,
-            10
-        ) + "%";
+        randomNumber(2, 10) + "%";
 
 
-    foodLayer.appendChild(
-        pellet
-    );
+    foodLayer.appendChild(pellet);
 
 
-    setTimeout(
-        function() {
+    setTimeout(function() {
 
-            pellet.remove();
+        pellet.remove();
 
-        },
-        3000
-    );
+    }, 3000);
 
 }
-
 
 
 /* =========================
@@ -1160,9 +904,7 @@ function createFood() {
 ========================= */
 
 document
-    .getElementById(
-        "feed-button"
-    )
+    .getElementById("feed-button")
     .addEventListener(
         "click",
         function() {
@@ -1173,15 +915,12 @@ document
     );
 
 
-
 /* =========================
    RESET
 ========================= */
 
 document
-    .getElementById(
-        "reset-button"
-    )
+    .getElementById("reset-button")
     .addEventListener(
         "click",
         function() {
@@ -1192,20 +931,15 @@ document
     );
 
 
-
 /* =========================
-   RANDOM NUMBER HELPER
+   RANDOM NUMBER
 ========================= */
 
-function randomNumber(
-    min,
-    max
-) {
+function randomNumber(min, max) {
 
     return (
         Math.random() *
         (max - min) +
         min
     );
-
 }
