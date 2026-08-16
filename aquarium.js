@@ -980,7 +980,7 @@ const bookDescriptions = {
         title: "The Strange Case of Dr Jekyll and Mr Hyde and Other Tales of Terror",
 
         text:
-            "Write here why you love this book. You can talk about the story, characters, artwork, ideas, or anything else that makes this book special to you."
+            "When I bought this book at Barnes & Nobles I was warned by a friend that this story, although a classic, had notoriously mediocre writing. After reading it in one sitting and reflecting on the story now I have to agree; a number of passages are overcomplicated and focus on mundane details. What did really resonate with me though was Dr. Jekyll’s final monologue at the end of the story told in the form of a letter to Mr. Utterson, where he reveals his alter-ego as Mr. Hyde (Spoiler alert!!) His description of the pursuit of the separation of the total good and evil in man and the allure of freedom to become a being faced with no consequences or any of the restrictions of a civilized member of society gave the story an entire new tone to me. For me, it shifted from a scary tale of a horrific villain and a poor victim doctor to the reflection of a multi-dimensional soul, a human who’s forced to grapple with their own flawed humanity as a consequence of their own actions. Dr. Jekyll’s self-awareness and eventual submission to fate seal my appreciation of this story, and I would give it a 8 out 10."
     },
 
 
@@ -988,7 +988,7 @@ const bookDescriptions = {
         title: "Breakneck: China's Quest to Engineer the Future",
 
         text:
-            "Write here why you love this book. This can be as long or as short as you want."
+            "After living in Shanghai for 3 months in 2025, I found myself increasingly interested in China and everything socially, culturally and politically related to it. Luckily for me, there is no shortage of fellow students at Wesleyan that are also interested in this topic, and it’s become an important and interesting area of study for me. While there’s not a particular lot to reflect on (the book mostly compares the effectiveness of China’s government to effectively and quickly build infrastructure compared to the U.S. where policy holds back development), it did reinforce existing conversations I’d had about how there were benefits and losses to both sides. Where the perfect middle ground stands is debatable; but there is middle ground nevertheless."
     },
 
 
@@ -996,7 +996,7 @@ const bookDescriptions = {
         title: "The 5 Types of Wealth",
 
         text:
-            "Write here why you love this book and why you chose it as one of your top picks."
+            "This was a self-help book that my mother gave me to read (succeeding Atomic Habits and 7 Habits of Highly Effective People) that I found surprisingly helpful despite my otherwise aversion to the genre. The points are well organized and clear, the advice pretty standard but meaningful and I quite liked the background the author gave on his own life which made reading the book almost feel like a real coffee chat. One of the things that stuck out most to me was a page that had 4,160 dots representing how many weeks a person that would 80 years had in their life to live. I was able to locate what dot I was already at, and it put into perspective how fast life was moving. I then found the dots of my parents, and then my grandparents; the time I had with them was shockingly finite, which Bloom does emphasize when talking about his experience with his own parents. His other piece of advice I really liked that I am paraphrasing here is work hard first work smart later. In a age where the internet is filled with “get rich quick with AI tools” hacks for the burnt out young generation just looking for a way out of the rat race, it was a gentle reminder to me that at the end of the day you still have to face the problem head on."
     }
 
 };
