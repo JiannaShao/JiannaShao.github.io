@@ -530,20 +530,30 @@ button:active {
 
 
 .primary-button {
-    padding: 18px 34px;
 
+    width: 200px;
+    height: 55px;
+    padding: 20;
+   
     background: #f2d180;
 
     color: #21445e;
 
-    font-size: 17px;
+    border:
+        1px solid
+        #ffffff;
+
+    font-size: 20px;
 
     font-weight: 700;
 }
 
 
 .secondary-button {
-    padding: 14px 22px;
+
+    width: 200px;
+    height: 55px;
+    padding: 20;
 
     background: #21445e;
 
@@ -551,9 +561,11 @@ button:active {
 
     border:
         1px solid
-        #31555b;
+        #ffffff;
 
-    font-size: 14px;
+    font-size: 20px;
+
+    font-weight: 700;
 }
 
 
@@ -841,7 +853,7 @@ button:active {
 ========================= */
 
 .book-description {
-    max-width: 900px;
+    max-width: none;
 
     margin: 45px auto 0;
 
