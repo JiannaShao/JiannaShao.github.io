@@ -812,11 +812,20 @@ function animationLoop(timestamp) {
         lastTime = timestamp;
     }
 
-
-    const deltaTime =
+    let deltaTime =
         timestamp - lastTime;
 
     lastTime = timestamp;
+
+
+    /*
+        Prevent a huge movement spike when
+        returning to the aquarium after
+        switching tabs or windows.
+    */
+
+    deltaTime =
+        Math.min(deltaTime, 50);
 
 
     updateFish(deltaTime);
@@ -827,6 +836,7 @@ function animationLoop(timestamp) {
     requestAnimationFrame(
         animationLoop
     );
+
 }
 
 
