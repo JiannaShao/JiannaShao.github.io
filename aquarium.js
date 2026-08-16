@@ -14,8 +14,8 @@ let food = 0;
 let lastTime = 0;
 let bubbleTimer = 0;
 
-const minimumBubbleTime = 350;
-const maximumBubbleTime = 1400;
+const minimumBubbleTime = 200;
+const maximumBubbleTime = 800;
 
 let nextBubbleTime = randomNumber(
     minimumBubbleTime,
@@ -712,7 +712,7 @@ function createBubble(fish) {
     */
 
     const size =
-        randomNumber(4, 34);
+        randomNumber(6, 40);
 
     bubble.style.width =
         size + "px";
@@ -739,7 +739,7 @@ function createBubble(fish) {
     */
 
     const drift =
-        randomNumber(-35, 35);
+        randomNumber(-50, 50);
 
     bubble.style.setProperty(
         "--bubble-drift",
