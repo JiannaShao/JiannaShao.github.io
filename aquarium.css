@@ -632,3 +632,296 @@ button:active {
     }
 
 }
+
+/* =========================
+   BOOK SECTION
+========================= */
+
+.book-section {
+    width: min(1000px, 90%);
+
+    margin: 80px auto 0;
+
+    text-align: center;
+}
+
+
+.book-eyebrow {
+    margin: 0 0 8px;
+
+    color: #72c9c3;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+
+.book-section h2 {
+    margin: 0;
+
+    color: #e8f3f3;
+
+    font-size: 36px;
+
+    line-height: 1.2;
+}
+
+
+.book-intro {
+    max-width: 600px;
+
+    margin: 12px auto 35px;
+
+    color: #8eabad;
+
+    font-size: 15px;
+
+    line-height: 1.6;
+}
+
+
+
+/* =========================
+   BOOK GRID
+========================= */
+
+.book-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 35px;
+
+    align-items: start;
+
+    justify-items: center;
+}
+
+
+
+/* =========================
+   BOOK CARD
+========================= */
+
+.book-card {
+    width: 100%;
+
+    max-width: 210px;
+
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: inherit;
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    text-align: center;
+
+    transition:
+        transform 0.2s ease;
+}
+
+
+.book-card:hover {
+    transform:
+        translateY(-8px);
+}
+
+
+.book-card:focus-visible {
+    outline: 2px solid #72c9c3;
+
+    outline-offset: 6px;
+}
+
+
+
+/* =========================
+   BOOK COVER
+========================= */
+
+.book-cover {
+    width: 100%;
+
+    aspect-ratio: 2 / 3;
+
+    overflow: hidden;
+
+    border-radius: 8px;
+
+    background: #19353c;
+
+    box-shadow:
+        0 10px 25px
+        rgba(0, 0, 0, 0.25);
+
+    transition:
+        box-shadow 0.2s ease,
+        outline 0.2s ease;
+}
+
+
+.book-card:hover .book-cover {
+    outline:
+        2px solid #72c9c3;
+
+    outline-offset: 4px;
+
+    box-shadow:
+        0 15px 35px
+        rgba(0, 0, 0, 0.35),
+        0 0 20px
+        rgba(114, 201, 195, 0.15);
+}
+
+
+.book-cover img {
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+}
+
+
+
+/* =========================
+   BOOK TITLE
+========================= */
+
+.book-title {
+    display: block;
+
+    margin-top: 14px;
+
+    color: #dce9e8;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    line-height: 1.4;
+}
+
+
+
+/* =========================
+   BOOK DESCRIPTION
+========================= */
+
+.book-description {
+    max-width: 750px;
+
+    margin: 45px auto 0;
+
+    padding: 28px 32px;
+
+    background:
+        rgba(
+            25,
+            53,
+            60,
+            0.55
+        );
+
+    border:
+        1px solid
+        rgba(
+            114,
+            201,
+            195,
+            0.25
+        );
+
+    border-radius: 14px;
+
+    text-align: left;
+
+    opacity: 0;
+
+    transform:
+        translateY(10px);
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+.book-description.visible {
+    opacity: 1;
+
+    transform:
+        translateY(0);
+
+    pointer-events: auto;
+}
+
+
+.book-description h3 {
+    margin: 0 0 10px;
+
+    color: #8ed8e8;
+
+    font-size: 22px;
+}
+
+
+.book-description p {
+    margin: 0;
+
+    color: #b7cbcc;
+
+    font-size: 15px;
+
+    line-height: 1.7;
+}
+
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+    .book-section {
+        margin-top: 60px;
+    }
+
+
+    .book-section h2 {
+        font-size: 30px;
+    }
+
+
+    .book-grid {
+        grid-template-columns: 1fr;
+
+        gap: 40px;
+    }
+
+
+    .book-card {
+        max-width: 180px;
+    }
+
+
+    .book-description {
+        padding: 22px;
+    }
+
+}
