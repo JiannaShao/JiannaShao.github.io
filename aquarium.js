@@ -1,4 +1,5 @@
-const tank = document.getElementById("tank");
+const tank =
+    document.getElementById("tank");
 
 const fishLayer =
     document.getElementById("fish-layer");
@@ -6,67 +7,259 @@ const fishLayer =
 const foodLayer =
     document.getElementById("food-layer");
 
+const bubbleLayer =
+    document.getElementById("bubble-layer");
+
 const message =
     document.getElementById("message");
-
-const fishCount =
-    document.getElementById("fish-count");
 
 const foodCount =
     document.getElementById("food-count");
 
 
+
+/* =========================
+   SETTINGS
+========================= */
+
 let food = 0;
 
-let nextId = 4;
+let lastTime = 0;
+
+let bubbleTimer = 0;
 
 
 /*
+    How frequently bubbles can appear.
+
+    This is intentionally somewhat random
+    so the bubbles don't look synchronized.
+*/
+
+const minimumBubbleTime = 350;
+
+const maximumBubbleTime = 1400;
+
+let nextBubbleTime =
+    randomNumber(
+        minimumBubbleTime,
+        maximumBubbleTime
+    );
+
+
+
+/* =========================
+   FISH
+========================= */
+
+/*
+    There are exactly 15 fish.
+
     Each fish has:
 
-    name
-    color
-    position
-    speed
-    direction
+    - Its own image
+    - Its own base swimming speed
+    - Its own starting direction
+
+    The starting X and Y positions are
+    generated randomly when the page loads.
 */
+
 
 const fishData = [
 
     {
-        name: "Nemo",
-        color: "#ff7b54",
-        x: 20,
-        y: 28,
-        speed: 0.55,
+        name: "Bass",
+        image: "Fih/Bass.png",
+        baseSpeed: 0.025,
+        speed: 0.025,
+        targetSpeed: 0.025,
         direction: 1
     },
 
+
     {
-        name: "Mochi",
-        color: "#ffd166",
-        x: 55,
-        y: 48,
-        speed: 0.35,
+        name: "Bluegill",
+        image: "Fih/Bluegill.png",
+        baseSpeed: 0.045,
+        speed: 0.045,
+        targetSpeed: 0.045,
         direction: -1
     },
 
+
     {
-        name: "Pixel",
-        color: "#b88cff",
-        x: 72,
-        y: 24,
-        speed: 0.70,
+        name: "Burbot",
+        image: "Fih/Burbot.png",
+        baseSpeed: 0.030,
+        speed: 0.030,
+        targetSpeed: 0.030,
+        direction: 1
+    },
+
+
+    {
+        name: "Carp",
+        image: "Fih/Carp.png",
+        baseSpeed: 0.050,
+        speed: 0.050,
+        targetSpeed: 0.050,
         direction: -1
+    },
+
+
+    {
+        name: "Catfish",
+        image: "Fih/Catfish.png",
+        baseSpeed: 0.040,
+        speed: 0.040,
+        targetSpeed: 0.040,
+        direction: 1
+    },
+
+
+    {
+        name: "Crappie",
+        image: "Fih/Crappie.png",
+        baseSpeed: 0.028,
+        speed: 0.028,
+        targetSpeed: 0.028,
+        direction: -1
+    },
+
+
+    {
+        name: "Freshwater Drum",
+        image: "Fih/Freshwater Drum.png",
+        baseSpeed: 0.038,
+        speed: 0.038,
+        targetSpeed: 0.038,
+        direction: 1
+    },
+
+
+    {
+        name: "Golden Dorado",
+        image: "Fih/GoldenDorado.png",
+        baseSpeed: 0.055,
+        speed: 0.055,
+        targetSpeed: 0.055,
+        direction: -1
+    },
+
+
+    {
+        name: "Minnow",
+        image: "Fih/Minnow.png",
+        baseSpeed: 0.032,
+        speed: 0.032,
+        targetSpeed: 0.032,
+        direction: 1
+    },
+
+
+    {
+        name: "Perch",
+        image: "Fih/Perch.png",
+        baseSpeed: 0.048,
+        speed: 0.048,
+        targetSpeed: 0.048,
+        direction: -1
+    },
+
+
+    {
+        name: "Pike",
+        image: "Fih/Pike.png",
+        baseSpeed: 0.042,
+        speed: 0.042,
+        targetSpeed: 0.042,
+        direction: 1
+    },
+
+
+    {
+        name: "Pumpkinseed",
+        image: "Fih/Pumpkinseed.png",
+        baseSpeed: 0.033,
+        speed: 0.033,
+        targetSpeed: 0.033,
+        direction: -1
+    },
+
+
+    {
+        name: "Round Goby",
+        image: "Fih/Round Goby.png",
+        baseSpeed: 0.047,
+        speed: 0.047,
+        targetSpeed: 0.047,
+        direction: 1
+    },
+
+
+    {
+        name: "Salmon",
+        image: "Fih/Salmon.png",
+        baseSpeed: 0.036,
+        speed: 0.036,
+        targetSpeed: 0.036,
+        direction: -1
+    },
+
+
+    {
+        name: "Sucker",
+        image: "Fih/Sucker.png",
+        baseSpeed: 0.043,
+        speed: 0.043,
+        targetSpeed: 0.043,
+        direction: 1
     }
 
 ];
 
 
 
-/* --------------------------------
-   CREATE A FISH
--------------------------------- */
+/* =========================
+   RANDOM STARTING POSITIONS
+========================= */
+
+/*
+    Give every fish a random starting
+    position inside the aquarium.
+
+    X controls left/right.
+    Y controls up/down.
+
+    These ranges keep the fish away
+    from the extreme edges.
+*/
+
+fishData.forEach(
+    function(fish) {
+
+        fish.x =
+            randomNumber(
+                5,
+                88
+            );
+
+
+        fish.y =
+            randomNumber(
+                10,
+                80
+            );
+
+    }
+);
+
+
+
+/* =========================
+   CREATE FISH
+========================= */
 
 function createFish(data) {
 
@@ -75,34 +268,63 @@ function createFish(data) {
 
     fish.className = "fish";
 
-    fish.dataset.name = data.name;
 
-    fish.style.setProperty(
-        "--fish-color",
-        data.color
-    );
+    /*
+        Each fish gets its own image.
+    */
+
+    fish.innerHTML = `
+        <img
+            src="${data.image}"
+            alt="${data.name}"
+            draggable="false"
+        >
+    `;
+
 
     fish.style.left =
         data.x + "%";
+
 
     fish.style.top =
         data.y + "%";
 
 
-    fish.innerHTML = `
+    fish.style.transform =
+        `scaleX(${data.direction})`;
 
-        <div class="tail"></div>
 
-        <div class="fish-body"></div>
+    /*
+        Each fish gets its own random
+        timing for changing speed.
+    */
 
-        <div class="fin"></div>
+    data.speedChangeTimer =
+        randomNumber(
+            1500,
+            4500
+        );
 
-    `;
+
+    /*
+        Each fish gets its own random
+        timing for occasional bursts.
+    */
+
+    data.burstTimer =
+        randomNumber(
+            5000,
+            12000
+        );
+
+
+    data.burstMultiplier = 1;
 
 
     /*
         Clicking a fish makes it
-        change direction and speed up.
+        temporarily swim faster and
+        change direction.
     */
 
     fish.addEventListener(
@@ -114,25 +336,28 @@ function createFish(data) {
 
             data.direction *= -1;
 
-            data.speed += 0.15;
+
+            data.speed =
+                data.speed * 1.5;
 
 
             message.textContent =
                 `${data.name} noticed you!`;
 
 
-            fish.style.transform =
-                `scaleX(${data.direction}) scale(1.18)`;
+            fish.style.filter =
+                "brightness(1.2)";
 
 
             setTimeout(
                 function() {
 
-                    fish.style.transform =
-                        `scaleX(${data.direction})`;
+                    data.speed /= 1.5;
+
+                    fish.style.filter = "";
 
                 },
-                250
+                800
             );
 
         }
@@ -141,23 +366,182 @@ function createFish(data) {
 
     data.element = fish;
 
+
     fishLayer.appendChild(fish);
 
 }
 
 
 
-/* Create our initial fish */
+/* Create all 15 fish */
 
-fishData.forEach(createFish);
+fishData.forEach(
+    function(fish) {
+
+        createFish(fish);
+
+    }
+);
 
 
 
-/* --------------------------------
+/* =========================
+   CHANGING FISH SPEED
+========================= */
+
+function updateFishBehavior(
+    fish,
+    deltaTime
+) {
+
+    /*
+        Count down until the fish
+        chooses a new speed.
+    */
+
+    fish.speedChangeTimer -=
+        deltaTime;
+
+
+    /*
+        Every few seconds choose a new
+        target speed.
+
+        The fish can slow down to about
+        60% of its normal speed or speed
+        up to about 130%.
+    */
+
+    if (
+        fish.speedChangeTimer <= 0
+    ) {
+
+        const variation =
+            randomNumber(
+                0.60,
+                1.30
+            );
+
+
+        fish.targetSpeed =
+            fish.baseSpeed *
+            variation;
+
+
+        fish.speedChangeTimer =
+            randomNumber(
+                1800,
+                5000
+            );
+
+    }
+
+
+    /*
+        Gradually move toward the
+        target speed.
+
+        This prevents sudden robotic
+        changes in speed.
+    */
+
+    const accelerationRate =
+        0.0012;
+
+
+    if (
+        fish.speed <
+        fish.targetSpeed
+    ) {
+
+        fish.speed +=
+            accelerationRate *
+            deltaTime;
+
+    }
+
+
+    else if (
+        fish.speed >
+        fish.targetSpeed
+    ) {
+
+        fish.speed -=
+            accelerationRate *
+            deltaTime;
+
+    }
+
+
+    /*
+        Occasionally give the fish
+        a short burst of speed.
+    */
+
+    fish.burstTimer -=
+        deltaTime;
+
+
+    if (
+        fish.burstTimer <= 0 &&
+        fish.burstMultiplier === 1
+    ) {
+
+        fish.burstMultiplier =
+            randomNumber(
+                1.4,
+                2.1
+            );
+
+
+        fish.burstDuration =
+            randomNumber(
+                700,
+                1600
+            );
+
+
+        fish.burstTimer =
+            randomNumber(
+                6000,
+                14000
+            );
+
+    }
+
+
+    /*
+        End the burst after its
+        random duration.
+    */
+
+    if (
+        fish.burstMultiplier > 1
+    ) {
+
+        fish.burstDuration -=
+            deltaTime;
+
+
+        if (
+            fish.burstDuration <= 0
+        ) {
+
+            fish.burstMultiplier = 1;
+
+        }
+
+    }
+
+}
+
+
+
+/* =========================
    FISH MOVEMENT
--------------------------------- */
+========================= */
 
-function updateFish() {
+function updateFish(deltaTime) {
 
     fishData.forEach(
         function(fish) {
@@ -167,57 +551,76 @@ function updateFish() {
             }
 
 
-            let x =
-                parseFloat(
-                    fish.element.style.left
-                );
+            /*
+                Update this fish's
+                changing speed.
+            */
+
+            updateFishBehavior(
+                fish,
+                deltaTime
+            );
 
 
             /*
-                Move the fish.
-
-                direction = 1
-                means right.
-
-                direction = -1
-                means left.
+                Apply the temporary
+                burst multiplier.
             */
 
-            x +=
+            const actualSpeed =
                 fish.speed *
-                fish.direction *
-                0.018;
+                fish.burstMultiplier;
 
 
             /*
-                Turn around when
-                reaching the edges.
+                Convert the speed into
+                movement.
             */
 
-            if (x > 91) {
-
-                x = 91;
-
-                fish.direction = -1;
-
-            }
+            let movement =
+                actualSpeed *
+                deltaTime;
 
 
-            if (x < 2) {
+            fish.x +=
+                movement *
+                fish.direction;
 
-                x = 2;
+
+            /*
+                LEFT EDGE
+            */
+
+            if (fish.x <= 2) {
+
+                fish.x = 2;
 
                 fish.direction = 1;
 
             }
 
 
-            fish.x = x;
+            /*
+                RIGHT EDGE
+            */
+
+            if (fish.x >= 91) {
+
+                fish.x = 91;
+
+                fish.direction = -1;
+
+            }
 
 
             fish.element.style.left =
-                x + "%";
+                fish.x + "%";
 
+
+            /*
+                Flip the artwork so the fish
+                faces the direction it swims.
+            */
 
             fish.element.style.transform =
                 `scaleX(${fish.direction})`;
@@ -225,59 +628,343 @@ function updateFish() {
         }
     );
 
+}
+
+
+
+/* =========================
+   BUBBLES
+========================= */
+
+function createBubble(fish) {
+
+    if (!fish.element) {
+        return;
+    }
+
+
+    const bubble =
+        document.createElement("div");
+
+    bubble.className = "bubble";
+
 
     /*
-        Keep the animation running.
+        Find the fish's position
+        inside the aquarium.
     */
 
-    requestAnimationFrame(updateFish);
+    const fishX = fish.x;
+
+    const fishY = fish.y;
+
+
+    /*
+        Add a little randomness so
+        bubbles don't always come from
+        exactly the same location.
+    */
+
+    const randomX =
+        Math.random() * 5 - 2.5;
+
+    const randomY =
+        Math.random() * 5 - 2.5;
+
+
+    bubble.style.left =
+        `calc(${fishX}% + ${randomX}px)`;
+
+
+    bubble.style.top =
+        `calc(${fishY}% + ${randomY}px)`;
+
+
+    /*
+        Real bubbles have different sizes.
+    */
+
+    const size =
+        randomNumber(
+            4,
+            14
+        );
+
+
+    bubble.style.width =
+        size + "px";
+
+
+    bubble.style.height =
+        size + "px";
+
+
+    /*
+        Different bubbles rise at
+        different speeds.
+    */
+
+    const duration =
+        randomNumber(
+            3,
+            6
+        );
+
+
+    bubble.style.setProperty(
+        "--bubble-duration",
+        duration + "s"
+    );
+
+
+    /*
+        Bubbles drift slightly from
+        side to side while rising.
+    */
+
+    const drift =
+        randomNumber(
+            -35,
+            35
+        );
+
+
+    bubble.style.setProperty(
+        "--bubble-drift",
+        drift + "px"
+    );
+
+
+    bubbleLayer.appendChild(
+        bubble
+    );
+
+
+    /*
+        Remove the bubble after
+        its animation is complete.
+    */
+
+    setTimeout(
+        function() {
+
+            bubble.remove();
+
+        },
+        duration * 1000
+    );
 
 }
 
 
 
-/* Start fish movement */
+/* =========================
+   RANDOM BUBBLE GENERATION
+========================= */
 
-updateFish();
+function updateBubbles(deltaTime) {
+
+    bubbleTimer +=
+        deltaTime;
+
+
+    /*
+        Once enough time has passed,
+        choose a random fish and create
+        a bubble.
+    */
+
+    if (
+        bubbleTimer >=
+        nextBubbleTime
+    ) {
+
+        bubbleTimer = 0;
+
+
+        const randomFish =
+            fishData[
+                Math.floor(
+                    Math.random() *
+                    fishData.length
+                )
+            ];
+
+
+        createBubble(
+            randomFish
+        );
+
+
+        /*
+            Choose a new random interval.
+        */
+
+        nextBubbleTime =
+            randomNumber(
+                minimumBubbleTime,
+                maximumBubbleTime
+            );
+
+    }
+
+}
 
 
 
-/* --------------------------------
-   FEEDING
--------------------------------- */
+/* =========================
+   ANIMATION LOOP
+========================= */
 
-function feedFish(
-    x = Math.random() * 85 + 5,
-    y = 5
+function animationLoop(
+    timestamp
 ) {
 
-    const pellet =
-        document.createElement("div");
+    /*
+        Calculate time since the
+        previous animation frame.
+    */
 
-    pellet.className = "food";
+    if (!lastTime) {
 
+        lastTime =
+            timestamp;
 
-    pellet.style.left =
-        x + "%";
-
-    pellet.style.top =
-        y + "%";
-
-
-    foodLayer.appendChild(pellet);
+    }
 
 
-    food++;
+    const deltaTime =
+        timestamp -
+        lastTime;
+
+
+    lastTime =
+        timestamp;
+
+
+    updateFish(
+        deltaTime
+    );
+
+
+    updateBubbles(
+        deltaTime
+    );
+
+
+    requestAnimationFrame(
+        animationLoop
+    );
+
+}
+
+
+/*
+    Start the aquarium.
+*/
+
+requestAnimationFrame(
+    animationLoop
+);
+
+
+
+/* =========================
+   FEEDING
+========================= */
+
+function feedFish() {
+
+    /*
+        Drop several pieces of food
+        into the aquarium.
+    */
+
+    for (
+        let i = 0;
+        i < 10;
+        i++
+    ) {
+
+        setTimeout(
+            function() {
+
+                createFood();
+
+            },
+            i * 100
+        );
+
+    }
+
+
+    food += 10;
 
 
     foodCount.textContent =
         `Food: ${food}`;
 
 
+    message.textContent =
+        "Feeding time!";
+
+
     /*
-        Remove the food after
-        it finishes falling.
+        Make the fish temporarily
+        move faster.
+
+        They accelerate naturally toward
+        their new target speeds.
     */
+
+    fishData.forEach(
+        function(fish) {
+
+            fish.targetSpeed =
+                fish.baseSpeed *
+                randomNumber(
+                    1.4,
+                    2.0
+                );
+
+        }
+    );
+
+}
+
+
+
+/* =========================
+   CREATE FOOD
+========================= */
+
+function createFood() {
+
+    const pellet =
+        document.createElement("div");
+
+    pellet.className =
+        "food";
+
+
+    pellet.style.left =
+        randomNumber(
+            5,
+            95
+        ) + "%";
+
+
+    pellet.style.top =
+        randomNumber(
+            2,
+            10
+        ) + "%";
+
+
+    foodLayer.appendChild(
+        pellet
+    );
+
 
     setTimeout(
         function() {
@@ -285,168 +972,40 @@ function feedFish(
             pellet.remove();
 
         },
-        2600
+        3000
     );
 
 }
 
 
 
-/* --------------------------------
-   CLICK THE WATER
--------------------------------- */
-
-tank.addEventListener(
-    "click",
-    function(event) {
-
-        const rect =
-            tank.getBoundingClientRect();
-
-
-        const x =
-            ((event.clientX - rect.left)
-            / rect.width) * 100;
-
-
-        const y =
-            ((event.clientY - rect.top)
-            / rect.height) * 100;
-
-
-        feedFish(x, y);
-
-
-        message.textContent =
-            "You dropped some food!";
-
-    }
-);
-
-
-
-/* --------------------------------
+/* =========================
    FEED BUTTON
--------------------------------- */
+========================= */
 
 document
-    .getElementById("feed-button")
+    .getElementById(
+        "feed-button"
+    )
     .addEventListener(
         "click",
         function() {
 
-            /*
-                Drop several pieces
-                of food.
-            */
-
-            for (
-                let i = 0;
-                i < 6;
-                i++
-            ) {
-
-                setTimeout(
-                    function() {
-
-                        feedFish(
-                            Math.random() * 90 + 3,
-                            Math.random() * 8
-                        );
-
-                    },
-                    i * 120
-                );
-
-            }
-
-
-            message.textContent =
-                "Feeding time!";
+            feedFish();
 
         }
     );
 
 
 
-/* --------------------------------
-   ADD A FISH
--------------------------------- */
-
-document
-    .getElementById("add-button")
-    .addEventListener(
-        "click",
-        function() {
-
-            const colors = [
-
-                "#5de0e6",
-                "#ff8fab",
-                "#8ce99a",
-                "#ffb86c",
-                "#9d8cff"
-
-            ];
-
-
-            const data = {
-
-                name:
-                    `Fish ${nextId}`,
-
-                color:
-                    colors[
-                        Math.floor(
-                            Math.random()
-                            * colors.length
-                        )
-                    ],
-
-                x:
-                    Math.random() * 75 + 5,
-
-                y:
-                    Math.random() * 55 + 12,
-
-                speed:
-                    Math.random() * 0.45 + 0.25,
-
-                direction:
-                    Math.random() > 0.5
-                        ? 1
-                        : -1
-
-            };
-
-
-            fishData.push(data);
-
-
-            createFish(data);
-
-
-            nextId++;
-
-
-            fishCount.textContent =
-                `${fishData.length} fish`;
-
-
-            message.textContent =
-                `${data.name} joined the aquarium!`;
-
-        }
-    );
-
-
-
-/* --------------------------------
+/* =========================
    RESET
--------------------------------- */
+========================= */
 
 document
-    .getElementById("reset-button")
+    .getElementById(
+        "reset-button"
+    )
     .addEventListener(
         "click",
         function() {
@@ -455,3 +1014,22 @@ document
 
         }
     );
+
+
+
+/* =========================
+   RANDOM NUMBER HELPER
+========================= */
+
+function randomNumber(
+    min,
+    max
+) {
+
+    return (
+        Math.random() *
+        (max - min) +
+        min
+    );
+
+}
