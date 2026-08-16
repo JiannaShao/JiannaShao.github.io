@@ -15,6 +15,7 @@
 
     <main class="page">
 
+
         <!-- =========================
              HEADER
         ========================== -->
@@ -41,29 +42,40 @@
             <div class="stats">
 
                 <div class="stat">
-                    <span class="stat-number">
+
+                    <span
+                        id="fish-count"
+                        class="stat-number"
+                    >
                         15
                     </span>
 
                     <span class="stat-label">
                         Fish
                     </span>
+
                 </div>
 
 
                 <div class="stat">
-                    <span id="food-count" class="stat-number">
+
+                    <span
+                        id="food-count"
+                        class="stat-number"
+                    >
                         0
                     </span>
 
                     <span class="stat-label">
                         Food
                     </span>
+
                 </div>
 
             </div>
 
         </header>
+
 
 
         <!-- =========================
@@ -74,49 +86,43 @@
 
             <div id="tank" class="tank">
 
-                <!-- Water lighting -->
 
-                <div class="water-glow"></div>
-
-
-                <!-- Plants -->
-
-                <div class="plant plant-one"></div>
-
-                <div class="plant plant-two"></div>
-
-                <div class="plant plant-three"></div>
-
-
-                <!-- Rocks -->
-
-                <div class="rock rock-one"></div>
-
-                <div class="rock rock-two"></div>
-
-
-                <!-- Food -->
-
-                <div id="food-layer"></div>
-
-
-                <!-- Fish -->
+                <!-- =====================
+                     FISH
+                ====================== -->
 
                 <div id="fish-layer"></div>
 
 
-                <!-- Bubbles -->
+
+                <!-- =====================
+                     FOOD
+                ====================== -->
+
+                <div id="food-layer"></div>
+
+
+
+                <!-- =====================
+                     BUBBLES
+                ====================== -->
 
                 <div id="bubble-layer"></div>
 
 
-                <!-- Sand -->
 
-                <div class="sand"></div>
+                <!-- =====================
+                     WATER TINT
+                     ABOVE EVERYTHING
+                ====================== -->
+
+                <div class="water-overlay"></div>
+
 
             </div>
 
         </section>
+
 
 
         <!-- =========================
@@ -124,6 +130,7 @@
         ========================== -->
 
         <section class="controls">
+
 
             <button
                 id="feed-button"
@@ -140,11 +147,13 @@
                 Reset Aquarium
             </button>
 
+
         </section>
 
 
+
         <!-- =========================
-             STATUS MESSAGE
+             MESSAGE
         ========================== -->
 
         <p
@@ -155,8 +164,9 @@
         </p>
 
 
+
         <!-- =========================
-             NAVIGATION
+             BACK LINK
         ========================== -->
 
         <a
@@ -166,7 +176,9 @@
             ← Back to portfolio
         </a>
 
+
     </main>
+
 
 
     <script src="aquarium.js"></script>
