@@ -81,7 +81,7 @@ body {
 h1 {
     margin: 0;
 
-    color: #122033;
+    color: #21445e;
 
     font-size:
         clamp(
@@ -141,7 +141,7 @@ h1 {
             0.2
         );
 
-    border-radius: 12px;
+    border-radius: 8px;
 
     text-align: center;
 }
@@ -187,13 +187,17 @@ h1 {
 
     overflow: hidden;
 
-    background-image: url("BG.JPG");
+    background-image: url("aquarium.jpg");
 
     background-size: 100% 100%;
 
     background-position: center;
 
     background-repeat: no-repeat;
+
+    border-top: 2px solid rgba(255, 255, 255, 0.8);
+
+    border-bottom: 2px solid rgba(255, 255, 255, 0.8);
 }
 
 
@@ -377,7 +381,7 @@ h1 {
             233,
             245,
             255,
-            0.35
+            0.5
         );
 
     border:
@@ -386,7 +390,7 @@ h1 {
             233,
             245,
             255,
-            0.5
+            0.7
         );
 
     animation:
@@ -407,13 +411,13 @@ h1 {
                 0
             );
 
-        opacity: 0.35;
+        opacity: 0.5;
     }
 
 
     50% {
 
-        opacity: 0.5;
+        opacity: 0.7;
     }
 
 
@@ -459,7 +463,7 @@ h1 {
             80,
             180,
             210,
-            0.08
+            0.1
         );
 
     pointer-events: none;
@@ -491,7 +495,7 @@ h1 {
 button {
     border: none;
 
-    border-radius: 10px;
+    border-radius: 6px;
 
     font-family: inherit;
 
@@ -662,7 +666,7 @@ button:active {
 .book-section h2 {
     margin: 0;
 
-    color: #e8f3f3;
+    color: #21445e;
 
     font-size: 36px;
 
@@ -756,7 +760,7 @@ button:active {
 
     overflow: hidden;
 
-    border-radius: 8px;
+    border-radius: 4px;
 
     background: #19353c;
 
@@ -844,7 +848,7 @@ button:active {
             0.25
         );
 
-    border-radius: 14px;
+    border-radius: 10px;
 
     text-align: left;
 
