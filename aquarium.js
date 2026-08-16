@@ -325,7 +325,7 @@ function createFish(data) {
                 `${data.name} noticed you!`;
 
             fish.style.filter =
-                "brightness(1.2)";
+                "brightness(1.5)";
 
 
             setTimeout(function() {
@@ -334,7 +334,7 @@ function createFish(data) {
 
                 fish.style.filter = "";
 
-            }, 800);
+            }, 200);
 
         }
     );
