@@ -20,9 +20,13 @@ body {
     color: #e8f3f3;
 
     font-family:
-        "Times New Roman",
-        Times,
-        serif;
+        "Helvetica",
+        Arial,
+        sans-serif;
+}
+
+h1 {
+    font-family: 'Abril Fatface', serif;
 }
 
 
