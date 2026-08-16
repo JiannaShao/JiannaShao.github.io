@@ -15,7 +15,7 @@ body {
 
 
 body {
-    background: #071b24;
+    background: #f5f3d7;
 
     color: #e8f3f3;
 
@@ -150,7 +150,7 @@ h1 {
 .stat-number {
     display: block;
 
-    color: #e8f3f3;
+    color: #72c9c3;
 
     font-size: 22px;
 
@@ -163,7 +163,7 @@ h1 {
 
     margin-top: 3px;
 
-    color: #83a9ab;
+    color: #72c9c3;
 
     font-size: 11px;
 
@@ -195,9 +195,9 @@ h1 {
 
     background-repeat: no-repeat;
 
-    border-top: 2px solid rgba(255, 255, 255, 0.8);
+    border-top: 5px solid rgba(255, 255, 255, 1);
 
-    border-bottom: 2px solid rgba(255, 255, 255, 0.8);
+    border-bottom: 5px solid rgba(255, 255, 255, 1);
 }
 
 
@@ -522,9 +522,9 @@ button:active {
 .primary-button {
     padding: 18px 34px;
 
-    background: #d6ae4c;
+    background: #e8c46d;
 
-    color: #172b2d;
+    color: #21445e;
 
     font-size: 17px;
 
