@@ -532,7 +532,7 @@ button:active {
 .primary-button {
     padding: 18px 34px;
 
-    background: #e8c46d;
+    background: #f2d180;
 
     color: #21445e;
 
@@ -736,8 +736,6 @@ button:active {
 
     border: none;
 
-    background: transparent;
-
     color: inherit;
 
     cursor: pointer;
@@ -823,7 +821,7 @@ button:active {
 .book-title {
     display: block;
 
-    margin-top: 14px;
+    margin-top: 20px;
 
     color: #21445e;
 
@@ -841,7 +839,7 @@ button:active {
 ========================= */
 
 .book-description {
-    max-width: 750px;
+    max-width: 900px;
 
     margin: 45px auto 0;
 
@@ -903,7 +901,7 @@ button:active {
 .book-description p {
     margin: 0;
 
-    color: #b7cbcc;
+    color: #ffffff;
 
     font-size: 15px;
 
