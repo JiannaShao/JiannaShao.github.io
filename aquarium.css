@@ -178,14 +178,22 @@ h1 {
    AQUARIUM CONTAINER
 ========================= */
 
-.tank-container {
+.tank {
+    position: relative;
+
     width: 100%;
 
-    margin: 0;
-
-    padding: 0;
+    aspect-ratio: 3874 / 1536;
 
     overflow: hidden;
+
+    background-image: url("aquarium.jpg");
+
+    background-size: 100% 100%;
+
+    background-position: center;
+
+    background-repeat: no-repeat;
 }
 
 
