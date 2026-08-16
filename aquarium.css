@@ -1,3 +1,4 @@
+```css
 * {
     box-sizing: border-box;
 }
@@ -35,6 +36,7 @@ body {
         var(--background);
 
     display: flex;
+
     justify-content: center;
 
     padding: 40px 20px;
@@ -46,12 +48,15 @@ body {
 }
 
 
-/* ---------------- HEADER ---------------- */
+/* =========================
+   HEADER
+========================= */
 
 .header {
     display: flex;
 
     justify-content: space-between;
+
     align-items: end;
 
     gap: 20px;
@@ -101,7 +106,8 @@ h1 {
 .stats span {
     background: rgba(255,255,255,0.07);
 
-    border: 1px solid rgba(255,255,255,0.1);
+    border:
+        1px solid rgba(255,255,255,0.1);
 
     padding: 8px 12px;
 
@@ -113,7 +119,9 @@ h1 {
 }
 
 
-/* ---------------- TANK ---------------- */
+/* =========================
+   TANK
+========================= */
 
 .tank-container {
     border-radius: 24px;
@@ -155,8 +163,6 @@ h1 {
             #063b51 100%
         );
 
-    cursor: crosshair;
-
     isolation: isolate;
 }
 
@@ -176,18 +182,23 @@ h1 {
             transparent 60%
         );
 
-    animation: water 7s linear infinite;
+    animation:
+        water 7s linear infinite;
 
     pointer-events: none;
+
+    z-index: 1;
 }
 
 
-/* ---------------- SAND ---------------- */
+/* =========================
+   SAND
+========================= */
 
 .sand {
     position: absolute;
 
-    z-index: 5;
+    z-index: 10;
 
     left: -5%;
 
@@ -208,12 +219,14 @@ h1 {
 }
 
 
-/* ---------------- PLANTS ---------------- */
+/* =========================
+   PLANTS
+========================= */
 
 .plant {
     position: absolute;
 
-    z-index: 6;
+    z-index: 11;
 
     bottom: 45px;
 
@@ -293,12 +306,14 @@ h1 {
 }
 
 
-/* ---------------- ROCKS ---------------- */
+/* =========================
+   ROCKS
+========================= */
 
 .rock {
     position: absolute;
 
-    z-index: 6;
+    z-index: 11;
 
     bottom: 38px;
 
@@ -327,227 +342,173 @@ h1 {
 }
 
 
-/* ---------------- FISH ---------------- */
+/* =========================
+   FISH
+========================= */
+
+#fish-layer {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 6;
+
+    pointer-events: none;
+}
+
 
 .fish {
     position: absolute;
 
-    z-index: 8;
+    width: 90px;
 
-    width: 74px;
+    height: 70px;
 
-    height: 42px;
-
-    cursor: pointer;
+    pointer-events: auto;
 
     transform-origin: center;
 
+    will-change: left, top, transform;
+
+    cursor: pointer;
+
     transition:
-        filter .2s;
+        filter 0.2s;
 }
 
 
 .fish:hover {
     filter:
-        brightness(1.2)
+        brightness(1.12)
         drop-shadow(
-            0 0 8px rgba(255,255,255,.35)
+            0 0 10px rgba(255,255,255,.25)
         );
 }
 
 
-/* Fish body */
+/*
+    Your artwork goes inside this image.
 
-.fish-body {
-    position: absolute;
+    The JavaScript supplies the image filename.
+*/
 
-    left: 14px;
+.fish img {
+    width: 100%;
 
-    top: 7px;
+    height: 100%;
 
-    width: 49px;
+    object-fit: contain;
 
-    height: 31px;
+    display: block;
 
-    border-radius:
-        55% 48% 48% 55%;
+    user-select: none;
 
-    background: var(--fish-color);
+    -webkit-user-drag: none;
 }
 
 
-/* Fish eye */
+/* =========================
+   BUBBLES
+========================= */
 
-.fish-body::after {
-    content: "";
-
+#bubble-layer {
     position: absolute;
 
-    right: 8px;
+    inset: 0;
 
-    top: 9px;
+    z-index: 7;
 
-    width: 6px;
+    pointer-events: none;
 
-    height: 6px;
+    overflow: hidden;
+}
+
+
+.bubble {
+    position: absolute;
 
     border-radius: 50%;
 
-    background: #10202a;
+    background:
+        rgba(255,255,255,0.35);
+
+    border:
+        1px solid rgba(255,255,255,0.55);
 
     box-shadow:
-        1px 1px 0 white;
+        inset 2px 2px 3px rgba(255,255,255,0.35);
+
+    pointer-events: none;
+
+    animation:
+        bubble-rise var(--bubble-duration)
+        linear forwards;
 }
 
 
-/* Fish tail */
+/* =========================
+   FOOD
+========================= */
 
-.tail {
+#food-layer {
     position: absolute;
 
-    left: 0;
+    inset: 0;
 
-    top: 5px;
+    z-index: 8;
 
-    width: 28px;
-
-    height: 36px;
-
-    background: var(--fish-color);
-
-    clip-path:
-        polygon(
-            100% 50%,
-            0 0,
-            15% 50%,
-            0 100%
-        );
+    pointer-events: none;
 }
 
-
-/* Fish fin */
-
-.fin {
-    position: absolute;
-
-    left: 37px;
-
-    top: 0;
-
-    width: 20px;
-
-    height: 15px;
-
-    background:
-        color-mix(
-            in srgb,
-            var(--fish-color) 75%,
-            white
-        );
-
-    border-radius: 100% 0;
-
-    transform: rotate(18deg);
-}
-
-
-/* ---------------- FOOD ---------------- */
 
 .food {
     position: absolute;
 
-    z-index: 7;
+    width: 8px;
 
-    width: 7px;
-
-    height: 7px;
+    height: 8px;
 
     border-radius: 50%;
 
     background: #f7c85e;
 
     box-shadow:
-        0 0 6px rgba(247,200,94,.6);
+        0 0 7px rgba(247,200,94,.7);
 
     animation:
-        sink 2.5s ease-in forwards;
-
-    pointer-events: none;
+        sink 2.8s ease-in forwards;
 }
 
 
-/* ---------------- BUBBLES ---------------- */
-
-.bubble {
-    position: absolute;
-
-    z-index: 4;
-
-    border:
-        2px solid rgba(255,255,255,.25);
-
-    border-radius: 50%;
-
-    animation:
-        rise 6s linear infinite;
-
-    bottom: 45px;
-}
-
-
-.bubble-one {
-    left: 30%;
-
-    width: 12px;
-    height: 12px;
-}
-
-
-.bubble-two {
-    left: 65%;
-
-    width: 8px;
-    height: 8px;
-
-    animation-delay: 2s;
-}
-
-
-.bubble-three {
-    left: 82%;
-
-    width: 16px;
-    height: 16px;
-
-    animation-delay: 3.5s;
-}
-
-
-/* ---------------- BUTTONS ---------------- */
+/* =========================
+   BUTTONS
+========================= */
 
 .controls {
     display: flex;
 
-    gap: 10px;
+    gap: 12px;
 
     flex-wrap: wrap;
 
-    margin-top: 16px;
+    margin-top: 18px;
 }
 
 
 button {
     border: 0;
 
-    border-radius: 12px;
+    border-radius: 14px;
 
-    padding: 12px 17px;
+    padding: 14px 22px;
 
     background: #eaf7ff;
 
     color: #092031;
 
     font-weight: 700;
+
+    font-size: 1rem;
 
     cursor: pointer;
 
@@ -567,14 +528,35 @@ button:active {
 }
 
 
+/*
+    LARGE FEED BUTTON
+*/
+
+#feed-button {
+    width: 100%;
+
+    min-height: 75px;
+
+    font-size: 1.35rem;
+
+    letter-spacing: 0.01em;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,0.2);
+}
+
+
 button.secondary {
-    background: rgba(255,255,255,.08);
+    background:
+        rgba(255,255,255,.08);
 
     color: var(--text);
 }
 
 
-/* ---------------- TEXT ---------------- */
+/* =========================
+   MESSAGE
+========================= */
 
 .message {
     min-height: 24px;
@@ -604,7 +586,9 @@ button.secondary {
 }
 
 
-/* ---------------- ANIMATIONS ---------------- */
+/* =========================
+   ANIMATIONS
+========================= */
 
 @keyframes water {
 
@@ -619,20 +603,39 @@ button.secondary {
 }
 
 
-@keyframes rise {
+@keyframes bubble-rise {
 
-    from {
-        transform: translateY(0);
+    0% {
+        transform:
+            translate(0, 0)
+            scale(0.8);
 
         opacity: 0;
     }
 
-    20% {
-        opacity: 1;
+
+    10% {
+        opacity: 0.65;
     }
 
-    to {
-        transform: translateY(-430px);
+
+    50% {
+        transform:
+            translate(
+                var(--bubble-drift),
+                -180px
+            )
+            scale(1);
+    }
+
+
+    100% {
+        transform:
+            translate(
+                calc(var(--bubble-drift) * -0.5),
+                -420px
+            )
+            scale(1.15);
 
         opacity: 0;
     }
@@ -657,7 +660,9 @@ button.secondary {
 }
 
 
-/* ---------------- MOBILE ---------------- */
+/* =========================
+   MOBILE
+========================= */
 
 @media (max-width: 650px) {
 
@@ -665,18 +670,29 @@ button.secondary {
         padding: 24px 12px;
     }
 
+
     .header {
         align-items: start;
 
         flex-direction: column;
     }
 
+
     .stats {
         justify-content: flex-start;
     }
+
 
     .tank {
         min-height: 430px;
     }
 
+
+    .fish {
+        width: 75px;
+
+        height: 58px;
+    }
+
 }
+```
