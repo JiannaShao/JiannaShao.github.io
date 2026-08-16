@@ -15,7 +15,7 @@ body {
 
 
 body {
-    background: #071b24;
+    background: #faf6e8;
 
     color: #e8f3f3;
 
@@ -374,8 +374,8 @@ h1 {
 
     background:
         rgba(
-            255,
-            255,
+            233,
+            245,
             255,
             0.35
         );
@@ -383,8 +383,8 @@ h1 {
     border:
         1px solid
         rgba(
-            255,
-            255,
+            233,
+            245,
             255,
             0.5
         );
