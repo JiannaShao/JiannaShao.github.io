@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Interactive Aquarium</title>
+
+    <link rel="stylesheet" href="aquarium.css">
+</head>
+
+<body>
+
+    <main class="page">
+
+        <header class="header">
+            <div>
+                <p class="eyebrow">INTERACTIVE EXPERIMENT</p>
+                <h1>My Aquarium</h1>
+                <p class="subtitle">
+                    Click the fish. Click the water to feed them.
+                </p>
+            </div>
+
+            <div class="stats">
+                <span id="fish-count">3 fish</span>
+                <span id="food-count">Food: 0</span>
+            </div>
+        </header>
+
+
+        <!-- AQUARIUM -->
+
+        <section class="tank-container">
+
+            <div id="tank" class="tank">
+
+                <div class="water-glow"></div>
+
+                <!-- Plants -->
+                <div class="plant plant-one"></div>
+                <div class="plant plant-two"></div>
+                <div class="plant plant-three"></div>
+
+                <!-- Rocks -->
+                <div class="rock rock-one"></div>
+                <div class="rock rock-two"></div>
+
+                <!-- Food gets created here -->
+                <div id="food-layer"></div>
+
+                <!-- Fish get created here -->
+                <div id="fish-layer"></div>
+
+                <!-- Sand -->
+                <div class="sand"></div>
+
+                <!-- Bubbles -->
+                <div class="bubble bubble-one"></div>
+                <div class="bubble bubble-two"></div>
+                <div class="bubble bubble-three"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CONTROLS -->
+
+        <div class="controls">
+
+            <button id="feed-button">
+                🍤 Feed the fish
+            </button>
+
+            <button id="add-button">
+                ＋ Add a fish
+            </button>
+
+            <button id="reset-button" class="secondary">
+                Reset
+            </button>
+
+        </div>
+
+
+        <p id="message" class="message">
+            The aquarium is peaceful...
+        </p>
+
+
+        <a class="back-link" href="index.html">
+            ← Back to portfolio
+        </a>
+
+    </main>
+
+
+    <script src="aquarium.js"></script>
+
+</body>
+</html>
