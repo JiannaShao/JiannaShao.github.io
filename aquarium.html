@@ -1,5 +1,7 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,23 +11,35 @@
     <link rel="stylesheet" href="aquarium.css">
 </head>
 
+
 <body>
 
     <main class="page">
 
         <header class="header">
+
             <div>
                 <p class="eyebrow">INTERACTIVE EXPERIMENT</p>
+
                 <h1>My Aquarium</h1>
+
                 <p class="subtitle">
-                    Click the fish. Click the water to feed them.
+                    Watch the fish swim around their tank.
                 </p>
             </div>
 
             <div class="stats">
-                <span id="fish-count">3 fish</span>
-                <span id="food-count">Food: 0</span>
+
+                <span id="fish-count">
+                    15 fish
+                </span>
+
+                <span id="food-count">
+                    Food: 0
+                </span>
+
             </div>
+
         </header>
 
 
@@ -37,28 +51,41 @@
 
                 <div class="water-glow"></div>
 
+
                 <!-- Plants -->
+
                 <div class="plant plant-one"></div>
+
                 <div class="plant plant-two"></div>
+
                 <div class="plant plant-three"></div>
 
+
                 <!-- Rocks -->
+
                 <div class="rock rock-one"></div>
+
                 <div class="rock rock-two"></div>
 
-                <!-- Food gets created here -->
+
+                <!-- Food -->
+
                 <div id="food-layer"></div>
 
-                <!-- Fish get created here -->
+
+                <!-- Fish -->
+
                 <div id="fish-layer"></div>
 
-                <!-- Sand -->
-                <div class="sand"></div>
 
                 <!-- Bubbles -->
-                <div class="bubble bubble-one"></div>
-                <div class="bubble bubble-two"></div>
-                <div class="bubble bubble-three"></div>
+
+                <div id="bubble-layer"></div>
+
+
+                <!-- Sand -->
+
+                <div class="sand"></div>
 
             </div>
 
@@ -70,15 +97,11 @@
         <div class="controls">
 
             <button id="feed-button">
-                🍤 Feed the fish
-            </button>
-
-            <button id="add-button">
-                ＋ Add a fish
+                🍤 Feed the Fish
             </button>
 
             <button id="reset-button" class="secondary">
-                Reset
+                Reset Aquarium
             </button>
 
         </div>
@@ -99,4 +122,6 @@
     <script src="aquarium.js"></script>
 
 </body>
+
 </html>
+```
