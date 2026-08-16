@@ -422,7 +422,7 @@ function updateFishBehavior(
             35
         );
 
-        .angleChangeTimer =
+        fish.angleChangeTimer =
             randomNumber(
                 1500,
                 4000
