@@ -959,3 +959,145 @@ function randomNumber(min, max) {
         min
     );
 }
+
+/* =========================
+   BOOKS
+========================= */
+
+const bookDescriptions = {
+
+    book1: {
+        title: "Book Title One",
+
+        text:
+            "Write here why you love this book. You can talk about the story, characters, artwork, ideas, or anything else that makes this book special to you."
+    },
+
+
+    book2: {
+        title: "Book Title Two",
+
+        text:
+            "Write here why you love this book. This can be as long or as short as you want."
+    },
+
+
+    book3: {
+        title: "Book Title Three",
+
+        text:
+            "Write here why you love this book and why you chose it as one of your top picks."
+    }
+
+};
+
+
+
+const bookCards =
+    document.querySelectorAll(
+        ".book-card"
+    );
+
+
+const bookDescription =
+    document.getElementById(
+        "book-description"
+    );
+
+
+const bookDescriptionTitle =
+    document.getElementById(
+        "book-description-title"
+    );
+
+
+const bookDescriptionText =
+    document.getElementById(
+        "book-description-text"
+    );
+
+
+let selectedBook = null;
+
+
+
+bookCards.forEach(
+    function(book) {
+
+        book.addEventListener(
+            "click",
+            function() {
+
+                const bookID =
+                    book.dataset.book;
+
+
+                /*
+                    Clicking the same book
+                    again closes the description.
+                */
+
+                if (
+                    selectedBook === bookID
+                ) {
+
+                    bookDescription.classList.remove(
+                        "visible"
+                    );
+
+                    selectedBook = null;
+
+                    return;
+
+                }
+
+
+                const information =
+                    bookDescriptions[
+                        bookID
+                    ];
+
+
+                if (!information) {
+                    return;
+                }
+
+
+                bookDescriptionTitle.textContent =
+                    information.title;
+
+
+                bookDescriptionText.textContent =
+                    information.text;
+
+
+                bookDescription.classList.add(
+                    "visible"
+                );
+
+
+                selectedBook = bookID;
+
+
+                /*
+                    Smoothly move the
+                    description into view.
+                */
+
+                setTimeout(
+                    function() {
+
+                        bookDescription.scrollIntoView({
+                            behavior: "smooth",
+                            block: "nearest"
+                        });
+
+                    },
+                    100
+                );
+
+            }
+        );
+
+    }
+);
