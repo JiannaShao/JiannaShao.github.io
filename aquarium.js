@@ -872,7 +872,7 @@ function feedFish() {
     food += 10;
 
     foodCount.textContent =
-        `Food: ${food}`;
+        `${food}`;
 
     message.textContent =
         "Feeding time!";
