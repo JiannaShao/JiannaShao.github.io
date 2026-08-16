@@ -967,7 +967,7 @@ function randomNumber(min, max) {
 const bookDescriptions = {
 
     book1: {
-        title: "Book Title One",
+        title: "The Strange Case of Dr Jekyll and Mr Hyde and Other Tales of Terror",
 
         text:
             "Write here why you love this book. You can talk about the story, characters, artwork, ideas, or anything else that makes this book special to you."
@@ -975,7 +975,7 @@ const bookDescriptions = {
 
 
     book2: {
-        title: "Book Title Two",
+        title: "Breakneck: China's Quest to Engineer the Future",
 
         text:
             "Write here why you love this book. This can be as long or as short as you want."
@@ -983,7 +983,7 @@ const bookDescriptions = {
 
 
     book3: {
-        title: "Book Title Three",
+        title: "The 5 Types of Wealth",
 
         text:
             "Write here why you love this book and why you chose it as one of your top picks."
