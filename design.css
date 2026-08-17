@@ -1,0 +1,660 @@
+/* =========================
+   GLOBAL
+========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+    margin: 0;
+
+    background: #f7f4ec;
+
+    color: #263746;
+
+    font-family:
+        Helvetica,
+        Arial,
+        sans-serif;
+}
+
+
+h1,
+h2,
+h3,
+p {
+    margin-top: 0;
+}
+
+
+h1,
+h2 {
+    font-family: 'Abril Fatface', serif;
+}
+
+
+h1 {
+    font-size: clamp(48px, 7vw, 100px);
+
+    line-height: 0.95;
+
+    margin-bottom: 25px;
+}
+
+
+h2 {
+    font-size: clamp(32px, 4vw, 60px);
+
+    line-height: 1.05;
+
+    margin-bottom: 25px;
+}
+
+
+p {
+    line-height: 1.7;
+}
+
+
+.eyebrow {
+    color: #d1ad54;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 15px;
+}
+
+
+
+/* =========================
+   HERO
+========================= */
+
+.project-hero {
+    position: relative;
+
+    width: 100%;
+
+    height: 100vh;
+
+    min-height: 650px;
+
+    overflow: hidden;
+}
+
+
+.hero-image {
+    position: absolute;
+
+    inset: 0;
+
+    background-image:
+        linear-gradient(
+            rgba(38, 55, 70, 0.38),
+            rgba(38, 55, 70, 0.38)
+        ),
+        url("DesignImages/Final2.JPG");
+
+    background-size: cover;
+
+    background-position: center;
+
+    filter: saturate(0.55);
+}
+
+
+.hero-content {
+    position: absolute;
+
+    left: 8%;
+
+    bottom: 12%;
+
+    width: min(700px, 80%);
+
+    padding: 45px 50px;
+
+    background:
+        rgba(
+            247,
+            244,
+            236,
+            0.94
+        );
+
+    color: #263746;
+
+    box-shadow:
+        0 20px 60px
+        rgba(0, 0, 0, 0.18);
+}
+
+
+.hero-content .eyebrow {
+    color: #687f8d;
+}
+
+
+.hero-subtitle {
+    max-width: 600px;
+
+    font-size: 19px;
+
+    margin-bottom: 0;
+}
+
+
+
+/* =========================
+   PROJECT INTRO
+========================= */
+
+.project-intro {
+    position: relative;
+
+    padding: 120px 8% 100px;
+
+    background: #f7f4ec;
+}
+
+
+.description-box {
+    max-width: 1100px;
+
+    margin: 0 auto;
+
+    padding: 65px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 15px 50px
+        rgba(38, 55, 70, 0.10);
+}
+
+
+.description-text {
+    max-width: 850px;
+
+    margin: 0 auto;
+}
+
+
+.description-text p {
+    font-size: 18px;
+
+    color: #536875;
+}
+
+
+.description-text ul {
+    margin-top: 30px;
+
+    padding-left: 25px;
+
+    color: #263746;
+
+    line-height: 2;
+}
+
+
+.intro-images {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 25px;
+
+    max-width: 1100px;
+
+    margin: 40px auto 0;
+}
+
+
+.image-placeholder {
+    height: 400px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #dce3e5;
+
+    color: #687f8d;
+
+    letter-spacing: 2px;
+}
+
+
+
+/* =========================
+   FEATURE SECTIONS
+========================= */
+
+.feature-section {
+    position: relative;
+
+    width: 100%;
+
+    height: 650px;
+
+    overflow: hidden;
+}
+
+
+.feature-image {
+    position: absolute;
+
+    inset: 0;
+
+    background-size: cover;
+
+    background-position: center;
+
+    filter: saturate(0.55);
+}
+
+
+.image-one {
+    background-image:
+        url("DesignImages/Ortho1.png");
+}
+
+
+.image-two {
+    background-image:
+        url("DesignImages/Ortho2.png");
+}
+
+
+.feature-box {
+    position: absolute;
+
+    left: 8%;
+
+    bottom: 10%;
+
+    max-width: 550px;
+
+    padding: 40px 45px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.94
+        );
+
+    box-shadow:
+        0 15px 45px
+        rgba(0, 0, 0, 0.15);
+}
+
+
+.feature-box p:last-child {
+    margin-bottom: 0;
+
+    color: #536875;
+
+    font-size: 17px;
+}
+
+
+
+/* =========================
+   DESIGN STATEMENTS
+========================= */
+
+.design-section {
+    padding: 120px 8%;
+
+    background: #ffffff;
+}
+
+
+.section-heading {
+    max-width: 850px;
+
+    margin-bottom: 70px;
+}
+
+
+.statement-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 25px;
+
+    max-width: 1200px;
+
+    margin: 0 auto;
+}
+
+
+.statement-box {
+    padding: 40px;
+
+    min-height: 300px;
+
+    border:
+        1px solid
+        #d9dfe1;
+
+    background: #f7f4ec;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.statement-box:hover {
+    transform:
+        translateY(-5px);
+
+    box-shadow:
+        0 15px 35px
+        rgba(38, 55, 70, 0.10);
+}
+
+
+.statement-number {
+    display: block;
+
+    margin-bottom: 50px;
+
+    color: #d1ad54;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+
+.statement-box h3 {
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    color: #263746;
+
+    font-size: 27px;
+
+    margin-bottom: 15px;
+}
+
+
+.statement-box p {
+    color: #536875;
+}
+
+
+
+/* =========================
+   PROJECT DETAILS
+========================= */
+
+.project-details {
+    padding: 120px 8%;
+
+    background: #f7f4ec;
+}
+
+
+.detail-row {
+    display: grid;
+
+    grid-template-columns:
+        1.2fr 0.8fr;
+
+    align-items: center;
+
+    gap: 70px;
+
+    max-width: 1200px;
+
+    margin: 0 auto 120px;
+}
+
+
+.detail-row.reverse {
+    grid-template-columns:
+        0.8fr 1.2fr;
+}
+
+
+.detail-row.reverse .detail-image {
+    order: 2;
+}
+
+
+.detail-row.reverse .detail-text {
+    order: 1;
+}
+
+
+.detail-image {
+    height: 500px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #dce3e5;
+
+    color: #687f8d;
+
+    letter-spacing: 2px;
+}
+
+
+.detail-text {
+    padding: 20px;
+}
+
+
+.detail-text p:last-child {
+    color: #536875;
+
+    font-size: 18px;
+}
+
+
+
+/* =========================
+   FINAL PROJECT
+========================= */
+
+.final-project {
+    width: 100%;
+
+    height: 80vh;
+
+    min-height: 550px;
+}
+
+
+.final-image {
+    position: relative;
+
+    width: 100%;
+
+    height: 100%;
+
+    background-image:
+        linear-gradient(
+            rgba(38, 55, 70, 0.35),
+            rgba(38, 55, 70, 0.35)
+        ),
+        url("DesignImages/Final1.JPG");
+
+    background-size: cover;
+
+    background-position: center;
+
+    filter: saturate(0.55);
+}
+
+
+.final-overlay {
+    position: absolute;
+
+    left: 8%;
+
+    bottom: 10%;
+
+    padding: 40px 50px;
+
+    background:
+        rgba(
+            247,
+            244,
+            236,
+            0.95
+        );
+}
+
+
+.final-overlay h2 {
+    margin-bottom: 0;
+}
+
+
+
+/* =========================
+   BACK LINK
+========================= */
+
+.back-link {
+    display: block;
+
+    width: fit-content;
+
+    margin: 0 auto;
+
+    padding: 50px 20px;
+
+    color: #536875;
+
+    text-decoration: none;
+
+    font-weight: 600;
+}
+
+
+.back-link:hover {
+    color: #d1ad54;
+}
+
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 750px) {
+
+    .hero-content {
+        left: 5%;
+
+        bottom: 7%;
+
+        width: 90%;
+
+        padding: 30px;
+    }
+
+
+    .project-intro {
+        padding: 70px 5%;
+    }
+
+
+    .description-box {
+        padding: 35px 25px;
+    }
+
+
+    .intro-images {
+        grid-template-columns: 1fr;
+    }
+
+
+    .feature-section {
+        height: 550px;
+    }
+
+
+    .feature-box {
+        left: 5%;
+
+        bottom: 5%;
+
+        width: 90%;
+
+        padding: 30px;
+    }
+
+
+    .design-section {
+        padding: 80px 5%;
+    }
+
+
+    .statement-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .project-details {
+        padding: 80px 5%;
+    }
+
+
+    .detail-row,
+    .detail-row.reverse {
+        grid-template-columns: 1fr;
+
+        gap: 30px;
+
+        margin-bottom: 80px;
+    }
+
+
+    .detail-row.reverse .detail-image {
+        order: 1;
+    }
+
+
+    .detail-row.reverse .detail-text {
+        order: 2;
+    }
+
+
+    .detail-image {
+        height: 350px;
+    }
+
+}
