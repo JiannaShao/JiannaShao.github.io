@@ -724,9 +724,9 @@ button:active {
     display: grid;
 
     grid-template-columns:
-        repeat(3, 210px);
+        repeat(3, 240px);
 
-    gap: 35px;
+    gap: 25px;
 
     align-items: start;
 
@@ -742,7 +742,7 @@ button:active {
 .book-card {
     width: 100%;
 
-    max-width: 210px;
+    max-width: 240px;
 
     padding: 0;
 
@@ -855,9 +855,9 @@ button:active {
 .book-description {
     max-width: none;
 
-    margin: 45px auto 0;
+    margin: 0 auto;
 
-    padding: 28px 32px;
+    padding: 0 32px;
 
     background:
         rgba(
@@ -882,6 +882,10 @@ button:active {
 
     opacity: 0;
 
+    max-height: 0;
+
+   overflow: hidden;
+
     transform:
         translateY(10px);
 
@@ -889,12 +893,21 @@ button:active {
 
     transition:
         opacity 0.25s ease,
+        max-height 0.25s ease,
+        margin 0.25s ease,
+        padding 0.25s ease,
         transform 0.25s ease;
 }
 
 
 .book-description.visible {
     opacity: 1;
+
+    max-height: 1000px;
+
+    margin: 45px auto 0;
+
+    padding: 28px 32px;
 
     transform:
         translateY(0);
