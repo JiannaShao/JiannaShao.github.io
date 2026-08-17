@@ -101,8 +101,12 @@ p {
 
     background-image:
         linear-gradient(
-            rgba(38, 55, 70, 0.38),
-            rgba(38, 55, 70, 0.38)
+            to bottom,
+            rgba(38, 55, 70, 0.20) 0%,
+            rgba(38, 55, 70, 0.20) 60%,
+            rgba(247, 244, 236, 0.15) 72%,
+            rgba(247, 244, 236, 0.60) 88%,
+            rgba(247, 244, 236, 1) 100%
         ),
         url("DesignImages/Final2.JPG");
 
@@ -117,7 +121,9 @@ p {
 .hero-content {
     position: absolute;
 
-    left: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
 
     bottom: 12%;
 
@@ -213,9 +219,9 @@ p {
     display: grid;
 
     grid-template-columns:
-        repeat(2, 1fr);
+        repeat(4, 1fr);
 
-    gap: 25px;
+    gap: 20px;
 
     max-width: 1100px;
 
