@@ -111,16 +111,6 @@ const fishData = [
     },
 
     {
-        name: "Golden Dorado",
-        image: "Fih/GoldenDorado.png",
-        baseSpeed: 0.055 / 8,
-        size: 270,
-        speed: 0.055 / 8,
-        targetSpeed: 0.055 / 8,
-        direction: -1
-    },
-
-    {
         name: "Minnow",
         image: "Fih/Minnow.png",
         baseSpeed: 0.032 / 8,
