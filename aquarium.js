@@ -11,28 +11,11 @@ const foodCount = document.getElementById("food-count");
 ========================= */
 
 let food = 0;
-
 let lastTime = 0;
-
 let bubbleTimer = 0;
 
-let fishAreBig = false;
-
-let fishAreOverfed = false;
-
-/*
-    =========================
-    FOOD SETTINGS
-    =========================
-*/
-
-const MAX_FOOD = 100;
-
-const BIG_FISH_FOOD =
-    70;
-
-const minimumBubbleTime = 150;
-const maximumBubbleTime = 450;
+const minimumBubbleTime = 200;
+const maximumBubbleTime = 800;
 
 let nextBubbleTime = randomNumber(
     minimumBubbleTime,
@@ -181,7 +164,7 @@ const fishData = [
         name: "Salmon",
         image: "Fih/Salmon.png",
         baseSpeed: 0.036 / 8,
-        size: 400,
+        size: 360,
         speed: 0.036 / 8,
         targetSpeed: 0.036 / 8,
         direction: -1
@@ -322,17 +305,6 @@ function createFish(data) {
 
             event.stopPropagation();
 
-
-            /*
-                Don't interact with fish once
-                they are completely overfed.
-            */
-            
-            if (fishAreOverfed) {
-                return;
-            }
-            
-            
             data.direction *= -1;
 
             data.angle += 180;
@@ -493,50 +465,6 @@ function updateFishBehavior(
 
 }
 
-/* =========================
-   FISH SIZE
-========================= */
-
-function updateFishSize(fish) {
-
-    if (!fish.element) {
-        return;
-    }
-
-    /*
-        Fish are 1.2x larger when
-        food is 70 or higher.
-    */
-
-    const scale =
-        fishAreBig
-            ? 1.2
-            : 1;
-
-    /*
-        Your drawings all face LEFT.
-
-        direction = -1
-        → Fish is facing LEFT
-        → No horizontal flip
-
-        direction = 1
-        → Fish is facing RIGHT
-        → Flip horizontally
-    */
-
-    if (fish.direction === 1) {
-
-        fish.element.style.transform =
-            `scale(${scale}) scaleX(-1)`;
-
-    } else {
-
-        fish.element.style.transform =
-            `scale(${scale})`;
-
-    }
-}
 
 /* =========================
    FISH MOVEMENT
@@ -550,75 +478,6 @@ function updateFish(deltaTime) {
             return;
         }
 
-
-        /*
-            =========================
-            OVERFED BEHAVIOR
-            =========================
-
-            At 100 food, the fish stop
-            swimming and slowly fall
-            toward the bottom.
-        */
-
-        if (fishAreOverfed) {
-
-            /*
-                Stop normal swimming.
-            */
-
-            fish.speed = 0;
-
-            fish.targetSpeed = 0;
-
-            fish.burstMultiplier = 1;
-
-
-            /*
-                Slowly fall toward the
-                bottom of the aquarium.
-            */
-
-            const fallSpeed = 0.012;
-
-            if (fish.y < 82) {
-
-                fish.y +=
-                    fallSpeed *
-                    deltaTime;
-
-                if (fish.y > 82) {
-
-                    fish.y = 82;
-
-                }
-
-            }
-
-
-            fish.element.style.left =
-                fish.x + "%";
-
-            fish.element.style.top =
-                fish.y + "%";
-
-
-            /*
-                Keep the fish at its current
-                size and orientation.
-            */
-
-            updateFishSize(fish);
-
-            return;
-        }
-
-
-        /*
-            =========================
-            NORMAL SWIMMING
-            =========================
-        */
 
         updateFishBehavior(
             fish,
@@ -681,6 +540,11 @@ function updateFish(deltaTime) {
 
             fish.direction = 1;
 
+            /*
+                Reflect the horizontal
+                component of movement.
+            */
+
             fish.angle =
                 180 - fish.angle;
         }
@@ -712,6 +576,10 @@ function updateFish(deltaTime) {
         if (fish.y <= 5) {
 
             fish.y = 5;
+
+            /*
+                Reverse vertical movement.
+            */
 
             fish.angle =
                 -fish.angle;
@@ -768,10 +636,25 @@ function updateFish(deltaTime) {
 
 
         /*
-            Update size and orientation.
+            Your drawings face LEFT.
+
+            Swimming RIGHT:
+                flip image
+
+            Swimming LEFT:
+                normal image
         */
 
-        updateFishSize(fish);
+        if (fish.direction === 1) {
+
+            fish.element.style.transform =
+                "scaleX(-1)";
+
+        } else {
+
+            fish.element.style.transform =
+                "scaleX(1)";
+        }
 
     });
 
@@ -796,85 +679,22 @@ function createBubble(fish) {
 
 
     /*
-        =========================
-        FIND THE FISH'S MOUTH
-        =========================
-
-        Your drawings face LEFT.
-
-        If the fish is swimming LEFT,
-        the mouth is on the left side.
-
-        If the fish is swimming RIGHT,
-        the image is flipped, so the
-        mouth is on the right side.
+        Start approximately where
+        the fish currently is.
     */
 
-    const fishRect =
-        fish.element.getBoundingClientRect();
+    const randomX =
+        randomNumber(-1.5, 1.5);
 
-    const tankRect =
-        tank.getBoundingClientRect();
-
-
-    let mouthX;
-
-
-    if (fish.direction === -1) {
-
-        /*
-            Fish facing LEFT.
-            Mouth is near the left edge.
-        */
-
-        mouthX =
-            fishRect.left +
-            fishRect.width * 0.05;
-
-    } else {
-
-        /*
-            Fish facing RIGHT.
-            Image is flipped, so mouth
-            is now near the right edge.
-        */
-
-        mouthX =
-            fishRect.right -
-            fishRect.width * 0.05;
-
-    }
-
-
-    /*
-        Mouth is slightly above the
-        vertical center of the fish.
-    */
-
-    const mouthY =
-        fishRect.top +
-        fishRect.height * 0.35;
-
-
-    /*
-        Convert the mouth's pixel position
-        into a position relative to the tank.
-    */
-
-    const bubbleX =
-        mouthX -
-        tankRect.left;
-
-    const bubbleY =
-        mouthY -
-        tankRect.top;
+    const randomY =
+        randomNumber(-1.5, 1.5);
 
 
     bubble.style.left =
-        bubbleX + "px";
+        `calc(${fish.x}% + ${randomX}px)`;
 
     bubble.style.top =
-        bubbleY + "px";
+        `calc(${fish.y}% + ${randomY}px)`;
 
 
     /*
@@ -920,15 +740,11 @@ function createBubble(fish) {
     bubbleLayer.appendChild(bubble);
 
 
-    /*
-        Remove bubble after animation.
-    */
-
     setTimeout(function() {
 
         bubble.remove();
 
-    }, duration * 1000);
+    }, duration * 500);
 
 }
 
@@ -1026,179 +842,44 @@ requestAnimationFrame(
 function feedFish() {
 
     /*
-        Don't allow more food if the
-        aquarium has already reached 100.
-    */
-
-    if (food >= MAX_FOOD) {
-
-        food = MAX_FOOD;
-
-        foodCount.textContent =
-            food;
-
-        message.textContent =
-            "The fish are completely full!";
-
-        return;
-    }
-
-
-    /*
-        Add 10 food at a time.
-
-        If there is less than 10 space
-        remaining, only add enough to
-        reach exactly 100.
-    */
-
-    const foodToAdd =
-        Math.min(
-            10,
-            MAX_FOOD - food
-        );
-
-
-    /*
-        Create the food pellets.
+        Drop 10 pieces of food.
     */
 
     for (
         let i = 0;
-        i < foodToAdd;
+        i < 10;
         i++
     ) {
 
-        setTimeout(
-            function() {
+        setTimeout(function() {
 
-                createFood();
+            createFood();
 
-            },
-            i * 100
-        );
-
+        }, i * 100);
     }
 
 
-    /*
-        Increase the food counter.
-    */
-
-    food += foodToAdd;
-
-
-    /*
-        Update the displayed food amount.
-    */
+    food += 10;
 
     foodCount.textContent =
-        food;
+        `${food}`;
+
+    message.textContent =
+        "Feeding time!";
 
 
     /*
-        =========================
-        70–99 FOOD
-        =========================
-
-        Fish become 1.2x larger,
-        but continue swimming.
+        Fish temporarily become
+        more active.
     */
 
-    if (
-        food >= BIG_FISH_FOOD &&
-        food < MAX_FOOD
-    ) {
+    fishData.forEach(function(fish) {
 
-        fishAreBig = true;
+        fish.targetSpeed =
+            fish.baseSpeed *
+            randomNumber(1.4, 2.0);
 
-
-        /*
-            Update every fish immediately
-            so they become larger.
-        */
-
-        fishData.forEach(
-            function(fish) {
-
-                updateFishSize(fish);
-
-            }
-        );
-
-
-        message.textContent =
-            "The fish are getting full...";
-
-
-        /*
-            Give the fish a temporary
-            burst of interest in the food.
-        */
-
-        fishData.forEach(
-            function(fish) {
-
-                fish.targetSpeed =
-                    fish.baseSpeed *
-                    randomNumber(1.4, 2.0);
-
-            }
-        );
-
-    }
-
-
-    /*
-        =========================
-        100 FOOD
-        =========================
-
-        Fish become overfed.
-
-        They stop swimming and the
-        updateFish() function will
-        make them fall to the bottom.
-    */
-
-    if (food >= MAX_FOOD) {
-
-        food = MAX_FOOD;
-
-        fishAreBig = true;
-
-        fishAreOverfed = true;
-
-
-        /*
-            Stop all normal fish movement.
-        */
-
-        fishData.forEach(
-            function(fish) {
-
-                fish.speed = 0;
-
-                fish.targetSpeed = 0;
-
-                fish.burstMultiplier = 1;
-
-
-                /*
-                    Make sure the 1.2x size
-                    is applied immediately.
-                */
-
-                updateFishSize(fish);
-
-            }
-        );
-
-
-        message.textContent =
-            "The fish are completely full!";
-
-    }
+    });
 
 }
 
