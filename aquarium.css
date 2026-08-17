@@ -724,13 +724,13 @@ button:active {
     display: grid;
 
     grid-template-columns:
-        repeat(3, 1fr);
+        repeat(3, 210px);
 
     gap: 35px;
 
     align-items: start;
 
-    justify-items: center;
+    justify-content: center;
 }
 
 
