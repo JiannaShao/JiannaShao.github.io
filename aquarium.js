@@ -604,13 +604,11 @@ function updateFish(deltaTime) {
 
 
             /*
-                Keep the fish facing the
-                direction it was facing
-                when it stopped.
+                Keep the fish at its current
+                size and orientation.
             */
 
             updateFishSize(fish);
-
 
             return;
         }
@@ -683,11 +681,6 @@ function updateFish(deltaTime) {
 
             fish.direction = 1;
 
-            /*
-                Reflect the horizontal
-                component of movement.
-            */
-
             fish.angle =
                 180 - fish.angle;
         }
@@ -719,10 +712,6 @@ function updateFish(deltaTime) {
         if (fish.y <= 5) {
 
             fish.y = 5;
-
-            /*
-                Reverse vertical movement.
-            */
 
             fish.angle =
                 -fish.angle;
@@ -779,18 +768,10 @@ function updateFish(deltaTime) {
 
 
         /*
-            Your drawings face LEFT.
-
-            Swimming RIGHT:
-                flip image
-
-            Swimming LEFT:
-                normal image
+            Update size and orientation.
         */
 
         updateFishSize(fish);
-
-}
 
     });
 
