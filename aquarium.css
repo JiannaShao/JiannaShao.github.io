@@ -25,7 +25,8 @@ body {
         sans-serif;
 }
 
-h1 {
+h1,
+h2 {
     font-family: 'Abril Fatface', serif;
 }
 
@@ -696,9 +697,9 @@ button:active {
 
     color: #21445e;
 
-    font-size: 36px;
+    font-size: 42px;
 
-    line-height: 1.2;
+    line-height: 1.4;
 }
 
 
