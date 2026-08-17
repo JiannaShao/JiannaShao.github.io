@@ -43,7 +43,7 @@ const fishData = [
     {
         name: "Bass",
         image: "Fih/Bass.png",
-        size: 320,
+        size: 640,
         baseSpeed: 0.025 / 8,
         speed: 0.025 / 8,
         targetSpeed: 0.025 / 8,
@@ -54,7 +54,7 @@ const fishData = [
         name: "Bluegill",
         image: "Fih/Bluegill.png",
         baseSpeed: 0.045 / 8,
-        size: 120,
+        size: 240,
         speed: 0.045 / 8,
         targetSpeed: 0.045 / 8,
         direction: -1
@@ -64,7 +64,7 @@ const fishData = [
         name: "Burbot",
         image: "Fih/Burbot.png",
         baseSpeed: 0.030 / 8,
-        size: 280,
+        size: 560,
         speed: 0.030 / 8,
         targetSpeed: 0.030 / 8,
         direction: 1
@@ -74,7 +74,7 @@ const fishData = [
         name: "Carp",
         image: "Fih/Carp.png",
         baseSpeed: 0.050 / 8,
-        size: 200,
+        size: 400,
         speed: 0.050 / 8,
         targetSpeed: 0.050 / 8,
         direction: -1
@@ -84,7 +84,7 @@ const fishData = [
         name: "Catfish",
         image: "Fih/Catfish.png",
         baseSpeed: 0.040 / 8,
-        size: 180,
+        size: 360,
         speed: 0.040 / 8,
         targetSpeed: 0.040 / 8,
         direction: 1
@@ -94,7 +94,7 @@ const fishData = [
         name: "Crappie",
         image: "Fih/Crappie.png",
         baseSpeed: 0.028 / 8,
-        size: 170,
+        size: 340,
         speed: 0.028 / 8,
         targetSpeed: 0.028 / 8,
         direction: -1
@@ -104,7 +104,7 @@ const fishData = [
         name: "Freshwater Drum",
         image: "Fih/Freshwater Drum.png",
         baseSpeed: 0.038 / 8,
-        size: 200,
+        size: 400,
         speed: 0.038 / 8,
         targetSpeed: 0.038 / 8,
         direction: 1
@@ -114,7 +114,7 @@ const fishData = [
         name: "Minnow",
         image: "Fih/Minnow.png",
         baseSpeed: 0.032 / 8,
-        size: 100,
+        size: 200,
         speed: 0.032 / 8,
         targetSpeed: 0.032 / 8,
         direction: 1
@@ -124,7 +124,7 @@ const fishData = [
         name: "Perch",
         image: "Fih/Perch.png",
         baseSpeed: 0.048 / 8,
-        size: 200,
+        size: 400,
         speed: 0.048 / 8,
         targetSpeed: 0.048 / 8,
         direction: -1
@@ -134,7 +134,7 @@ const fishData = [
         name: "Pike",
         image: "Fih/Pike.png",
         baseSpeed: 0.042 / 8,
-        size: 250,
+        size: 500,
         speed: 0.042 / 8,
         targetSpeed: 0.042 / 8,
         direction: 1
@@ -144,7 +144,7 @@ const fishData = [
         name: "Pumpkinseed",
         image: "Fih/Pumpkinseed.png",
         baseSpeed: 0.033 / 8,
-        size: 130,
+        size: 260,
         speed: 0.033 / 8,
         targetSpeed: 0.033 / 8,
         direction: -1
@@ -154,7 +154,7 @@ const fishData = [
         name: "Round Goby",
         image: "Fih/Round Goby.png",
         baseSpeed: 0.047 / 8,
-        size: 180,
+        size: 360,
         speed: 0.047 / 8,
         targetSpeed: 0.047 / 8,
         direction: 1
@@ -164,7 +164,7 @@ const fishData = [
         name: "Salmon",
         image: "Fih/Salmon.png",
         baseSpeed: 0.036 / 8,
-        size: 300,
+        size: 600,
         speed: 0.036 / 8,
         targetSpeed: 0.036 / 8,
         direction: -1
@@ -174,7 +174,7 @@ const fishData = [
         name: "Sucker",
         image: "Fih/Sucker.png",
         baseSpeed: 0.043 / 8,
-        size: 200,
+        size: 400,
         speed: 0.043 / 8,
         targetSpeed: 0.043 / 8,
         direction: 1
