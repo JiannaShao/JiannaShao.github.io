@@ -824,22 +824,17 @@ tank.addEventListener(
         lastRippleTime = now;
 
 
-        const tankRect =
-            tank.getBoundingClientRect();
-
-
-        /*
-            Mouse position relative
-            to the aquarium.
-        */
-
+        const overlayRect =
+            waterOverlay.getBoundingClientRect();
+        
+        
         const x =
             event.clientX -
-            tankRect.left;
-
+            overlayRect.left;
+        
         const y =
             event.clientY -
-            tankRect.top;
+            overlayRect.top;
 
 
         /*
