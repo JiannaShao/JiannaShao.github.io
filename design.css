@@ -223,26 +223,6 @@ p {
 }
 
 
-.intro-image.image-one {
-    background-image: url("DesignImages/Ortho1.png");
-}
-
-
-.intro-image.image-two {
-    background-image: url("DesignImages/Ortho2.png");
-}
-
-
-.intro-image.image-three {
-    background-image: url("DesignImages/Ortho3.png");
-}
-
-
-.intro-image.image-four {
-    background-image: url("DesignImages/Ortho4.png");
-}
-
-
 .image-placeholder {
     height: 400px;
 
@@ -718,8 +698,19 @@ p {
 
 
     .intro-images {
-        grid-template-columns: 1fr;
-    }
+       display: grid;
+   
+       grid-template-columns:
+           repeat(4, 1fr);
+   
+       gap: 20px;
+   
+       width: 100%;
+   
+       max-width: 1200px;
+   
+       margin: 40px auto 0;
+   }
 
 
     .feature-section {
