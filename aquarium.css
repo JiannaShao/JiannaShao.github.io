@@ -539,6 +539,8 @@ button:active {
 
     font-size: 20px;
 
+    font-weight: bold;
+
     text-decoration: none;
 }
 
@@ -855,7 +857,7 @@ button:active {
 .book-description h3 {
     margin: 0 0 10px;
 
-    color: #8ed8e8;
+    color: #ffffff;
 
     font-size: 22px;
 }
@@ -1091,7 +1093,7 @@ button:active {
 
     border-radius: 50%;
 
-    border: 2px solid rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.5);
 
     transform:
         translate(-50%, -50%)
