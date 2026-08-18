@@ -2,6 +2,8 @@ const tank = document.getElementById("tank");
 const fishLayer = document.getElementById("fish-layer");
 const foodLayer = document.getElementById("food-layer");
 const bubbleLayer = document.getElementById("bubble-layer");
+const waterOverlay =
+    document.getElementById("water-overlay");
 const message = document.getElementById("message");
 const foodCount = document.getElementById("food-count");
 
@@ -791,6 +793,93 @@ function updateBubbles(deltaTime) {
 
 }
 
+/* =========================
+   WATER RIPPLE
+========================= */
+
+let lastRippleTime = 0;
+
+const RIPPLE_INTERVAL = 120;
+
+
+tank.addEventListener(
+    "mousemove",
+    function(event) {
+
+        const now = performance.now();
+
+        /*
+            Don't create a ripple every single
+            frame. This keeps the effect subtle
+            and prevents hundreds of elements.
+        */
+
+        if (
+            now - lastRippleTime <
+            RIPPLE_INTERVAL
+        ) {
+            return;
+        }
+
+        lastRippleTime = now;
+
+
+        const tankRect =
+            tank.getBoundingClientRect();
+
+
+        /*
+            Mouse position relative
+            to the aquarium.
+        */
+
+        const x =
+            event.clientX -
+            tankRect.left;
+
+        const y =
+            event.clientY -
+            tankRect.top;
+
+
+        /*
+            Create ripple.
+        */
+
+        const ripple =
+            document.createElement("div");
+
+        ripple.className =
+            "water-ripple";
+
+
+        ripple.style.left =
+            x + "px";
+
+        ripple.style.top =
+            y + "px";
+
+
+        waterOverlay.appendChild(
+            ripple
+        );
+
+
+        /*
+            Remove it after animation.
+        */
+
+        setTimeout(
+            function() {
+
+                ripple.remove();
+
+            },
+            1800
+        );
+
+    }
+);
 
 /* =========================
    ANIMATION LOOP
