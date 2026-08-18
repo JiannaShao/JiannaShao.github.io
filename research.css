@@ -1,0 +1,424 @@
+/* =========================
+   COLOR PALETTE
+   Change these values to
+   adjust the entire page
+========================= */
+
+:root {
+    --turquoise: #5f9995;
+    --turquoise-light: #dcebea;
+
+    --white: #ffffff;
+    --black: #111111;
+
+    --cream: #f3f1e8;
+    --cream-dark: #e7e4d9;
+
+    --border: #c9ccc5;
+}
+
+
+/* =========================
+   GENERAL
+========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--black);
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.page {
+    width: 100%;
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.navbar {
+    width: 100%;
+    padding: 25px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+}
+
+.site-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--black);
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    color: var(--black);
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.nav-links a:hover,
+.nav-links .active {
+    color: var(--turquoise);
+    text-decoration: underline;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    min-height: 75vh;
+    padding: 80px 6%;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+
+    align-items: center;
+}
+
+.hero-text {
+    max-width: 650px;
+}
+
+.eyebrow {
+    color: var(--turquoise);
+    font-size: 13px;
+    letter-spacing: 2px;
+    margin-bottom: 25px;
+}
+
+h1 {
+    font-family: Georgia, serif;
+    color: var(--black);
+    font-size: clamp(45px, 6vw, 85px);
+    line-height: 0.98;
+    margin: 0 0 30px;
+}
+
+.subtitle {
+    font-size: 21px;
+    line-height: 1.5;
+    max-width: 550px;
+}
+
+.hero-image img {
+    width: 100%;
+    height: 600px;
+    object-fit: cover;
+}
+
+
+/* =========================
+   SECTIONS
+========================= */
+
+.section {
+    padding: 120px 10%;
+    border-top: 1px solid var(--border);
+}
+
+.section-label {
+    color: var(--turquoise);
+    font-size: 12px;
+    letter-spacing: 2px;
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+
+h2 {
+    font-family: Georgia, serif;
+    color: var(--black);
+    font-size: clamp(35px, 4vw, 60px);
+    line-height: 1.05;
+    max-width: 850px;
+    margin: 0 0 35px;
+}
+
+.body-text {
+    max-width: 750px;
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+
+/* =========================
+   TWO COLUMN
+========================= */
+
+.two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 70px;
+    align-items: center;
+}
+
+.image-box img {
+    width: 100%;
+    max-height: 600px;
+    object-fit: cover;
+}
+
+
+/* =========================
+   PROCESS
+========================= */
+
+.process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+.process-item {
+    border-top: 2px solid var(--turquoise);
+    padding-top: 20px;
+}
+
+.process-item span {
+    color: var(--turquoise);
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+
+.process-item h3 {
+    font-size: 23px;
+    margin: 25px 0 15px;
+}
+
+.process-item p {
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+
+/* =========================
+   PHOTO GRID
+========================= */
+
+.photo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 35px;
+}
+
+.photo-grid figure {
+    margin: 0;
+}
+
+.photo-grid figure.wide {
+    grid-column: 1 / -1;
+}
+
+.photo-grid img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+}
+
+.photo-grid .wide img {
+    height: 550px;
+}
+
+figcaption {
+    margin-top: 12px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+
+/* =========================
+   FINDINGS
+========================= */
+
+.findings {
+    background: var(--turquoise-light);
+}
+
+.findings h2 {
+    font-size: clamp(50px, 7vw, 100px);
+}
+
+.note {
+    margin-top: 50px;
+    font-size: 13px;
+    font-style: italic;
+    max-width: 600px;
+}
+
+
+/* =========================
+   SKILLS
+========================= */
+
+.skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    max-width: 900px;
+}
+
+.skills span {
+    border: 1px solid var(--turquoise);
+    color: var(--black);
+    padding: 12px 18px;
+    font-size: 14px;
+}
+
+
+/* =========================
+   PRESENTATION
+========================= */
+
+.presentation {
+    background: var(--white);
+}
+
+
+/* =========================
+   OUTPUTS
+========================= */
+
+.output {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 25px 0;
+
+    border-top: 1px solid var(--border);
+}
+
+.output:last-child {
+    border-bottom: 1px solid var(--border);
+}
+
+.output h3 {
+    margin: 0 0 8px;
+    font-size: 19px;
+}
+
+.output p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.output > span {
+    color: var(--turquoise);
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    padding: 50px 6%;
+
+    display: flex;
+    justify-content: space-between;
+
+    font-size: 13px;
+}
+
+footer a {
+    color: var(--black);
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: var(--turquoise);
+    text-decoration: underline;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 800px) {
+
+    .navbar {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .nav-links {
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .hero {
+        grid-template-columns: 1fr;
+        padding: 60px 7%;
+    }
+
+    .hero-image img {
+        height: 400px;
+    }
+
+    .section {
+        padding: 80px 7%;
+    }
+
+    .two-column {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .process-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .photo-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .photo-grid figure.wide {
+        grid-column: auto;
+    }
+
+    .photo-grid img,
+    .photo-grid .wide img {
+        height: 350px;
+    }
+
+    .output {
+        gap: 20px;
+    }
+}
+
+
+@media (max-width: 500px) {
+
+    .process-grid {
+        grid-template-columns: 1fr;
+    }
+
+    h1 {
+        font-size: 48px;
+    }
+
+    .output {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
