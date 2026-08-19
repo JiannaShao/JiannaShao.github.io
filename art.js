@@ -78,24 +78,17 @@ const wallMaterial =
         roughness: 0.9
     });
 
-
-// NAVY FLOOR
-
 const floorMaterial =
     new THREE.MeshStandardMaterial({
         color: "#182b3d",
         roughness: 0.85
     });
 
-
-// DARKER NAVY CEILING
-
 const ceilingMaterial =
     new THREE.MeshStandardMaterial({
         color: "#111f2d",
         roughness: 1
     });
-
 
 const frameMaterial =
     new THREE.MeshStandardMaterial({
@@ -212,17 +205,12 @@ function createWall(
 // OUTER WALLS
 // =====================================================
 
-// Left
-
 createWall(
     0.3,
     ROOM_LENGTH * 3,
     -ROOM_WIDTH / 2,
     -8
 );
-
-
-// Right
 
 createWall(
     0.3,
@@ -231,18 +219,12 @@ createWall(
     -8
 );
 
-
-// Front
-
 createWall(
     ROOM_WIDTH,
     0.3,
     0,
     10
 );
-
-
-// Back
 
 createWall(
     ROOM_WIDTH,
@@ -274,7 +256,7 @@ createWall(
 
 
 // Divider at z = -14
-// The gap in the middle creates the doorway
+// Central doorway remains open
 
 createWall(
     ROOM_WIDTH / 2 - 2,
@@ -294,6 +276,17 @@ createWall(
 // =====================================================
 // ARTWORK DATA
 // =====================================================
+//
+// maxSize controls the largest dimension of an artwork.
+// The actual image aspect ratio is read automatically
+// from the image file when it loads.
+//
+// This means:
+// landscape image  -> width = maxSize
+// portrait image   -> height = maxSize
+// square image     -> both = maxSize
+//
+// =====================================================
 
 const artworks = [
 
@@ -311,7 +304,7 @@ const artworks = [
         position: [-3.8, 3.1, 9.80],
         rotation: [0, Math.PI, 0],
 
-        size: [3.2, 2.4]
+        maxSize: 3.2
     },
 
     {
@@ -324,7 +317,7 @@ const artworks = [
         position: [0, 3.1, 9.80],
         rotation: [0, Math.PI, 0],
 
-        size: [3.2, 2.4]
+        maxSize: 3.2
     },
 
     {
@@ -337,10 +330,8 @@ const artworks = [
         position: [3.8, 3.1, 9.80],
         rotation: [0, Math.PI, 0],
 
-        size: [3.2, 2.4]
+        maxSize: 3.2
     },
-
-    // VERTICAL
 
     {
         title: "Artwork Four",
@@ -352,10 +343,8 @@ const artworks = [
         position: [-6.82, 3.1, 4],
         rotation: [0, Math.PI / 2, 0],
 
-        size: [2, 3.2]
+        maxSize: 3.2
     },
-
-    // VERTICAL
 
     {
         title: "Artwork Five",
@@ -367,7 +356,7 @@ const artworks = [
         position: [6.82, 3.1, 4],
         rotation: [0, -Math.PI / 2, 0],
 
-        size: [2, 3.2]
+        maxSize: 3.2
     },
 
 
@@ -383,10 +372,10 @@ const artworks = [
         image: "Art/artwork6.jpg",
 
         // BACK WALL OF ROOM 2
-        position: [-3.8, 3.1, -13.84],
+        position: [-3.8, 3.1, -13.72],
         rotation: [0, 0, 0],
 
-        size: [3.2, 2.4]
+        maxSize: 3.2
     },
 
     {
@@ -397,11 +386,11 @@ const artworks = [
         image: "Art/artwork7.jpg",
 
         // LEFT WALL OF ROOM 2
-        // Kept away from the central doorway
-        position: [-6.84, 3.1, -9],
+        // Moved away from the central doorway
+        position: [-6.72, 3.1, -9],
         rotation: [0, Math.PI / 2, 0],
 
-        size: [3.2, 2.4]
+        maxSize: 3.2
     },
 
     {
@@ -412,13 +401,11 @@ const artworks = [
         image: "Art/artwork8.jpg",
 
         // BACK WALL OF ROOM 2
-        position: [3.8, 3.1, -13.84],
+        position: [3.8, 3.1, -13.72],
         rotation: [0, 0, 0],
 
-        size: [3.2, 2.4]
+        maxSize: 3.2
     },
-
-    // VERTICAL
 
     {
         title: "Artwork Nine",
@@ -430,10 +417,8 @@ const artworks = [
         position: [-6.82, 3.1, -4.5],
         rotation: [0, Math.PI / 2, 0],
 
-        size: [2, 3.2]
+        maxSize: 3.2
     },
-
-    // VERTICAL
 
     {
         title: "Artwork Ten",
@@ -445,7 +430,7 @@ const artworks = [
         position: [6.82, 3.1, -11],
         rotation: [0, -Math.PI / 2, 0],
 
-        size: [2, 3.2]
+        maxSize: 3.2
     },
 
 
@@ -461,10 +446,10 @@ const artworks = [
         image: "Art/artwork11.jpg",
 
         // BACK WALL OF ROOM 3
-        position: [-3.8, 3.1, -25.84],
+        position: [-3.8, 3.1, -25.72],
         rotation: [0, 0, 0],
 
-        size: [3.2, 2.4]
+        maxSize: 3.2
     },
 
     {
@@ -475,13 +460,11 @@ const artworks = [
         image: "Art/artwork12.jpg",
 
         // BACK WALL OF ROOM 3
-        position: [3.8, 3.1, -25.84],
+        position: [3.8, 3.1, -25.72],
         rotation: [0, 0, 0],
 
-        size: [3.2, 2.4]
+        maxSize: 3.2
     },
-
-    // VERTICAL
 
     {
         title: "Artwork Thirteen",
@@ -493,10 +476,8 @@ const artworks = [
         position: [-6.82, 3.1, -23],
         rotation: [0, Math.PI / 2, 0],
 
-        size: [2, 3.2]
+        maxSize: 3.2
     },
-
-    // VERTICAL
 
     {
         title: "Artwork Fourteen",
@@ -508,7 +489,7 @@ const artworks = [
         position: [6.82, 3.1, -18],
         rotation: [0, -Math.PI / 2, 0],
 
-        size: [2, 3.2]
+        maxSize: 3.2
     }
 
 ];
@@ -523,142 +504,266 @@ const textureLoader =
 // =====================================================
 // CREATE ARTWORK
 // =====================================================
+//
+// The image's real dimensions are read after loading.
+// Its aspect ratio is preserved automatically.
+//
+// maxSize = largest physical dimension of the artwork.
+//
+// =====================================================
 
 function createArtwork(art) {
 
-    const texture =
-        textureLoader.load(art.image);
+    textureLoader.load(
+        art.image,
 
-    const material =
-        new THREE.MeshStandardMaterial({
-            map: texture
-        });
+        function(texture) {
 
+            const imageWidth =
+                texture.image.naturalWidth ||
+                texture.image.width;
 
-    const frame =
-        new THREE.Mesh(
-            new THREE.BoxGeometry(
-                art.size[0] + 0.22,
-                art.size[1] + 0.22,
-                0.12
-            ),
-            frameMaterial
-        );
+            const imageHeight =
+                texture.image.naturalHeight ||
+                texture.image.height;
 
 
-    const artwork =
-        new THREE.Mesh(
-            new THREE.PlaneGeometry(
-                art.size[0],
-                art.size[1]
-            ),
-            material
-        );
+            let width;
+            let height;
 
 
-    // FRONT / BACK WALL
+            // If dimensions cannot be read,
+            // fall back to a square.
 
-    if (
-        Math.abs(
-            Math.sin(art.rotation[1])
-        ) < 0.5
-    ) {
+            if (
+                !imageWidth ||
+                !imageHeight
+            ) {
 
-        if (
-            art.rotation[1] === 0
-        ) {
+                width = art.maxSize;
+                height = art.maxSize;
 
-            frame.position.set(
-                art.position[0],
-                art.position[1],
-                art.position[2] - 0.07
+            }
+
+            else {
+
+                const aspect =
+                    imageWidth /
+                    imageHeight;
+
+
+                if (
+                    aspect >= 1
+                ) {
+
+                    // Landscape
+
+                    width =
+                        art.maxSize;
+
+                    height =
+                        art.maxSize /
+                        aspect;
+
+                }
+
+                else {
+
+                    // Portrait
+
+                    height =
+                        art.maxSize;
+
+                    width =
+                        art.maxSize *
+                        aspect;
+
+                }
+
+            }
+
+
+            const material =
+                new THREE.MeshStandardMaterial({
+                    map: texture
+                });
+
+
+            // =================================================
+            // FRAME
+            // =================================================
+
+            const frame =
+                new THREE.Mesh(
+                    new THREE.BoxGeometry(
+                        width + 0.22,
+                        height + 0.22,
+                        0.12
+                    ),
+                    frameMaterial
+                );
+
+
+            // =================================================
+            // ARTWORK IMAGE
+            // =================================================
+
+            const artwork =
+                new THREE.Mesh(
+                    new THREE.PlaneGeometry(
+                        width,
+                        height
+                    ),
+                    material
+                );
+
+
+            // =================================================
+            // POSITIONING
+            // =================================================
+
+            // FRONT / BACK WALL
+
+            if (
+                Math.abs(
+                    Math.sin(
+                        art.rotation[1]
+                    )
+                ) < 0.5
+            ) {
+
+                if (
+                    art.rotation[1] === 0
+                ) {
+
+                    // Back wall
+
+                    frame.position.set(
+                        art.position[0],
+                        art.position[1],
+                        art.position[2] - 0.07
+                    );
+
+                    artwork.position.set(
+                        art.position[0],
+                        art.position[1],
+                        art.position[2] - 0.14
+                    );
+
+                }
+
+                else {
+
+                    // Front wall
+
+                    frame.position.set(
+                        art.position[0],
+                        art.position[1],
+                        art.position[2] + 0.07
+                    );
+
+                    artwork.position.set(
+                        art.position[0],
+                        art.position[1],
+                        art.position[2] + 0.14
+                    );
+
+                }
+
+            }
+
+
+            // =================================================
+            // SIDE WALL
+            // =================================================
+
+            else {
+
+                if (
+                    art.rotation[1] > 0
+                ) {
+
+                    // Left wall
+
+                    frame.position.set(
+                        art.position[0] + 0.07,
+                        art.position[1],
+                        art.position[2]
+                    );
+
+                    artwork.position.set(
+                        art.position[0] + 0.14,
+                        art.position[1],
+                        art.position[2]
+                    );
+
+                }
+
+                else {
+
+                    // Right wall
+
+                    frame.position.set(
+                        art.position[0] - 0.07,
+                        art.position[1],
+                        art.position[2]
+                    );
+
+                    artwork.position.set(
+                        art.position[0] - 0.14,
+                        art.position[1],
+                        art.position[2]
+                    );
+
+                }
+
+            }
+
+
+            // =================================================
+            // ROTATION
+            // =================================================
+
+            frame.rotation.set(
+                art.rotation[0],
+                art.rotation[1],
+                art.rotation[2]
             );
 
-            artwork.position.set(
-                art.position[0],
-                art.position[1],
-                art.position[2] - 0.14
+            artwork.rotation.set(
+                art.rotation[0],
+                art.rotation[1],
+                art.rotation[2]
             );
 
-        } else {
 
-            frame.position.set(
-                art.position[0],
-                art.position[1],
-                art.position[2] + 0.07
+            // =================================================
+            // ADD TO SCENE
+            // =================================================
+
+            scene.add(frame);
+            scene.add(artwork);
+
+
+            artwork.userData = art;
+
+            clickableArt.push(
+                artwork
             );
 
-            artwork.position.set(
-                art.position[0],
-                art.position[1],
-                art.position[2] + 0.14
+        },
+
+        undefined,
+
+        function(error) {
+
+            console.warn(
+                "Could not load artwork:",
+                art.image,
+                error
             );
 
         }
-
-    }
-
-
-    // SIDE WALL
-
-    else {
-
-        if (
-            art.rotation[1] > 0
-        ) {
-
-            frame.position.set(
-                art.position[0] + 0.07,
-                art.position[1],
-                art.position[2]
-            );
-
-            artwork.position.set(
-                art.position[0] + 0.14,
-                art.position[1],
-                art.position[2]
-            );
-
-        } else {
-
-            frame.position.set(
-                art.position[0] - 0.07,
-                art.position[1],
-                art.position[2]
-            );
-
-            artwork.position.set(
-                art.position[0] - 0.14,
-                art.position[1],
-                art.position[2]
-            );
-
-        }
-
-    }
-
-
-    frame.rotation.set(
-        art.rotation[0],
-        art.rotation[1],
-        art.rotation[2]
-    );
-
-    artwork.rotation.set(
-        art.rotation[0],
-        art.rotation[1],
-        art.rotation[2]
-    );
-
-
-    scene.add(frame);
-    scene.add(artwork);
-
-
-    artwork.userData = art;
-
-    clickableArt.push(
-        artwork
     );
 
 }
@@ -706,7 +811,9 @@ function createPlant(x, z) {
     scene.add(pot);
 
 
+    // =================================================
     // SOIL
+    // =================================================
 
     const soilMaterial =
         new THREE.MeshStandardMaterial({
@@ -735,7 +842,9 @@ function createPlant(x, z) {
     scene.add(soil);
 
 
+    // =================================================
     // STEMS
+    // =================================================
 
     const stemMaterial =
         new THREE.MeshStandardMaterial({
@@ -752,7 +861,7 @@ function createPlant(x, z) {
         const angle =
             (i / 8) *
             Math.PI *
-            2;
+            1.2;
 
 
         const stem =
@@ -792,7 +901,9 @@ function createPlant(x, z) {
     }
 
 
+    // =================================================
     // LEAVES
+    // =================================================
 
     const leafMaterial =
         new THREE.MeshStandardMaterial({
@@ -837,20 +948,24 @@ function createPlant(x, z) {
         );
 
 
-        // LEAVES PULLED CLOSER TOGETHER
+        // TIGHTER LEAF CLUSTER
 
         leaf.position.set(
             x +
             Math.cos(angle) *
-            (0.15 +
-            (i % 3) * 0.04),
+            (
+                0.15 +
+                (i % 3) * 0.04
+            ),
 
             height,
 
             z +
             Math.sin(angle) *
-            (0.15 +
-            (i % 3) * 0.04)
+            (
+                0.15 +
+                (i % 3) * 0.04
+            )
         );
 
 
@@ -869,7 +984,9 @@ function createPlant(x, z) {
     }
 
 
-    // COLLISION
+    // =================================================
+    // PLANT COLLISION
+    // =================================================
 
     const collision =
         new THREE.Mesh(
@@ -905,7 +1022,7 @@ function createPlant(x, z) {
 
 
 // =====================================================
-// PLANTS
+// PLANT LOCATIONS
 // =====================================================
 
 createPlant(
@@ -1012,10 +1129,8 @@ function createGalleryLight(
 
 
 // =====================================================
-// LIGHTS
+// LIGHTS — ROOM 1
 // =====================================================
-
-// ROOM 1
 
 createGalleryLight(
     -3.8,
@@ -1050,24 +1165,32 @@ createGalleryLight(
 );
 
 
-// ROOM 2
+// =====================================================
+// LIGHTS — ROOM 2
+// =====================================================
 
 createGalleryLight(
     -3.8,
     5.3,
-    -13.55
+    -8.55
+);
+
+createGalleryLight(
+    0,
+    5.3,
+    -8.55
 );
 
 createGalleryLight(
     3.8,
     5.3,
-    -13.55
+    -8.55
 );
 
 createGalleryLight(
     -6.65,
     5.3,
-    -9,
+    -4.5,
     Math.PI / 2
 );
 
@@ -1079,18 +1202,20 @@ createGalleryLight(
 );
 
 
-// ROOM 3
+// =====================================================
+// LIGHTS — ROOM 3
+// =====================================================
 
 createGalleryLight(
     -3.8,
     5.3,
-    -25.55
+    -20.55
 );
 
 createGalleryLight(
     3.8,
     5.3,
-    -25.55
+    -20.55
 );
 
 createGalleryLight(
@@ -1565,33 +1690,51 @@ const infoPanel =
 
 function showArtworkInfo(data) {
 
-    document.getElementById(
-        "artwork-year"
-    ).textContent =
-        data.year;
+    const yearElement =
+        document.getElementById(
+            "artwork-year"
+        );
+
+    const titleElement =
+        document.getElementById(
+            "artwork-title"
+        );
+
+    const mediumElement =
+        document.getElementById(
+            "artwork-medium"
+        );
+
+    const descriptionElement =
+        document.getElementById(
+            "artwork-description"
+        );
 
 
-    document.getElementById(
-        "artwork-title"
-    ).textContent =
-        data.title;
+    if (yearElement)
+        yearElement.textContent =
+            data.year;
+
+    if (titleElement)
+        titleElement.textContent =
+            data.title;
+
+    if (mediumElement)
+        mediumElement.textContent =
+            data.medium;
+
+    if (descriptionElement)
+        descriptionElement.textContent =
+            data.description;
 
 
-    document.getElementById(
-        "artwork-medium"
-    ).textContent =
-        data.medium;
+    if (infoPanel) {
 
+        infoPanel.classList.remove(
+            "hidden"
+        );
 
-    document.getElementById(
-        "artwork-description"
-    ).textContent =
-        data.description;
-
-
-    infoPanel.classList.remove(
-        "hidden"
-    );
+    }
 
 }
 
@@ -1608,9 +1751,13 @@ if (closeInfo) {
         "click",
         () => {
 
-            infoPanel.classList.add(
-                "hidden"
-            );
+            if (infoPanel) {
+
+                infoPanel.classList.add(
+                    "hidden"
+                );
+
+            }
 
         }
     );
@@ -1709,6 +1856,10 @@ const playButton =
     );
 
 
+// =====================================================
+// LOAD SONG
+// =====================================================
+
 function loadSong() {
 
     const song =
@@ -1721,11 +1872,9 @@ function loadSong() {
         albumName.textContent =
             currentAlbum;
 
-
     if (songTitle)
         songTitle.textContent =
             song.title;
-
 
     if (artistName)
         artistName.textContent =
@@ -1757,7 +1906,9 @@ if (playButton) {
 
                 audio.pause();
 
-            } else {
+            }
+
+            else {
 
                 audio.play();
 
@@ -1806,7 +1957,7 @@ audio.addEventListener(
 
 
 // =====================================================
-// NEXT
+// NEXT SONG
 // =====================================================
 
 const nextButton =
@@ -1846,7 +1997,7 @@ if (nextButton) {
 
 
 // =====================================================
-// PREVIOUS
+// PREVIOUS SONG
 // =====================================================
 
 const previousButton =
