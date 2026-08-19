@@ -310,8 +310,6 @@ const artworks = [
 
         position: [-3.8, 3.1, 9.80],
         rotation: [0, Math.PI, 0],
-
-        size: [3.2, 2.4]
     },
 
     {
@@ -323,8 +321,6 @@ const artworks = [
 
         position: [0, 3.1, 9.80],
         rotation: [0, Math.PI, 0],
-
-        size: [3.2, 2.4]
     },
 
     {
@@ -336,8 +332,6 @@ const artworks = [
 
         position: [3.8, 3.1, 9.80],
         rotation: [0, Math.PI, 0],
-
-        size: [3.2, 2.4]
     },
 
     // VERTICAL
@@ -351,8 +345,6 @@ const artworks = [
 
         position: [-6.82, 3.1, 4],
         rotation: [0, Math.PI / 2, 0],
-
-        size: [2, 3.2]
     },
 
     // VERTICAL
@@ -366,8 +358,6 @@ const artworks = [
 
         position: [6.82, 3.1, 4],
         rotation: [0, -Math.PI / 2, 0],
-
-        size: [2, 3.2]
     },
 
 
@@ -385,8 +375,6 @@ const artworks = [
         // BACK WALL OF ROOM 2
         position: [-3.8, 3.1, -13.6],
         rotation: [0, 0, 0],
-
-        size: [3.2, 2.4]
     },
 
     {
@@ -400,8 +388,6 @@ const artworks = [
         // Kept away from the central doorway
         position: [-6.84, 3.1, -9],
         rotation: [0, Math.PI / 2, 0],
-
-        size: [3.2, 2.4]
     },
 
     {
@@ -414,8 +400,6 @@ const artworks = [
         // BACK WALL OF ROOM 2
         position: [3.8, 3.1, -13.6],
         rotation: [0, 0, 0],
-
-        size: [3.2, 2.4]
     },
 
     // VERTICAL
@@ -429,8 +413,6 @@ const artworks = [
 
         position: [-6.82, 3.1, -4.5],
         rotation: [0, Math.PI / 2, 0],
-
-        size: [2, 3.2]
     },
 
     // VERTICAL
@@ -444,8 +426,6 @@ const artworks = [
 
         position: [6.82, 3.1, -11],
         rotation: [0, -Math.PI / 2, 0],
-
-        size: [2, 3.2]
     },
 
 
@@ -463,8 +443,6 @@ const artworks = [
         // BACK WALL OF ROOM 3
         position: [-3.8, 3.1, -25.6],
         rotation: [0, 0, 0],
-
-        size: [3.2, 2.4]
     },
 
     {
@@ -477,8 +455,6 @@ const artworks = [
         // BACK WALL OF ROOM 3
         position: [3.8, 3.1, -25.6],
         rotation: [0, 0, 0],
-
-        size: [3.2, 2.4]
     },
 
     // VERTICAL
@@ -492,8 +468,6 @@ const artworks = [
 
         position: [-6.82, 3.1, -23],
         rotation: [0, Math.PI / 2, 0],
-
-        size: [2, 3.2]
     },
 
     // VERTICAL
@@ -507,8 +481,6 @@ const artworks = [
 
         position: [6.82, 3.1, -18],
         rotation: [0, -Math.PI / 2, 0],
-
-        size: [2, 3.2]
     }
 
 ];
@@ -519,7 +491,6 @@ const clickableArt = [];
 const textureLoader =
     new THREE.TextureLoader();
 
-
 // =====================================================
 // CREATE ARTWORK
 // =====================================================
@@ -527,147 +498,247 @@ const textureLoader =
 function createArtwork(art) {
 
     const texture =
-        textureLoader.load(art.image);
+        textureLoader.load(
+            art.image,
+            (loadedTexture) => {
 
-    const material =
-        new THREE.MeshStandardMaterial({
-            map: texture
-        });
+                // Get the actual image dimensions
+                const image =
+                    loadedTexture.image;
+
+                const imageWidth =
+                    image.naturalWidth ||
+                    image.width;
+
+                const imageHeight =
+                    image.naturalHeight ||
+                    image.height;
+
+                const aspectRatio =
+                    imageWidth /
+                    imageHeight;
 
 
-    const frame =
-        new THREE.Mesh(
-            new THREE.BoxGeometry(
-                art.size[0] + 0.22,
-                art.size[1] + 0.22,
-                0.12
-            ),
-            frameMaterial
+                // =========================================
+                // MAXIMUM ARTWORK SIZE
+                // =========================================
+
+                const maxWidth = 3.8;
+                const maxHeight = 3.2;
+
+
+                let artworkWidth;
+                let artworkHeight;
+
+
+                // Landscape / square
+                if (
+                    aspectRatio >= 1
+                ) {
+
+                    artworkWidth =
+                        Math.min(
+                            maxWidth,
+                            maxHeight * aspectRatio
+                        );
+
+                    artworkHeight =
+                        artworkWidth /
+                        aspectRatio;
+
+                }
+
+                // Portrait
+                else {
+
+                    artworkHeight =
+                        Math.min(
+                            maxHeight,
+                            maxWidth / aspectRatio
+                        );
+
+                    artworkWidth =
+                        artworkHeight *
+                        aspectRatio;
+
+                }
+
+
+                // =========================================
+                // MATERIAL
+                // =========================================
+
+                const material =
+                    new THREE.MeshStandardMaterial({
+                        map: loadedTexture
+                    });
+
+
+                // =========================================
+                // FRAME
+                // =========================================
+
+                const frame =
+                    new THREE.Mesh(
+                        new THREE.BoxGeometry(
+                            artworkWidth + 0.22,
+                            artworkHeight + 0.22,
+                            0.12
+                        ),
+                        frameMaterial
+                    );
+
+
+                // =========================================
+                // ARTWORK
+                // =========================================
+
+                const artwork =
+                    new THREE.Mesh(
+                        new THREE.PlaneGeometry(
+                            artworkWidth,
+                            artworkHeight
+                        ),
+                        material
+                    );
+
+
+                // =========================================
+                // FRONT / BACK WALL
+                // =========================================
+
+                if (
+                    Math.abs(
+                        Math.sin(
+                            art.rotation[1]
+                        )
+                    ) < 0.5
+                ) {
+
+                    // Facing toward +Z
+                    if (
+                        art.rotation[1] === 0
+                    ) {
+
+                        frame.position.set(
+                            art.position[0],
+                            art.position[1],
+                            art.position[2] - 0.07
+                        );
+
+                        artwork.position.set(
+                            art.position[0],
+                            art.position[1],
+                            art.position[2] - 0.14
+                        );
+
+                    }
+
+                    // Facing toward -Z
+                    else {
+
+                        frame.position.set(
+                            art.position[0],
+                            art.position[1],
+                            art.position[2] + 0.07
+                        );
+
+                        artwork.position.set(
+                            art.position[0],
+                            art.position[1],
+                            art.position[2] + 0.14
+                        );
+
+                    }
+
+                }
+
+
+                // =========================================
+                // SIDE WALL
+                // =========================================
+
+                else {
+
+                    // Left wall
+                    if (
+                        art.rotation[1] > 0
+                    ) {
+
+                        frame.position.set(
+                            art.position[0] + 0.07,
+                            art.position[1],
+                            art.position[2]
+                        );
+
+                        artwork.position.set(
+                            art.position[0] + 0.14,
+                            art.position[1],
+                            art.position[2]
+                        );
+
+                    }
+
+                    // Right wall
+                    else {
+
+                        frame.position.set(
+                            art.position[0] - 0.07,
+                            art.position[1],
+                            art.position[2]
+                        );
+
+                        artwork.position.set(
+                            art.position[0] - 0.14,
+                            art.position[1],
+                            art.position[2]
+                        );
+
+                    }
+
+                }
+
+
+                // =========================================
+                // ROTATION
+                // =========================================
+
+                frame.rotation.set(
+                    art.rotation[0],
+                    art.rotation[1],
+                    art.rotation[2]
+                );
+
+                artwork.rotation.set(
+                    art.rotation[0],
+                    art.rotation[1],
+                    art.rotation[2]
+                );
+
+
+                // =========================================
+                // ADD TO SCENE
+                // =========================================
+
+                scene.add(frame);
+                scene.add(artwork);
+
+
+                // =========================================
+                // CLICK INFORMATION
+                // =========================================
+
+                artwork.userData =
+                    art;
+
+                clickableArt.push(
+                    artwork
+                );
+
+            }
         );
-
-
-    const artwork =
-        new THREE.Mesh(
-            new THREE.PlaneGeometry(
-                art.size[0],
-                art.size[1]
-            ),
-            material
-        );
-
-
-    // FRONT / BACK WALL
-
-    if (
-        Math.abs(
-            Math.sin(art.rotation[1])
-        ) < 0.5
-    ) {
-
-        if (
-            art.rotation[1] === 0
-        ) {
-
-            frame.position.set(
-                art.position[0],
-                art.position[1],
-                art.position[2] - 0.07
-            );
-
-            artwork.position.set(
-                art.position[0],
-                art.position[1],
-                art.position[2] - 0.14
-            );
-
-        } else {
-
-            frame.position.set(
-                art.position[0],
-                art.position[1],
-                art.position[2] + 0.07
-            );
-
-            artwork.position.set(
-                art.position[0],
-                art.position[1],
-                art.position[2] + 0.14
-            );
-
-        }
-
-    }
-
-
-    // SIDE WALL
-
-    else {
-
-        if (
-            art.rotation[1] > 0
-        ) {
-
-            frame.position.set(
-                art.position[0] + 0.07,
-                art.position[1],
-                art.position[2]
-            );
-
-            artwork.position.set(
-                art.position[0] + 0.14,
-                art.position[1],
-                art.position[2]
-            );
-
-        } else {
-
-            frame.position.set(
-                art.position[0] - 0.07,
-                art.position[1],
-                art.position[2]
-            );
-
-            artwork.position.set(
-                art.position[0] - 0.14,
-                art.position[1],
-                art.position[2]
-            );
-
-        }
-
-    }
-
-
-    frame.rotation.set(
-        art.rotation[0],
-        art.rotation[1],
-        art.rotation[2]
-    );
-
-    artwork.rotation.set(
-        art.rotation[0],
-        art.rotation[1],
-        art.rotation[2]
-    );
-
-
-    scene.add(frame);
-    scene.add(artwork);
-
-
-    artwork.userData = art;
-
-    clickableArt.push(
-        artwork
-    );
 
 }
-
-
-artworks.forEach(
-    createArtwork
-);
-
 
 // =====================================================
 // PLANTS
