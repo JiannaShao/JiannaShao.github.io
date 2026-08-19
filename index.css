@@ -567,6 +567,35 @@ footer {
 
 
 /* =====================================================
+   RESUME
+===================================================== */
+
+.resume-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.resume-container iframe {
+    width: 100%;
+    height: 1100px;
+    border: none;
+    display: block;
+}
+
+.resume-link {
+    display: inline-block;
+    margin-top: 20px;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    color: #111111;
+    text-decoration: underline;
+}
+
+
+/* =====================================================
    MOBILE
 ===================================================== */
 
