@@ -84,9 +84,7 @@ body {
 
     margin: 0 0 15px;
 
-    font-family:
-        Georgia,
-        serif;
+    font-family: "Abril Fatface", serif;
 
     font-size: clamp(
         42px,
@@ -232,9 +230,7 @@ body {
 
     margin: 0 0 8px;
 
-    font-family:
-        Georgia,
-        serif;
+    font-family: "Abril Fatface", serif;
 
     font-size: 32px;
 
