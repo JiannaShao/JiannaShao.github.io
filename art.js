@@ -212,7 +212,7 @@ function createWall(
 // OUTER WALLS
 // =====================================================
 
-// Left
+// LEFT
 
 createWall(
     0.3,
@@ -222,7 +222,7 @@ createWall(
 );
 
 
-// Right
+// RIGHT
 
 createWall(
     0.3,
@@ -232,7 +232,7 @@ createWall(
 );
 
 
-// Front
+// FRONT
 
 createWall(
     ROOM_WIDTH,
@@ -242,7 +242,7 @@ createWall(
 );
 
 
-// Back
+// BACK
 
 createWall(
     ROOM_WIDTH,
@@ -372,7 +372,6 @@ const artworks = [
         description: "Description of your sixth artwork.",
         image: "ArtFiles/img4.JPG",
 
-        // BACK WALL OF ROOM 2
         position: [-3.8, 3.1, -13.6],
         rotation: [0, 0, 0],
     },
@@ -384,8 +383,6 @@ const artworks = [
         description: "Description of your seventh artwork.",
         image: "ArtFiles/img9.JPG",
 
-        // LEFT WALL OF ROOM 2
-        // Kept away from the central doorway
         position: [-6.84, 3.1, -9],
         rotation: [0, Math.PI / 2, 0],
     },
@@ -397,7 +394,6 @@ const artworks = [
         description: "Description of your eighth artwork.",
         image: "ArtFiles/img10.JPG",
 
-        // BACK WALL OF ROOM 2
         position: [3.8, 3.1, -13.6],
         rotation: [0, 0, 0],
     },
@@ -440,7 +436,6 @@ const artworks = [
         description: "Description of your eleventh artwork.",
         image: "ArtFiles/img14.jpg",
 
-        // BACK WALL OF ROOM 3
         position: [-3.8, 3.1, -25.6],
         rotation: [0, 0, 0],
     },
@@ -452,7 +447,6 @@ const artworks = [
         description: "Description of your twelfth artwork.",
         image: "ArtFiles/img13.jpg",
 
-        // BACK WALL OF ROOM 3
         position: [3.8, 3.1, -25.6],
         rotation: [0, 0, 0],
     },
@@ -491,6 +485,7 @@ const clickableArt = [];
 const textureLoader =
     new THREE.TextureLoader();
 
+
 // =====================================================
 // CREATE ARTWORK
 // =====================================================
@@ -500,9 +495,13 @@ function createArtwork(art) {
     const texture =
         textureLoader.load(
             art.image,
+
             (loadedTexture) => {
 
-                // Get the actual image dimensions
+                // =========================================
+                // GET ACTUAL IMAGE DIMENSIONS
+                // =========================================
+
                 const image =
                     loadedTexture.image;
 
@@ -531,7 +530,8 @@ function createArtwork(art) {
                 let artworkHeight;
 
 
-                // Landscape / square
+                // LANDSCAPE / SQUARE
+
                 if (
                     aspectRatio >= 1
                 ) {
@@ -548,7 +548,9 @@ function createArtwork(art) {
 
                 }
 
-                // Portrait
+
+                // PORTRAIT
+
                 else {
 
                     artworkHeight =
@@ -615,7 +617,8 @@ function createArtwork(art) {
                     ) < 0.5
                 ) {
 
-                    // Facing toward +Z
+                    // FACING TOWARD +Z
+
                     if (
                         art.rotation[1] === 0
                     ) {
@@ -634,7 +637,9 @@ function createArtwork(art) {
 
                     }
 
-                    // Facing toward -Z
+
+                    // FACING TOWARD -Z
+
                     else {
 
                         frame.position.set(
@@ -660,7 +665,8 @@ function createArtwork(art) {
 
                 else {
 
-                    // Left wall
+                    // LEFT WALL
+
                     if (
                         art.rotation[1] > 0
                     ) {
@@ -679,7 +685,9 @@ function createArtwork(art) {
 
                     }
 
-                    // Right wall
+
+                    // RIGHT WALL
+
                     else {
 
                         frame.position.set(
@@ -717,6 +725,17 @@ function createArtwork(art) {
 
 
                 // =========================================
+                // SHADOWS
+                // =========================================
+
+                frame.castShadow = true;
+                frame.receiveShadow = true;
+
+                artwork.castShadow = true;
+                artwork.receiveShadow = true;
+
+
+                // =========================================
                 // ADD TO SCENE
                 // =========================================
 
@@ -735,10 +754,32 @@ function createArtwork(art) {
                     artwork
                 );
 
+            },
+
+            undefined,
+
+            (error) => {
+
+                console.error(
+                    "Could not load artwork:",
+                    art.image,
+                    error
+                );
+
             }
         );
 
 }
+
+
+// =====================================================
+// CREATE ALL ARTWORK
+// =====================================================
+
+artworks.forEach(
+    createArtwork
+);
+
 
 // =====================================================
 // PLANTS
@@ -908,20 +949,22 @@ function createPlant(x, z) {
         );
 
 
-        // LEAVES PULLED CLOSER TOGETHER
-
         leaf.position.set(
             x +
             Math.cos(angle) *
-            (0.15 +
-            (i % 3) * 0.04),
+            (
+                0.15 +
+                (i % 3) * 0.04
+            ),
 
             height,
 
             z +
             Math.sin(angle) *
-            (0.15 +
-            (i % 3) * 0.04)
+            (
+                0.15 +
+                (i % 3) * 0.04
+            )
         );
 
 
