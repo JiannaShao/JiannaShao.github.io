@@ -383,7 +383,7 @@ const artworks = [
         image: "Art/artwork6.jpg",
 
         // BACK WALL OF ROOM 2
-        position: [-3.8, 3.1, -13.6],
+        position: [-3.8, 3.1, -14],
         rotation: [0, 0, 0],
 
         size: [3.2, 2.4]
@@ -412,7 +412,7 @@ const artworks = [
         image: "Art/artwork8.jpg",
 
         // BACK WALL OF ROOM 2
-        position: [3.8, 3.1, -13.6],
+        position: [3.8, 3.1, -14],
         rotation: [0, 0, 0],
 
         size: [3.2, 2.4]
@@ -461,7 +461,7 @@ const artworks = [
         image: "Art/artwork11.jpg",
 
         // BACK WALL OF ROOM 3
-        position: [-3.8, 3.1, -25.6],
+        position: [-3.8, 3.1, -26],
         rotation: [0, 0, 0],
 
         size: [3.2, 2.4]
@@ -475,7 +475,7 @@ const artworks = [
         image: "Art/artwork12.jpg",
 
         // BACK WALL OF ROOM 3
-        position: [3.8, 3.1, -25.6],
+        position: [3.8, 3.1, -26],
         rotation: [0, 0, 0],
 
         size: [3.2, 2.4]
