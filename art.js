@@ -372,7 +372,7 @@ const artworks = [
         image: "Art/artwork6.jpg",
 
         // BACK WALL OF ROOM 2
-        position: [-3.8, 3.1, -13.72],
+        position: [-3.8, 3.1, -13.5],
         rotation: [0, 0, 0],
 
         maxSize: 3.2
@@ -401,7 +401,7 @@ const artworks = [
         image: "Art/artwork8.jpg",
 
         // BACK WALL OF ROOM 2
-        position: [3.8, 3.1, -13.72],
+        position: [3.8, 3.1, -13.5],
         rotation: [0, 0, 0],
 
         maxSize: 3.2
@@ -446,7 +446,7 @@ const artworks = [
         image: "Art/artwork11.jpg",
 
         // BACK WALL OF ROOM 3
-        position: [-3.8, 3.1, -25.72],
+        position: [-3.8, 3.1, -25],
         rotation: [0, 0, 0],
 
         maxSize: 3.2
@@ -460,7 +460,7 @@ const artworks = [
         image: "Art/artwork12.jpg",
 
         // BACK WALL OF ROOM 3
-        position: [3.8, 3.1, -25.72],
+        position: [3.8, 3.1, -25],
         rotation: [0, 0, 0],
 
         maxSize: 3.2
@@ -861,7 +861,7 @@ function createPlant(x, z) {
         const angle =
             (i / 8) *
             Math.PI *
-            1.2;
+            2.2;
 
 
         const stem =
