@@ -306,7 +306,7 @@ const artworks = [
         year: "2025",
         medium: "Painting",
         description: "Description of your first artwork.",
-        image: "Art/artwork1.jpg",
+        image: "ArtFiles/img1.jpg",
 
         position: [-3.8, 3.1, 9.80],
         rotation: [0, Math.PI, 0],
@@ -317,7 +317,7 @@ const artworks = [
         year: "2025",
         medium: "Painting",
         description: "Description of your second artwork.",
-        image: "Art/artwork2.jpg",
+        image: "ArtFiles/img2.jpg",
 
         position: [0, 3.1, 9.80],
         rotation: [0, Math.PI, 0],
@@ -328,7 +328,7 @@ const artworks = [
         year: "2024",
         medium: "Digital",
         description: "Description of your third artwork.",
-        image: "Art/artwork3.jpg",
+        image: "ArtFiles/img3.jpg",
 
         position: [3.8, 3.1, 9.80],
         rotation: [0, Math.PI, 0],
@@ -341,7 +341,7 @@ const artworks = [
         year: "2024",
         medium: "Painting",
         description: "Description of your fourth artwork.",
-        image: "Art/artwork4.jpg",
+        image: "ArtFiles/img5.JPG",
 
         position: [-6.82, 3.1, 4],
         rotation: [0, Math.PI / 2, 0],
@@ -354,7 +354,7 @@ const artworks = [
         year: "2023",
         medium: "Mixed Media",
         description: "Description of your fifth artwork.",
-        image: "Art/artwork5.jpg",
+        image: "ArtFiles/img7.JPG",
 
         position: [6.82, 3.1, 4],
         rotation: [0, -Math.PI / 2, 0],
@@ -370,7 +370,7 @@ const artworks = [
         year: "2024",
         medium: "Painting",
         description: "Description of your sixth artwork.",
-        image: "Art/artwork6.jpg",
+        image: "ArtFiles/img4.JPG",
 
         // BACK WALL OF ROOM 2
         position: [-3.8, 3.1, -13.6],
@@ -382,7 +382,7 @@ const artworks = [
         year: "2024",
         medium: "Painting",
         description: "Description of your seventh artwork.",
-        image: "Art/artwork7.jpg",
+        image: "ArtFiles/img9.JPG",
 
         // LEFT WALL OF ROOM 2
         // Kept away from the central doorway
@@ -395,7 +395,7 @@ const artworks = [
         year: "2023",
         medium: "Digital",
         description: "Description of your eighth artwork.",
-        image: "Art/artwork8.jpg",
+        image: "ArtFiles/img10.JPG",
 
         // BACK WALL OF ROOM 2
         position: [3.8, 3.1, -13.6],
@@ -409,7 +409,7 @@ const artworks = [
         year: "2023",
         medium: "Painting",
         description: "Description of your ninth artwork.",
-        image: "Art/artwork9.jpg",
+        image: "ArtFiles/img11.JPG",
 
         position: [-6.82, 3.1, -4.5],
         rotation: [0, Math.PI / 2, 0],
@@ -422,7 +422,7 @@ const artworks = [
         year: "2022",
         medium: "Drawing",
         description: "Description of your tenth artwork.",
-        image: "Art/artwork10.jpg",
+        image: "ArtFiles/img12.JPG",
 
         position: [6.82, 3.1, -11],
         rotation: [0, -Math.PI / 2, 0],
@@ -438,7 +438,7 @@ const artworks = [
         year: "2023",
         medium: "Painting",
         description: "Description of your eleventh artwork.",
-        image: "Art/artwork11.jpg",
+        image: "ArtFiles/img14.jpg",
 
         // BACK WALL OF ROOM 3
         position: [-3.8, 3.1, -25.6],
@@ -450,7 +450,7 @@ const artworks = [
         year: "2022",
         medium: "Digital",
         description: "Description of your twelfth artwork.",
-        image: "Art/artwork12.jpg",
+        image: "ArtFiles/img13.jpg",
 
         // BACK WALL OF ROOM 3
         position: [3.8, 3.1, -25.6],
@@ -464,7 +464,7 @@ const artworks = [
         year: "2022",
         medium: "Painting",
         description: "Description of your thirteenth artwork.",
-        image: "Art/artwork13.jpg",
+        image: "ArtFiles/img6.JPG",
 
         position: [-6.82, 3.1, -23],
         rotation: [0, Math.PI / 2, 0],
@@ -477,7 +477,7 @@ const artworks = [
         year: "2021",
         medium: "Drawing",
         description: "Description of your fourteenth artwork.",
-        image: "Art/artwork14.jpg",
+        image: "ArtFiles/img8.JPG",
 
         position: [6.82, 3.1, -18],
         rotation: [0, -Math.PI / 2, 0],
