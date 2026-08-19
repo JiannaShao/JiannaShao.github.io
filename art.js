@@ -368,7 +368,7 @@ const artworks = [
         year: "2025",
         medium: "Acrylic painting on canvas",
         description:
-            "My father is a proud plant dad. The Tan Hua flower, famously known as the Queen of the Night, is a cactus bloom that opens only for a single evening a year starting at sunset and wilting by sunrise. Having never before seen him so excited about a plant, I painted it for him to preserve that moment forever."
+            "My father is a proud plant dad. The Tan Hua flower, famously known as the Queen of the Night, is a cactus bloom that opens only for a single evening a year starting at sunset and wilting by sunrise. Having never before seen him so excited about a plant, I painted it for him to preserve that moment forever.",
         image: "ArtFiles/img1.jpg",
 
         position: [
