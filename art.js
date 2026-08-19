@@ -15,7 +15,8 @@ scene.background =
 const camera =
     new THREE.PerspectiveCamera(
         70,
-        window.innerWidth / window.innerHeight,
+        window.innerWidth /
+        window.innerHeight,
         0.1,
         100
     );
@@ -52,24 +53,23 @@ renderer.setPixelRatio(
 );
 
 
-// Better color handling
+renderer.shadowMap.enabled = true;
+
+renderer.shadowMap.type =
+    THREE.PCFSoftShadowMap;
+
+
+// Better image color handling
 renderer.outputColorSpace =
     THREE.SRGBColorSpace;
 
 
-// Brighter / richer appearance
+// Slightly brighter overall rendering
 renderer.toneMapping =
     THREE.ACESFilmicToneMapping;
 
 renderer.toneMappingExposure =
     1.15;
-
-
-// Shadows
-renderer.shadowMap.enabled = true;
-
-renderer.shadowMap.type =
-    THREE.PCFSoftShadowMap;
 
 
 gallery.appendChild(
@@ -97,7 +97,7 @@ scene.add(
 const mainLight =
     new THREE.DirectionalLight(
         0xffffff,
-        2.0
+        1.5
     );
 
 
@@ -115,19 +115,6 @@ scene.add(
 );
 
 
-// Additional warm general illumination
-const roomLight =
-    new THREE.HemisphereLight(
-        0xfff8e8,
-        0x4d6070,
-        1.0
-    );
-
-scene.add(
-    roomLight
-);
-
-
 // =====================================================
 // MATERIALS
 // =====================================================
@@ -135,7 +122,7 @@ scene.add(
 const wallMaterial =
     new THREE.MeshStandardMaterial({
         color: "#f3f1e8",
-        roughness: 0.82
+        roughness: 0.9
     });
 
 
@@ -143,26 +130,26 @@ const wallMaterial =
 
 const floorMaterial =
     new THREE.MeshStandardMaterial({
-        color: "#182f46",
-        roughness: 0.78
+        color: "#182b3d",
+        roughness: 0.85
     });
 
 
-// DARK NAVY CEILING
+// NAVY CEILING
 
 const ceilingMaterial =
     new THREE.MeshStandardMaterial({
-        color: "#142638",
-        roughness: 0.95
+        color: "#111f2d",
+        roughness: 1
     });
 
 
-// BLACK FRAME
+// FRAME
 
 const frameMaterial =
     new THREE.MeshStandardMaterial({
         color: "#111111",
-        roughness: 0.5
+        roughness: 0.6
     });
 
 
@@ -273,7 +260,6 @@ function createWall(
 
     wall.receiveShadow = true;
 
-
     scene.add(
         wall
     );
@@ -337,7 +323,7 @@ createWall(
 // ROOM DIVIDERS
 // =====================================================
 
-// Divider between Room 1 and Room 2
+// Divider at z = -2
 
 createWall(
     ROOM_WIDTH / 2 - 2,
@@ -345,6 +331,7 @@ createWall(
     -4.5,
     -2
 );
+
 
 createWall(
     ROOM_WIDTH / 2 - 2,
@@ -354,8 +341,8 @@ createWall(
 );
 
 
-// Divider between Room 2 and Room 3
-// 4-unit doorway in center
+// Divider at z = -14
+// Center gap = doorway
 
 createWall(
     ROOM_WIDTH / 2 - 2,
@@ -363,6 +350,7 @@ createWall(
     -4.5,
     -14
 );
+
 
 createWall(
     ROOM_WIDTH / 2 - 2,
@@ -393,6 +381,7 @@ const artworks = [
         rotation: [0, Math.PI, 0]
     },
 
+
     {
         title: "Artwork Two",
         year: "2025",
@@ -403,6 +392,7 @@ const artworks = [
         position: [0, 3.1, 9.80],
         rotation: [0, Math.PI, 0]
     },
+
 
     {
         title: "Artwork Three",
@@ -415,6 +405,11 @@ const artworks = [
         rotation: [0, Math.PI, 0]
     },
 
+
+    // =================================================
+    // ROOM 1 SIDE WALLS
+    // =================================================
+
     {
         title: "Artwork Four",
         year: "2024",
@@ -425,6 +420,7 @@ const artworks = [
         position: [-6.82, 3.1, 4],
         rotation: [0, Math.PI / 2, 0]
     },
+
 
     {
         title: "Artwork Five",
@@ -453,6 +449,7 @@ const artworks = [
         rotation: [0, 0, 0]
     },
 
+
     {
         title: "Artwork Seven",
         year: "2024",
@@ -463,6 +460,7 @@ const artworks = [
         position: [-6.84, 3.1, -9],
         rotation: [0, Math.PI / 2, 0]
     },
+
 
     {
         title: "Artwork Eight",
@@ -475,6 +473,7 @@ const artworks = [
         rotation: [0, 0, 0]
     },
 
+
     {
         title: "Artwork Nine",
         year: "2023",
@@ -485,6 +484,7 @@ const artworks = [
         position: [-6.82, 3.1, -4.5],
         rotation: [0, Math.PI / 2, 0]
     },
+
 
     {
         title: "Artwork Ten",
@@ -513,6 +513,7 @@ const artworks = [
         rotation: [0, 0, 0]
     },
 
+
     {
         title: "Artwork Twelve",
         year: "2022",
@@ -524,6 +525,7 @@ const artworks = [
         rotation: [0, 0, 0]
     },
 
+
     {
         title: "Artwork Thirteen",
         year: "2022",
@@ -534,6 +536,7 @@ const artworks = [
         position: [-6.82, 3.1, -23],
         rotation: [0, Math.PI / 2, 0]
     },
+
 
     {
         title: "Artwork Fourteen",
@@ -567,17 +570,21 @@ function createArtwork(art) {
 
         function (loadedTexture) {
 
-            // -----------------------------------------
-            // COLOR
-            // -----------------------------------------
+            // =========================================
+            // COLOR HANDLING
+            // =========================================
 
             loadedTexture.colorSpace =
                 THREE.SRGBColorSpace;
 
+            loadedTexture.anisotropy =
+                renderer.capabilities
+                    .getMaxAnisotropy();
 
-            // -----------------------------------------
+
+            // =========================================
             // IMAGE DIMENSIONS
-            // -----------------------------------------
+            // =========================================
 
             const image =
                 loadedTexture.image;
@@ -593,14 +600,29 @@ function createArtwork(art) {
                 image.height;
 
 
+            if (
+                !imageWidth ||
+                !imageHeight
+            ) {
+
+                console.error(
+                    "Could not determine dimensions for:",
+                    art.image
+                );
+
+                return;
+
+            }
+
+
             const aspectRatio =
                 imageWidth /
                 imageHeight;
 
 
-            // -----------------------------------------
-            // MAXIMUM SIZE
-            // -----------------------------------------
+            // =========================================
+            // MAXIMUM ARTWORK SIZE
+            // =========================================
 
             const maxWidth = 3.8;
 
@@ -621,7 +643,8 @@ function createArtwork(art) {
                 artworkWidth =
                     Math.min(
                         maxWidth,
-                        maxHeight * aspectRatio
+                        maxHeight *
+                        aspectRatio
                     );
 
 
@@ -639,7 +662,8 @@ function createArtwork(art) {
                 artworkHeight =
                     Math.min(
                         maxHeight,
-                        maxWidth / aspectRatio
+                        maxWidth /
+                        aspectRatio
                     );
 
 
@@ -650,56 +674,75 @@ function createArtwork(art) {
             }
 
 
-            // -----------------------------------------
-            // ART MATERIAL
-            // -----------------------------------------
+            // =========================================
+            // PAINTING MATERIAL
+            // =========================================
+            //
+            // Higher saturation/contrast is applied
+            // ONLY to the artwork.
+            //
 
             const material =
                 new THREE.MeshStandardMaterial({
+
                     map: loadedTexture,
 
-                    // Makes sure artwork is visible
-                    // regardless of viewing direction
-                    side: THREE.DoubleSide,
+                    color: new THREE.Color(
+                        0xffffff
+                    ),
 
-                    roughness: 0.7,
+                    roughness: 0.75,
 
                     metalness: 0
+
                 });
 
 
-            // -----------------------------------------
+            // =========================================
             // FRAME
-            // -----------------------------------------
+            // =========================================
 
             const frame =
                 new THREE.Mesh(
+
                     new THREE.BoxGeometry(
+
                         artworkWidth + 0.22,
+
                         artworkHeight + 0.22,
+
                         0.12
+
                     ),
+
                     frameMaterial
+
                 );
 
 
-            // -----------------------------------------
-            // ARTWORK
-            // -----------------------------------------
+            // =========================================
+            // ARTWORK PLANE
+            // =========================================
 
             const artwork =
                 new THREE.Mesh(
+
                     new THREE.PlaneGeometry(
+
                         artworkWidth,
+
                         artworkHeight
+
                     ),
+
                     material
+
                 );
 
 
-            // -----------------------------------------
-            // FRONT / BACK WALLS
-            // -----------------------------------------
+            // =========================================
+            // FRONT / BACK WALL
+            // =========================================
 
             if (
                 Math.abs(
@@ -709,47 +752,66 @@ function createArtwork(art) {
                 ) < 0.5
             ) {
 
-                // -------------------------------------
+
+                // =====================================
                 // FRONT WALL
-                // -------------------------------------
+                // Facing +Z
+                // =====================================
 
                 if (
                     art.rotation[1] === 0
                 ) {
 
                     frame.position.set(
+
                         art.position[0],
+
                         art.position[1],
+
                         art.position[2] - 0.07
+
                     );
 
 
                     artwork.position.set(
+
                         art.position[0],
+
                         art.position[1],
+
                         art.position[2] - 0.14
+
                     );
 
                 }
 
 
-                // -------------------------------------
+                // =====================================
                 // BACK WALL
-                // -------------------------------------
+                // Facing -Z
+                // =====================================
 
                 else {
 
                     frame.position.set(
+
                         art.position[0],
+
                         art.position[1],
+
                         art.position[2] + 0.07
+
                     );
 
 
                     artwork.position.set(
+
                         art.position[0],
+
                         art.position[1],
+
                         art.position[2] + 0.14
+
                     );
 
                 }
@@ -757,11 +819,12 @@ function createArtwork(art) {
             }
 
 
-            // -----------------------------------------
-            // SIDE WALLS
-            // -----------------------------------------
+            // =========================================
+            // SIDE WALL
+            // =========================================
 
             else {
+
 
                 // LEFT WALL
 
@@ -770,16 +833,24 @@ function createArtwork(art) {
                 ) {
 
                     frame.position.set(
+
                         art.position[0] + 0.07,
+
                         art.position[1],
+
                         art.position[2]
+
                     );
 
 
                     artwork.position.set(
+
                         art.position[0] + 0.14,
+
                         art.position[1],
+
                         art.position[2]
+
                     );
 
                 }
@@ -790,16 +861,24 @@ function createArtwork(art) {
                 else {
 
                     frame.position.set(
+
                         art.position[0] - 0.07,
+
                         art.position[1],
+
                         art.position[2]
+
                     );
 
 
                     artwork.position.set(
+
                         art.position[0] - 0.14,
+
                         art.position[1],
+
                         art.position[2]
+
                     );
 
                 }
@@ -807,41 +886,44 @@ function createArtwork(art) {
             }
 
 
-            // -----------------------------------------
+            // =========================================
             // ROTATION
-            // -----------------------------------------
+            // =========================================
 
             frame.rotation.set(
+
                 art.rotation[0],
+
                 art.rotation[1],
+
                 art.rotation[2]
+
             );
 
 
             artwork.rotation.set(
+
                 art.rotation[0],
+
                 art.rotation[1],
+
                 art.rotation[2]
+
             );
 
 
-            // -----------------------------------------
+            // =========================================
             // SHADOWS
-            // -----------------------------------------
+            // =========================================
 
             frame.castShadow = true;
 
-            frame.receiveShadow = true;
-
-
             artwork.castShadow = false;
 
-            artwork.receiveShadow = true;
 
-
-            // -----------------------------------------
+            // =========================================
             // ADD TO SCENE
-            // -----------------------------------------
+            // =========================================
 
             scene.add(
                 frame
@@ -852,9 +934,9 @@ function createArtwork(art) {
             );
 
 
-            // -----------------------------------------
-            // CLICK DATA
-            // -----------------------------------------
+            // =========================================
+            // CLICK INFORMATION
+            // =========================================
 
             artwork.userData =
                 art;
@@ -865,14 +947,33 @@ function createArtwork(art) {
             );
 
 
+            // =========================================
+            // CONFIRM LOADING
+            // =========================================
+
             console.log(
                 "Loaded artwork:",
+                art.title,
                 art.image
             );
 
         },
 
-        undefined,
+
+        // ===========================================
+        // LOADING PROGRESS
+        // ===========================================
+
+        function (progress) {
+
+            // Intentionally empty
+
+        },
+
+
+        // ===========================================
+        // LOADING ERROR
+        // ===========================================
 
         function (error) {
 
@@ -890,13 +991,15 @@ function createArtwork(art) {
 
 
 // =====================================================
-// IMPORTANT: LOAD ALL ARTWORK
+// IMPORTANT: LOAD ALL ARTWORKS
 // =====================================================
 
-// THIS WAS MISSING IN YOUR PREVIOUS SCRIPT.
-
 artworks.forEach(
-    createArtwork
+    (art) => {
+
+        createArtwork(art);
+
+    }
 );
 
 
@@ -918,13 +1021,16 @@ function createPlant(
 
     const pot =
         new THREE.Mesh(
+
             new THREE.CylinderGeometry(
                 0.48,
                 0.62,
                 0.85,
                 20
             ),
+
             potMaterial
+
         );
 
 
@@ -938,7 +1044,6 @@ function createPlant(
     pot.castShadow = true;
 
     pot.receiveShadow = true;
-
 
     scene.add(
         pot
@@ -955,13 +1060,16 @@ function createPlant(
 
     const soil =
         new THREE.Mesh(
+
             new THREE.CylinderGeometry(
                 0.40,
                 0.40,
                 0.06,
                 20
             ),
+
             soilMaterial
+
         );
 
 
@@ -999,17 +1107,21 @@ function createPlant(
 
         const stem =
             new THREE.Mesh(
+
                 new THREE.CylinderGeometry(
                     0.025,
                     0.035,
                     1.8,
                     8
                 ),
+
                 stemMaterial
+
             );
 
 
         stem.position.set(
+
             x +
             Math.cos(angle) *
             0.12,
@@ -1019,15 +1131,18 @@ function createPlant(
             z +
             Math.sin(angle) *
             0.12
+
         );
 
 
         stem.rotation.z =
-            Math.cos(angle) * 0.25;
+            Math.cos(angle) *
+            0.25;
 
 
         stem.rotation.x =
-            Math.sin(angle) * 0.25;
+            Math.sin(angle) *
+            0.25;
 
 
         scene.add(
@@ -1066,12 +1181,15 @@ function createPlant(
 
         const leaf =
             new THREE.Mesh(
+
                 new THREE.SphereGeometry(
                     0.38,
                     10,
                     6
                 ),
+
                 leafMaterial
+
             );
 
 
@@ -1083,11 +1201,13 @@ function createPlant(
 
 
         leaf.position.set(
+
             x +
             Math.cos(angle) *
             (
                 0.15 +
-                (i % 3) * 0.04
+                (i % 3) *
+                0.04
             ),
 
             height,
@@ -1096,8 +1216,10 @@ function createPlant(
             Math.sin(angle) *
             (
                 0.15 +
-                (i % 3) * 0.04
+                (i % 3) *
+                0.04
             )
+
         );
 
 
@@ -1107,11 +1229,11 @@ function createPlant(
 
         leaf.rotation.z =
             -0.35 +
-            (i % 2) * 0.2;
+            (i % 2) *
+            0.2;
 
 
         leaf.castShadow = true;
-
 
         scene.add(
             leaf
@@ -1124,16 +1246,19 @@ function createPlant(
 
     const collision =
         new THREE.Mesh(
+
             new THREE.CylinderGeometry(
                 0.85,
                 0.85,
                 2.5,
                 16
             ),
+
             new THREE.MeshBasicMaterial({
                 transparent: true,
                 opacity: 0
             })
+
         );
 
 
@@ -1150,8 +1275,11 @@ function createPlant(
 
 
     collidableObjects.push({
+
         type: "plant",
+
         object: collision
+
     });
 
 }
@@ -1193,12 +1321,15 @@ function createGalleryLight(
     x,
     y,
     z,
-    rotationY = 0
+    rotationY = 0,
+    targetX = x,
+    targetY = 2.8,
+    targetZ = z
 ) {
 
-    // -----------------------------------------
+    // ================================================
     // FIXTURE
-    // -----------------------------------------
+    // ================================================
 
     const fixtureMaterial =
         new THREE.MeshStandardMaterial({
@@ -1209,12 +1340,15 @@ function createGalleryLight(
 
     const fixture =
         new THREE.Mesh(
+
             new THREE.BoxGeometry(
                 0.55,
                 0.08,
                 0.14
             ),
+
             fixtureMaterial
+
         );
 
 
@@ -1234,18 +1368,25 @@ function createGalleryLight(
     );
 
 
-    // -----------------------------------------
+    // ================================================
     // SPOTLIGHT
-    // -----------------------------------------
+    // ================================================
 
     const light =
         new THREE.SpotLight(
-            0xfff0cf,
-            6,
-            9,
-            Math.PI / 5,
+
+            0xfff5df,
+
+            8,
+
+            10,
+
+            Math.PI / 4,
+
             0.45,
+
             1
+
         );
 
 
@@ -1256,18 +1397,32 @@ function createGalleryLight(
     );
 
 
-    // -----------------------------------------
+    light.castShadow = true;
+
+
+    light.shadow.mapSize.width =
+        1024;
+
+    light.shadow.mapSize.height =
+        1024;
+
+
+    light.shadow.bias =
+        -0.0005;
+
+
+    // ================================================
     // TARGET
-    // -----------------------------------------
+    // ================================================
 
     const target =
         new THREE.Object3D();
 
 
     target.position.set(
-        x,
-        2.5,
-        z
+        targetX,
+        targetY,
+        targetZ
     );
 
 
@@ -1280,9 +1435,6 @@ function createGalleryLight(
         target;
 
 
-    light.castShadow = true;
-
-
     scene.add(
         light
     );
@@ -1291,111 +1443,179 @@ function createGalleryLight(
 
 
 // =====================================================
-// ROOM 1 LIGHTS
+// LIGHTS
 // =====================================================
+
+// =====================================================
+// ROOM 1
+// =====================================================
+
+// BACK WALL ART
 
 createGalleryLight(
     -3.8,
-    5.3,
-    9.55
+    5.5,
+    9.55,
+    0,
+    -3.8,
+    3.0,
+    9.70
 );
 
 
 createGalleryLight(
     0,
-    5.3,
-    9.55
+    5.5,
+    9.55,
+    0,
+    0,
+    3.0,
+    9.70
 );
 
 
 createGalleryLight(
     3.8,
-    5.3,
-    9.55
+    5.5,
+    9.55,
+    0,
+    3.8,
+    3.0,
+    9.70
 );
 
+
+// LEFT WALL
 
 createGalleryLight(
     -6.65,
-    5.3,
+    5.5,
     4,
-    Math.PI / 2
+    Math.PI / 2,
+    -6.5,
+    3.0,
+    4
 );
 
+
+// RIGHT WALL
 
 createGalleryLight(
     6.65,
-    5.3,
+    5.5,
     4,
-    -Math.PI / 2
+    -Math.PI / 2,
+    6.5,
+    3.0,
+    4
 );
 
 
 // =====================================================
-// ROOM 2 LIGHTS
+// ROOM 2
 // =====================================================
+
+// BACK WALL
 
 createGalleryLight(
     -3.8,
-    5.3,
-    -13.55
+    5.5,
+    -13.55,
+    0,
+    -3.8,
+    3.0,
+    -13.70
 );
 
 
 createGalleryLight(
     3.8,
-    5.3,
-    -13.55
+    5.5,
+    -13.55,
+    0,
+    3.8,
+    3.0,
+    -13.70
 );
 
 
+// LEFT WALL
+
 createGalleryLight(
     -6.65,
-    5.3,
+    5.5,
     -9,
-    Math.PI / 2
+    Math.PI / 2,
+    -6.5,
+    3.0,
+    -9
 );
 
+
+// RIGHT WALL
 
 createGalleryLight(
     6.65,
-    5.3,
+    5.5,
     -11,
-    -Math.PI / 2
+    -Math.PI / 2,
+    6.5,
+    3.0,
+    -11
 );
 
 
 // =====================================================
-// ROOM 3 LIGHTS
+// ROOM 3
 // =====================================================
+
+// BACK WALL
 
 createGalleryLight(
     -3.8,
-    5.3,
-    -25.55
+    5.5,
+    -25.55,
+    0,
+    -3.8,
+    3.0,
+    -25.70
 );
 
 
 createGalleryLight(
     3.8,
-    5.3,
-    -25.55
+    5.5,
+    -25.55,
+    0,
+    3.8,
+    3.0,
+    -25.70
 );
 
+
+// LEFT WALL
 
 createGalleryLight(
     -6.65,
-    5.3,
+    5.5,
     -23,
-    Math.PI / 2
+    Math.PI / 2,
+    -6.5,
+    3.0,
+    -23
 );
 
 
+// RIGHT WALL
+
 createGalleryLight(
     6.65,
-    5.3,
+    5.5,
     -18,
-    -Math.PI / 2
+    -Math.PI / 2,
+    6.5,
+    3.0,
+    -18
 );
 
 
@@ -1415,10 +1635,15 @@ let lastMouseY = 0;
 
 
 const keys = {
+
     w: false,
+
     a: false,
+
     s: false,
+
     d: false
+
 };
 
 
@@ -1518,24 +1743,30 @@ window.addEventListener(
 
 
         yaw -=
-            movementX * 0.003;
+            movementX *
+            0.003;
 
 
         pitch -=
-            movementY * 0.003;
+            movementY *
+            0.003;
 
 
         const maxPitch =
-            Math.PI / 2.5;
+            Math.PI /
+            2.5;
 
 
         pitch =
             Math.max(
+
                 -maxPitch,
+
                 Math.min(
                     maxPitch,
                     pitch
                 )
+
             );
 
 
@@ -1627,27 +1858,37 @@ function keepCameraInside() {
 
     camera.position.x =
         Math.max(
+
             -ROOM_WIDTH / 2 +
             margin,
 
             Math.min(
+
                 ROOM_WIDTH / 2 -
                 margin,
 
                 camera.position.x
+
             )
+
         );
 
 
     camera.position.z =
         Math.max(
-            -26 + margin,
+
+            -26 +
+            margin,
 
             Math.min(
-                10 - margin,
+
+                10 -
+                margin,
 
                 camera.position.z
+
             )
+
         );
 
 
@@ -1670,17 +1911,25 @@ function moveCamera(
 
     const forward =
         new THREE.Vector3(
+
             Math.sin(yaw),
+
             0,
+
             Math.cos(yaw)
+
         );
 
 
     const right =
         new THREE.Vector3(
+
             Math.cos(yaw),
+
             0,
+
             -Math.sin(yaw)
+
         );
 
 
@@ -1741,7 +1990,8 @@ function moveCamera(
 
 
     if (
-        movement.lengthSq() > 0
+        movement.lengthSq() >
+        0
     ) {
 
         movement.normalize();
@@ -1752,8 +2002,11 @@ function moveCamera(
 
 
         newPosition.addScaledVector(
+
             movement,
+
             speed * delta
+
         );
 
 
@@ -1817,14 +2070,18 @@ renderer.domElement.addEventListener(
             (
                 event.clientX /
                 window.innerWidth
-            ) * 2 - 1;
+            ) *
+            2 -
+            1;
 
 
         mouse.y =
             -(
                 event.clientY /
                 window.innerHeight
-            ) * 2 + 1;
+            ) *
+            2 +
+            1;
 
 
         raycaster.setFromCamera(
@@ -1840,13 +2097,16 @@ renderer.domElement.addEventListener(
 
 
         if (
-            intersections.length > 0
+            intersections.length >
+            0
         ) {
 
             showArtworkInfo(
+
                 intersections[0]
                     .object
                     .userData
+
             );
 
         }
@@ -1869,37 +2129,54 @@ function showArtworkInfo(
     data
 ) {
 
-    document.getElementById(
-        "artwork-year"
-    ).textContent =
-        data.year;
+    const year =
+        document.getElementById(
+            "artwork-year"
+        );
 
 
-    document.getElementById(
-        "artwork-title"
-    ).textContent =
-        data.title;
+    const title =
+        document.getElementById(
+            "artwork-title"
+        );
 
 
-    document.getElementById(
-        "artwork-medium"
-    ).textContent =
-        data.medium;
+    const medium =
+        document.getElementById(
+            "artwork-medium"
+        );
 
 
-    document.getElementById(
-        "artwork-description"
-    ).textContent =
-        data.description;
+    const description =
+        document.getElementById(
+            "artwork-description"
+        );
 
 
-    if (infoPanel) {
+    if (year)
+        year.textContent =
+            data.year;
 
+
+    if (title)
+        title.textContent =
+            data.title;
+
+
+    if (medium)
+        medium.textContent =
+            data.medium;
+
+
+    if (description)
+        description.textContent =
+            data.description;
+
+
+    if (infoPanel)
         infoPanel.classList.remove(
             "hidden"
         );
-
-    }
 
 }
 
@@ -1918,9 +2195,7 @@ if (
         "click",
         () => {
 
-            if (
-                infoPanel
-            ) {
+            if (infoPanel) {
 
                 infoPanel.classList.add(
                     "hidden"
@@ -1935,7 +2210,7 @@ if (
 
 
 // =====================================================
-// MUSIC / IPOD
+// MUSIC
 // =====================================================
 
 const albums = {
@@ -1994,9 +2269,7 @@ const albums = {
 
 
 let currentAlbum =
-    Object.keys(
-        albums
-    )[0];
+    Object.keys(albums)[0];
 
 
 let currentSong = 0;
@@ -2041,6 +2314,18 @@ const playButton =
     );
 
 
+const nextButton =
+    document.getElementById(
+        "next"
+    );
+
+
+const previousButton =
+    document.getElementById(
+        "previous"
+    );
+
+
 // =====================================================
 // LOAD SONG
 // =====================================================
@@ -2055,9 +2340,10 @@ function loadSong() {
         ];
 
 
-    if (
-        albumName
-    ) {
+    if (!song) return;
+
+
+    if (albumName) {
 
         albumName.textContent =
             currentAlbum;
@@ -2065,9 +2351,7 @@ function loadSong() {
     }
 
 
-    if (
-        songTitle
-    ) {
+    if (songTitle) {
 
         songTitle.textContent =
             song.title;
@@ -2075,14 +2359,15 @@ function loadSong() {
     }
 
 
-    if (
-        artistName
-    ) {
+    if (artistName) {
 
         artistName.textContent =
             song.artist;
 
     }
+
+
+    audio.pause();
 
 
     audio.src =
@@ -2092,18 +2377,10 @@ function loadSong() {
     audio.load();
 
 
-    // Reset button
     isPlaying = false;
 
 
-    if (
-        playButton
-    ) {
-
-        playButton.textContent =
-            "▶";
-
-    }
+    updatePlayButton();
 
 }
 
@@ -2112,7 +2389,71 @@ loadSong();
 
 
 // =====================================================
-// PLAY / PAUSE
+// PLAY / PAUSE BUTTON
+// =====================================================
+
+function updatePlayButton() {
+
+    if (!playButton) return;
+
+
+    playButton.textContent =
+        isPlaying
+            ? "Ⅱ"
+            : "▶";
+
+}
+
+
+// =====================================================
+// PLAY AUDIO
+// =====================================================
+
+function playAudio() {
+
+    audio.play()
+        .then(() => {
+
+            isPlaying = true;
+
+            updatePlayButton();
+
+        })
+        .catch(
+            (error) => {
+
+                console.error(
+                    "Could not play audio:",
+                    error
+                );
+
+                isPlaying = false;
+
+                updatePlayButton();
+
+            }
+        );
+
+}
+
+
+// =====================================================
+// PAUSE AUDIO
+// =====================================================
+
+function pauseAudio() {
+
+    audio.pause();
+
+    isPlaying = false;
+
+    updatePlayButton();
+
+}
+
+
+// =====================================================
+// PLAY / PAUSE CLICK
 // =====================================================
 
 if (
@@ -2121,37 +2462,24 @@ if (
 
     playButton.addEventListener(
         "click",
-        async (event) => {
+        (event) => {
 
-            // Prevent this click from
-            // affecting anything underneath
+            event.preventDefault();
+
             event.stopPropagation();
 
 
-            try {
+            if (
+                audio.paused
+            ) {
 
-                if (
-                    audio.paused
-                ) {
-
-                    await audio.play();
-
-                }
-
-                else {
-
-                    audio.pause();
-
-                }
+                playAudio();
 
             }
 
-            catch (error) {
+            else {
 
-                console.error(
-                    "Audio could not play:",
-                    error
-                );
+                pauseAudio();
 
             }
 
@@ -2162,7 +2490,7 @@ if (
 
 
 // =====================================================
-// AUDIO PLAY EVENT
+// AUDIO EVENTS
 // =====================================================
 
 audio.addEventListener(
@@ -2171,23 +2499,11 @@ audio.addEventListener(
 
         isPlaying = true;
 
-
-        if (
-            playButton
-        ) {
-
-            playButton.textContent =
-                "Ⅱ";
-
-        }
+        updatePlayButton();
 
     }
 );
 
-
-// =====================================================
-// AUDIO PAUSE EVENT
-// =====================================================
 
 audio.addEventListener(
     "pause",
@@ -2195,29 +2511,15 @@ audio.addEventListener(
 
         isPlaying = false;
 
-
-        if (
-            playButton
-        ) {
-
-            playButton.textContent =
-                "▶";
-
-        }
+        updatePlayButton();
 
     }
 );
 
 
 // =====================================================
-// NEXT BUTTON
+// NEXT SONG
 // =====================================================
-
-const nextButton =
-    document.getElementById(
-        "next"
-    );
-
 
 if (
     nextButton
@@ -2225,7 +2527,9 @@ if (
 
     nextButton.addEventListener(
         "click",
-        async (event) => {
+        (event) => {
+
+            event.preventDefault();
 
             event.stopPropagation();
 
@@ -2247,21 +2551,7 @@ if (
 
             loadSong();
 
-
-            try {
-
-                await audio.play();
-
-            }
-
-            catch (error) {
-
-                console.error(
-                    "Audio could not play:",
-                    error
-                );
-
-            }
+            playAudio();
 
         }
     );
@@ -2270,14 +2560,8 @@ if (
 
 
 // =====================================================
-// PREVIOUS BUTTON
+// PREVIOUS SONG
 // =====================================================
-
-const previousButton =
-    document.getElementById(
-        "previous"
-    );
-
 
 if (
     previousButton
@@ -2285,7 +2569,9 @@ if (
 
     previousButton.addEventListener(
         "click",
-        async (event) => {
+        (event) => {
+
+            event.preventDefault();
 
             event.stopPropagation();
 
@@ -2300,28 +2586,15 @@ if (
                 currentSong =
                     albums[
                         currentAlbum
-                    ].length - 1;
+                    ].length -
+                    1;
 
             }
 
 
             loadSong();
 
-
-            try {
-
-                await audio.play();
-
-            }
-
-            catch (error) {
-
-                console.error(
-                    "Audio could not play:",
-                    error
-                );
-
-            }
+            playAudio();
 
         }
     );
@@ -2335,7 +2608,7 @@ if (
 
 audio.addEventListener(
     "ended",
-    async () => {
+    () => {
 
         currentSong++;
 
@@ -2354,21 +2627,7 @@ audio.addEventListener(
 
         loadSong();
 
-
-        try {
-
-            await audio.play();
-
-        }
-
-        catch (error) {
-
-            console.error(
-                "Audio could not play:",
-                error
-            );
-
-        }
+        playAudio();
 
     }
 );
@@ -2405,6 +2664,8 @@ if (
         "click",
         (event) => {
 
+            event.preventDefault();
+
             event.stopPropagation();
 
 
@@ -2437,6 +2698,10 @@ if (
                 "album-option";
 
 
+            button.type =
+                "button";
+
+
             button.textContent =
                 album;
 
@@ -2445,6 +2710,8 @@ if (
                 "click",
                 (event) => {
 
+                    event.preventDefault();
+
                     event.stopPropagation();
 
 
@@ -2452,8 +2719,7 @@ if (
                         album;
 
 
-                    currentSong =
-                        0;
+                    currentSong = 0;
 
 
                     loadSong();
