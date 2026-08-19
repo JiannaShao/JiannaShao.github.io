@@ -10,7 +10,6 @@ const scene = new THREE.Scene();
 
 scene.background = new THREE.Color("#f3f1e8");
 
-
 const camera = new THREE.PerspectiveCamera(
     70,
     window.innerWidth / window.innerHeight,
@@ -60,7 +59,7 @@ gallery.appendChild(
 
 
 // =====================================================
-// LIGHTING
+// GENERAL LIGHTING
 // =====================================================
 
 const ambientLight =
@@ -105,10 +104,6 @@ const wallMaterial =
     });
 
 
-// =====================================================
-// FLOOR
-// =====================================================
-
 const floorMaterial =
     new THREE.MeshStandardMaterial({
         color: "#182b3d",
@@ -116,20 +111,12 @@ const floorMaterial =
     });
 
 
-// =====================================================
-// CEILING
-// =====================================================
-
 const ceilingMaterial =
     new THREE.MeshStandardMaterial({
         color: "#263d52",
         roughness: 0.95
     });
 
-
-// =====================================================
-// FRAME
-// =====================================================
 
 const frameMaterial =
     new THREE.MeshStandardMaterial({
@@ -362,7 +349,6 @@ const artworks = [
             "Description of your first artwork.",
         image: "ArtFiles/img3.jpg",
 
-        // Artwork 1
         position: [
             -4.2,
             3.1,
@@ -385,7 +371,6 @@ const artworks = [
             "Description of your second artwork.",
         image: "ArtFiles/img1.jpg",
 
-        // Artwork 2
         position: [
             0,
             3.1,
@@ -408,13 +393,13 @@ const artworks = [
             "Description of your third artwork.",
         image: "ArtFiles/img2.jpg",
 
-            // Artwork 3
         position: [
             4.2,
             3.1,
             9.84
         ],
-                rotation: [
+
+        rotation: [
             0,
             Math.PI,
             0
@@ -596,7 +581,6 @@ const artworks = [
             "Description of your eleventh artwork.",
         image: "ArtFiles/img14.jpg",
 
-        // CENTERED ON BACK WALL
         position: [
             0,
             3.5,
@@ -621,8 +605,6 @@ const artworks = [
             "Description of your twelfth artwork.",
         image: "ArtFiles/img13.jpg",
 
-        // LEFT SIDE OF RIGHT WALL
-        // Approximately 1/3 of the wall width
         position: [
             6.84,
             3.5,
@@ -645,7 +627,6 @@ const artworks = [
             "Description of your thirteenth artwork.",
         image: "ArtFiles/img6.JPG",
 
-        // CENTERED ON LEFT WALL
         position: [
             -6.84,
             3.5,
@@ -670,7 +651,6 @@ const artworks = [
             "Description of your fourteenth artwork.",
         image: "ArtFiles/img8.JPG",
 
-        // RIGHT WALL
         position: [
             6.84,
             3.1,
@@ -698,10 +678,296 @@ const textureLoader =
 
 
 // =====================================================
+// GALLERY LIGHT
+// =====================================================
+//
+// The light is automatically positioned based on the
+// actual dimensions of the artwork.
+//
+// LIGHT RULE:
+//
+//     top of artwork + 0.5 units
+//
+// The fixture itself is placed directly against the wall.
+//
+// This means changing artwork size automatically moves
+// its light to the correct height.
+// =====================================================
+
+function createGalleryLightForArtwork(
+    art,
+    artworkWidth,
+    artworkHeight
+) {
+
+    const rotationY =
+        art.rotation[1];
+
+
+    // -------------------------------------------------
+    // LIGHT HEIGHT
+    // -------------------------------------------------
+
+    const lightHeight =
+        art.position[1] +
+        artworkHeight / 2 +
+        0.5;
+
+
+    // -------------------------------------------------
+    // DETERMINE WALL TYPE
+    // -------------------------------------------------
+
+    const isFrontWall =
+        Math.abs(
+            rotationY - Math.PI
+        ) < 0.1;
+
+
+    const isBackWall =
+        Math.abs(rotationY) < 0.1;
+
+
+    const isLeftWall =
+        rotationY > 0 &&
+        !isFrontWall;
+
+
+    const isRightWall =
+        rotationY < 0 &&
+        !isFrontWall;
+
+
+    // -------------------------------------------------
+    // LIGHT POSITION
+    // -------------------------------------------------
+
+    let lightX =
+        art.position[0];
+
+    let lightY =
+        lightHeight;
+
+    let lightZ =
+        art.position[2];
+
+
+    // -------------------------------------------------
+    // FRONT WALL
+    // -------------------------------------------------
+
+    if (
+        isFrontWall
+    ) {
+
+        lightX =
+            art.position[0];
+
+        lightZ =
+            9.84;
+
+    }
+
+
+    // -------------------------------------------------
+    // BACK WALL
+    // -------------------------------------------------
+
+    else if (
+        isBackWall
+    ) {
+
+        lightX =
+            art.position[0];
+
+        lightZ =
+            -25.84;
+
+    }
+
+
+    // -------------------------------------------------
+    // LEFT WALL
+    // -------------------------------------------------
+
+    else if (
+        isLeftWall
+    ) {
+
+        lightX =
+            -6.84;
+
+        lightZ =
+            art.position[2];
+
+    }
+
+
+    // -------------------------------------------------
+    // RIGHT WALL
+    // -------------------------------------------------
+
+    else if (
+        isRightWall
+    ) {
+
+        lightX =
+            6.84;
+
+        lightZ =
+            art.position[2];
+
+    }
+
+
+    // =================================================
+    // FIXTURE
+    // =================================================
+
+    const fixtureMaterial =
+        new THREE.MeshStandardMaterial({
+
+            color: "#222222",
+
+            roughness: 0.7
+
+        });
+
+
+    const fixture =
+        new THREE.Mesh(
+
+            new THREE.BoxGeometry(
+                0.55,
+                0.08,
+                0.14
+            ),
+
+            fixtureMaterial
+
+        );
+
+
+    fixture.position.set(
+        lightX,
+        lightY,
+        lightZ
+    );
+
+
+    // Rotate fixture to sit against side walls
+
+    if (
+        isLeftWall
+    ) {
+
+        fixture.rotation.y =
+            Math.PI / 2;
+
+    }
+
+    else if (
+        isRightWall
+    ) {
+
+        fixture.rotation.y =
+            -Math.PI / 2;
+
+    }
+
+    else {
+
+        fixture.rotation.y = 0;
+
+    }
+
+
+    scene.add(
+        fixture
+    );
+
+
+    // =================================================
+    // SPOTLIGHT
+    // =================================================
+
+    const light =
+        new THREE.SpotLight(
+
+            0xfff4dc,
+
+            7,
+
+            9,
+
+            Math.PI / 5,
+
+            0.5,
+
+            1
+
+        );
+
+
+    // Light source is just below fixture
+
+    light.position.set(
+
+        lightX,
+        lightY - 0.05,
+        lightZ
+
+    );
+
+
+    // =================================================
+    // TARGET
+    // =================================================
+    //
+    // The spotlight aims at the CENTER of the artwork.
+    //
+    // This keeps the fixture itself directly above the
+    // artwork while allowing the actual light beam to
+    // angle naturally toward the artwork.
+    // =================================================
+
+    light.target.position.set(
+
+        art.position[0],
+        art.position[1],
+        art.position[2]
+
+    );
+
+
+    light.castShadow = true;
+
+
+    light.shadow.mapSize.width =
+        1024;
+
+    light.shadow.mapSize.height =
+        1024;
+
+
+    scene.add(
+        light
+    );
+
+    scene.add(
+        light.target
+    );
+
+}
+
+
+// =====================================================
 // CREATE ARTWORK
 // =====================================================
 
-function createArtwork(art) {
+function createArtwork(
+    art
+) {
 
     textureLoader.load(
 
@@ -715,6 +981,10 @@ function createArtwork(art) {
             );
 
 
+            // =================================================
+            // TEXTURE
+            // =================================================
+
             loadedTexture.colorSpace =
                 THREE.SRGBColorSpace;
 
@@ -722,6 +992,10 @@ function createArtwork(art) {
                 renderer.capabilities
                     .getMaxAnisotropy();
 
+
+            // =================================================
+            // IMAGE DIMENSIONS
+            // =================================================
 
             const image =
                 loadedTexture.image;
@@ -780,16 +1054,22 @@ function createArtwork(art) {
             let artworkHeight;
 
 
+            // LANDSCAPE / SQUARE
+
             if (
                 aspectRatio >= 1
             ) {
 
                 artworkWidth =
                     Math.min(
+
                         maxWidth,
+
                         maxHeight *
                         aspectRatio
+
                     );
+
 
                 artworkHeight =
                     artworkWidth /
@@ -797,14 +1077,21 @@ function createArtwork(art) {
 
             }
 
+
+            // PORTRAIT
+
             else {
 
                 artworkHeight =
                     Math.min(
+
                         maxHeight,
+
                         maxWidth /
                         aspectRatio
+
                     );
+
 
                 artworkWidth =
                     artworkHeight *
@@ -814,7 +1101,7 @@ function createArtwork(art) {
 
 
             // =================================================
-            // ARTWORK MATERIAL
+            // MATERIAL
             // =================================================
 
             const material =
@@ -892,7 +1179,7 @@ function createArtwork(art) {
 
 
             // =================================================
-            // POSITIONING
+            // POSITION
             // =================================================
 
             const rotationY =
@@ -923,9 +1210,7 @@ function createArtwork(art) {
                     frame.position.set(
 
                         art.position[0],
-
                         art.position[1],
-
                         art.position[2]
 
                     );
@@ -934,15 +1219,14 @@ function createArtwork(art) {
                     artwork.position.set(
 
                         art.position[0],
-
                         art.position[1],
-
                         art.position[2] -
                         0.08
 
                     );
 
                 }
+
 
                 // BACK WALL
 
@@ -951,9 +1235,7 @@ function createArtwork(art) {
                     frame.position.set(
 
                         art.position[0],
-
                         art.position[1],
-
                         art.position[2]
 
                     );
@@ -962,9 +1244,7 @@ function createArtwork(art) {
                     artwork.position.set(
 
                         art.position[0],
-
                         art.position[1],
-
                         art.position[2] +
                         0.08
 
@@ -990,9 +1270,7 @@ function createArtwork(art) {
                     frame.position.set(
 
                         art.position[0],
-
                         art.position[1],
-
                         art.position[2]
 
                     );
@@ -1011,6 +1289,7 @@ function createArtwork(art) {
 
                 }
 
+
                 // RIGHT WALL
 
                 else {
@@ -1018,9 +1297,7 @@ function createArtwork(art) {
                     frame.position.set(
 
                         art.position[0],
-
                         art.position[1],
-
                         art.position[2]
 
                     );
@@ -1049,9 +1326,7 @@ function createArtwork(art) {
             frame.rotation.set(
 
                 art.rotation[0],
-
                 art.rotation[1],
-
                 art.rotation[2]
 
             );
@@ -1060,9 +1335,7 @@ function createArtwork(art) {
             artwork.rotation.set(
 
                 art.rotation[0],
-
                 art.rotation[1],
-
                 art.rotation[2]
 
             );
@@ -1092,9 +1365,35 @@ function createArtwork(art) {
                 artwork
             );
 
+
+            // =================================================
+            // CREATE LIGHT
+            // =================================================
+            //
+            // IMPORTANT:
+            //
+            // This happens AFTER the artwork dimensions
+            // have been calculated.
+            //
+            // Therefore the light knows exactly where
+            // the top of this specific artwork is.
+            // =================================================
+
+            createGalleryLightForArtwork(
+
+                art,
+
+                artworkWidth,
+
+                artworkHeight
+
+            );
+
         },
 
+
         undefined,
+
 
         (error) => {
 
@@ -1123,318 +1422,6 @@ artworks.forEach(
         );
 
     }
-);
-
-
-// =====================================================
-// GALLERY LIGHTS
-// =====================================================
-
-function createGalleryLight(
-    x,
-    y,
-    z,
-    targetX,
-    targetY,
-    targetZ,
-    rotationY = 0
-) {
-
-    const fixtureMaterial =
-        new THREE.MeshStandardMaterial({
-
-            color: "#222222",
-
-            roughness: 0.7
-
-        });
-
-
-    const fixture =
-        new THREE.Mesh(
-
-            new THREE.BoxGeometry(
-
-                0.55,
-
-                0.08,
-
-                0.14
-
-            ),
-
-            fixtureMaterial
-
-        );
-
-
-    fixture.position.set(
-
-        x,
-        y,
-        z
-
-    );
-
-
-    fixture.rotation.y =
-        rotationY;
-
-
-    scene.add(
-        fixture
-    );
-
-
-    const light =
-        new THREE.SpotLight(
-
-            0xfff4dc,
-
-            7,
-
-            9,
-
-            Math.PI / 5,
-
-            0.5,
-
-            1
-
-        );
-
-
-    light.position.set(
-
-        x,
-
-        y - 0.05,
-
-        z
-
-    );
-
-
-    light.target.position.set(
-
-        targetX,
-
-        targetY,
-
-        targetZ
-
-    );
-
-
-    light.castShadow = true;
-
-
-    light.shadow.mapSize.width =
-        1024;
-
-    light.shadow.mapSize.height =
-        1024;
-
-
-    scene.add(
-        light
-    );
-
-    scene.add(
-        light.target
-    );
-
-}
-
-
-// =====================================================
-// ROOM 1 LIGHTS
-// =====================================================
-
-createGalleryLight(
-    -3.8,
-    5.3,
-    9.55,
-    -3.8,
-    3.0,
-    9.5
-);
-
-
-createGalleryLight(
-    0,
-    5.3,
-    9.55,
-    0,
-    3.0,
-    9.5
-);
-
-
-createGalleryLight(
-    3.8,
-    5.3,
-    9.55,
-    3.8,
-    3.0,
-    9.5
-);
-
-
-// Artwork 4 — LEFT WALL
-
-createGalleryLight(
-    -6.65,
-    5.3,
-    4,
-    -6.5,
-    3.0,
-    4,
-    Math.PI / 2
-);
-
-
-// Artwork 5 — RIGHT WALL
-
-createGalleryLight(
-    6.65,
-    5.3,
-    4,
-    6.5,
-    3.0,
-    4,
-    -Math.PI / 2
-);
-
-
-// =====================================================
-// ROOM 2 LIGHTS
-// =====================================================
-
-createGalleryLight(
-    -3.8,
-    5.3,
-    -13.55,
-    -3.8,
-    3.0,
-    -13.7
-);
-
-
-createGalleryLight(
-    3.8,
-    5.3,
-    -13.55,
-    3.8,
-    3.0,
-    -13.7
-);
-
-
-// Artwork 7 — LEFT WALL
-
-createGalleryLight(
-    -6.65,
-    5.3,
-    -9,
-    -6.5,
-    3.0,
-    -9,
-    Math.PI / 2
-);
-
-
-// Artwork 9 — LEFT WALL
-
-createGalleryLight(
-    -6.65,
-    5.3,
-    -4.5,
-    -6.5,
-    3.0,
-    -4.5,
-    Math.PI / 2
-);
-
-
-// Artwork 10 — RIGHT WALL
-
-createGalleryLight(
-    6.65,
-    5.3,
-    -11,
-    6.5,
-    3.0,
-    -8,
-    -Math.PI / 2
-);
-
-
-// =====================================================
-// ROOM 3 LIGHTS
-// =====================================================
-
-// =====================================================
-// Artwork 11 — BACK WALL
-// Light raised to 92% of wall height
-// 7 × 0.92 = 6.44
-// =====================================================
-
-createGalleryLight(
-    0,
-    6.44,
-    -25.55,
-    0,
-    3.5,
-    -25.7
-);
-
-
-// =====================================================
-// Artwork 12 — RIGHT WALL
-// Moved to approximately 1/3 of the wall width
-// =====================================================
-
-createGalleryLight(
-    6.65,
-    5.3,
-    -22,
-    6.5,
-    3.5,
-    -22,
-    -Math.PI / 2
-);
-
-
-// =====================================================
-// Artwork 13 — LEFT WALL
-// Light raised to 92% of wall height
-// 7 × 0.92 = 6.44
-// =====================================================
-
-createGalleryLight(
-    -6.65,
-    6.44,
-    -20,
-    -6.5,
-    3.5,
-    -20,
-    Math.PI / 2
-);
-
-
-// =====================================================
-// Artwork 14 — RIGHT WALL
-// =====================================================
-
-createGalleryLight(
-    6.65,
-    5.3,
-    -17,
-    6.5,
-    3.0,
-    -17,
-    -Math.PI / 2
 );
 
 
@@ -1998,7 +1985,7 @@ const albums = {
             artist: "Jianna Shao",
             file: "ArtFiles/SSBGMusic.m4a"
         },
-        
+
         {
             title: "Insult Battle (SS)",
             artist: "Jianna Shao",
@@ -2022,7 +2009,7 @@ const albums = {
             file: "Music/song5.mp3"
         }
 
-    ],
+    ]
 
 };
 
@@ -2196,7 +2183,6 @@ function updatePlayButton() {
         playButton.textContent =
             "Ⅱ";
 
-
         playButton.setAttribute(
             "aria-label",
             "Pause"
@@ -2208,7 +2194,6 @@ function updatePlayButton() {
 
         playButton.textContent =
             "▶";
-
 
         playButton.setAttribute(
             "aria-label",
