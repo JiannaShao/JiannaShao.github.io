@@ -57,7 +57,7 @@ const mainLight = new THREE.DirectionalLight(
     1.2
 );
 
-mainLight.position.set(
+mainLight..set(
     0,
     8,
     0
@@ -136,7 +136,7 @@ const floor = new THREE.Mesh(
     floorMaterial
 );
 
-floor.position.set(
+floor..set(
     0,
     -0.1,
     -8
@@ -160,7 +160,7 @@ const ceiling = new THREE.Mesh(
     ceilingMaterial
 );
 
-ceiling.position.set(
+ceiling..set(
     0,
     WALL_HEIGHT,
     -8
@@ -189,7 +189,7 @@ function createWall(
         wallMaterial
     );
 
-    wall.position.set(
+    wall..set(
         x,
         WALL_HEIGHT / 2,
         z
@@ -308,7 +308,7 @@ const artworks = [
         description: "Description of your first artwork.",
         image: "Art/artwork1.jpg",
 
-        position: [-3.8, 3.1, 9.80],
+        : [-3.8, 3.1, 9.80],
         rotation: [0, Math.PI, 0],
 
         size: [3.2, 2.4]
@@ -383,7 +383,7 @@ const artworks = [
         image: "Art/artwork6.jpg",
 
         // BACK WALL OF ROOM 2
-        position: [-3.8, 3.1, -13.84],
+        position: [-3.8, 3.1, -13.6],
         rotation: [0, 0, 0],
 
         size: [3.2, 2.4]
@@ -412,7 +412,7 @@ const artworks = [
         image: "Art/artwork8.jpg",
 
         // BACK WALL OF ROOM 2
-        position: [3.8, 3.1, -13.84],
+        position: [3.8, 3.1, -13.6],
         rotation: [0, 0, 0],
 
         size: [3.2, 2.4]
@@ -461,7 +461,7 @@ const artworks = [
         image: "Art/artwork11.jpg",
 
         // BACK WALL OF ROOM 3
-        position: [-3.8, 3.1, -25.84],
+        position: [-3.8, 3.1, -25.6],
         rotation: [0, 0, 0],
 
         size: [3.2, 2.4]
@@ -475,7 +475,7 @@ const artworks = [
         image: "Art/artwork12.jpg",
 
         // BACK WALL OF ROOM 3
-        position: [3.8, 3.1, -25.84],
+        position: [3.8, 3.1, -25.6],
         rotation: [0, 0, 0],
 
         size: [3.2, 2.4]
