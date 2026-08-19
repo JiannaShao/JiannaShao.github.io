@@ -16,7 +16,7 @@ body {
 
     margin: 0;
 
-    background: #f3f1e8;
+    background: #ffffff;
 
     color: #111111;
 
@@ -127,17 +127,64 @@ body {
 
 
 .artwork-image {
-
     width: 100%;
 
     display: flex;
-
     justify-content: center;
-
     align-items: center;
 
     margin-bottom: 35px;
 
+    position: relative;
+}
+
+.artwork-image::after {
+    content: "JIANNA SHAO";
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform:
+        translate(-50%, -50%)
+        rotate(-25deg);
+
+    font-family:
+        Helvetica,
+        Arial,
+        sans-serif;
+
+    font-size: clamp(
+        28px,
+        5vw,
+        70px
+    );
+
+    font-weight: bold;
+
+    letter-spacing: 4px;
+
+    color: rgba(
+        255,
+        255,
+        255,
+        0.28
+    );
+
+    text-shadow:
+        0 1px 3px rgba(
+            0,
+            0,
+            0,
+            0.25
+        );
+
+    pointer-events: none;
+
+    z-index: 2;
+
+    white-space: nowrap;
 }
 
 
