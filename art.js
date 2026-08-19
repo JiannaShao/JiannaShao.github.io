@@ -1365,7 +1365,7 @@ createGalleryLight(
     -11,
     6.5,
     3.0,
-    -11,
+    -8,
     -Math.PI / 2
 );
 
@@ -1979,24 +1979,30 @@ if (
 
 const albums = {
 
-    "Album One": [
+    "Game Music": [
 
         {
-            title: "Song One",
-            artist: "Your Name",
-            file: "Music/song1.mp3"
+            title: "Ella's Room (SS)",
+            artist: "Jianna Shao",
+            file: "ArtFiles/EllasRoomSS.m4a"
         },
 
         {
-            title: "Song Two",
-            artist: "Your Name",
-            file: "Music/song2.mp3"
+            title: "Ella's Castle (SS)",
+            artist: "Jianna Shao",
+            file: "ArtFiles/EllasCastleSS.m4a"
         },
 
         {
-            title: "Song Three",
-            artist: "Your Name",
-            file: "Music/song3.mp3"
+            title: "BG Music (SS)",
+            artist: "Jianna Shao",
+            file: "ArtFiles/SSBGMusic.m4a"
+        },
+        
+        {
+            title: "Insult Battle (SS)",
+            artist: "Jianna Shao",
+            file: "ArtFiles/InsultBattleSS.wav"
         }
 
     ],
@@ -2017,17 +2023,6 @@ const albums = {
         }
 
     ],
-
-
-    "Album Three": [
-
-        {
-            title: "Song Six",
-            artist: "Your Name",
-            file: "Music/song6.mp3"
-        }
-
-    ]
 
 };
 
