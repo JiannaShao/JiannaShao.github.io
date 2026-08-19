@@ -113,7 +113,7 @@ const floorMaterial =
 
 const ceilingMaterial =
     new THREE.MeshStandardMaterial({
-        color: "#f3f1e8",
+        color: "#ffffff",
         roughness: 0.9
     });
 
@@ -342,11 +342,11 @@ const artworks = [
     // =================================================
 
     {
-        title: "Artwork One",
-        year: "2025",
-        medium: "Painting",
+        title: "Heaven is Quiet",
+        year: "2026",
+        medium: "Acrylic painting on canvas",
         description:
-            "Description of your first artwork.",
+            "Sweet eternal silence.",
         image: "ArtFiles/img3.jpg",
 
         position: [
@@ -364,11 +364,11 @@ const artworks = [
 
 
     {
-        title: "Artwork Two",
+        title: "Dad's Tan Hua Flower",
         year: "2025",
-        medium: "Painting",
+        medium: "Acrylic painting on canvas",
         description:
-            "Description of your second artwork.",
+            "My father is a proud plant dad. The Tan Hua flower, famously known as the Queen of the Night, is a cactus bloom that opens only for a single evening a year starting at sunset and wilting by sunrise. Having never before seen him so excited about a plant, I painted it for him to preserve that moment forever."
         image: "ArtFiles/img1.jpg",
 
         position: [
@@ -386,11 +386,11 @@ const artworks = [
 
 
     {
-        title: "Artwork Three",
-        year: "2024",
-        medium: "Digital",
+        title: "Lone Star",
+        year: "2025",
+        medium: "Acrylic painting on canvas",
         description:
-            "Description of your third artwork.",
+            "I was lucky enough to vist the original statue this painting is depicting which is The Little Mermaid, located in Copenhagen, Denmark. Unfortunately, my brother managed to slip on a rock and fall into the ocean right next to the statue in front of all the tourists.",
         image: "ArtFiles/img2.jpg",
 
         position: [
@@ -412,11 +412,11 @@ const artworks = [
     // =================================================
 
     {
-        title: "Artwork Four",
+        title: "Quick Breakfast",
         year: "2024",
-        medium: "Painting",
+        medium: "Multi-media on paper",
         description:
-            "Description of your fourth artwork.",
+            "As an individual has become increasingly more dependent on caffeine to make it through the day, I felt inspired to create a piece based on it. To me, this piece exemplifies what you're putting into your body every time you drink tea, coffee, or energy drinks, which ultimately can hurt you when overconsumed. When it came to the caffeine molecules at the front, I had to do some research to recall my chemistry understanding of the structure so that I could gather the materials necessary for the project.",
         image: "ArtFiles/img5.JPG",
 
         position: [
@@ -434,11 +434,11 @@ const artworks = [
 
 
     {
-        title: "Artwork Five",
-        year: "2023",
-        medium: "Mixed Media",
+        title: "Still Life in Blue",
+        year: "2024",
+        medium: "Pastel and acrylic paint on paper",
         description:
-            "Description of your fifth artwork.",
+            "I like the texture and colors I used here.",
         image: "ArtFiles/img7.JPG",
 
         position: [
@@ -460,11 +460,11 @@ const artworks = [
     // =================================================
 
     {
-        title: "Artwork Six",
+        title: "The Mine in my Mind",
         year: "2024",
-        medium: "Painting",
+        medium: "Acrylic marker and paint on canvas",
         description:
-            "Description of your sixth artwork.",
+            "I created this piece as an exploration of my mental health, as I was in a creative slump at the time.",
         image: "ArtFiles/img4.JPG",
 
         position: [
@@ -482,11 +482,11 @@ const artworks = [
 
 
     {
-        title: "Artwork Seven",
+        title: "Mitosis",
         year: "2024",
-        medium: "Painting",
+        medium: "Acrylic paint on canvas",
         description:
-            "Description of your seventh artwork.",
+            "I created this piece to explore the textures and ideas of separating an individual from a part of themselves. In this case, it was the beauty standard that I had familiarized myself with online. Luscious, curly hair, a small nose, big lips and big eyes were all traits I found myself lacking and frustrated that I couldn't change. This piece demonstrates the acknowledgment that I don't have to fit into that beauty standard and separating myself from it, while still recognizing the grasp it has on me and my life.",
         image: "ArtFiles/img10.JPG",
 
         position: [
@@ -504,11 +504,11 @@ const artworks = [
 
 
     {
-        title: "Artwork Eight",
-        year: "2023",
-        medium: "Digital",
+        title: "Palimpsest",
+        year: "2024",
+        medium: "Charcoal on paper",
         description:
-            "Description of your eighth artwork.",
+            "A palimpsest is defined by the Oxford Language Library as 'a manuscript or piece of writing material on which the original writing has been effaced to make room for later writing but of which traces remain'. This piece to me is both literally and metaphorically a palimpsest since the paper used in its creation was originally blueprints for a house, before then becoming a protective layer for a table from paint and markers until it finally reached my easel. Although much of the color is covered in the more busy patches of the piece, there are still traces of its original writing in the corners and empty parts. Metaphorically, big industrial infrastructure and factories are the later writings that have been written over the effaced, original writing, the nature and land that had existed there before it.",
         image: "ArtFiles/img9.JPG",
 
         position: [
@@ -526,11 +526,11 @@ const artworks = [
 
 
     {
-        title: "Artwork Nine",
-        year: "2023",
-        medium: "Painting",
+        title: "Salty Soup",
+        year: "2026",
+        medium: "Ink and paper on canvas",
         description:
-            "Description of your ninth artwork.",
+            "A meal flavored by my own tears.",
         image: "ArtFiles/img12.JPG",
 
         position: [
@@ -548,11 +548,11 @@ const artworks = [
 
 
     {
-        title: "Artwork Ten",
-        year: "2022",
-        medium: "Drawing",
+        title: "The Disparity of Abandonment",
+        year: "2024",
+        medium: "Ink, alcohol marker and gel pen on paper",
         description:
-            "Description of your tenth artwork.",
+            "I created this piece to explore the difference in mood created by different line weights, as well as to create an environment through art that conveyed abandonment. Although I initially had not planned on drawing a dog into the scene or the ray of light that it steps into, I like that it is not the first subject you notice with the building and the clutter of broken objects overwhelmingly standing out. But once you look closer, the lone dog seems like the main character of the entire piece; it is the only thing with a semblance of movement or being alive.",
         image: "ArtFiles/img11.JPG",
 
         position: [
@@ -574,11 +574,11 @@ const artworks = [
     // =================================================
 
     {
-        title: "Artwork Eleven",
-        year: "2023",
-        medium: "Painting",
+        title: "Touch Grass",
+        year: "2025",
+        medium: "Acrylic painting on canvas",
         description:
-            "Description of your eleventh artwork.",
+            "Just a little reminder to go outside. I often passed this tree stump on my way to my high school tutoring job and I was almost fascinated by the life within and around it.",
         image: "ArtFiles/img14.jpg",
 
         position: [
@@ -598,11 +598,11 @@ const artworks = [
 
 
     {
-        title: "Artwork Twelve",
-        year: "2022",
-        medium: "Digital",
+        title: "Row Row Row Your Boat",
+        year: "2026",
+        medium: "Acrylic paint on canvas",
         description:
-            "Description of your twelfth artwork.",
+            "At the time of painting this artwork I was 19 years old. 20 wasn't too far off; I was getting older than I thought. A distant dream was the ignorant joy of my youth or something like that.",
         image: "ArtFiles/img13.jpg",
 
         position: [
@@ -620,11 +620,11 @@ const artworks = [
 
 
     {
-        title: "Artwork Thirteen",
-        year: "2022",
-        medium: "Painting",
+        title: "Even Fish can Drown",
+        year: "2024",
+        medium: "Ink, alcohol marker and gel pen on paper",
         description:
-            "Description of your thirteenth artwork.",
+            "Even though fish are born in, raised in, and spend their whole life swimming and living in the water, they can 'drown' as well when not enough air gets through their gills. Although we're the creators, the consumers, and the discarders of trash, that does not mean it will not somehow bite us back. Ending up in landfills, the ocean, and in our air and food is effectively our form of 'drowning', as something we are so familiar with can be dangerous to us.",
         image: "ArtFiles/img6.JPG",
 
         position: [
@@ -644,11 +644,11 @@ const artworks = [
 
 
     {
-        title: "Artwork Fourteen",
-        year: "2021",
-        medium: "Drawing",
+        title: "Lunch",
+        year: "2024",
+        medium: "Multimedia",
         description:
-            "Description of your fourteenth artwork.",
+            "Probably my favorite piece I've created so far. Pretty self-explanatory. The chicken nuggets are from Chick-Fil-A.",
         image: "ArtFiles/img8.JPG",
 
         position: [
@@ -1969,6 +1969,12 @@ const albums = {
     "Game Music": [
 
         {
+            title: "BG Music (SS)",
+            artist: "Jianna Shao",
+            file: "ArtFiles/SSBGMusic.m4a"
+        },
+        
+        {
             title: "Ella's Room (SS)",
             artist: "Jianna Shao",
             file: "ArtFiles/EllasRoomSS.m4a"
@@ -1978,12 +1984,6 @@ const albums = {
             title: "Ella's Castle (SS)",
             artist: "Jianna Shao",
             file: "ArtFiles/EllasCastleSS.m4a"
-        },
-
-        {
-            title: "BG Music (SS)",
-            artist: "Jianna Shao",
-            file: "ArtFiles/SSBGMusic.m4a"
         },
 
         {
