@@ -1,9 +1,8 @@
 import * as THREE from "three";
-import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 
 // =====================================================
-// BASIC THREE.JS SETUP
+// BASIC SETUP
 // =====================================================
 
 const gallery = document.getElementById("gallery");
@@ -14,14 +13,20 @@ scene.background = new THREE.Color("#f3f1e8");
 
 
 const camera = new THREE.PerspectiveCamera(
-    65,
+    70,
     window.innerWidth / window.innerHeight,
     0.1,
     100
 );
 
-camera.position.set(0, 2, 8);
 
+// Starting position
+camera.position.set(0, 1.7, 10);
+
+
+// =====================================================
+// RENDERER
+// =====================================================
 
 const renderer = new THREE.WebGLRenderer({
     antialias: true
@@ -55,13 +60,13 @@ scene.add(ambientLight);
 
 const mainLight = new THREE.DirectionalLight(
     0xffffff,
-    3
+    2.5
 );
 
 mainLight.position.set(
     0,
-    8,
-    4
+    10,
+    0
 );
 
 mainLight.castShadow = true;
@@ -73,17 +78,45 @@ scene.add(mainLight);
 // MATERIALS
 // =====================================================
 
-const wallMaterial = new THREE.MeshStandardMaterial({
-    color: "#f3f1e8"
-});
+const wallMaterial =
+    new THREE.MeshStandardMaterial({
+        color: "#f3f1e8"
+    });
 
-const floorMaterial = new THREE.MeshStandardMaterial({
-    color: "#d8d2c5"
-});
+const floorMaterial =
+    new THREE.MeshStandardMaterial({
+        color: "#d5d0c4"
+    });
 
-const frameMaterial = new THREE.MeshStandardMaterial({
-    color: "#111111"
-});
+const ceilingMaterial =
+    new THREE.MeshStandardMaterial({
+        color: "#ebe8df"
+    });
+
+const frameMaterial =
+    new THREE.MeshStandardMaterial({
+        color: "#111111"
+    });
+
+
+// =====================================================
+// GALLERY DIMENSIONS
+// =====================================================
+
+// Three rooms arranged along the Z axis.
+//
+// Room 1: z = 10 → -2
+// Room 2: z = -2 → -14
+// Room 3: z = -14 → -26
+
+const ROOM_WIDTH = 14;
+const ROOM_LENGTH = 12;
+
+const WALL_HEIGHT = 7;
+
+const FLOOR_Y = 0;
+
+const CAMERA_HEIGHT = 1.7;
 
 
 // =====================================================
@@ -91,11 +124,19 @@ const frameMaterial = new THREE.MeshStandardMaterial({
 // =====================================================
 
 const floor = new THREE.Mesh(
-    new THREE.BoxGeometry(20, 0.2, 20),
+    new THREE.BoxGeometry(
+        ROOM_WIDTH,
+        0.2,
+        ROOM_LENGTH * 3
+    ),
     floorMaterial
 );
 
-floor.position.y = -0.1;
+floor.position.set(
+    0,
+    -0.1,
+    -8
+);
 
 floor.receiveShadow = true;
 
@@ -103,12 +144,33 @@ scene.add(floor);
 
 
 // =====================================================
-// GALLERY WALLS
+// CEILING
+// =====================================================
+
+const ceiling = new THREE.Mesh(
+    new THREE.BoxGeometry(
+        ROOM_WIDTH,
+        0.2,
+        ROOM_LENGTH * 3
+    ),
+    ceilingMaterial
+);
+
+ceiling.position.set(
+    0,
+    WALL_HEIGHT,
+    -8
+);
+
+scene.add(ceiling);
+
+
+// =====================================================
+// WALL CREATION
 // =====================================================
 
 function createWall(
     width,
-    height,
     depth,
     x,
     y,
@@ -118,13 +180,17 @@ function createWall(
     const wall = new THREE.Mesh(
         new THREE.BoxGeometry(
             width,
-            height,
+            WALL_HEIGHT,
             depth
         ),
         wallMaterial
     );
 
-    wall.position.set(x, y, z);
+    wall.position.set(
+        x,
+        WALL_HEIGHT / 2,
+        z
+    );
 
     wall.receiveShadow = true;
 
@@ -134,36 +200,95 @@ function createWall(
 }
 
 
-// Back wall
-createWall(
-    20,
-    6,
-    0.2,
-    0,
-    3,
-    -6
-);
-
+// =====================================================
+// OUTER WALLS
+// =====================================================
 
 // Left wall
 createWall(
-    0.2,
-    6,
-    12,
-    -10,
-    3,
-    0
+    0.3,
+    ROOM_LENGTH * 3,
+    -ROOM_WIDTH / 2,
+    0,
+    -8
 );
 
 
 // Right wall
 createWall(
-    0.2,
-    6,
-    12,
-    10,
-    3,
-    0
+    0.3,
+    ROOM_LENGTH * 3,
+    ROOM_WIDTH / 2,
+    0,
+    -8
+);
+
+
+// Back wall
+createWall(
+    ROOM_WIDTH,
+    0.3,
+    0,
+    0,
+    -26
+);
+
+
+// Front wall
+createWall(
+    ROOM_WIDTH,
+    0.3,
+    0,
+    0,
+    10
+);
+
+
+// =====================================================
+// ROOM DIVIDERS
+// =====================================================
+//
+// Each divider has an opening in the middle.
+// This creates three distinct rooms while allowing
+// the visitor to walk between them.
+//
+
+
+// Divider at z = -2
+
+createWall(
+    ROOM_WIDTH / 2 - 2,
+    0.3,
+    -ROOM_WIDTH / 4 - 1,
+    0,
+    -2
+);
+
+createWall(
+    ROOM_WIDTH / 2 - 2,
+    0.3,
+    ROOM_WIDTH / 4 + 1,
+    0,
+    -2
+);
+
+
+// Divider at z = -14
+
+createWall(
+    ROOM_WIDTH / 2 - 2,
+    0.3,
+    -ROOM_WIDTH / 4 - 1,
+    0,
+    -14
+);
+
+createWall(
+    ROOM_WIDTH / 2 - 2,
+    0.3,
+    ROOM_WIDTH / 4 + 1,
+    0,
+    -14
 );
 
 
@@ -173,52 +298,206 @@ createWall(
 
 const artworks = [
 
+    // ================================
+    // ROOM 1 — 5 PIECES
+    // ================================
+
     {
         title: "Artwork One",
         year: "2025",
-        medium: "Oil on canvas",
-        description:
-            "A study exploring form, color, and composition.",
-        image:
-            "Art/artwork1.jpg",
-        position:
-            [-5, 3, -5.85],
-        rotation:
-            [0, 0, 0],
-        size:
-            [3, 2.5]
+        medium: "Painting",
+        description: "Description of your first artwork.",
+        image: "Art/artwork1.jpg",
+
+        position: [-3.8, 3.1, 9.8],
+        rotation: [0, Math.PI, 0],
+
+        size: [3.2, 2.4]
     },
 
     {
         title: "Artwork Two",
-        year: "2024",
-        medium: "Acrylic on canvas",
-        description:
-            "An exploration of structure and visual rhythm.",
-        image:
-            "Art/artwork2.jpg",
-        position:
-            [0, 3, -5.85],
-        rotation:
-            [0, 0, 0],
-        size:
-            [3, 2.5]
+        year: "2025",
+        medium: "Painting",
+        description: "Description of your second artwork.",
+        image: "Art/artwork2.jpg",
+
+        position: [0, 3.1, 9.8],
+        rotation: [0, Math.PI, 0],
+
+        size: [3.2, 2.4]
     },
 
     {
         title: "Artwork Three",
         year: "2024",
-        medium: "Digital illustration",
-        description:
-            "A digital work exploring shape, atmosphere, and narrative.",
-        image:
-            "Art/artwork3.jpg",
-        position:
-            [5, 3, -5.85],
-        rotation:
-            [0, 0, 0],
-        size:
-            [3, 2.5]
+        medium: "Digital",
+        description: "Description of your third artwork.",
+        image: "Art/artwork3.jpg",
+
+        position: [3.8, 3.1, 9.8],
+        rotation: [0, Math.PI, 0],
+
+        size: [3.2, 2.4]
+    },
+
+    // Vertical
+    {
+        title: "Artwork Four",
+        year: "2024",
+        medium: "Painting",
+        description: "Description of your fourth artwork.",
+        image: "Art/artwork4.jpg",
+
+        position: [-6.8, 3.1, 4],
+        rotation: [0, Math.PI / 2, 0],
+
+        size: [2, 3.2]
+    },
+
+    // Vertical
+    {
+        title: "Artwork Five",
+        year: "2023",
+        medium: "Mixed Media",
+        description: "Description of your fifth artwork.",
+        image: "Art/artwork5.jpg",
+
+        position: [6.8, 3.1, 4],
+        rotation: [0, -Math.PI / 2, 0],
+
+        size: [2, 3.2]
+    },
+
+
+    // ================================
+    // ROOM 2 — 5 PIECES
+    // ================================
+
+    {
+        title: "Artwork Six",
+        year: "2024",
+        medium: "Painting",
+        description: "Description of your sixth artwork.",
+        image: "Art/artwork6.jpg",
+
+        position: [-3.8, 3.1, -8],
+        rotation: [0, 0, 0],
+
+        size: [3.2, 2.4]
+    },
+
+    {
+        title: "Artwork Seven",
+        year: "2024",
+        medium: "Painting",
+        description: "Description of your seventh artwork.",
+        image: "Art/artwork7.jpg",
+
+        position: [0, 3.1, -8],
+        rotation: [0, 0, 0],
+
+        size: [3.2, 2.4]
+    },
+
+    {
+        title: "Artwork Eight",
+        year: "2023",
+        medium: "Digital",
+        description: "Description of your eighth artwork.",
+        image: "Art/artwork8.jpg",
+
+        position: [3.8, 3.1, -8],
+        rotation: [0, 0, 0],
+
+        size: [3.2, 2.4]
+    },
+
+    // Vertical
+    {
+        title: "Artwork Nine",
+        year: "2023",
+        medium: "Painting",
+        description: "Description of your ninth artwork.",
+        image: "Art/artwork9.jpg",
+
+        position: [-6.8, 3.1, -4.5],
+        rotation: [0, Math.PI / 2, 0],
+
+        size: [2, 3.2]
+    },
+
+    // Vertical
+    {
+        title: "Artwork Ten",
+        year: "2022",
+        medium: "Drawing",
+        description: "Description of your tenth artwork.",
+        image: "Art/artwork10.jpg",
+
+        position: [6.8, 3.1, -11],
+        rotation: [0, -Math.PI / 2, 0],
+
+        size: [2, 3.2]
+    },
+
+
+    // ================================
+    // ROOM 3 — 4 PIECES
+    // ================================
+
+    {
+        title: "Artwork Eleven",
+        year: "2023",
+        medium: "Painting",
+        description: "Description of your eleventh artwork.",
+        image: "Art/artwork11.jpg",
+
+        position: [-3.8, 3.1, -20],
+        rotation: [0, 0, 0],
+
+        size: [3.2, 2.4]
+    },
+
+    {
+        title: "Artwork Twelve",
+        year: "2022",
+        medium: "Digital",
+        description: "Description of your twelfth artwork.",
+        image: "Art/artwork12.jpg",
+
+        position: [3.8, 3.1, -20],
+        rotation: [0, 0, 0],
+
+        size: [3.2, 2.4]
+    },
+
+    // Vertical
+    {
+        title: "Artwork Thirteen",
+        year: "2022",
+        medium: "Painting",
+        description: "Description of your thirteenth artwork.",
+        image: "Art/artwork13.jpg",
+
+        position: [-6.8, 3.1, -23],
+        rotation: [0, Math.PI / 2, 0],
+
+        size: [2, 3.2]
+    },
+
+    // Vertical
+    {
+        title: "Artwork Fourteen",
+        year: "2021",
+        medium: "Drawing",
+        description: "Description of your fourteenth artwork.",
+        image: "Art/artwork14.jpg",
+
+        position: [6.8, 3.1, -18],
+        rotation: [0, -Math.PI / 2, 0],
+
+        size: [2, 3.2]
     }
 
 ];
@@ -226,26 +505,62 @@ const artworks = [
 
 const clickableArt = [];
 
-const textureLoader = new THREE.TextureLoader();
+const textureLoader =
+    new THREE.TextureLoader();
 
+
+// =====================================================
+// CREATE ARTWORK
+// =====================================================
 
 function createArtwork(art) {
 
     const texture =
         textureLoader.load(art.image);
 
-    const artworkMaterial =
+    const material =
         new THREE.MeshStandardMaterial({
             map: texture
         });
 
-    const artwork = new THREE.Mesh(
-        new THREE.PlaneGeometry(
-            art.size[0],
-            art.size[1]
-        ),
-        artworkMaterial
+
+    // Frame
+
+    const frame =
+        new THREE.Mesh(
+            new THREE.BoxGeometry(
+                art.size[0] + 0.18,
+                art.size[1] + 0.18,
+                0.12
+            ),
+            frameMaterial
+        );
+
+    frame.position.set(
+        art.position[0],
+        art.position[1],
+        art.position[2]
     );
+
+    frame.rotation.set(
+        art.rotation[0],
+        art.rotation[1],
+        art.rotation[2]
+    );
+
+    scene.add(frame);
+
+
+    // Artwork
+
+    const artwork =
+        new THREE.Mesh(
+            new THREE.PlaneGeometry(
+                art.size[0],
+                art.size[1]
+            ),
+            material
+        );
 
     artwork.position.set(
         art.position[0],
@@ -265,150 +580,366 @@ function createArtwork(art) {
 
     clickableArt.push(artwork);
 
-
-    // Frame
-
-    const frame = new THREE.Mesh(
-        new THREE.BoxGeometry(
-            art.size[0] + 0.2,
-            art.size[1] + 0.2,
-            0.1
-        ),
-        frameMaterial
-    );
-
-    frame.position.set(
-        art.position[0],
-        art.position[1],
-        art.position[2] + 0.03
-    );
-
-    frame.rotation.set(
-        art.rotation[0],
-        art.rotation[1],
-        art.rotation[2]
-    );
-
-    scene.add(frame);
-
-    // Move artwork slightly forward
-    artwork.position.z -= 0.06;
-
 }
 
 
-artworks.forEach(createArtwork);
+artworks.forEach(
+    createArtwork
+);
 
 
 // =====================================================
-// SIDE-WALL ARTWORK
+// POTTED PLANTS
 // =====================================================
 
-function createSideArtwork(
-    image,
-    position,
-    rotation,
-    size,
-    data
-) {
+function createPlant(x, z) {
 
-    const texture =
-        textureLoader.load(image);
+    // Pot
 
-    const material =
+    const potMaterial =
         new THREE.MeshStandardMaterial({
-            map: texture
+            color: "#a89b82"
         });
 
-    const artwork =
+    const pot =
         new THREE.Mesh(
-            new THREE.PlaneGeometry(
-                size[0],
-                size[1]
+            new THREE.CylinderGeometry(
+                0.45,
+                0.55,
+                0.8,
+                16
             ),
-            material
+            potMaterial
         );
 
-    artwork.position.set(
-        position[0],
-        position[1],
-        position[2]
+    pot.position.set(
+        x,
+        0.4,
+        z
     );
 
-    artwork.rotation.set(
-        rotation[0],
-        rotation[1],
-        rotation[2]
-    );
+    scene.add(pot);
 
-    artwork.userData = data;
 
-    scene.add(artwork);
+    // Leaves
 
-    clickableArt.push(artwork);
+    const leafMaterial =
+        new THREE.MeshStandardMaterial({
+            color: "#526f61"
+        });
+
+
+    for (let i = 0; i < 7; i++) {
+
+        const leaf =
+            new THREE.Mesh(
+                new THREE.SphereGeometry(
+                    0.45,
+                    8,
+                    8
+                ),
+                leafMaterial
+            );
+
+        const angle =
+            (i / 7) * Math.PI * 2;
+
+        leaf.scale.set(
+            0.6,
+            1.3,
+            0.4
+        );
+
+        leaf.position.set(
+            x + Math.cos(angle) * 0.35,
+            1.2 + (i % 2) * 0.3,
+            z + Math.sin(angle) * 0.35
+        );
+
+        scene.add(leaf);
+
+    }
 
 }
 
 
-// Left wall
+// Plants in room corners
 
-createSideArtwork(
-    "Art/artwork4.jpg",
-    [-9.85, 3, -2],
-    [0, Math.PI / 2, 0],
-    [3, 2.5],
-    {
-        title: "Artwork Four",
-        year: "2023",
-        medium: "Mixed media",
-        description:
-            "An exploration of material, texture, and form."
+createPlant(
+    -5.8,
+    7.5
+);
+
+createPlant(
+    5.8,
+    -0.5
+);
+
+createPlant(
+    -5.8,
+    -16
+);
+
+createPlant(
+    5.8,
+    -24
+);
+
+
+// =====================================================
+// CAMERA / MOVEMENT
+// =====================================================
+
+let yaw = 0;
+let pitch = 0;
+
+let mouseDown = false;
+
+let lastMouseX = 0;
+let lastMouseY = 0;
+
+
+const keys = {
+    w: false,
+    a: false,
+    s: false,
+    d: false
+};
+
+
+// Keyboard
+
+window.addEventListener(
+    "keydown",
+    (event) => {
+
+        const key =
+            event.key.toLowerCase();
+
+        if (key in keys) {
+
+            keys[key] = true;
+
+            event.preventDefault();
+
+        }
+
     }
 );
 
 
-// Right wall
+window.addEventListener(
+    "keyup",
+    (event) => {
 
-createSideArtwork(
-    "Art/artwork5.jpg",
-    [9.85, 3, 2],
-    [0, -Math.PI / 2, 0],
-    [3, 2.5],
-    {
-        title: "Artwork Five",
-        year: "2023",
-        medium: "Digital art",
-        description:
-            "A study of atmosphere and visual storytelling."
+        const key =
+            event.key.toLowerCase();
+
+        if (key in keys) {
+
+            keys[key] = false;
+
+        }
+
     }
 );
 
 
 // =====================================================
-// CAMERA CONTROLS
+// MOUSE LOOK
 // =====================================================
 
-const controls = new OrbitControls(
-    camera,
-    renderer.domElement
+renderer.domElement.addEventListener(
+    "mousedown",
+    (event) => {
+
+        mouseDown = true;
+
+        lastMouseX = event.clientX;
+        lastMouseY = event.clientY;
+
+    }
 );
 
-controls.enableDamping = true;
 
-controls.enablePan = false;
+window.addEventListener(
+    "mouseup",
+    () => {
 
-controls.minDistance = 2;
+        mouseDown = false;
 
-controls.maxDistance = 10;
-
-controls.maxPolarAngle =
-    Math.PI / 2.05;
-
-controls.target.set(
-    0,
-    2.5,
-    -3
+    }
 );
+
+
+window.addEventListener(
+    "mousemove",
+    (event) => {
+
+        if (!mouseDown) return;
+
+        const movementX =
+            event.clientX - lastMouseX;
+
+        const movementY =
+            event.clientY - lastMouseY;
+
+
+        yaw -= movementX * 0.003;
+
+        pitch -= movementY * 0.003;
+
+
+        const maxPitch =
+            Math.PI / 2.5;
+
+        pitch =
+            Math.max(
+                -maxPitch,
+                Math.min(maxPitch, pitch)
+            );
+
+
+        lastMouseX = event.clientX;
+        lastMouseY = event.clientY;
+
+    }
+);
+
+
+// =====================================================
+// CAMERA BOUNDS
+// =====================================================
+
+function keepCameraInside() {
+
+    const margin = 1.2;
+
+    // Keep inside outer walls
+
+    camera.position.x =
+        Math.max(
+            -ROOM_WIDTH / 2 + margin,
+            Math.min(
+                ROOM_WIDTH / 2 - margin,
+                camera.position.x
+            )
+        );
+
+
+    camera.position.z =
+        Math.max(
+            -26 + margin,
+            Math.min(
+                10 - margin,
+                camera.position.z
+            )
+        );
+
+
+    // Never let camera leave floor
+
+    camera.position.y =
+        CAMERA_HEIGHT;
+
+}
+
+
+// =====================================================
+// MOVEMENT
+// =====================================================
+
+function moveCamera(delta) {
+
+    const speed = 4;
+
+
+    const forward =
+        new THREE.Vector3(
+            Math.sin(yaw),
+            0,
+            Math.cos(yaw)
+        );
+
+
+    const right =
+        new THREE.Vector3(
+            Math.cos(yaw),
+            0,
+            -Math.sin(yaw)
+        );
+
+
+    const movement =
+        new THREE.Vector3();
+
+
+    if (keys.w) {
+
+        movement.add(
+            forward
+        );
+
+    }
+
+    if (keys.s) {
+
+        movement.sub(
+            forward
+        );
+
+    }
+
+    if (keys.d) {
+
+        movement.add(
+            right
+        );
+
+    }
+
+    if (keys.a) {
+
+        movement.sub(
+            right
+        );
+
+    }
+
+
+    if (movement.lengthSq() > 0) {
+
+        movement.normalize();
+
+        camera.position.addScaledVector(
+            movement,
+            speed * delta
+        );
+
+    }
+
+
+    keepCameraInside();
+
+}
+
+
+// =====================================================
+// CAMERA LOOK
+// =====================================================
+
+function updateCameraRotation() {
+
+    camera.rotation.order =
+        "YXZ";
+
+    camera.rotation.y =
+        yaw;
+
+    camera.rotation.x =
+        pitch;
+
+}
 
 
 // =====================================================
@@ -447,13 +978,14 @@ renderer.domElement.addEventListener(
             );
 
 
-        if (intersections.length > 0) {
-
-            const artwork =
-                intersections[0].object;
+        if (
+            intersections.length > 0
+        ) {
 
             showArtworkInfo(
-                artwork.userData
+                intersections[0]
+                    .object
+                    .userData
             );
 
         }
@@ -463,7 +995,7 @@ renderer.domElement.addEventListener(
 
 
 // =====================================================
-// ARTWORK INFORMATION PANEL
+// ARTWORK INFO
 // =====================================================
 
 const infoPanel =
@@ -471,29 +1003,28 @@ const infoPanel =
         "artwork-info"
     );
 
-const closeInfo =
-    document.getElementById(
-        "close-info"
-    );
-
 
 function showArtworkInfo(data) {
 
     document.getElementById(
         "artwork-year"
-    ).textContent = data.year;
+    ).textContent =
+        data.year;
 
     document.getElementById(
         "artwork-title"
-    ).textContent = data.title;
+    ).textContent =
+        data.title;
 
     document.getElementById(
         "artwork-medium"
-    ).textContent = data.medium;
+    ).textContent =
+        data.medium;
 
     document.getElementById(
         "artwork-description"
-    ).textContent = data.description;
+    ).textContent =
+        data.description;
 
     infoPanel.classList.remove(
         "hidden"
@@ -502,9 +1033,11 @@ function showArtworkInfo(data) {
 }
 
 
-closeInfo.addEventListener(
+document.getElementById(
+    "close-info"
+).addEventListener(
     "click",
-    function() {
+    () => {
 
         infoPanel.classList.add(
             "hidden"
@@ -542,6 +1075,7 @@ const albums = {
 
     ],
 
+
     "Album Two": [
 
         {
@@ -556,29 +1090,32 @@ const albums = {
             file: "Music/song5.mp3"
         }
 
+    ],
+
+
+    "Album Three": [
+
+        {
+            title: "Song Six",
+            artist: "Your Name",
+            file: "Music/song6.mp3"
+        }
+
     ]
 
 };
 
-
-// =====================================================
-// MUSIC PLAYER STATE
-// =====================================================
 
 let currentAlbum =
     Object.keys(albums)[0];
 
 let currentSong = 0;
 
-let audio =
+const audio =
     new Audio();
 
 let isPlaying = false;
 
-
-// =====================================================
-// MUSIC ELEMENTS
-// =====================================================
 
 const albumName =
     document.getElementById(
@@ -601,10 +1138,6 @@ const playButton =
     );
 
 
-// =====================================================
-// LOAD SONG
-// =====================================================
-
 function loadSong() {
 
     const song =
@@ -622,21 +1155,17 @@ function loadSong() {
     audio.src =
         song.file;
 
-    audio.load();
-
 }
 
 
 loadSong();
 
 
-// =====================================================
-// PLAY / PAUSE
-// =====================================================
+// Play / pause
 
 playButton.addEventListener(
     "click",
-    function() {
+    () => {
 
         if (isPlaying) {
 
@@ -654,11 +1183,12 @@ playButton.addEventListener(
 
 audio.addEventListener(
     "play",
-    function() {
+    () => {
 
         isPlaying = true;
 
-        playButton.textContent = "Ⅱ";
+        playButton.textContent =
+            "Ⅱ";
 
     }
 );
@@ -666,25 +1196,24 @@ audio.addEventListener(
 
 audio.addEventListener(
     "pause",
-    function() {
+    () => {
 
         isPlaying = false;
 
-        playButton.textContent = "▶";
+        playButton.textContent =
+            "▶";
 
     }
 );
 
 
-// =====================================================
-// NEXT SONG
-// =====================================================
+// Next
 
 document.getElementById(
     "next"
 ).addEventListener(
     "click",
-    function() {
+    () => {
 
         currentSong++;
 
@@ -705,15 +1234,13 @@ document.getElementById(
 );
 
 
-// =====================================================
-// PREVIOUS SONG
-// =====================================================
+// Previous
 
 document.getElementById(
     "previous"
 ).addEventListener(
     "click",
-    function() {
+    () => {
 
         currentSong--;
 
@@ -732,13 +1259,11 @@ document.getElementById(
 );
 
 
-// =====================================================
-// AUTOMATICALLY NEXT SONG
-// =====================================================
+// Automatically play next
 
 audio.addEventListener(
     "ended",
-    function() {
+    () => {
 
         currentSong++;
 
@@ -781,7 +1306,7 @@ const albumList =
 
 albumButton.addEventListener(
     "click",
-    function() {
+    () => {
 
         albumMenu.classList.toggle(
             "hidden"
@@ -791,10 +1316,8 @@ albumButton.addEventListener(
 );
 
 
-// Create album buttons
-
 Object.keys(albums).forEach(
-    function(album) {
+    (album) => {
 
         const button =
             document.createElement(
@@ -810,7 +1333,7 @@ Object.keys(albums).forEach(
 
         button.addEventListener(
             "click",
-            function() {
+            () => {
 
                 currentAlbum =
                     album;
@@ -836,12 +1359,50 @@ Object.keys(albums).forEach(
 
 
 // =====================================================
-// WINDOW RESIZE
+// ANIMATION
+// =====================================================
+
+const clock =
+    new THREE.Clock();
+
+
+function animate() {
+
+    requestAnimationFrame(
+        animate
+    );
+
+
+    const delta =
+        Math.min(
+            clock.getDelta(),
+            0.05
+        );
+
+
+    moveCamera(delta);
+
+    updateCameraRotation();
+
+
+    renderer.render(
+        scene,
+        camera
+    );
+
+}
+
+
+animate();
+
+
+// =====================================================
+// RESIZE
 // =====================================================
 
 window.addEventListener(
     "resize",
-    function() {
+    () => {
 
         camera.aspect =
             window.innerWidth /
@@ -856,25 +1417,3 @@ window.addEventListener(
 
     }
 );
-
-
-// =====================================================
-// ANIMATION LOOP
-// =====================================================
-
-function animate() {
-
-    requestAnimationFrame(
-        animate
-    );
-
-    controls.update();
-
-    renderer.render(
-        scene,
-        camera
-    );
-
-}
-
-animate();
