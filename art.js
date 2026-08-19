@@ -143,6 +143,30 @@ const frameMaterial =
 
 
 // =====================================================
+// GREY ARCHITECTURAL TRIM
+// =====================================================
+
+const trimMaterial =
+    new THREE.MeshStandardMaterial({
+        color: "#777777",
+        roughness: 0.7,
+        metalness: 0.05
+    });
+
+
+// =====================================================
+// GREY COLUMNS
+// =====================================================
+
+const columnMaterial =
+    new THREE.MeshStandardMaterial({
+        color: "#707070",
+        roughness: 0.75,
+        metalness: 0.05
+    });
+
+
+// =====================================================
 // GALLERY DIMENSIONS
 // =====================================================
 
@@ -153,6 +177,19 @@ const ROOM_LENGTH = 12;
 const WALL_HEIGHT = 7;
 
 const CAMERA_HEIGHT = 2;
+
+
+// =====================================================
+// ARCHITECTURAL DETAILS
+// =====================================================
+
+const TRIM_HEIGHT = 0.18;
+
+const TRIM_DEPTH = 0.22;
+
+const COLUMN_RADIUS = 0.22;
+
+const COLUMN_SEGMENTS = 24;
 
 
 // =====================================================
@@ -266,6 +303,150 @@ function createWall(
 
 
 // =====================================================
+// TRIM CREATION
+// =====================================================
+
+// Horizontal trim running along an X-axis wall
+
+function createHorizontalTrim(
+    width,
+    x,
+    z
+) {
+
+    // Bottom trim
+
+    const bottom =
+        new THREE.Mesh(
+
+            new THREE.BoxGeometry(
+                width,
+                TRIM_HEIGHT,
+                TRIM_DEPTH
+            ),
+
+            trimMaterial
+
+        );
+
+    bottom.position.set(
+        x,
+        TRIM_HEIGHT / 2,
+        z
+    );
+
+    bottom.castShadow = true;
+
+    bottom.receiveShadow = true;
+
+    scene.add(
+        bottom
+    );
+
+
+    // Top trim
+
+    const top =
+        new THREE.Mesh(
+
+            new THREE.BoxGeometry(
+                width,
+                TRIM_HEIGHT,
+                TRIM_DEPTH
+            ),
+
+            trimMaterial
+
+        );
+
+    top.position.set(
+        x,
+        WALL_HEIGHT -
+        TRIM_HEIGHT / 2,
+        z
+    );
+
+    top.castShadow = true;
+
+    top.receiveShadow = true;
+
+    scene.add(
+        top
+    );
+}
+
+
+// Horizontal trim for side walls running along Z
+
+function createVerticalTrim(
+    depth,
+    x,
+    z
+) {
+
+    // Bottom trim
+
+    const bottom =
+        new THREE.Mesh(
+
+            new THREE.BoxGeometry(
+                TRIM_DEPTH,
+                TRIM_HEIGHT,
+                depth
+            ),
+
+            trimMaterial
+
+        );
+
+    bottom.position.set(
+        x,
+        TRIM_HEIGHT / 2,
+        z
+    );
+
+    bottom.castShadow = true;
+
+    bottom.receiveShadow = true;
+
+    scene.add(
+        bottom
+    );
+
+
+    // Top trim
+
+    const top =
+        new THREE.Mesh(
+
+            new THREE.BoxGeometry(
+                TRIM_DEPTH,
+                TRIM_HEIGHT,
+                depth
+            ),
+
+            trimMaterial
+
+        );
+
+    top.position.set(
+        x,
+        WALL_HEIGHT -
+        TRIM_HEIGHT / 2,
+        z
+    );
+
+    top.castShadow = true;
+
+    top.receiveShadow = true;
+
+    scene.add(
+        top
+    );
+}
+
+
+// =====================================================
 // OUTER WALLS
 // =====================================================
 
@@ -273,6 +454,12 @@ function createWall(
 
 createWall(
     0.3,
+    ROOM_LENGTH * 3,
+    -ROOM_WIDTH / 2,
+    -8
+);
+
+createVerticalTrim(
     ROOM_LENGTH * 3,
     -ROOM_WIDTH / 2,
     -8
@@ -288,6 +475,12 @@ createWall(
     -8
 );
 
+createVerticalTrim(
+    ROOM_LENGTH * 3,
+    ROOM_WIDTH / 2,
+    -8
+);
+
 
 // FRONT
 
@@ -298,12 +491,24 @@ createWall(
     10
 );
 
+createHorizontalTrim(
+    ROOM_WIDTH,
+    0,
+    10
+);
+
 
 // BACK
 
 createWall(
     ROOM_WIDTH,
     0.3,
+    0,
+    -26
+);
+
+createHorizontalTrim(
+    ROOM_WIDTH,
     0,
     -26
 );
@@ -320,9 +525,22 @@ createWall(
     -2
 );
 
+createHorizontalTrim(
+    ROOM_WIDTH / 2 - 2,
+    -4.5,
+    -2
+);
+
+
 createWall(
     ROOM_WIDTH / 2 - 2,
     0.3,
+    4.5,
+    -2
+);
+
+createHorizontalTrim(
+    ROOM_WIDTH / 2 - 2,
     4.5,
     -2
 );
@@ -340,11 +558,129 @@ createWall(
     -14
 );
 
+createHorizontalTrim(
+    ROOM_WIDTH / 2 - 2,
+    -4.5,
+    -14
+);
+
+
 createWall(
     ROOM_WIDTH / 2 - 2,
     0.3,
     4.5,
     -14
+);
+
+createHorizontalTrim(
+    ROOM_WIDTH / 2 - 2,
+    4.5,
+    -14
+);
+
+
+// =====================================================
+// CORNER COLUMNS
+// =====================================================
+
+// Columns are placed at the four room boundaries:
+// z = 10, -2, -14, -26
+//
+// Only the outer corners of the gallery are used,
+// while the doorway remains completely open.
+
+function createColumn(
+    x,
+    z
+) {
+
+    const column =
+        new THREE.Mesh(
+
+            new THREE.CylinderGeometry(
+                COLUMN_RADIUS,
+                COLUMN_RADIUS,
+                WALL_HEIGHT,
+                COLUMN_SEGMENTS
+            ),
+
+            columnMaterial
+
+        );
+
+    column.position.set(
+        x,
+        WALL_HEIGHT / 2,
+        z
+    );
+
+    column.castShadow = true;
+
+    column.receiveShadow = true;
+
+    scene.add(
+        column
+    );
+}
+
+
+// =====================================================
+// FRONT ROOM CORNERS
+// =====================================================
+
+createColumn(
+    -ROOM_WIDTH / 2,
+    10
+);
+
+createColumn(
+    ROOM_WIDTH / 2,
+    10
+);
+
+
+// =====================================================
+// ROOM 1 / ROOM 2 CORNERS
+// =====================================================
+
+createColumn(
+    -ROOM_WIDTH / 2,
+    -2
+);
+
+createColumn(
+    ROOM_WIDTH / 2,
+    -2
+);
+
+
+// =====================================================
+// ROOM 2 / ROOM 3 CORNERS
+// =====================================================
+
+createColumn(
+    -ROOM_WIDTH / 2,
+    -14
+);
+
+createColumn(
+    ROOM_WIDTH / 2,
+    -14
+);
+
+
+// =====================================================
+// BACK ROOM CORNERS
+// =====================================================
+
+createColumn(
+    -ROOM_WIDTH / 2,
+    -26
+);
+
+createColumn(
+    ROOM_WIDTH / 2,
+    -26
 );
 
 
@@ -1123,16 +1459,8 @@ function createArtwork(art) {
         },
 
 
-        // =================================================
-        // PROGRESS
-        // =================================================
-
         undefined,
 
-
-        // =================================================
-        // ERROR
-        // =================================================
 
         (error) => {
 
@@ -1253,9 +1581,7 @@ function createGalleryLight(
     light.position.set(
 
         x,
-
         y - 0.05,
-
         z
 
     );
@@ -1264,9 +1590,7 @@ function createGalleryLight(
     light.target.position.set(
 
         targetX,
-
         targetY,
-
         targetZ
 
     );
