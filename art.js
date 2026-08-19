@@ -362,8 +362,9 @@ const artworks = [
             "Description of your first artwork.",
         image: "ArtFiles/img3.jpg",
 
+        // Artwork 1
         position: [
-            -3.8,
+            -4.2,
             3.1,
             9.84
         ],
@@ -384,6 +385,7 @@ const artworks = [
             "Description of your second artwork.",
         image: "ArtFiles/img1.jpg",
 
+        // Artwork 2
         position: [
             0,
             3.1,
@@ -406,13 +408,13 @@ const artworks = [
             "Description of your third artwork.",
         image: "ArtFiles/img2.jpg",
 
+            // Artwork 3
         position: [
-            3.8,
+            4.2,
             3.1,
             9.84
         ],
-
-        rotation: [
+                rotation: [
             0,
             Math.PI,
             0
@@ -566,12 +568,12 @@ const artworks = [
         medium: "Drawing",
         description:
             "Description of your tenth artwork.",
-        image: "ArtFiles/img1.JPG",
+        image: "ArtFiles/img11.JPG",
 
         position: [
             6.84,
             3.1,
-            -11
+            -8
         ],
 
         rotation: [
@@ -757,9 +759,9 @@ function createArtwork(art) {
             // ARTWORK SIZE
             // =================================================
 
-            let maxWidth = 3.8;
+            let maxWidth = 4;
 
-            let maxHeight = 3.2;
+            let maxHeight = 4;
 
 
             if (
