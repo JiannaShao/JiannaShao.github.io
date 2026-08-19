@@ -106,15 +106,15 @@ const wallMaterial =
 
 const floorMaterial =
     new THREE.MeshStandardMaterial({
-        color: "#182b3d",
-        roughness: 0.85
+        color: "#f3f1e8",
+        roughness: 0.9
     });
 
 
 const ceilingMaterial =
     new THREE.MeshStandardMaterial({
-        color: "#263d52",
-        roughness: 0.95
+        color: "#f3f1e8",
+        roughness: 0.9
     });
 
 
