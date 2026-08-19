@@ -1,17 +1,302 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Jianna Shao's Portfolio</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Jianna Shao | Portfolio</title>
+
+    <link rel="stylesheet" href="index.css">
 </head>
+
 <body>
-    <h1>Hi, I'm Jianna Shao!</h1>
-    <p>Welcome to my portfolio.</p>
-    <a href="aquarium.html">Interactive Aquarium 🐟</a>
-    <br>
-    <a href="design.html">Product Design Portfolio</a>
-    <br>
-    <a href="research.html">Research</a>
-    <br>
-    <a href="art-select.html">Art Portfolio/Gallery</a>
+
+    <!-- =====================================================
+         NAVIGATION
+    ====================================================== -->
+
+    <nav class="navbar">
+
+        <div class="nav-container">
+
+            <!-- NAME / LOGO -->
+
+            <a href="index.html" class="nav-logo">
+                Jianna Shao
+            </a>
+
+
+            <!-- NAVIGATION LINKS -->
+
+            <div class="nav-links">
+
+                <a href="index.html">
+                    Home
+                </a>
+
+
+                <!-- ART DROPDOWN -->
+
+                <div class="nav-dropdown">
+
+                    <button class="dropdown-button">
+                        Art
+                        <span>⌄</span>
+                    </button>
+
+                    <div class="dropdown-menu">
+
+                        <a href="art-select.html">
+                            Art Portfolio / Gallery
+                        </a>
+
+                        <a href="art-portfolio.html">
+                            Traditional Portfolio
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DESIGN DROPDOWN -->
+
+                <div class="nav-dropdown">
+
+                    <button class="dropdown-button">
+                        Design
+                        <span>⌄</span>
+                    </button>
+
+                    <div class="dropdown-menu">
+
+                        <a href="design.html">
+                            Product Design
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <a href="research.html">
+                    Research
+                </a>
+
+
+                <a href="aquarium.html">
+                    Interactive
+                </a>
+
+
+                <a href="#contact">
+                    Contact
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <main>
+
+        <section class="hero">
+
+            <h1>
+                Jianna Shao
+            </h1>
+
+            <p>
+                Artist, designer, researcher, and creative technologist.
+            </p>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             FEATURED WORK
+        ====================================================== -->
+
+        <section class="featured">
+
+            <h2>
+                Featured Work
+            </h2>
+
+            <div class="carousel">
+
+                <div class="carousel-track">
+
+                    <!-- Replace these images with whatever you
+                         want featured on your homepage -->
+
+                    <a href="art-select.html">
+                        <img
+                            src="ArtFiles/img3.jpg"
+                            alt="Heaven is Quiet"
+                        >
+                    </a>
+
+
+                    <a href="design.html">
+                        <img
+                            src="ArtFiles/img1.jpg"
+                            alt="Product Design"
+                        >
+                    </a>
+
+
+                    <a href="research.html">
+                        <img
+                            src="ArtFiles/img2.jpg"
+                            alt="Research"
+                        >
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             ABOUT / INTRO
+        ====================================================== -->
+
+        <section class="intro">
+
+            <h2>
+                Welcome
+            </h2>
+
+            <p>
+                Welcome to my portfolio. Explore my work across
+                art, product design, research, and interactive
+                projects.
+            </p>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             CONTACT
+        ====================================================== -->
+
+        <section
+            class="contact"
+            id="contact"
+        >
+
+            <h2>
+                Contact
+            </h2>
+
+            <p>
+                Interested in working together or learning more
+                about my work?
+            </p>
+
+            <p>
+                <a href="mailto:YOUR_EMAIL_HERE">
+                    YOUR_EMAIL_HERE
+                </a>
+            </p>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer>
+
+        <p>
+            © 2026 Jianna Shao. All rights reserved.
+        </p>
+
+    </footer>
+
+
+
+    <!-- =====================================================
+         CAROUSEL JAVASCRIPT
+    ====================================================== -->
+
+    <script>
+
+        const slides =
+            document.querySelectorAll(
+                ".carousel-track a"
+            );
+
+        let currentSlide = 0;
+
+
+        function showSlide(index) {
+
+            slides.forEach(
+                (slide, i) => {
+
+                    slide.classList.remove(
+                        "active"
+                    );
+
+                    if (i === index) {
+
+                        slide.classList.add(
+                            "active"
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        showSlide(0);
+
+
+        setInterval(
+            () => {
+
+                currentSlide++;
+
+                if (
+                    currentSlide >=
+                    slides.length
+                ) {
+
+                    currentSlide = 0;
+
+                }
+
+                showSlide(
+                    currentSlide
+                );
+
+            },
+            4000
+        );
+
+    </script>
+
 </body>
 </html>
