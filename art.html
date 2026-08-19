@@ -1,1 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Art | Your Name</title>
+
+    <link rel="stylesheet" href="art.css">
+</head>
+
+<body>
+
+    <!-- =========================
+         3D GALLERY
+    ========================= -->
+
+    <div id="gallery"></div>
+
+
+    <!-- =========================
+         NAVIGATION
+    ========================= -->
+
+    <a href="index.html" class="home-button">
+        ← Home
+    </a>
+
+
+    <!-- =========================
+         GALLERY TITLE
+    ========================= -->
+
+    <div class="gallery-title">
+        <p>ART & VISUALS</p>
+    </div>
+
+
+    <!-- =========================
+         ARTWORK INFORMATION
+    ========================= -->
+
+    <div id="artwork-info" class="artwork-info hidden">
+
+        <button id="close-info">×</button>
+
+        <p id="artwork-year"></p>
+
+        <h2 id="artwork-title"></h2>
+
+        <p id="artwork-medium"></p>
+
+        <p id="artwork-description"></p>
+
+    </div>
+
+
+    <!-- =========================
+         MUSIC PLAYER
+    ========================= -->
+
+    <div class="music-player">
+
+        <div class="ipod">
+
+            <div class="ipod-screen">
+
+                <p class="music-label">NOW PLAYING</p>
+
+                <div id="album-name" class="album-name">
+                    Select an album
+                </div>
+
+                <div id="song-title" class="song-title">
+                    —
+                </div>
+
+                <div id="artist-name" class="artist-name">
+                    —
+                </div>
+
+            </div>
+
+
+            <div class="ipod-wheel">
+
+                <button id="previous" class="wheel-button previous">
+                    ◀
+                </button>
+
+                <button id="play" class="play-button">
+                    ▶
+                </button>
+
+                <button id="next" class="wheel-button next">
+                    ▶
+                </button>
+
+            </div>
+
+
+            <button id="album-button" class="album-button">
+                Albums
+            </button>
+
+        </div>
+
+
+        <!-- =========================
+             ALBUM MENU
+        ========================= -->
+
+        <div id="album-menu" class="album-menu hidden">
+
+            <p>SELECT ALBUM</p>
+
+            <div id="album-list"></div>
+
+        </div>
+
+
+        <!-- =========================
+             HEADPHONES
+        ========================= -->
+
+        <div class="headphones">
+
+            <div class="headphone-left"></div>
+            <div class="headphone-right"></div>
+
+            <div class="wire"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         INSTRUCTIONS
+    ========================= -->
+
+    <div class="instructions">
+
+        <span>Click and drag to look around</span>
+        <span>WASD to move</span>
+
+    </div>
+
+
+    <!-- =========================
+         THREE.JS
+    ========================= -->
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+        }
+    }
+    </script>
+
+    <script type="module" src="art.js"></script>
+
+</body>
+
+</html>
