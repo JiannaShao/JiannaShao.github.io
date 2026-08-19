@@ -274,6 +274,7 @@ createWall(
 
 
 // Divider at z = -14
+// The gap in the middle creates the doorway
 
 createWall(
     ROOM_WIDTH / 2 - 2,
@@ -381,8 +382,8 @@ const artworks = [
         description: "Description of your sixth artwork.",
         image: "Art/artwork6.jpg",
 
-        // MOVED TO BACK WALL
-        position: [-3.8, 3.1, -8.82],
+        // BACK WALL OF ROOM 2
+        position: [-3.8, 3.1, -13.84],
         rotation: [0, 0, 0],
 
         size: [3.2, 2.4]
@@ -395,9 +396,10 @@ const artworks = [
         description: "Description of your seventh artwork.",
         image: "Art/artwork7.jpg",
 
-        // MOVED TO BACK WALL
-        position: [0, 3.1, -8.82],
-        rotation: [0, 0, 0],
+        // LEFT WALL OF ROOM 2
+        // Kept away from the central doorway
+        position: [-6.84, 3.1, -9],
+        rotation: [0, Math.PI / 2, 0],
 
         size: [3.2, 2.4]
     },
@@ -409,8 +411,8 @@ const artworks = [
         description: "Description of your eighth artwork.",
         image: "Art/artwork8.jpg",
 
-        // MOVED TO BACK WALL
-        position: [3.8, 3.1, -8.82],
+        // BACK WALL OF ROOM 2
+        position: [3.8, 3.1, -13.84],
         rotation: [0, 0, 0],
 
         size: [3.2, 2.4]
@@ -458,8 +460,8 @@ const artworks = [
         description: "Description of your eleventh artwork.",
         image: "Art/artwork11.jpg",
 
-        // MOVED TO BACK WALL
-        position: [-3.8, 3.1, -20.82],
+        // BACK WALL OF ROOM 3
+        position: [-3.8, 3.1, -25.84],
         rotation: [0, 0, 0],
 
         size: [3.2, 2.4]
@@ -472,8 +474,8 @@ const artworks = [
         description: "Description of your twelfth artwork.",
         image: "Art/artwork12.jpg",
 
-        // MOVED TO BACK WALL
-        position: [3.8, 3.1, -20.82],
+        // BACK WALL OF ROOM 3
+        position: [3.8, 3.1, -25.84],
         rotation: [0, 0, 0],
 
         size: [3.2, 2.4]
@@ -835,6 +837,8 @@ function createPlant(x, z) {
         );
 
 
+        // LEAVES PULLED CLOSER TOGETHER
+
         leaf.position.set(
             x +
             Math.cos(angle) *
@@ -845,8 +849,8 @@ function createPlant(x, z) {
 
             z +
             Math.sin(angle) *
-            (0.25 +
-            (i % 3) * 0.08)
+            (0.15 +
+            (i % 3) * 0.04)
         );
 
 
@@ -1051,25 +1055,19 @@ createGalleryLight(
 createGalleryLight(
     -3.8,
     5.3,
-    -8.55
-);
-
-createGalleryLight(
-    0,
-    5.3,
-    -8.55
+    -13.55
 );
 
 createGalleryLight(
     3.8,
     5.3,
-    -8.55
+    -13.55
 );
 
 createGalleryLight(
     -6.65,
     5.3,
-    -4.5,
+    -9,
     Math.PI / 2
 );
 
@@ -1086,13 +1084,13 @@ createGalleryLight(
 createGalleryLight(
     -3.8,
     5.3,
-    -20.55
+    -25.55
 );
 
 createGalleryLight(
     3.8,
     5.3,
-    -20.55
+    -25.55
 );
 
 createGalleryLight(
