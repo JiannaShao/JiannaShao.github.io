@@ -276,60 +276,76 @@
 
         const slides =
             document.querySelectorAll(
-                ".carousel-track a"
+                ".carousel-track img"
             );
-
+    
+        const dots =
+            document.querySelectorAll(
+                ".carousel-dot"
+            );
+    
         let currentSlide = 0;
-
-
+    
+    
         function showSlide(index) {
-
+    
             slides.forEach(
                 (slide, i) => {
-
+    
                     slide.classList.remove(
                         "active"
                     );
-
-                    if (i === index) {
-
+    
+                    dots[i].classList.remove(
+                        "active"
+                    );
+    
+    
+                    if (
+                        i === index
+                    ) {
+    
                         slide.classList.add(
                             "active"
                         );
-
+    
+                        dots[i].classList.add(
+                            "active"
+                        );
+    
                     }
-
+    
                 }
             );
-
+    
         }
-
-
+    
+    
         showSlide(0);
-
-
+    
+    
         setInterval(
             () => {
-
+    
                 currentSlide++;
-
+    
                 if (
                     currentSlide >=
                     slides.length
                 ) {
-
+    
                     currentSlide = 0;
-
+    
                 }
-
+    
                 showSlide(
                     currentSlide
                 );
-
+    
             },
             4000
         );
-
+    
     </script>
 
 </body>
