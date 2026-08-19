@@ -143,7 +143,7 @@ const ROOM_LENGTH = 12;
 
 const WALL_HEIGHT = 7;
 
-const CAMERA_HEIGHT = 1.7;
+const CAMERA_HEIGHT = 2;
 
 
 // =====================================================
