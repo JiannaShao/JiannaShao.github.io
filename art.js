@@ -8,9 +8,7 @@ import * as THREE from "three";
 const gallery = document.getElementById("gallery");
 
 const scene = new THREE.Scene();
-
 scene.background = new THREE.Color("#f3f1e8");
-
 
 const camera = new THREE.PerspectiveCamera(
     70,
@@ -19,9 +17,7 @@ const camera = new THREE.PerspectiveCamera(
     100
 );
 
-
-// Starting position
-camera.position.set(0, 1.7, 10);
+camera.position.set(0, 1.7, 8);
 
 
 // =====================================================
@@ -52,20 +48,19 @@ gallery.appendChild(renderer.domElement);
 
 const ambientLight = new THREE.AmbientLight(
     0xffffff,
-    2
+    1.2
 );
 
 scene.add(ambientLight);
 
-
 const mainLight = new THREE.DirectionalLight(
     0xffffff,
-    2.5
+    1.2
 );
 
 mainLight.position.set(
     0,
-    10,
+    8,
     0
 );
 
@@ -80,22 +75,26 @@ scene.add(mainLight);
 
 const wallMaterial =
     new THREE.MeshStandardMaterial({
-        color: "#f3f1e8"
+        color: "#f3f1e8",
+        roughness: 0.9
     });
 
 const floorMaterial =
     new THREE.MeshStandardMaterial({
-        color: "#d5d0c4"
+        color: "#d5d0c4",
+        roughness: 0.85
     });
 
 const ceilingMaterial =
     new THREE.MeshStandardMaterial({
-        color: "#ebe8df"
+        color: "#ebe8df",
+        roughness: 1
     });
 
 const frameMaterial =
     new THREE.MeshStandardMaterial({
-        color: "#111111"
+        color: "#111111",
+        roughness: 0.6
     });
 
 
@@ -103,20 +102,19 @@ const frameMaterial =
 // GALLERY DIMENSIONS
 // =====================================================
 
-// Three rooms arranged along the Z axis.
-//
-// Room 1: z = 10 → -2
-// Room 2: z = -2 → -14
-// Room 3: z = -14 → -26
-
 const ROOM_WIDTH = 14;
 const ROOM_LENGTH = 12;
 
 const WALL_HEIGHT = 7;
 
-const FLOOR_Y = 0;
-
 const CAMERA_HEIGHT = 1.7;
+
+
+// =====================================================
+// COLLISION OBJECTS
+// =====================================================
+
+const collidableObjects = [];
 
 
 // =====================================================
@@ -173,7 +171,6 @@ function createWall(
     width,
     depth,
     x,
-    y,
     z
 ) {
 
@@ -196,6 +193,11 @@ function createWall(
 
     scene.add(wall);
 
+    collidableObjects.push({
+        type: "wall",
+        object: wall
+    });
+
     return wall;
 }
 
@@ -205,42 +207,42 @@ function createWall(
 // =====================================================
 
 // Left wall
+
 createWall(
     0.3,
     ROOM_LENGTH * 3,
     -ROOM_WIDTH / 2,
-    0,
     -8
 );
 
 
 // Right wall
+
 createWall(
     0.3,
     ROOM_LENGTH * 3,
     ROOM_WIDTH / 2,
-    0,
     -8
 );
 
 
-// Back wall
+// Front wall
+
 createWall(
     ROOM_WIDTH,
     0.3,
     0,
-    0,
-    -26
+    10
 );
 
 
-// Front wall
+// Back wall
+
 createWall(
     ROOM_WIDTH,
     0.3,
     0,
-    0,
-    10
+    -26
 );
 
 
@@ -248,27 +250,22 @@ createWall(
 // ROOM DIVIDERS
 // =====================================================
 //
-// Each divider has an opening in the middle.
-// This creates three distinct rooms while allowing
-// the visitor to walk between them.
+// Each divider has a central doorway.
 //
-
 
 // Divider at z = -2
 
 createWall(
     ROOM_WIDTH / 2 - 2,
     0.3,
-    -ROOM_WIDTH / 4 - 1,
-    0,
+    -4.5,
     -2
 );
 
 createWall(
     ROOM_WIDTH / 2 - 2,
     0.3,
-    ROOM_WIDTH / 4 + 1,
-    0,
+    4.5,
     -2
 );
 
@@ -278,29 +275,27 @@ createWall(
 createWall(
     ROOM_WIDTH / 2 - 2,
     0.3,
-    -ROOM_WIDTH / 4 - 1,
-    0,
+    -4.5,
     -14
 );
 
 createWall(
     ROOM_WIDTH / 2 - 2,
     0.3,
-    ROOM_WIDTH / 4 + 1,
-    0,
+    4.5,
     -14
 );
 
 
 // =====================================================
-// ARTWORK
+// ARTWORK DATA
 // =====================================================
 
 const artworks = [
 
-    // ================================
-    // ROOM 1 — 5 PIECES
-    // ================================
+    // =================================================
+    // ROOM 1
+    // =================================================
 
     {
         title: "Artwork One",
@@ -309,7 +304,7 @@ const artworks = [
         description: "Description of your first artwork.",
         image: "Art/artwork1.jpg",
 
-        position: [-3.8, 3.1, 9.8],
+        position: [-3.8, 3.1, 9.80],
         rotation: [0, Math.PI, 0],
 
         size: [3.2, 2.4]
@@ -322,7 +317,7 @@ const artworks = [
         description: "Description of your second artwork.",
         image: "Art/artwork2.jpg",
 
-        position: [0, 3.1, 9.8],
+        position: [0, 3.1, 9.80],
         rotation: [0, Math.PI, 0],
 
         size: [3.2, 2.4]
@@ -335,13 +330,14 @@ const artworks = [
         description: "Description of your third artwork.",
         image: "Art/artwork3.jpg",
 
-        position: [3.8, 3.1, 9.8],
+        position: [3.8, 3.1, 9.80],
         rotation: [0, Math.PI, 0],
 
         size: [3.2, 2.4]
     },
 
-    // Vertical
+    // VERTICAL 1
+
     {
         title: "Artwork Four",
         year: "2024",
@@ -349,13 +345,14 @@ const artworks = [
         description: "Description of your fourth artwork.",
         image: "Art/artwork4.jpg",
 
-        position: [-6.8, 3.1, 4],
+        position: [-6.82, 3.1, 4],
         rotation: [0, Math.PI / 2, 0],
 
         size: [2, 3.2]
     },
 
-    // Vertical
+    // VERTICAL 2
+
     {
         title: "Artwork Five",
         year: "2023",
@@ -363,16 +360,16 @@ const artworks = [
         description: "Description of your fifth artwork.",
         image: "Art/artwork5.jpg",
 
-        position: [6.8, 3.1, 4],
+        position: [6.82, 3.1, 4],
         rotation: [0, -Math.PI / 2, 0],
 
         size: [2, 3.2]
     },
 
 
-    // ================================
-    // ROOM 2 — 5 PIECES
-    // ================================
+    // =================================================
+    // ROOM 2
+    // =================================================
 
     {
         title: "Artwork Six",
@@ -381,7 +378,7 @@ const artworks = [
         description: "Description of your sixth artwork.",
         image: "Art/artwork6.jpg",
 
-        position: [-3.8, 3.1, -8],
+        position: [-3.8, 3.1, -8.20],
         rotation: [0, 0, 0],
 
         size: [3.2, 2.4]
@@ -394,7 +391,7 @@ const artworks = [
         description: "Description of your seventh artwork.",
         image: "Art/artwork7.jpg",
 
-        position: [0, 3.1, -8],
+        position: [0, 3.1, -8.20],
         rotation: [0, 0, 0],
 
         size: [3.2, 2.4]
@@ -407,13 +404,14 @@ const artworks = [
         description: "Description of your eighth artwork.",
         image: "Art/artwork8.jpg",
 
-        position: [3.8, 3.1, -8],
+        position: [3.8, 3.1, -8.20],
         rotation: [0, 0, 0],
 
         size: [3.2, 2.4]
     },
 
-    // Vertical
+    // VERTICAL 3
+
     {
         title: "Artwork Nine",
         year: "2023",
@@ -421,13 +419,14 @@ const artworks = [
         description: "Description of your ninth artwork.",
         image: "Art/artwork9.jpg",
 
-        position: [-6.8, 3.1, -4.5],
+        position: [-6.82, 3.1, -4.5],
         rotation: [0, Math.PI / 2, 0],
 
         size: [2, 3.2]
     },
 
-    // Vertical
+    // VERTICAL 4
+
     {
         title: "Artwork Ten",
         year: "2022",
@@ -435,16 +434,16 @@ const artworks = [
         description: "Description of your tenth artwork.",
         image: "Art/artwork10.jpg",
 
-        position: [6.8, 3.1, -11],
+        position: [6.82, 3.1, -11],
         rotation: [0, -Math.PI / 2, 0],
 
         size: [2, 3.2]
     },
 
 
-    // ================================
-    // ROOM 3 — 4 PIECES
-    // ================================
+    // =================================================
+    // ROOM 3
+    // =================================================
 
     {
         title: "Artwork Eleven",
@@ -453,7 +452,7 @@ const artworks = [
         description: "Description of your eleventh artwork.",
         image: "Art/artwork11.jpg",
 
-        position: [-3.8, 3.1, -20],
+        position: [-3.8, 3.1, -20.20],
         rotation: [0, 0, 0],
 
         size: [3.2, 2.4]
@@ -466,13 +465,14 @@ const artworks = [
         description: "Description of your twelfth artwork.",
         image: "Art/artwork12.jpg",
 
-        position: [3.8, 3.1, -20],
+        position: [3.8, 3.1, -20.20],
         rotation: [0, 0, 0],
 
         size: [3.2, 2.4]
     },
 
-    // Vertical
+    // VERTICAL 5
+
     {
         title: "Artwork Thirteen",
         year: "2022",
@@ -480,13 +480,14 @@ const artworks = [
         description: "Description of your thirteenth artwork.",
         image: "Art/artwork13.jpg",
 
-        position: [-6.8, 3.1, -23],
+        position: [-6.82, 3.1, -23],
         rotation: [0, Math.PI / 2, 0],
 
         size: [2, 3.2]
     },
 
-    // Vertical
+    // VERTICAL 6
+
     {
         title: "Artwork Fourteen",
         year: "2021",
@@ -494,7 +495,7 @@ const artworks = [
         description: "Description of your fourteenth artwork.",
         image: "Art/artwork14.jpg",
 
-        position: [6.8, 3.1, -18],
+        position: [6.82, 3.1, -18],
         rotation: [0, -Math.PI / 2, 0],
 
         size: [2, 3.2]
@@ -524,34 +525,16 @@ function createArtwork(art) {
         });
 
 
-    // Frame
-
     const frame =
         new THREE.Mesh(
             new THREE.BoxGeometry(
-                art.size[0] + 0.18,
-                art.size[1] + 0.18,
+                art.size[0] + 0.22,
+                art.size[1] + 0.22,
                 0.12
             ),
             frameMaterial
         );
 
-    frame.position.set(
-        art.position[0],
-        art.position[1],
-        art.position[2]
-    );
-
-    frame.rotation.set(
-        art.rotation[0],
-        art.rotation[1],
-        art.rotation[2]
-    );
-
-    scene.add(frame);
-
-
-    // Artwork
 
     const artwork =
         new THREE.Mesh(
@@ -562,10 +545,109 @@ function createArtwork(art) {
             material
         );
 
-    artwork.position.set(
-        art.position[0],
-        art.position[1],
-        art.position[2]
+
+    /*
+     * FRONT/BACK WALLS
+     */
+
+    if (
+        Math.abs(
+            Math.sin(art.rotation[1])
+        ) < 0.5
+    ) {
+
+        // Artwork faces toward -Z
+
+        if (
+            art.rotation[1] === 0
+        ) {
+
+            frame.position.set(
+                art.position[0],
+                art.position[1],
+                art.position[2] - 0.07
+            );
+
+            artwork.position.set(
+                art.position[0],
+                art.position[1],
+                art.position[2] - 0.14
+            );
+
+        }
+
+        // Artwork faces toward +Z
+
+        else {
+
+            frame.position.set(
+                art.position[0],
+                art.position[1],
+                art.position[2] + 0.07
+            );
+
+            artwork.position.set(
+                art.position[0],
+                art.position[1],
+                art.position[2] + 0.14
+            );
+
+        }
+
+    }
+
+
+    /*
+     * SIDE WALLS
+     */
+
+    else {
+
+        // Left wall
+
+        if (
+            art.rotation[1] > 0
+        ) {
+
+            frame.position.set(
+                art.position[0] + 0.07,
+                art.position[1],
+                art.position[2]
+            );
+
+            artwork.position.set(
+                art.position[0] + 0.14,
+                art.position[1],
+                art.position[2]
+            );
+
+        }
+
+        // Right wall
+
+        else {
+
+            frame.position.set(
+                art.position[0] - 0.07,
+                art.position[1],
+                art.position[2]
+            );
+
+            artwork.position.set(
+                art.position[0] - 0.14,
+                art.position[1],
+                art.position[2]
+            );
+
+        }
+
+    }
+
+
+    frame.rotation.set(
+        art.rotation[0],
+        art.rotation[1],
+        art.rotation[2]
     );
 
     artwork.rotation.set(
@@ -574,11 +656,16 @@ function createArtwork(art) {
         art.rotation[2]
     );
 
-    artwork.userData = art;
 
+    scene.add(frame);
     scene.add(artwork);
 
-    clickableArt.push(artwork);
+
+    artwork.userData = art;
+
+    clickableArt.push(
+        artwork
+    );
 
 }
 
@@ -594,100 +681,432 @@ artworks.forEach(
 
 function createPlant(x, z) {
 
-    // Pot
+    // -------------------------
+    // POT
+    // -------------------------
 
     const potMaterial =
         new THREE.MeshStandardMaterial({
-            color: "#a89b82"
+            color: "#a89d89",
+            roughness: 0.9
         });
 
     const pot =
         new THREE.Mesh(
             new THREE.CylinderGeometry(
-                0.45,
-                0.55,
-                0.8,
-                16
+                0.48,
+                0.62,
+                0.85,
+                20
             ),
             potMaterial
         );
 
     pot.position.set(
         x,
-        0.4,
+        0.425,
         z
     );
+
+    pot.castShadow = true;
+    pot.receiveShadow = true;
 
     scene.add(pot);
 
 
-    // Leaves
+    // -------------------------
+    // SOIL
+    // -------------------------
 
-    const leafMaterial =
+    const soilMaterial =
         new THREE.MeshStandardMaterial({
-            color: "#526f61"
+            color: "#40372d"
+        });
+
+    const soil =
+        new THREE.Mesh(
+            new THREE.CylinderGeometry(
+                0.40,
+                0.40,
+                0.06,
+                20
+            ),
+            soilMaterial
+        );
+
+    soil.position.set(
+        x,
+        0.86,
+        z
+    );
+
+    scene.add(soil);
+
+
+    // -------------------------
+    // STEMS
+    // -------------------------
+
+    const stemMaterial =
+        new THREE.MeshStandardMaterial({
+            color: "#496653"
         });
 
 
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 8; i++) {
+
+        const angle =
+            (i / 8) *
+            Math.PI *
+            2;
+
+        const stem =
+            new THREE.Mesh(
+                new THREE.CylinderGeometry(
+                    0.025,
+                    0.035,
+                    1.8,
+                    8
+                ),
+                stemMaterial
+            );
+
+        stem.position.set(
+            x + Math.cos(angle) * 0.12,
+            1.65,
+            z + Math.sin(angle) * 0.12
+        );
+
+        stem.rotation.z =
+            Math.cos(angle) * 0.25;
+
+        stem.rotation.x =
+            Math.sin(angle) * 0.25;
+
+        scene.add(stem);
+    }
+
+
+    // -------------------------
+    // LEAVES
+    // -------------------------
+
+    const leafMaterial =
+        new THREE.MeshStandardMaterial({
+            color: "#557561",
+            roughness: 0.8
+        });
+
+
+    for (let i = 0; i < 14; i++) {
+
+        const angle =
+            (i / 14) *
+            Math.PI *
+            2;
+
+        const height =
+            1.3 +
+            (i % 5) * 0.3;
+
 
         const leaf =
             new THREE.Mesh(
                 new THREE.SphereGeometry(
-                    0.45,
-                    8,
-                    8
+                    0.38,
+                    10,
+                    6
                 ),
                 leafMaterial
             );
 
-        const angle =
-            (i / 7) * Math.PI * 2;
 
         leaf.scale.set(
-            0.6,
-            1.3,
-            0.4
+            0.23,
+            0.75,
+            0.12
         );
 
+
         leaf.position.set(
-            x + Math.cos(angle) * 0.35,
-            1.2 + (i % 2) * 0.3,
-            z + Math.sin(angle) * 0.35
+            x +
+            Math.cos(angle) *
+            (0.25 + (i % 3) * 0.08),
+
+            height,
+
+            z +
+            Math.sin(angle) *
+            (0.25 + (i % 3) * 0.08)
         );
+
+
+        leaf.rotation.y =
+            angle;
+
+        leaf.rotation.z =
+            -0.35 +
+            (i % 2) * 0.2;
+
+        leaf.castShadow = true;
 
         scene.add(leaf);
 
     }
 
+
+    // -------------------------
+    // COLLISION
+    // -------------------------
+
+    const collision =
+        new THREE.Mesh(
+            new THREE.CylinderGeometry(
+                0.85,
+                0.85,
+                2.5,
+                16
+            ),
+            new THREE.MeshBasicMaterial({
+                transparent: true,
+                opacity: 0
+            })
+        );
+
+    collision.position.set(
+        x,
+        1.25,
+        z
+    );
+
+    scene.add(collision);
+
+    collidableObjects.push({
+        type: "plant",
+        object: collision
+    });
+
 }
 
 
-// Plants in room corners
+// =====================================================
+// PLANTS
+// =====================================================
 
 createPlant(
-    -5.8,
-    7.5
+    -5.7,
+    7.4
 );
 
 createPlant(
-    5.8,
+    5.7,
     -0.5
 );
 
 createPlant(
-    -5.8,
+    -5.7,
     -16
 );
 
 createPlant(
-    5.8,
+    5.7,
     -24
 );
 
 
 // =====================================================
-// CAMERA / MOVEMENT
+// GALLERY LIGHTS
+// =====================================================
+
+function createGalleryLight(
+    x,
+    y,
+    z,
+    rotationY = 0
+) {
+
+    // Small physical light fixture
+
+    const fixtureMaterial =
+        new THREE.MeshStandardMaterial({
+            color: "#222222",
+            roughness: 0.7
+        });
+
+
+    const fixture =
+        new THREE.Mesh(
+            new THREE.BoxGeometry(
+                0.55,
+                0.08,
+                0.14
+            ),
+            fixtureMaterial
+        );
+
+
+    fixture.position.set(
+        x,
+        y,
+        z
+    );
+
+    fixture.rotation.y =
+        rotationY;
+
+    scene.add(fixture);
+
+
+    // Warm spotlight
+
+    const light =
+        new THREE.SpotLight(
+            0xfff1d0,
+            4,
+            7,
+            Math.PI / 5,
+            0.55,
+            1
+        );
+
+
+    light.position.set(
+        x,
+        y - 0.05,
+        z
+    );
+
+
+    const target =
+        new THREE.Object3D();
+
+
+    target.position.set(
+        x,
+        1.8,
+        z
+    );
+
+
+    scene.add(target);
+
+    light.target =
+        target;
+
+    light.castShadow = true;
+
+    scene.add(light);
+
+}
+
+
+// =====================================================
+// LIGHTS — ROOM 1
+// =====================================================
+
+createGalleryLight(
+    -3.8,
+    5.3,
+    9.55
+);
+
+createGalleryLight(
+    0,
+    5.3,
+    9.55
+);
+
+createGalleryLight(
+    3.8,
+    5.3,
+    9.55
+);
+
+createGalleryLight(
+    -6.65,
+    5.3,
+    4,
+    Math.PI / 2
+);
+
+createGalleryLight(
+    6.65,
+    5.3,
+    4,
+    -Math.PI / 2
+);
+
+
+// =====================================================
+// LIGHTS — ROOM 2
+// =====================================================
+
+createGalleryLight(
+    -3.8,
+    5.3,
+    -8.25
+);
+
+createGalleryLight(
+    0,
+    5.3,
+    -8.25
+);
+
+createGalleryLight(
+    3.8,
+    5.3,
+    -8.25
+);
+
+createGalleryLight(
+    -6.65,
+    5.3,
+    -4.5,
+    Math.PI / 2
+);
+
+createGalleryLight(
+    6.65,
+    5.3,
+    -11,
+    -Math.PI / 2
+);
+
+
+// =====================================================
+// LIGHTS — ROOM 3
+// =====================================================
+
+createGalleryLight(
+    -3.8,
+    5.3,
+    -20.25
+);
+
+createGalleryLight(
+    3.8,
+    5.3,
+    -20.25
+);
+
+createGalleryLight(
+    -6.65,
+    5.3,
+    -23,
+    Math.PI / 2
+);
+
+createGalleryLight(
+    6.65,
+    5.3,
+    -18,
+    -Math.PI / 2
+);
+
+
+// =====================================================
+// CAMERA MOVEMENT
 // =====================================================
 
 let yaw = 0;
@@ -707,7 +1126,9 @@ const keys = {
 };
 
 
-// Keyboard
+// =====================================================
+// KEYBOARD
+// =====================================================
 
 window.addEventListener(
     "keydown",
@@ -755,8 +1176,11 @@ renderer.domElement.addEventListener(
 
         mouseDown = true;
 
-        lastMouseX = event.clientX;
-        lastMouseY = event.clientY;
+        lastMouseX =
+            event.clientX;
+
+        lastMouseY =
+            event.clientY;
 
     }
 );
@@ -778,33 +1202,107 @@ window.addEventListener(
 
         if (!mouseDown) return;
 
+
         const movementX =
-            event.clientX - lastMouseX;
+            event.clientX -
+            lastMouseX;
 
         const movementY =
-            event.clientY - lastMouseY;
+            event.clientY -
+            lastMouseY;
 
 
-        yaw -= movementX * 0.003;
+        yaw -=
+            movementX * 0.003;
 
-        pitch -= movementY * 0.003;
+        pitch -=
+            movementY * 0.003;
 
 
         const maxPitch =
             Math.PI / 2.5;
 
+
         pitch =
             Math.max(
                 -maxPitch,
-                Math.min(maxPitch, pitch)
+                Math.min(
+                    maxPitch,
+                    pitch
+                )
             );
 
 
-        lastMouseX = event.clientX;
-        lastMouseY = event.clientY;
+        lastMouseX =
+            event.clientX;
+
+        lastMouseY =
+            event.clientY;
 
     }
 );
+
+
+// =====================================================
+// PLANT COLLISION
+// =====================================================
+
+function checkPlantCollision(
+    position
+) {
+
+    const playerRadius = 0.45;
+
+
+    for (
+        const entry of collidableObjects
+    ) {
+
+        if (
+            entry.type !== "plant"
+        ) continue;
+
+
+        const object =
+            entry.object;
+
+
+        const dx =
+            position.x -
+            object.position.x;
+
+        const dz =
+            position.z -
+            object.position.z;
+
+
+        const distance =
+            Math.sqrt(
+                dx * dx +
+                dz * dz
+            );
+
+
+        const collisionRadius =
+            0.85 +
+            playerRadius;
+
+
+        if (
+            distance <
+            collisionRadius
+        ) {
+
+            return true;
+
+        }
+
+    }
+
+
+    return false;
+
+}
 
 
 // =====================================================
@@ -813,9 +1311,8 @@ window.addEventListener(
 
 function keepCameraInside() {
 
-    const margin = 1.2;
+    const margin = 1.0;
 
-    // Keep inside outer walls
 
     camera.position.x =
         Math.max(
@@ -836,8 +1333,6 @@ function keepCameraInside() {
             )
         );
 
-
-    // Never let camera leave floor
 
     camera.position.y =
         CAMERA_HEIGHT;
@@ -874,7 +1369,20 @@ function moveCamera(delta) {
         new THREE.Vector3();
 
 
+    // W = forward
+
     if (keys.w) {
+
+        movement.sub(
+            forward
+        );
+
+    }
+
+
+    // S = backward
+
+    if (keys.s) {
 
         movement.add(
             forward
@@ -882,13 +1390,8 @@ function moveCamera(delta) {
 
     }
 
-    if (keys.s) {
 
-        movement.sub(
-            forward
-        );
-
-    }
+    // D = right
 
     if (keys.d) {
 
@@ -897,6 +1400,9 @@ function moveCamera(delta) {
         );
 
     }
+
+
+    // A = left
 
     if (keys.a) {
 
@@ -907,14 +1413,34 @@ function moveCamera(delta) {
     }
 
 
-    if (movement.lengthSq() > 0) {
+    if (
+        movement.lengthSq() > 0
+    ) {
 
         movement.normalize();
 
-        camera.position.addScaledVector(
+
+        const newPosition =
+            camera.position.clone();
+
+
+        newPosition.addScaledVector(
             movement,
             speed * delta
         );
+
+
+        if (
+            !checkPlantCollision(
+                newPosition
+            )
+        ) {
+
+            camera.position.copy(
+                newPosition
+            );
+
+        }
 
     }
 
@@ -925,7 +1451,7 @@ function moveCamera(delta) {
 
 
 // =====================================================
-// CAMERA LOOK
+// CAMERA ROTATION
 // =====================================================
 
 function updateCameraRotation() {
@@ -955,15 +1481,17 @@ const mouse =
 
 renderer.domElement.addEventListener(
     "click",
-    function(event) {
+    (event) => {
 
         mouse.x =
             (event.clientX /
-                window.innerWidth) * 2 - 1;
+                window.innerWidth) *
+            2 - 1;
 
         mouse.y =
             -(event.clientY /
-                window.innerHeight) * 2 + 1;
+                window.innerHeight) *
+            2 + 1;
 
 
         raycaster.setFromCamera(
@@ -995,7 +1523,7 @@ renderer.domElement.addEventListener(
 
 
 // =====================================================
-// ARTWORK INFO
+// ARTWORK INFORMATION
 // =====================================================
 
 const infoPanel =
@@ -1011,20 +1539,24 @@ function showArtworkInfo(data) {
     ).textContent =
         data.year;
 
+
     document.getElementById(
         "artwork-title"
     ).textContent =
         data.title;
+
 
     document.getElementById(
         "artwork-medium"
     ).textContent =
         data.medium;
 
+
     document.getElementById(
         "artwork-description"
     ).textContent =
         data.description;
+
 
     infoPanel.classList.remove(
         "hidden"
@@ -1143,14 +1675,18 @@ function loadSong() {
     const song =
         albums[currentAlbum][currentSong];
 
+
     albumName.textContent =
         currentAlbum;
+
 
     songTitle.textContent =
         song.title;
 
+
     artistName.textContent =
         song.artist;
+
 
     audio.src =
         song.file;
@@ -1161,7 +1697,9 @@ function loadSong() {
 loadSong();
 
 
-// Play / pause
+// =====================================================
+// PLAY / PAUSE
+// =====================================================
 
 playButton.addEventListener(
     "click",
@@ -1207,7 +1745,9 @@ audio.addEventListener(
 );
 
 
-// Next
+// =====================================================
+// NEXT
+// =====================================================
 
 document.getElementById(
     "next"
@@ -1217,6 +1757,7 @@ document.getElementById(
 
         currentSong++;
 
+
         if (
             currentSong >=
             albums[currentAlbum].length
@@ -1226,6 +1767,7 @@ document.getElementById(
 
         }
 
+
         loadSong();
 
         audio.play();
@@ -1234,7 +1776,9 @@ document.getElementById(
 );
 
 
-// Previous
+// =====================================================
+// PREVIOUS
+// =====================================================
 
 document.getElementById(
     "previous"
@@ -1244,12 +1788,16 @@ document.getElementById(
 
         currentSong--;
 
-        if (currentSong < 0) {
+
+        if (
+            currentSong < 0
+        ) {
 
             currentSong =
                 albums[currentAlbum].length - 1;
 
         }
+
 
         loadSong();
 
@@ -1259,13 +1807,16 @@ document.getElementById(
 );
 
 
-// Automatically play next
+// =====================================================
+// AUTOMATIC NEXT SONG
+// =====================================================
 
 audio.addEventListener(
     "ended",
     () => {
 
         currentSong++;
+
 
         if (
             currentSong >=
@@ -1275,6 +1826,7 @@ audio.addEventListener(
             currentSong = 0;
 
         }
+
 
         loadSong();
 
@@ -1324,8 +1876,10 @@ Object.keys(albums).forEach(
                 "button"
             );
 
+
         button.className =
             "album-option";
+
 
         button.textContent =
             album;
@@ -1408,7 +1962,9 @@ window.addEventListener(
             window.innerWidth /
             window.innerHeight;
 
+
         camera.updateProjectionMatrix();
+
 
         renderer.setSize(
             window.innerWidth,
