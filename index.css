@@ -630,12 +630,22 @@ footer {
 
     }
 
-
     .featured {
 
+        grid-template-columns: 1fr;
+
+        gap: 50px;
+
         padding:
-            50px 20px
-            70px;
+            60px 25px
+            80px;
+
+    }
+
+
+    .featured-carousel h2 {
+
+        text-align: center;
 
     }
 
@@ -646,6 +656,14 @@ footer {
 
     }
 
+
+    .featured-text {
+
+        max-width: none;
+
+        text-align: center;
+
+    }
 
     section h2 {
 
