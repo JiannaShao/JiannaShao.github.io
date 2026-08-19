@@ -244,10 +244,7 @@ body {
 
 .hero h1 {
 
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
+    font-family: "Abril Fatface", serif;
 
     font-size: clamp(
         56px,
@@ -280,10 +277,7 @@ body {
 
 section h2 {
 
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
+    font-family: "Abril Fatface", serif;
 
     font-size: 38px;
 
