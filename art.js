@@ -1,21 +1,32 @@
 import * as THREE from "three";
 
+import {
+    CSS3DRenderer,
+    CSS3DObject
+} from "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/renderers/CSS3DRenderer.js";
+
+
 // =====================================================
 // BASIC SETUP
 // =====================================================
 
-const gallery = document.getElementById("gallery");
+const gallery =
+    document.getElementById("gallery");
 
-const scene = new THREE.Scene();
+const scene =
+    new THREE.Scene();
 
-scene.background = new THREE.Color("#f3f1e8");
+scene.background =
+    new THREE.Color("#f3f1e8");
 
-const camera = new THREE.PerspectiveCamera(
-    70,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    100
-);
+
+const camera =
+    new THREE.PerspectiveCamera(
+        70,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        100
+    );
 
 camera.position.set(
     0,
@@ -25,7 +36,7 @@ camera.position.set(
 
 
 // =====================================================
-// RENDERER
+// WEBGL RENDERER
 // =====================================================
 
 const renderer =
@@ -55,6 +66,44 @@ renderer.shadowMap.type =
 
 gallery.appendChild(
     renderer.domElement
+);
+
+
+// =====================================================
+// CSS3D RENDERER
+// =====================================================
+//
+// Used for the interactive aquarium and books.
+//
+// This allows normal HTML elements to exist inside
+// the 3D gallery and move with the camera.
+// =====================================================
+
+const cssRenderer =
+    new CSS3DRenderer();
+
+cssRenderer.setSize(
+    window.innerWidth,
+    window.innerHeight
+);
+
+cssRenderer.domElement.style.position =
+    "fixed";
+
+cssRenderer.domElement.style.top =
+    "0";
+
+cssRenderer.domElement.style.left =
+    "0";
+
+cssRenderer.domElement.style.pointerEvents =
+    "none";
+
+cssRenderer.domElement.style.zIndex =
+    "2";
+
+document.body.appendChild(
+    cssRenderer.domElement
 );
 
 
@@ -125,7 +174,7 @@ const frameMaterial =
     });
 
 
-// ====================================================
+// =====================================================
 // GALLERY DIMENSIONS
 // =====================================================
 
@@ -252,17 +301,12 @@ function createWall(
 // OUTER WALLS
 // =====================================================
 
-// LEFT
-
 createWall(
     0.3,
     ROOM_LENGTH * 3,
     -ROOM_WIDTH / 2,
     -8
 );
-
-
-// RIGHT
 
 createWall(
     0.3,
@@ -271,18 +315,12 @@ createWall(
     -8
 );
 
-
-// FRONT
-
 createWall(
     ROOM_WIDTH,
     0.3,
     0,
     10
 );
-
-
-// BACK
 
 createWall(
     ROOM_WIDTH,
@@ -313,7 +351,6 @@ createWall(
 
 // =====================================================
 // ROOM DIVIDER AT Z = -14
-// CENTRAL DOORWAY
 // =====================================================
 
 createWall(
@@ -338,7 +375,60 @@ createWall(
 const artworks = [
 
     // =================================================
-    // ROOM 1
+    // ROOM 1 FRONT WALL
+    // =================================================
+
+    {
+        title: "Dad's Tan Hua Flower",
+        year: "2025",
+        medium: "Acrylic painting on canvas",
+        description:
+            "My father is a proud plant dad. The Tan Hua flower, famously known as the Queen of the Night, is a cactus bloom that opens only for a single evening a year starting at sunset and wilting by sunrise. Having never before seen him so excited about a plant, I painted it for him to preserve that moment forever.",
+        image: "ArtFiles/img1.jpg",
+
+        position: [
+            -2.1,
+            3.1,
+            9.84
+        ],
+
+        rotation: [
+            0,
+            Math.PI,
+            0
+        ]
+    },
+
+
+    // =================================================
+    // ROOM 1 FRONT WALL
+    // =================================================
+
+    {
+        title: "Quick Breakfast",
+        year: "2024",
+        medium: "Multi-media on paper",
+        description:
+            "As an individual has become increasingly more dependent on caffeine to make it through the day, I felt inspired to create a piece based on it. To me, this piece exemplifies what you're putting into your body every time you drink tea, coffee, or energy drinks, which ultimately can hurt you when overconsumed. When it came to the caffeine molecules at the front, I had to do some research to recall my chemistry understanding of the structure so that I could gather the materials necessary for the project.",
+        image: "ArtFiles/img5.JPG",
+
+        position: [
+            2.1,
+            3.1,
+            9.84
+        ],
+
+        rotation: [
+            0,
+            Math.PI,
+            0
+        ]
+    },
+
+
+    // =================================================
+    // ROOM 1 LEFT DIVIDER WALL
+    // HEAVEN IS QUIET
     // =================================================
 
     {
@@ -352,86 +442,48 @@ const artworks = [
         position: [
             -4.2,
             3.1,
-            9.84
+            -1.84
         ],
 
         rotation: [
             0,
-            Math.PI,
+            0,
             0
         ]
     },
 
 
-    {
-        title: "Dad's Tan Hua Flower",
-        year: "2025",
-        medium: "Acrylic painting on canvas",
-        description:
-            "My father is a proud plant dad. The Tan Hua flower, famously known as the Queen of the Night, is a cactus bloom that opens only for a single evening a year starting at sunset and wilting by sunrise. Having never before seen him so excited about a plant, I painted it for him to preserve that moment forever.",
-        image: "ArtFiles/img1.jpg",
-
-        position: [
-            0,
-            3.1,
-            9.84
-        ],
-
-        rotation: [
-            0,
-            Math.PI,
-            0
-        ]
-    },
-
+    // =================================================
+    // ROOM 1 RIGHT DIVIDER WALL
+    // LONE STAR
+    // =================================================
 
     {
         title: "Lone Star",
         year: "2025",
         medium: "Acrylic painting on canvas",
         description:
-            "I was lucky enough to vist the original statue this painting is depicting which is The Little Mermaid, located in Copenhagen, Denmark. Unfortunately, my brother managed to slip on a rock and fall into the ocean right next to the statue in front of all the tourists.",
+            "I was lucky enough to visit the original statue this painting is depicting which is The Little Mermaid, located in Copenhagen, Denmark. Unfortunately, my brother managed to slip on a rock and fall into the ocean right next to the statue in front of all the tourists.",
         image: "ArtFiles/img2.jpg",
 
         position: [
             4.2,
             3.1,
-            9.84
+            -1.84
         ],
 
         rotation: [
             0,
-            Math.PI,
+            0,
             0
         ]
     },
 
 
     // =================================================
-    // ROOM 1 SIDE WALLS
+    // ROOM 1 SIDE WALL
+    // AQUARIUM OCCUPIES OPPOSITE SIDE
     // =================================================
-
-    {
-        title: "Quick Breakfast",
-        year: "2024",
-        medium: "Multi-media on paper",
-        description:
-            "As an individual has become increasingly more dependent on caffeine to make it through the day, I felt inspired to create a piece based on it. To me, this piece exemplifies what you're putting into your body every time you drink tea, coffee, or energy drinks, which ultimately can hurt you when overconsumed. When it came to the caffeine molecules at the front, I had to do some research to recall my chemistry understanding of the structure so that I could gather the materials necessary for the project.",
-        image: "ArtFiles/img5.JPG",
-
-        position: [
-            -6.84,
-            3.1,
-            4
-        ],
-
-        rotation: [
-            0,
-            Math.PI / 2,
-            0
-        ]
-    },
-
 
     {
         title: "Still Life in Blue",
@@ -556,7 +608,7 @@ const artworks = [
         image: "ArtFiles/img11.JPG",
 
         position: [
-            6.84,
+            3.8,
             3.1,
             -8
         ],
@@ -570,7 +622,7 @@ const artworks = [
 
 
     // =================================================
-    // ROOM 3
+    // ROOM 3 BACK WALL
     // =================================================
 
     {
@@ -597,6 +649,11 @@ const artworks = [
     },
 
 
+    // =================================================
+    // ROOM 3 LEFT WALL
+    // ROW ROW ROW YOUR BOAT
+    // =================================================
+
     {
         title: "Row Row Row Your Boat",
         year: "2026",
@@ -607,8 +664,8 @@ const artworks = [
 
         position: [
             6.84,
-            3.5,
-            -22
+            3.1,
+            -21
         ],
 
         rotation: [
@@ -618,6 +675,38 @@ const artworks = [
         ]
     },
 
+
+    // =================================================
+    // ROOM 3 LEFT WALL
+    // LUNCH
+    // =================================================
+
+    {
+        title: "Lunch",
+        year: "2024",
+        medium: "Multimedia",
+        description:
+            "Probably my favorite piece I've created so far. Pretty self-explanatory. The chicken nuggets are from Chick-Fil-A.",
+        image: "ArtFiles/img8.JPG",
+
+        position: [
+            -4.2,
+            3.1,
+            -14.84
+        ],
+
+        rotation: [
+            0,
+            0,
+            0
+        ]
+    },
+
+
+    // =================================================
+    // ROOM 3 LEFT WALL
+    // EVEN FISH CAN DROWN
+    // =================================================
 
     {
         title: "Even Fish can Drown",
@@ -640,28 +729,6 @@ const artworks = [
         ],
 
         largeArtwork: true
-    },
-
-
-    {
-        title: "Lunch",
-        year: "2024",
-        medium: "Multimedia",
-        description:
-            "Probably my favorite piece I've created so far. Pretty self-explanatory. The chicken nuggets are from Chick-Fil-A.",
-        image: "ArtFiles/img8.JPG",
-
-        position: [
-            6.84,
-            3.1,
-            -17
-        ],
-
-        rotation: [
-            0,
-            -Math.PI / 2,
-            0
-        ]
     }
 
 ];
@@ -680,19 +747,6 @@ const textureLoader =
 // =====================================================
 // GALLERY LIGHT
 // =====================================================
-//
-// The light is automatically positioned based on the
-// actual dimensions of the artwork.
-//
-// LIGHT RULE:
-//
-//     top of artwork + 0.5 units
-//
-// The fixture itself is placed directly against the wall.
-//
-// This means changing artwork size automatically moves
-// its light to the correct height.
-// =====================================================
 
 function createGalleryLightForArtwork(
     art,
@@ -703,20 +757,11 @@ function createGalleryLightForArtwork(
     const rotationY =
         art.rotation[1];
 
-
-    // -------------------------------------------------
-    // LIGHT HEIGHT
-    // -------------------------------------------------
-
     const lightHeight =
         art.position[1] +
         artworkHeight / 2 +
         0.5;
 
-
-    // -------------------------------------------------
-    // DETERMINE WALL TYPE
-    // -------------------------------------------------
 
     const isFrontWall =
         Math.abs(
@@ -738,10 +783,6 @@ function createGalleryLightForArtwork(
         !isFrontWall;
 
 
-    // -------------------------------------------------
-    // LIGHT POSITION
-    // -------------------------------------------------
-
     let lightX =
         art.position[0];
 
@@ -752,43 +793,23 @@ function createGalleryLightForArtwork(
         art.position[2];
 
 
-    // -------------------------------------------------
-    // FRONT WALL
-    // -------------------------------------------------
-
     if (
         isFrontWall
     ) {
-
-        lightX =
-            art.position[0];
 
         lightZ =
             9.84;
 
     }
 
-
-    // -------------------------------------------------
-    // BACK WALL
-    // -------------------------------------------------
-
     else if (
         isBackWall
     ) {
-
-        lightX =
-            art.position[0];
 
         lightZ =
             -25.84;
 
     }
-
-
-    // -------------------------------------------------
-    // LEFT WALL
-    // -------------------------------------------------
 
     else if (
         isLeftWall
@@ -797,15 +818,7 @@ function createGalleryLightForArtwork(
         lightX =
             -6.84;
 
-        lightZ =
-            art.position[2];
-
     }
-
-
-    // -------------------------------------------------
-    // RIGHT WALL
-    // -------------------------------------------------
 
     else if (
         isRightWall
@@ -814,15 +827,8 @@ function createGalleryLightForArtwork(
         lightX =
             6.84;
 
-        lightZ =
-            art.position[2];
-
     }
 
-
-    // =================================================
-    // FIXTURE
-    // =================================================
 
     const fixtureMaterial =
         new THREE.MeshStandardMaterial({
@@ -855,8 +861,6 @@ function createGalleryLightForArtwork(
     );
 
 
-    // Rotate fixture to sit against side walls
-
     if (
         isLeftWall
     ) {
@@ -875,73 +879,38 @@ function createGalleryLightForArtwork(
 
     }
 
-    else {
-
-        fixture.rotation.y = 0;
-
-    }
-
 
     scene.add(
         fixture
     );
 
 
-    // =================================================
-    // SPOTLIGHT
-    // =================================================
-
     const light =
         new THREE.SpotLight(
-
             0xfff4dc,
-
             7,
-
             9,
-
             Math.PI / 5,
-
             0.5,
-
             1
-
         );
 
 
-    // Light source is just below fixture
-
     light.position.set(
-
         lightX,
         lightY - 0.05,
         lightZ
-
     );
 
 
-    // =================================================
-    // TARGET
-    // =================================================
-    //
-    // The spotlight aims at the CENTER of the artwork.
-    //
-    // This keeps the fixture itself directly above the
-    // artwork while allowing the actual light beam to
-    // angle naturally toward the artwork.
-    // =================================================
-
     light.target.position.set(
-
         art.position[0],
         art.position[1],
         art.position[2]
-
     );
 
 
     light.castShadow = true;
-
 
     light.shadow.mapSize.width =
         1024;
@@ -975,16 +944,6 @@ function createArtwork(
 
         (loadedTexture) => {
 
-            console.log(
-                "Loaded artwork:",
-                art.image
-            );
-
-
-            // =================================================
-            // TEXTURE
-            // =================================================
-
             loadedTexture.colorSpace =
                 THREE.SRGBColorSpace;
 
@@ -993,16 +952,14 @@ function createArtwork(
                     .getMaxAnisotropy();
 
 
-            // =================================================
-            // IMAGE DIMENSIONS
-            // =================================================
-
             const image =
                 loadedTexture.image;
+
 
             const imageWidth =
                 image.naturalWidth ||
                 image.width;
+
 
             const imageHeight =
                 image.naturalHeight ||
@@ -1029,10 +986,6 @@ function createArtwork(
                 imageHeight;
 
 
-            // =================================================
-            // ARTWORK SIZE
-            // =================================================
-
             let maxWidth = 4;
 
             let maxHeight = 4;
@@ -1054,22 +1007,15 @@ function createArtwork(
             let artworkHeight;
 
 
-            // LANDSCAPE / SQUARE
-
             if (
                 aspectRatio >= 1
             ) {
 
                 artworkWidth =
                     Math.min(
-
                         maxWidth,
-
-                        maxHeight *
-                        aspectRatio
-
+                        maxHeight * aspectRatio
                     );
-
 
                 artworkHeight =
                     artworkWidth /
@@ -1077,21 +1023,13 @@ function createArtwork(
 
             }
 
-
-            // PORTRAIT
-
             else {
 
                 artworkHeight =
                     Math.min(
-
                         maxHeight,
-
-                        maxWidth /
-                        aspectRatio
-
+                        maxWidth / aspectRatio
                     );
-
 
                 artworkWidth =
                     artworkHeight *
@@ -1099,10 +1037,6 @@ function createArtwork(
 
             }
 
-
-            // =================================================
-            // MATERIAL
-            // =================================================
 
             const material =
                 new THREE.MeshStandardMaterial({
@@ -1125,10 +1059,6 @@ function createArtwork(
 
                 });
 
-
-            // =================================================
-            // FRAME
-            // =================================================
 
             const frame =
                 new THREE.Mesh(
@@ -1153,19 +1083,12 @@ function createArtwork(
             frame.receiveShadow = true;
 
 
-            // =================================================
-            // ARTWORK PLANE
-            // =================================================
-
             const artwork =
                 new THREE.Mesh(
 
                     new THREE.PlaneGeometry(
-
                         artworkWidth,
-
                         artworkHeight
-
                     ),
 
                     material
@@ -1173,22 +1096,9 @@ function createArtwork(
                 );
 
 
-            artwork.castShadow = false;
-
-            artwork.receiveShadow = false;
-
-
-            // =================================================
-            // POSITION
-            // =================================================
-
             const rotationY =
                 art.rotation[1];
 
-
-            // =================================================
-            // FRONT / BACK WALLS
-            // =================================================
 
             if (
                 Math.abs(
@@ -1198,8 +1108,6 @@ function createArtwork(
                 ) < 0.5
             ) {
 
-                // FRONT WALL
-
                 if (
                     Math.abs(
                         rotationY -
@@ -1208,110 +1116,69 @@ function createArtwork(
                 ) {
 
                     frame.position.set(
-
                         art.position[0],
                         art.position[1],
                         art.position[2]
-
                     );
 
-
                     artwork.position.set(
-
                         art.position[0],
                         art.position[1],
-                        art.position[2] -
-                        0.08
-
+                        art.position[2] - 0.08
                     );
 
                 }
 
-
-                // BACK WALL
-
                 else {
 
                     frame.position.set(
-
                         art.position[0],
                         art.position[1],
                         art.position[2]
-
                     );
 
-
                     artwork.position.set(
-
                         art.position[0],
                         art.position[1],
-                        art.position[2] +
-                        0.08
-
+                        art.position[2] + 0.08
                     );
 
                 }
 
             }
 
-
-            // =================================================
-            // SIDE WALLS
-            // =================================================
-
             else {
-
-                // LEFT WALL
 
                 if (
                     rotationY > 0
                 ) {
 
                     frame.position.set(
-
                         art.position[0],
                         art.position[1],
                         art.position[2]
-
                     );
 
-
                     artwork.position.set(
-
-                        art.position[0] +
-                        0.08,
-
+                        art.position[0] + 0.08,
                         art.position[1],
-
                         art.position[2]
-
                     );
 
                 }
 
-
-                // RIGHT WALL
-
                 else {
 
                     frame.position.set(
-
                         art.position[0],
                         art.position[1],
                         art.position[2]
-
                     );
 
-
                     artwork.position.set(
-
-                        art.position[0] -
-                        0.08,
-
+                        art.position[0] - 0.08,
                         art.position[1],
-
                         art.position[2]
-
                     );
 
                 }
@@ -1319,31 +1186,18 @@ function createArtwork(
             }
 
 
-            // =================================================
-            // ROTATION
-            // =================================================
-
             frame.rotation.set(
-
                 art.rotation[0],
                 art.rotation[1],
                 art.rotation[2]
-
             );
-
 
             artwork.rotation.set(
-
                 art.rotation[0],
                 art.rotation[1],
                 art.rotation[2]
-
             );
 
-
-            // =================================================
-            // ADD TO SCENE
-            // =================================================
 
             scene.add(
                 frame
@@ -1354,10 +1208,6 @@ function createArtwork(
             );
 
 
-            // =================================================
-            // CLICK DATA
-            // =================================================
-
             artwork.userData =
                 art;
 
@@ -1366,34 +1216,15 @@ function createArtwork(
             );
 
 
-            // =================================================
-            // CREATE LIGHT
-            // =================================================
-            //
-            // IMPORTANT:
-            //
-            // This happens AFTER the artwork dimensions
-            // have been calculated.
-            //
-            // Therefore the light knows exactly where
-            // the top of this specific artwork is.
-            // =================================================
-
             createGalleryLightForArtwork(
-
                 art,
-
                 artworkWidth,
-
                 artworkHeight
-
             );
 
         },
 
-
         undefined,
-
 
         (error) => {
 
@@ -1410,15 +1241,380 @@ function createArtwork(
 }
 
 
-// =====================================================
-// LOAD ALL ARTWORK
-// =====================================================
-
 artworks.forEach(
     (art) => {
 
         createArtwork(
             art
+        );
+
+    }
+);
+
+
+// =====================================================
+// AQUARIUM
+// =====================================================
+//
+// The aquarium remains the original HTML aquarium.
+// CSS3DRenderer places it inside the 3D room.
+//
+// It occupies approximately 90% of the wall width.
+// =====================================================
+
+const aquariumWorld =
+    document.getElementById(
+        "aquarium-world"
+    );
+
+
+let aquariumObject = null;
+
+
+function setupAquarium() {
+
+    if (
+        !aquariumWorld
+    ) {
+
+        console.warn(
+            "Aquarium element not found."
+        );
+
+        return;
+
+    }
+
+
+    aquariumWorld.style.display =
+        "block";
+
+    aquariumWorld.style.position =
+        "absolute";
+
+    aquariumWorld.style.left =
+        "0";
+
+    aquariumWorld.style.top =
+        "0";
+
+    aquariumWorld.style.width =
+        "1000px";
+
+    aquariumWorld.style.transform =
+        "none";
+
+    aquariumWorld.style.pointerEvents =
+        "none";
+
+
+    aquariumObject =
+        new CSS3DObject(
+            aquariumWorld
+        );
+
+
+    // =================================================
+    // POSITION
+    // =================================================
+    //
+    // Aquarium is on the LEFT WALL of room 1.
+    //
+    // This wall is opposite the artwork on the right.
+    // =================================================
+
+    aquariumObject.position.set(
+        -6.69,
+        3.45,
+        4
+    );
+
+
+    // =================================================
+    // SCALE
+    // =================================================
+    //
+    // 1000px × 0.0125 = 12.5 world units
+    //
+    // Room width = 14
+    //
+    // Therefore aquarium ≈ 89% of wall width.
+    // =================================================
+
+    aquariumObject.scale.set(
+        0.0125,
+        0.0125,
+        0.0125
+    );
+
+
+    // =================================================
+    // ROTATION
+    // =================================================
+    //
+    // Face inward toward the room.
+    // =================================================
+
+    aquariumObject.rotation.y =
+        Math.PI / 2;
+
+
+    scene.add(
+        aquariumObject
+    );
+
+
+    // Make the aquarium itself interactive.
+
+    aquariumWorld.style.pointerEvents =
+        "auto";
+
+}
+
+
+// Delay slightly so aquarium.js has already initialized
+// the fish, bubbles, and other interactive elements.
+
+setTimeout(
+    setupAquarium,
+    0
+);
+
+
+// =====================================================
+// BOOK SYSTEM
+// =====================================================
+
+const bookWorld =
+    document.getElementById(
+        "book-world"
+    );
+
+
+const bookObjects =
+    bookWorld
+        ? bookWorld.querySelectorAll(
+            ".book-object"
+        )
+        : [];
+
+
+const bookDescriptions = {
+
+    book1: {
+
+        title:
+            "The Strange Case of Dr Jekyll and Mr Hyde and Other Tales of Terror",
+
+        year:
+            "2026",
+
+        medium:
+            "Book",
+
+        description:
+            "One of Jianna's favorite reads of the year."
+
+    },
+
+
+    book2: {
+
+        title:
+            "Breakneck: China's Quest to Engineer the Future",
+
+        year:
+            "2026",
+
+        medium:
+            "Book",
+
+        description:
+            "A book that became especially interesting after spending three months in Shanghai in 2025 and continuing conversations about China at Wesleyan."
+
+    },
+
+
+    book3: {
+
+        title:
+            "The 5 Types of Wealth",
+
+        year:
+            "2026",
+
+        medium:
+            "Book",
+
+        description:
+            "A book given to Jianna by her mother after reading Atomic Habits and The 7 Habits of Highly Effective People."
+
+    }
+
+};
+
+
+// =====================================================
+// CREATE BOOK DISPLAY
+// =====================================================
+
+const cssBookObjects = [];
+
+
+function setupBooks() {
+
+    if (
+        !bookWorld
+    ) {
+
+        return;
+
+    }
+
+
+    bookWorld.style.position =
+        "absolute";
+
+    bookWorld.style.left =
+        "0";
+
+    bookWorld.style.top =
+        "0";
+
+    bookWorld.style.width =
+        "0";
+
+    bookWorld.style.height =
+        "0";
+
+    bookWorld.style.pointerEvents =
+        "none";
+
+
+    bookObjects.forEach(
+        (bookElement, index) => {
+
+            bookElement.style.position =
+                "absolute";
+
+            bookElement.style.left =
+                "0";
+
+            bookElement.style.top =
+                "0";
+
+            bookElement.style.width =
+                "180px";
+
+            bookElement.style.pointerEvents =
+                "auto";
+
+
+            const object =
+                new CSS3DObject(
+                    bookElement
+                );
+
+
+            // =================================================
+            // ROOM 3 RIGHT WALL
+            // =================================================
+            //
+            // Three books are arranged vertically.
+            // =================================================
+
+            const x =
+                6.69;
+
+
+            const z =
+                -18 +
+                index * 2.8;
+
+
+            const y =
+                4.6 -
+                index * 2.3;
+
+
+            object.position.set(
+                x,
+                y,
+                z
+            );
+
+
+            object.rotation.y =
+                -Math.PI / 2;
+
+
+            object.scale.set(
+                0.009,
+                0.009,
+                0.009
+            );
+
+
+            object.userData.book =
+                bookElement.dataset.book;
+
+
+            scene.add(
+                object
+            );
+
+
+            cssBookObjects.push(
+                object
+            );
+
+        }
+    );
+
+}
+
+
+setTimeout(
+    setupBooks,
+    0
+);
+
+
+// =====================================================
+// BOOK CLICKING
+// =====================================================
+
+bookObjects.forEach(
+    (bookElement) => {
+
+        bookElement.addEventListener(
+            "click",
+            (event) => {
+
+                event.stopPropagation();
+
+
+                const bookID =
+                    bookElement.dataset.book;
+
+
+                const data =
+                    bookDescriptions[
+                        bookID
+                    ];
+
+
+                if (
+                    data
+                ) {
+
+                    showArtworkInfo(
+                        data
+                    );
+
+                }
+
+            }
         );
 
     }
@@ -1443,11 +1639,8 @@ let lastMouseY = 0;
 const keys = {
 
     w: false,
-
     a: false,
-
     s: false,
-
     d: false
 
 };
@@ -1564,14 +1757,11 @@ window.addEventListener(
 
         pitch =
             Math.max(
-
                 -maxPitch,
-
                 Math.min(
                     maxPitch,
                     pitch
                 )
-
             );
 
 
@@ -1596,37 +1786,21 @@ function keepCameraInside() {
 
     camera.position.x =
         Math.max(
-
-            -ROOM_WIDTH / 2 +
-            margin,
-
+            -ROOM_WIDTH / 2 + margin,
             Math.min(
-
-                ROOM_WIDTH / 2 -
-                margin,
-
+                ROOM_WIDTH / 2 - margin,
                 camera.position.x
-
             )
-
         );
 
 
     camera.position.z =
         Math.max(
-
-            -26 +
-            margin,
-
+            -26 + margin,
             Math.min(
-
-                10 -
-                margin,
-
+                10 - margin,
                 camera.position.z
-
             )
-
         );
 
 
@@ -1649,25 +1823,17 @@ function moveCamera(
 
     const forward =
         new THREE.Vector3(
-
             Math.sin(yaw),
-
             0,
-
             Math.cos(yaw)
-
         );
 
 
     const right =
         new THREE.Vector3(
-
             Math.cos(yaw),
-
             0,
-
             -Math.sin(yaw)
-
         );
 
 
@@ -1731,12 +1897,8 @@ function moveCamera(
 
 
         newPosition.addScaledVector(
-
             movement,
-
-            speed *
-            delta
-
+            speed * delta
         );
 
 
@@ -1822,11 +1984,9 @@ renderer.domElement.addEventListener(
         ) {
 
             showArtworkInfo(
-
                 intersections[0]
                     .object
                     .userData
-
             );
 
         }
@@ -1878,7 +2038,7 @@ function showArtworkInfo(
     ) {
 
         year.textContent =
-            data.year;
+            data.year || "";
 
     }
 
@@ -1888,7 +2048,7 @@ function showArtworkInfo(
     ) {
 
         title.textContent =
-            data.title;
+            data.title || "";
 
     }
 
@@ -1898,7 +2058,7 @@ function showArtworkInfo(
     ) {
 
         medium.textContent =
-            data.medium;
+            data.medium || "";
 
     }
 
@@ -1908,7 +2068,7 @@ function showArtworkInfo(
     ) {
 
         description.textContent =
-            data.description;
+            data.description || "";
 
     }
 
@@ -1973,7 +2133,7 @@ const albums = {
             artist: "Jianna Shao",
             file: "ArtFiles/SSBGMusic.m4a"
         },
-        
+
         {
             title: "Ella's Room (SS)",
             artist: "Jianna Shao",
@@ -2029,10 +2189,6 @@ const audio =
 
 let isPlaying = false;
 
-
-// =====================================================
-// IPOD ELEMENTS
-// =====================================================
 
 const albumName =
     document.getElementById(
@@ -2148,7 +2304,6 @@ function loadSong(
 
     audio.load();
 
-
     isPlaying = false;
 
     updatePlayButton();
@@ -2263,10 +2418,6 @@ function pauseAudio() {
 
 }
 
-
-// =====================================================
-// INITIAL SONG
-// =====================================================
 
 loadSong(
     false
@@ -2583,6 +2734,12 @@ function animate() {
         camera
     );
 
+
+    cssRenderer.render(
+        scene,
+        camera
+    );
+
 }
 
 
@@ -2606,6 +2763,12 @@ window.addEventListener(
 
 
         renderer.setSize(
+            window.innerWidth,
+            window.innerHeight
+        );
+
+
+        cssRenderer.setSize(
             window.innerWidth,
             window.innerHeight
         );
