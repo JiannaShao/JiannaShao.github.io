@@ -588,6 +588,61 @@ footer {
     text-decoration: underline;
 }
 
+/* =====================================================
+   SNAKE SCROLL TRANSITION
+===================================================== */
+
+#snake-transition {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.snake {
+    position: absolute;
+    bottom: -150px;
+    width: 80px;
+    height: 200px;
+    opacity: 0;
+}
+
+.snake.active {
+    animation: snakeRise 1.5s ease-in forwards;
+}
+
+@keyframes snakeRise {
+
+    0% {
+        bottom: -150px;
+        opacity: 0;
+        transform: translateX(0) rotate(0deg);
+    }
+
+    15% {
+        opacity: 1;
+    }
+
+    25% {
+        transform: translateX(30px) rotate(8deg);
+    }
+
+    50% {
+        transform: translateX(-30px) rotate(-8deg);
+    }
+
+    75% {
+        transform: translateX(25px) rotate(7deg);
+    }
+
+    100% {
+        bottom: 110%;
+        opacity: 0;
+        transform: translateX(-20px) rotate(-5deg);
+    }
+}
+
 
 /* =====================================================
    MOBILE
