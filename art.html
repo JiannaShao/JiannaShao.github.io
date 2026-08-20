@@ -1,86 +1,254 @@
-<!-- =====================================================
-     AQUARIUM / MY ROOM
-====================================================== -->
+<!DOCTYPE html>
+<html lang="en">
 
-<div id="aquarium-world">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <div id="tank" class="tank">
+    <title>Artwork | Jianna Shao</title>
 
-        <div id="fish-layer"></div>
+    <link rel="stylesheet" href="art.css">
+</head>
 
-        <div id="water-overlay"></div>
+<body>
 
-        <div id="food-layer"></div>
+    <!-- =========================
+         3D GALLERY
+    ========================= -->
 
-        <div id="bubble-layer"></div>
+    <div id="gallery"></div>
+
+
+    <!-- =========================
+         NAVIGATION
+    ========================= -->
+
+    <a href="index.html" class="home-button">
+        ← Back to Home
+    </a>
+
+
+    <!-- =========================
+         GALLERY TITLE
+    ========================= -->
+
+    <div class="gallery-title">
+        <p>ARTWORK & MUSIC</p>
+    </div>
+
+
+    <!-- =========================
+         ARTWORK INFORMATION
+    ========================= -->
+
+    <div id="artwork-info" class="artwork-info hidden">
+
+        <button id="close-info">×</button>
+
+        <p id="artwork-year"></p>
+
+        <h2 id="artwork-title"></h2>
+
+        <p id="artwork-medium"></p>
+
+        <p id="artwork-description"></p>
 
     </div>
 
 
-    <div class="aquarium-controls">
+    <!-- =========================
+         MUSIC PLAYER
+    ========================= -->
 
-        <button
-            id="feed-button"
-            class="aquarium-button"
-        >
-            Feed the Fish
-        </button>
+    <div class="music-player">
 
-        <button
-            id="reset-button"
-            class="aquarium-button secondary"
-        >
-            Reset Aquarium
-        </button>
+        <div class="ipod">
+
+            <div class="ipod-screen">
+
+                <p class="music-label">NOW PLAYING</p>
+
+                <div id="album-name" class="album-name">
+                    Select an album
+                </div>
+
+                <div id="song-title" class="song-title">
+                    —
+                </div>
+
+                <div id="artist-name" class="artist-name">
+                    —
+                </div>
+
+            </div>
+
+
+            <div class="ipod-wheel">
+
+                <button id="previous" class="wheel-button previous">
+                    ◀
+                </button>
+
+                <button id="play" class="play-button">
+                    ▶
+                </button>
+
+                <button id="next" class="wheel-button next">
+                    ▶
+                </button>
+
+            </div>
+
+
+            <button id="album-button" class="album-button">
+                Albums
+            </button>
+
+        </div>
+
+
+        <!-- ALBUM MENU -->
+
+        <div id="album-menu" class="album-menu hidden">
+
+            <p>SELECT ALBUM</p>
+
+            <div id="album-list"></div>
+
+        </div>
 
     </div>
 
-</div>
 
+    <!-- =========================
+         INSTRUCTIONS
+    ========================= -->
 
-<!-- =====================================================
-     BOOK DATA / BOOK CLICK TARGET
-====================================================== -->
+    <div class="instructions">
 
-<div id="book-world">
+        <span>Use W A S D to move</span>
+        <span>Press mouse to look around</span>
+        <span>Click artwork to view details</span>
 
-    <div
-        class="book-object"
-        data-book="book1"
-    >
-        <img
-            src="Books/Book1.png"
-            alt="The Strange Case of Dr Jekyll and Mr Hyde"
-            draggable="false"
-        >
     </div>
 
 
-    <div
-        class="book-object"
-        data-book="book2"
-    >
-        <img
-            src="Books/Book2.jpg"
-            alt="Breakneck"
-            draggable="false"
-        >
+    <!-- =====================================================
+         AQUARIUM / MY ROOM
+    ====================================================== -->
+
+    <div id="aquarium-world">
+
+        <div id="tank" class="tank">
+
+            <div id="fish-layer"></div>
+
+            <div id="water-overlay"></div>
+
+            <div id="food-layer"></div>
+
+            <div id="bubble-layer"></div>
+
+        </div>
+
+
+        <div class="aquarium-controls">
+
+            <button
+                id="feed-button"
+                class="aquarium-button"
+            >
+                Feed the Fish
+            </button>
+
+            <button
+                id="reset-button"
+                class="aquarium-button secondary"
+            >
+                Reset Aquarium
+            </button>
+
+        </div>
+
     </div>
 
 
-    <div
-        class="book-object"
-        data-book="book3"
-    >
-        <img
-            src="Books/Book3.jpeg"
-            alt="The 5 Types of Wealth"
-            draggable="false"
+    <!-- =====================================================
+         BOOK DATA / BOOK CLICK TARGET
+    ====================================================== -->
+
+    <div id="book-world">
+
+        <div
+            class="book-object"
+            data-book="book1"
         >
+
+            <img
+                src="Books/Book1.png"
+                alt="The Strange Case of Dr Jekyll and Mr Hyde"
+                draggable="false"
+            >
+
+        </div>
+
+
+        <div
+            class="book-object"
+            data-book="book2"
+        >
+
+            <img
+                src="Books/Book2.jpg"
+                alt="Breakneck"
+                draggable="false"
+            >
+
+        </div>
+
+
+        <div
+            class="book-object"
+            data-book="book3"
+        >
+
+            <img
+                src="Books/Book3.jpeg"
+                alt="The 5 Types of Wealth"
+                draggable="false"
+            >
+
+        </div>
+
     </div>
 
-</div>
+
+    <!-- =========================
+         AQUARIUM JAVASCRIPT
+    ========================= -->
+
+    <script src="aquarium.js"></script>
 
 
-<script src="aquarium.js"></script>
-<script type="module" src="art.js"></script>
+    <!-- =========================
+         THREE.JS IMPORT MAP
+    ========================= -->
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js"
+        }
+    }
+    </script>
+
+
+    <!-- =========================
+         GALLERY JAVASCRIPT
+    ========================= -->
+
+    <script type="module" src="art.js"></script>
+
+</body>
+
+</html>
