@@ -64,6 +64,18 @@ renderer.shadowMap.enabled = true;
 renderer.shadowMap.type =
     THREE.PCFSoftShadowMap;
 
+renderer.domElement.style.position =
+    "fixed";
+
+renderer.domElement.style.top =
+    "0";
+
+renderer.domElement.style.left =
+    "0";
+
+renderer.domElement.style.zIndex =
+    "1";
+
 gallery.appendChild(
     renderer.domElement
 );
@@ -75,8 +87,8 @@ gallery.appendChild(
 //
 // Used for the interactive aquarium and books.
 //
-// This allows normal HTML elements to exist inside
-// the 3D gallery and move with the camera.
+// CSS3D objects do not participate in WebGL depth
+// testing, so visibility is controlled by room.
 // =====================================================
 
 const cssRenderer =
@@ -162,7 +174,7 @@ const floorMaterial =
 
 const ceilingMaterial =
     new THREE.MeshStandardMaterial({
-        color: "#ffffff",
+        color: "#f3f1e8",
         roughness: 0.9
     });
 
@@ -294,6 +306,7 @@ function createWall(
     });
 
     return wall;
+
 }
 
 
@@ -333,6 +346,9 @@ createWall(
 // =====================================================
 // ROOM DIVIDER AT Z = -2
 // =====================================================
+//
+// Central doorway opening remains 4 world units wide.
+//
 
 createWall(
     ROOM_WIDTH / 2 - 2,
@@ -352,6 +368,9 @@ createWall(
 // =====================================================
 // ROOM DIVIDER AT Z = -14
 // =====================================================
+//
+// Central doorway opening remains 4 world units wide.
+//
 
 createWall(
     ROOM_WIDTH / 2 - 2,
@@ -400,10 +419,6 @@ const artworks = [
     },
 
 
-    // =================================================
-    // ROOM 1 FRONT WALL
-    // =================================================
-
     {
         title: "Quick Breakfast",
         year: "2024",
@@ -428,7 +443,6 @@ const artworks = [
 
     // =================================================
     // ROOM 1 LEFT DIVIDER WALL
-    // HEAVEN IS QUIET
     // =================================================
 
     {
@@ -455,7 +469,6 @@ const artworks = [
 
     // =================================================
     // ROOM 1 RIGHT DIVIDER WALL
-    // LONE STAR
     // =================================================
 
     {
@@ -481,8 +494,7 @@ const artworks = [
 
 
     // =================================================
-    // ROOM 1 SIDE WALL
-    // AQUARIUM OCCUPIES OPPOSITE SIDE
+    // ROOM 1 RIGHT WALL
     // =================================================
 
     {
@@ -508,7 +520,7 @@ const artworks = [
 
 
     // =================================================
-    // ROOM 2
+    // ROOM 2 FRONT WALL
     // =================================================
 
     {
@@ -533,6 +545,10 @@ const artworks = [
     },
 
 
+    // =================================================
+    // ROOM 2 LEFT WALL
+    // =================================================
+
     {
         title: "Mitosis",
         year: "2024",
@@ -555,6 +571,10 @@ const artworks = [
     },
 
 
+    // =================================================
+    // ROOM 2 RIGHT WALL
+    // =================================================
+
     {
         title: "Palimpsest",
         year: "2024",
@@ -564,18 +584,22 @@ const artworks = [
         image: "ArtFiles/img9.JPG",
 
         position: [
-            3.8,
+            6.84,
             3.1,
-            -13.84
+            -9
         ],
 
         rotation: [
             0,
-            0,
+            -Math.PI / 2,
             0
         ]
     },
 
+
+    // =================================================
+    // ROOM 2 LEFT WALL
+    // =================================================
 
     {
         title: "Salty Soup",
@@ -599,6 +623,10 @@ const artworks = [
     },
 
 
+    // =================================================
+    // ROOM 2 RIGHT WALL
+    // =================================================
+
     {
         title: "The Disparity of Abandonment",
         year: "2024",
@@ -608,9 +636,9 @@ const artworks = [
         image: "ArtFiles/img11.JPG",
 
         position: [
-            3.8,
+            6.84,
             3.1,
-            -8
+            -4.5
         ],
 
         rotation: [
@@ -650,8 +678,7 @@ const artworks = [
 
 
     // =================================================
-    // ROOM 3 LEFT WALL
-    // ROW ROW ROW YOUR BOAT
+    // ROOM 3 RIGHT WALL
     // =================================================
 
     {
@@ -678,7 +705,6 @@ const artworks = [
 
     // =================================================
     // ROOM 3 LEFT WALL
-    // LUNCH
     // =================================================
 
     {
@@ -690,14 +716,14 @@ const artworks = [
         image: "ArtFiles/img8.JPG",
 
         position: [
-            -4.2,
+            -6.84,
             3.1,
             -14.84
         ],
 
         rotation: [
             0,
-            0,
+            Math.PI / 2,
             0
         ]
     },
@@ -705,7 +731,6 @@ const artworks = [
 
     // =================================================
     // ROOM 3 LEFT WALL
-    // EVEN FISH CAN DROWN
     // =================================================
 
     {
@@ -745,6 +770,48 @@ const textureLoader =
 
 
 // =====================================================
+// DETERMINE ARTWORK WALL
+// =====================================================
+
+function getArtworkWall(
+    art
+) {
+
+    const rotationY =
+        art.rotation[1];
+
+    if (
+        Math.abs(
+            rotationY - Math.PI
+        ) < 0.1
+    ) {
+
+        return "front";
+
+    }
+
+    if (
+        Math.abs(rotationY) < 0.1
+    ) {
+
+        return "back";
+
+    }
+
+    if (
+        rotationY > 0
+    ) {
+
+        return "left";
+
+    }
+
+    return "right";
+
+}
+
+
+// =====================================================
 // GALLERY LIGHT
 // =====================================================
 
@@ -754,33 +821,16 @@ function createGalleryLightForArtwork(
     artworkHeight
 ) {
 
-    const rotationY =
-        art.rotation[1];
+    const wall =
+        getArtworkWall(
+            art
+        );
+
 
     const lightHeight =
         art.position[1] +
         artworkHeight / 2 +
         0.5;
-
-
-    const isFrontWall =
-        Math.abs(
-            rotationY - Math.PI
-        ) < 0.1;
-
-
-    const isBackWall =
-        Math.abs(rotationY) < 0.1;
-
-
-    const isLeftWall =
-        rotationY > 0 &&
-        !isFrontWall;
-
-
-    const isRightWall =
-        rotationY < 0 &&
-        !isFrontWall;
 
 
     let lightX =
@@ -794,38 +844,38 @@ function createGalleryLightForArtwork(
 
 
     if (
-        isFrontWall
+        wall === "front"
     ) {
 
         lightZ =
-            9.84;
+            9.65;
 
     }
 
     else if (
-        isBackWall
+        wall === "back"
     ) {
 
         lightZ =
-            -25.84;
+            -25.65;
 
     }
 
     else if (
-        isLeftWall
+        wall === "left"
     ) {
 
         lightX =
-            -6.84;
+            -6.65;
 
     }
 
     else if (
-        isRightWall
+        wall === "right"
     ) {
 
         lightX =
-            6.84;
+            6.65;
 
     }
 
@@ -862,7 +912,7 @@ function createGalleryLightForArtwork(
 
 
     if (
-        isLeftWall
+        wall === "left"
     ) {
 
         fixture.rotation.y =
@@ -871,7 +921,7 @@ function createGalleryLightForArtwork(
     }
 
     else if (
-        isRightWall
+        wall === "right"
     ) {
 
         fixture.rotation.y =
@@ -981,6 +1031,10 @@ function createArtwork(
             }
 
 
+            // =========================================
+            // PRESERVE ORIGINAL IMAGE ASPECT RATIO
+            // =========================================
+
             const aspectRatio =
                 imageWidth /
                 imageHeight;
@@ -1038,6 +1092,10 @@ function createArtwork(
             }
 
 
+            // =========================================
+            // ARTWORK MATERIAL
+            // =========================================
+
             const material =
                 new THREE.MeshStandardMaterial({
 
@@ -1059,6 +1117,10 @@ function createArtwork(
 
                 });
 
+
+            // =========================================
+            // FRAME
+            // =========================================
 
             const frame =
                 new THREE.Mesh(
@@ -1083,6 +1145,10 @@ function createArtwork(
             frame.receiveShadow = true;
 
 
+            // =========================================
+            // IMAGE
+            // =========================================
+
             const artwork =
                 new THREE.Mesh(
 
@@ -1096,95 +1162,71 @@ function createArtwork(
                 );
 
 
-            const rotationY =
-                art.rotation[1];
+            // =========================================
+            // POSITION
+            // =========================================
+
+            frame.position.set(
+                art.position[0],
+                art.position[1],
+                art.position[2]
+            );
+
+            artwork.position.copy(
+                frame.position
+            );
+
+
+            // =========================================
+            // MOVE IMAGE SLIGHTLY IN FRONT OF FRAME
+            // =========================================
+
+            const wall =
+                getArtworkWall(
+                    art
+                );
 
 
             if (
-                Math.abs(
-                    Math.sin(
-                        rotationY
-                    )
-                ) < 0.5
+                wall === "front"
             ) {
 
-                if (
-                    Math.abs(
-                        rotationY -
-                        Math.PI
-                    ) < 0.1
-                ) {
-
-                    frame.position.set(
-                        art.position[0],
-                        art.position[1],
-                        art.position[2]
-                    );
-
-                    artwork.position.set(
-                        art.position[0],
-                        art.position[1],
-                        art.position[2] - 0.08
-                    );
-
-                }
-
-                else {
-
-                    frame.position.set(
-                        art.position[0],
-                        art.position[1],
-                        art.position[2]
-                    );
-
-                    artwork.position.set(
-                        art.position[0],
-                        art.position[1],
-                        art.position[2] + 0.08
-                    );
-
-                }
+                artwork.position.z -=
+                    0.08;
 
             }
 
-            else {
+            else if (
+                wall === "back"
+            ) {
 
-                if (
-                    rotationY > 0
-                ) {
-
-                    frame.position.set(
-                        art.position[0],
-                        art.position[1],
-                        art.position[2]
-                    );
-
-                    artwork.position.set(
-                        art.position[0] + 0.08,
-                        art.position[1],
-                        art.position[2]
-                    );
-
-                }
-
-                else {
-
-                    frame.position.set(
-                        art.position[0],
-                        art.position[1],
-                        art.position[2]
-                    );
-
-                    artwork.position.set(
-                        art.position[0] - 0.08,
-                        art.position[1],
-                        art.position[2]
-                    );
-
-                }
+                artwork.position.z +=
+                    0.08;
 
             }
 
+            else if (
+                wall === "left"
+            ) {
+
+                artwork.position.x +=
+                    0.08;
+
+            }
+
+            else if (
+                wall === "right"
+            ) {
+
+                artwork.position.x -=
+                    0.08;
+
+            }
+
+
+            // =========================================
+            // ROTATION
+            // =========================================
 
             frame.rotation.set(
                 art.rotation[0],
@@ -1198,6 +1240,10 @@ function createArtwork(
                 art.rotation[2]
             );
 
+
+            // =========================================
+            // ADD TO SCENE
+            // =========================================
 
             scene.add(
                 frame
@@ -1215,6 +1261,10 @@ function createArtwork(
                 artwork
             );
 
+
+            // =========================================
+            // LIGHT
+            // =========================================
 
             createGalleryLightForArtwork(
                 art,
@@ -1255,12 +1305,6 @@ artworks.forEach(
 // =====================================================
 // AQUARIUM
 // =====================================================
-//
-// The aquarium remains the original HTML aquarium.
-// CSS3DRenderer places it inside the 3D room.
-//
-// It occupies approximately 90% of the wall width.
-// =====================================================
 
 const aquariumWorld =
     document.getElementById(
@@ -1286,6 +1330,10 @@ function setupAquarium() {
     }
 
 
+    // =========================================
+    // RESET ORIGINAL PAGE POSITIONING
+    // =========================================
+
     aquariumWorld.style.display =
         "block";
 
@@ -1301,12 +1349,19 @@ function setupAquarium() {
     aquariumWorld.style.width =
         "1000px";
 
+    aquariumWorld.style.margin =
+        "0";
+
     aquariumWorld.style.transform =
         "none";
 
     aquariumWorld.style.pointerEvents =
-        "none";
+        "auto";
 
+
+    // =========================================
+    // CSS3D OBJECT
+    // =========================================
 
     aquariumObject =
         new CSS3DObject(
@@ -1314,14 +1369,9 @@ function setupAquarium() {
         );
 
 
-    // =================================================
-    // POSITION
-    // =================================================
-    //
-    // Aquarium is on the LEFT WALL of room 1.
-    //
-    // This wall is opposite the artwork on the right.
-    // =================================================
+    // =========================================
+    // ROOM 1 LEFT WALL
+    // =========================================
 
     aquariumObject.position.set(
         -6.69,
@@ -1330,54 +1380,42 @@ function setupAquarium() {
     );
 
 
-    // =================================================
-    // SCALE
-    // =================================================
+    // =========================================
+    // SIZE
+    // =========================================
     //
-    // 1000px × 0.0125 = 12.5 world units
+    // 1000px × 0.0105 = 10.5 world units
     //
-    // Room width = 14
-    //
-    // Therefore aquarium ≈ 89% of wall width.
-    // =================================================
 
     aquariumObject.scale.set(
-        0.0125,
-        0.0125,
-        0.0125
+        0.0105,
+        0.0105,
+        0.0105
     );
 
 
-    // =================================================
-    // ROTATION
-    // =================================================
-    //
-    // Face inward toward the room.
-    // =================================================
+    // =========================================
+    // FACE INTO ROOM
+    // =========================================
 
     aquariumObject.rotation.y =
         Math.PI / 2;
+
+
+    aquariumObject.userData.room =
+        1;
 
 
     scene.add(
         aquariumObject
     );
 
-
-    // Make the aquarium itself interactive.
-
-    aquariumWorld.style.pointerEvents =
-        "auto";
-
 }
 
 
-// Delay slightly so aquarium.js has already initialized
-// the fish, bubbles, and other interactive elements.
-
 setTimeout(
     setupAquarium,
-    0
+    100
 );
 
 
@@ -1455,7 +1493,7 @@ const bookDescriptions = {
 
 
 // =====================================================
-// CREATE BOOK DISPLAY
+// BOOK CSS3D OBJECTS
 // =====================================================
 
 const cssBookObjects = [];
@@ -1487,6 +1525,9 @@ function setupBooks() {
     bookWorld.style.height =
         "0";
 
+    bookWorld.style.margin =
+        "0";
+
     bookWorld.style.pointerEvents =
         "none";
 
@@ -1503,8 +1544,17 @@ function setupBooks() {
             bookElement.style.top =
                 "0";
 
+            bookElement.style.margin =
+                "0";
+
             bookElement.style.width =
                 "180px";
+
+            bookElement.style.height =
+                "auto";
+
+            bookElement.style.transform =
+                "none";
 
             bookElement.style.pointerEvents =
                 "auto";
@@ -1516,19 +1566,16 @@ function setupBooks() {
                 );
 
 
-            // =================================================
+            // =========================================
             // ROOM 3 RIGHT WALL
-            // =================================================
-            //
-            // Three books are arranged vertically.
-            // =================================================
+            // =========================================
 
             const x =
                 6.69;
 
 
             const z =
-                -18 +
+                -22 +
                 index * 2.8;
 
 
@@ -1558,6 +1605,9 @@ function setupBooks() {
             object.userData.book =
                 bookElement.dataset.book;
 
+            object.userData.room =
+                3;
+
 
             scene.add(
                 object
@@ -1576,8 +1626,77 @@ function setupBooks() {
 
 setTimeout(
     setupBooks,
-    0
+    100
 );
+
+
+// =====================================================
+// CSS3D ROOM VISIBILITY
+// =====================================================
+//
+// CSS3DRenderer does not depth-test against Three.js
+// walls. Therefore we hide CSS3D objects when the
+// camera is not inside their room.
+//
+// This prevents books from appearing through the
+// divider walls when the user is in Rooms 1 or 2.
+// =====================================================
+
+function getCameraRoom() {
+
+    const z =
+        camera.position.z;
+
+
+    if (
+        z > -2
+    ) {
+
+        return 1;
+
+    }
+
+
+    if (
+        z > -14
+    ) {
+
+        return 2;
+
+    }
+
+
+    return 3;
+
+}
+
+
+function updateCSS3DVisibility() {
+
+    const room =
+        getCameraRoom();
+
+
+    if (
+        aquariumObject
+    ) {
+
+        aquariumObject.visible =
+            room === 1;
+
+    }
+
+
+    cssBookObjects.forEach(
+        (object) => {
+
+            object.visible =
+                room === 3;
+
+        }
+    );
+
+}
 
 
 // =====================================================
@@ -1728,7 +1847,11 @@ window.addEventListener(
 
         if (
             !mouseDown
-        ) return;
+        ) {
+
+            return;
+
+        }
 
 
         const movementX =
@@ -2262,7 +2385,11 @@ function loadSong(
 
     if (
         !song
-    ) return;
+    ) {
+
+        return;
+
+    }
 
 
     if (
@@ -2328,7 +2455,11 @@ function updatePlayButton() {
 
     if (
         !playButton
-    ) return;
+    ) {
+
+        return;
+
+    }
 
 
     if (
@@ -2727,6 +2858,8 @@ function animate() {
 
 
     updateCameraRotation();
+
+    updateCSS3DVisibility();
 
 
     renderer.render(
