@@ -2,48 +2,79 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Artwork | Jianna Shao</title>
 
-    <link rel="stylesheet" href="art.css">
+    <link
+        rel="stylesheet"
+        href="art.css"
+    >
+
 </head>
+
 
 <body>
 
-    <!-- =========================
+
+    <!-- =====================================================
          3D GALLERY
-    ========================= -->
+    ====================================================== -->
 
     <div id="gallery"></div>
 
 
-    <!-- =========================
-         NAVIGATION
-    ========================= -->
 
-    <a href="index.html" class="home-button">
+    <!-- =====================================================
+         NAVIGATION
+    ====================================================== -->
+
+    <a
+        href="index.html"
+        class="home-button"
+    >
         ← Back to Home
     </a>
 
 
-    <!-- =========================
+
+    <!-- =====================================================
          GALLERY TITLE
-    ========================= -->
+    ====================================================== -->
 
     <div class="gallery-title">
-        <p>ARTWORK & MUSIC</p>
+
+        <p>
+            ARTWORK &amp; MUSIC
+        </p>
+
     </div>
 
 
-    <!-- =========================
+
+    <!-- =====================================================
          ARTWORK INFORMATION
-    ========================= -->
+    ====================================================== -->
 
-    <div id="artwork-info" class="artwork-info hidden">
+    <div
+        id="artwork-info"
+        class="artwork-info hidden"
+    >
 
-        <button id="close-info">×</button>
+        <button
+            id="close-info"
+            type="button"
+            aria-label="Close artwork information"
+        >
+            ×
+        </button>
+
 
         <p id="artwork-year"></p>
 
@@ -56,62 +87,110 @@
     </div>
 
 
-    <!-- =========================
+
+    <!-- =====================================================
          MUSIC PLAYER
-    ========================= -->
+    ====================================================== -->
 
     <div class="music-player">
 
         <div class="ipod">
 
+
+            <!-- IPOD SCREEN -->
+
             <div class="ipod-screen">
 
-                <p class="music-label">NOW PLAYING</p>
+                <p class="music-label">
+                    NOW PLAYING
+                </p>
 
-                <div id="album-name" class="album-name">
+                <div
+                    id="album-name"
+                    class="album-name"
+                >
                     Select an album
                 </div>
 
-                <div id="song-title" class="song-title">
+                <div
+                    id="song-title"
+                    class="song-title"
+                >
                     —
                 </div>
 
-                <div id="artist-name" class="artist-name">
+                <div
+                    id="artist-name"
+                    class="artist-name"
+                >
                     —
                 </div>
 
             </div>
 
+
+
+            <!-- IPOD WHEEL -->
 
             <div class="ipod-wheel">
 
-                <button id="previous" class="wheel-button previous">
+                <button
+                    id="previous"
+                    class="wheel-button previous"
+                    type="button"
+                    aria-label="Previous song"
+                >
                     ◀
                 </button>
 
-                <button id="play" class="play-button">
+
+                <button
+                    id="play"
+                    class="play-button"
+                    type="button"
+                    aria-label="Play"
+                >
                     ▶
                 </button>
 
-                <button id="next" class="wheel-button next">
+
+                <button
+                    id="next"
+                    class="wheel-button next"
+                    type="button"
+                    aria-label="Next song"
+                >
                     ▶
                 </button>
 
             </div>
 
 
-            <button id="album-button" class="album-button">
+
+            <!-- ALBUM BUTTON -->
+
+            <button
+                id="album-button"
+                class="album-button"
+                type="button"
+            >
                 Albums
             </button>
 
         </div>
 
 
+
         <!-- ALBUM MENU -->
 
-        <div id="album-menu" class="album-menu hidden">
+        <div
+            id="album-menu"
+            class="album-menu hidden"
+        >
 
-            <p>SELECT ALBUM</p>
+            <p>
+                SELECT ALBUM
+            </p>
 
             <div id="album-list"></div>
 
@@ -120,17 +199,27 @@
     </div>
 
 
-    <!-- =========================
+
+    <!-- =====================================================
          INSTRUCTIONS
-    ========================= -->
+    ====================================================== -->
 
     <div class="instructions">
 
-        <span>Use W A S D to move</span>
-        <span>Press mouse to look around</span>
-        <span>Click artwork to view details</span>
+        <span>
+            Use W A S D to move
+        </span>
+
+        <span>
+            Press mouse to look around
+        </span>
+
+        <span>
+            Click artwork to view details
+        </span>
 
     </div>
+
 
 
     <!-- =====================================================
@@ -139,31 +228,54 @@
 
     <div id="aquarium-world">
 
-        <div id="tank" class="tank">
+
+        <!-- AQUARIUM -->
+
+        <div
+            id="tank"
+            class="tank"
+        >
+
+            <!-- FISH -->
 
             <div id="fish-layer"></div>
 
+
+            <!-- WATER MOVEMENT -->
+
             <div id="water-overlay"></div>
 
+
+            <!-- FOOD -->
+
             <div id="food-layer"></div>
+
+
+            <!-- BUBBLES -->
 
             <div id="bubble-layer"></div>
 
         </div>
 
 
+
+        <!-- AQUARIUM CONTROLS -->
+
         <div class="aquarium-controls">
 
             <button
                 id="feed-button"
                 class="aquarium-button"
+                type="button"
             >
                 Feed the Fish
             </button>
 
+
             <button
                 id="reset-button"
                 class="aquarium-button secondary"
+                type="button"
             >
                 Reset Aquarium
             </button>
@@ -173,11 +285,15 @@
     </div>
 
 
+
     <!-- =====================================================
-         BOOK DATA / BOOK CLICK TARGET
+         BOOKS / MY ROOM
     ====================================================== -->
 
     <div id="book-world">
+
+
+        <!-- BOOK 1 -->
 
         <div
             class="book-object"
@@ -193,6 +309,9 @@
         </div>
 
 
+
+        <!-- BOOK 2 -->
+
         <div
             class="book-object"
             data-book="book2"
@@ -206,6 +325,9 @@
 
         </div>
 
+
+
+        <!-- BOOK 3 -->
 
         <div
             class="book-object"
@@ -223,31 +345,40 @@
     </div>
 
 
-    <!-- =========================
+
+    <!-- =====================================================
          AQUARIUM JAVASCRIPT
-    ========================= -->
+    ====================================================== -->
 
     <script src="aquarium.js"></script>
 
 
-    <!-- =========================
+
+    <!-- =====================================================
          THREE.JS IMPORT MAP
-    ========================= -->
+    ====================================================== -->
 
     <script type="importmap">
+
     {
         "imports": {
             "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js"
         }
     }
+
     </script>
 
 
-    <!-- =========================
-         GALLERY JAVASCRIPT
-    ========================= -->
 
-    <script type="module" src="art.js"></script>
+    <!-- =====================================================
+         THREE.JS GALLERY
+    ====================================================== -->
+
+    <script
+        type="module"
+        src="art.js"
+    ></script>
+
 
 </body>
 
