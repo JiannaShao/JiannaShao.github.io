@@ -800,6 +800,92 @@ tank.addEventListener(
    FEEDING
 ===================================================== */
 
+const activeFood = [];
+
+
+function updateFood(
+    deltaTime
+) {
+
+    for (
+        let i = activeFood.length - 1;
+        i >= 0;
+        i--
+    ) {
+
+        const food =
+            activeFood[i];
+
+
+        food.age +=
+            deltaTime;
+
+
+        // Fall downward
+
+        food.y +=
+            food.speed *
+            deltaTime;
+
+
+        // Slight horizontal drift
+
+        food.x +=
+            food.drift *
+            deltaTime;
+
+
+        // Keep pellets inside tank
+
+        if (food.x < 3) {
+
+            food.x = 3;
+
+            food.drift *= -1;
+
+        }
+
+
+        if (food.x > 97) {
+
+            food.x = 97;
+
+            food.drift *= -1;
+
+        }
+
+
+        // Update position
+
+        food.element.style.left =
+            food.x + "%";
+
+        food.element.style.top =
+            food.y + "%";
+
+
+        // Remove when they reach the bottom
+        // or have existed long enough
+
+        if (
+            food.y >= 85 ||
+            food.age >= food.lifetime
+        ) {
+
+            food.element.remove();
+
+            activeFood.splice(
+                i,
+                1
+            );
+
+        }
+
+    }
+
+}
+
+
 function feedFish() {
 
     for (
@@ -845,18 +931,30 @@ function createFood() {
         "food";
 
 
-    pellet.style.left =
-        randomNumber(
-            5,
-            95
-        ) + "%";
+    const food = {
 
+        element: pellet,
+
+        x: randomNumber(5, 95),
+
+        y: randomNumber(2, 8),
+
+        speed: randomNumber(0.015, 0.03),
+
+        drift: randomNumber(-0.003, 0.003),
+
+        age: 0,
+
+        lifetime: randomNumber(2500, 4000)
+
+    };
+
+
+    pellet.style.left =
+        food.x + "%";
 
     pellet.style.top =
-        randomNumber(
-            2,
-            10
-        ) + "%";
+        food.y + "%";
 
 
     foodLayer.appendChild(
@@ -864,17 +962,58 @@ function createFood() {
     );
 
 
-    setTimeout(
-        function() {
-
-            pellet.remove();
-
-        },
-        3000
+    activeFood.push(
+        food
     );
 
 }
 
+
+function createFood() {
+
+    const pellet =
+        document.createElement("div");
+
+    pellet.className =
+        "food";
+
+
+    const food = {
+
+        element: pellet,
+
+        x: randomNumber(5, 95),
+
+        y: randomNumber(2, 8),
+
+        speed: randomNumber(0.015, 0.03),
+
+        drift: randomNumber(-0.003, 0.003),
+
+        age: 0,
+
+        lifetime: randomNumber(2500, 4000)
+
+    };
+
+
+    pellet.style.left =
+        food.x + "%";
+
+    pellet.style.top =
+        food.y + "%";
+
+
+    foodLayer.appendChild(
+        pellet
+    );
+
+
+    activeFood.push(
+        food
+    );
+
+}
 
 feedButton.addEventListener(
     "click",
@@ -897,6 +1036,8 @@ function resetAquarium() {
     fishLayer.innerHTML = "";
 
     foodLayer.innerHTML = "";
+
+    activeFood.length = 0;
 
     bubbleLayer.innerHTML = "";
 
@@ -1010,14 +1151,19 @@ function animationLoop(
         );
 
 
-    updateFish(
-        deltaTime
-    );
-
-
-    updateBubbles(
-        deltaTime
-    );
+   updateFish(
+       deltaTime
+   );
+   
+   
+   updateFood(
+       deltaTime
+   );
+   
+   
+   updateBubbles(
+       deltaTime
+   );
 
 
     requestAnimationFrame(
