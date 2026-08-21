@@ -188,11 +188,8 @@ const frameMaterial =
 // =====================================================
 
 const ROOM_WIDTH = 14;
-
 const ROOM_LENGTH = 12;
-
 const WALL_HEIGHT = 7;
-
 const CAMERA_HEIGHT = 2;
 
 
@@ -217,6 +214,7 @@ const floor =
         ),
 
         floorMaterial
+
     );
 
 floor.position.set(
@@ -246,6 +244,7 @@ const ceiling =
         ),
 
         ceilingMaterial
+
     );
 
 ceiling.position.set(
@@ -280,6 +279,7 @@ function createWall(
             ),
 
             wallMaterial
+
         );
 
     wall.position.set(
@@ -300,6 +300,7 @@ function createWall(
     });
 
     return wall;
+
 }
 
 
@@ -339,6 +340,9 @@ createWall(
 // =====================================================
 // ROOM DIVIDER AT Z = -2
 // =====================================================
+//
+// 4-unit central doorway.
+//
 
 createWall(
     ROOM_WIDTH / 2 - 2,
@@ -358,6 +362,9 @@ createWall(
 // =====================================================
 // ROOM DIVIDER AT Z = -14
 // =====================================================
+//
+// 4-unit central doorway.
+//
 
 createWall(
     ROOM_WIDTH / 2 - 2,
@@ -375,6 +382,111 @@ createWall(
 
 
 // =====================================================
+// CSS3D WALL OCCLUDERS
+// =====================================================
+//
+// CSS3D objects do not depth-test against WebGL
+// geometry.
+//
+// These are CSS3D versions of the solid sections
+// of the divider walls.
+//
+// They do NOT cover the center doorway.
+//
+// Aquarium and books therefore remain loaded and
+// visible, while the wall partitions can block them
+// visually when viewed through a doorway.
+// =====================================================
+
+function createCSS3DWall(
+    width,
+    height,
+    x,
+    z
+) {
+
+    const wallElement =
+        document.createElement("div");
+
+    wallElement.style.width =
+        width * 100 + "px";
+
+    wallElement.style.height =
+        height * 100 + "px";
+
+    wallElement.style.background =
+        "#f3f1e8";
+
+    wallElement.style.pointerEvents =
+        "none";
+
+    wallElement.style.boxSizing =
+        "border-box";
+
+    wallElement.style.backfaceVisibility =
+        "hidden";
+
+
+    const wallObject =
+        new CSS3DObject(
+            wallElement
+        );
+
+
+    wallObject.position.set(
+        x,
+        height / 2,
+        z
+    );
+
+
+    wallObject.scale.set(
+        0.01,
+        0.01,
+        0.01
+    );
+
+
+    scene.add(
+        wallObject
+    );
+
+}
+
+
+// Divider 1
+createCSS3DWall(
+    ROOM_WIDTH / 2 - 2,
+    WALL_HEIGHT,
+    -4.5,
+    -2.01
+);
+
+createCSS3DWall(
+    ROOM_WIDTH / 2 - 2,
+    WALL_HEIGHT,
+    4.5,
+    -2.01
+);
+
+
+// Divider 2
+createCSS3DWall(
+    ROOM_WIDTH / 2 - 2,
+    WALL_HEIGHT,
+    -4.5,
+    -14.01
+);
+
+createCSS3DWall(
+    ROOM_WIDTH / 2 - 2,
+    WALL_HEIGHT,
+    4.5,
+    -14.01
+);
+
+
+// =====================================================
 // ARTWORK DATA
 // =====================================================
 
@@ -383,8 +495,9 @@ const artworks = [
     // =================================================
     // ROOM 1 RIGHT WALL
     // =================================================
-    // Dad's Tan Hua and Quick Breakfast were moved
-    // from the front wall to the right wall.
+    //
+    // These three artworks are now evenly distributed
+    // along the same wall.
     // =================================================
 
     {
@@ -397,8 +510,30 @@ const artworks = [
 
         position: [
             6.84,
-            4.7,
-            6.5
+            3.1,
+            6
+        ],
+
+        rotation: [
+            0,
+            -Math.PI / 2,
+            0
+        ]
+    },
+
+
+    {
+        title: "Still Life in Blue",
+        year: "2024",
+        medium: "Pastel and acrylic paint on paper",
+        description:
+            "I like the texture and colors I used here.",
+        image: "ArtFiles/img7.JPG",
+
+        position: [
+            6.84,
+            3.1,
+            4
         ],
 
         rotation: [
@@ -419,8 +554,8 @@ const artworks = [
 
         position: [
             6.84,
-            2.0,
-            6.5
+            3.1,
+            2
         ],
 
         rotation: [
@@ -478,32 +613,6 @@ const artworks = [
         rotation: [
             0,
             0,
-            0
-        ]
-    },
-
-
-    // =================================================
-    // ROOM 1 RIGHT WALL
-    // =================================================
-
-    {
-        title: "Still Life in Blue",
-        year: "2024",
-        medium: "Pastel and acrylic paint on paper",
-        description:
-            "I like the texture and colors I used here.",
-        image: "ArtFiles/img7.JPG",
-
-        position: [
-            6.84,
-            3.1,
-            1.5
-        ],
-
-        rotation: [
-            0,
-            -Math.PI / 2,
             0
         ]
     },
@@ -587,6 +696,10 @@ const artworks = [
     },
 
 
+    // =================================================
+    // ROOM 2 LEFT WALL
+    // =================================================
+
     {
         title: "Salty Soup",
         year: "2026",
@@ -608,6 +721,10 @@ const artworks = [
         ]
     },
 
+
+    // =================================================
+    // ROOM 2 RIGHT WALL
+    // =================================================
 
     {
         title: "The Disparity of Abandonment",
@@ -711,6 +828,10 @@ const artworks = [
     },
 
 
+    // =================================================
+    // ROOM 3 LEFT WALL
+    // =================================================
+
     {
         title: "Even Fish can Drown",
         year: "2024",
@@ -751,10 +872,13 @@ const textureLoader =
 // DETERMINE ARTWORK WALL
 // =====================================================
 
-function getArtworkWall(art) {
+function getArtworkWall(
+    art
+) {
 
     const rotationY =
         art.rotation[1];
+
 
     if (
         Math.abs(
@@ -763,23 +887,30 @@ function getArtworkWall(art) {
     ) {
 
         return "front";
+
     }
+
 
     if (
         Math.abs(rotationY) < 0.1
     ) {
 
         return "back";
+
     }
+
 
     if (
         rotationY > 0
     ) {
 
         return "left";
+
     }
 
+
     return "right";
+
 }
 
 
@@ -794,12 +925,16 @@ function createGalleryLightForArtwork(
 ) {
 
     const wall =
-        getArtworkWall(art);
+        getArtworkWall(
+            art
+        );
+
 
     const lightHeight =
         art.position[1] +
         artworkHeight / 2 +
         0.5;
+
 
     let lightX =
         art.position[0];
@@ -850,8 +985,11 @@ function createGalleryLightForArtwork(
 
     const fixtureMaterial =
         new THREE.MeshStandardMaterial({
+
             color: "#222222",
+
             roughness: 0.7
+
         });
 
 
@@ -865,6 +1003,7 @@ function createGalleryLightForArtwork(
             ),
 
             fixtureMaterial
+
         );
 
 
@@ -932,6 +1071,7 @@ function createGalleryLightForArtwork(
     light.shadow.mapSize.height =
         1024;
 
+
     scene.add(
         light
     );
@@ -939,6 +1079,7 @@ function createGalleryLightForArtwork(
     scene.add(
         light.target
     );
+
 }
 
 
@@ -946,7 +1087,9 @@ function createGalleryLightForArtwork(
 // CREATE ARTWORK
 // =====================================================
 
-function createArtwork(art) {
+function createArtwork(
+    art
+) {
 
     textureLoader.load(
 
@@ -987,8 +1130,13 @@ function createArtwork(art) {
                 );
 
                 return;
+
             }
 
+
+            // =========================================
+            // PRESERVE ORIGINAL IMAGE ASPECT RATIO
+            // =========================================
 
             const aspectRatio =
                 imageWidth /
@@ -1069,6 +1217,7 @@ function createArtwork(art) {
 
                     side:
                         THREE.DoubleSide
+
                 });
 
 
@@ -1090,6 +1239,7 @@ function createArtwork(art) {
                     ),
 
                     frameMaterial
+
                 );
 
 
@@ -1111,6 +1261,7 @@ function createArtwork(art) {
                     ),
 
                     material
+
                 );
 
 
@@ -1130,12 +1281,18 @@ function createArtwork(art) {
 
 
             // =========================================
-            // MOVE IMAGE SLIGHTLY IN FRONT OF FRAME
+            // DETERMINE WALL
             // =========================================
 
             const wall =
-                getArtworkWall(art);
+                getArtworkWall(
+                    art
+                );
 
+
+            // =========================================
+            // MOVE IMAGE SLIGHTLY IN FRONT OF FRAME
+            // =========================================
 
             if (
                 wall === "front"
@@ -1191,6 +1348,10 @@ function createArtwork(art) {
             );
 
 
+            // =========================================
+            // ADD TO SCENE
+            // =========================================
+
             scene.add(
                 frame
             );
@@ -1207,6 +1368,10 @@ function createArtwork(art) {
                 artwork
             );
 
+
+            // =========================================
+            // LIGHT
+            // =========================================
 
             createGalleryLightForArtwork(
                 art,
@@ -1227,7 +1392,9 @@ function createArtwork(art) {
             );
 
         }
+
     );
+
 }
 
 
@@ -1245,17 +1412,6 @@ artworks.forEach(
 // =====================================================
 // AQUARIUM
 // =====================================================
-//
-// The aquarium now occupies the FRONT WALL of Room 1.
-//
-// Front wall:
-// z = 10
-//
-// It faces INTO Room 1 toward negative Z.
-//
-// Dad's Tan Hua Flower and Quick Breakfast were moved
-// to the RIGHT WALL.
-// =====================================================
 
 const aquariumWorld =
     document.getElementById(
@@ -1267,17 +1423,22 @@ let aquariumObject = null;
 
 function setupAquarium() {
 
-    if (!aquariumWorld) {
+    if (
+        !aquariumWorld
+    ) {
 
         console.error(
             "ERROR: #aquarium-world was not found."
         );
 
         return;
+
     }
 
 
-    // Make the element visible.
+    // =========================================
+    // PREPARE AQUARIUM ELEMENT
+    // =========================================
 
     aquariumWorld.style.display =
         "block";
@@ -1309,10 +1470,13 @@ function setupAquarium() {
     aquariumWorld.style.opacity =
         "1";
 
+    aquariumWorld.style.pointerEvents =
+        "auto";
 
-    // IMPORTANT:
-    // CSS3DObject handles the positioning in the
-    // Three.js world. The HTML itself stays at 0,0.
+
+    // =========================================
+    // CREATE CSS3D OBJECT
+    // =========================================
 
     aquariumObject =
         new CSS3DObject(
@@ -1321,17 +1485,17 @@ function setupAquarium() {
 
 
     // =========================================
-    // FRONT WALL POSITION
+    // POSITION ON ROOM 1 LEFT WALL
     // =========================================
 
     aquariumObject.position.set(
-        0,
+        -6.80,
         3.45,
-        9.78
+        4
     );
 
 
-    // 1000px wide aquarium -> 12.5 world units.
+    // 1000px -> 12.5 world units
 
     aquariumObject.scale.set(
         0.0125,
@@ -1340,19 +1504,11 @@ function setupAquarium() {
     );
 
 
-    // =========================================
-    // FACE INTO ROOM
-    // =========================================
-    //
-    // The front wall is at positive Z.
-    // The gallery interior is toward negative Z.
-    //
-    // Rotating 180 degrees makes the aquarium face
-    // into the room.
+    // Face into the gallery
 
     aquariumObject.rotation.set(
         0,
-        Math.PI,
+        Math.PI / 2,
         0
     );
 
@@ -1363,14 +1519,11 @@ function setupAquarium() {
 
 
     console.log(
-        "Aquarium added to FRONT WALL.",
-        aquariumObject.position
+        "Aquarium added to Three.js scene."
     );
+
 }
 
-
-// IMPORTANT:
-// Do NOT call setupAquarium() from inside itself.
 
 setupAquarium();
 
@@ -1457,9 +1610,12 @@ const cssBookObjects = [];
 
 function setupBooks() {
 
-    if (!bookWorld) {
+    if (
+        !bookWorld
+    ) {
 
         return;
+
     }
 
 
@@ -1519,12 +1675,18 @@ function setupBooks() {
                 );
 
 
+            // =========================================
+            // ROOM 3 RIGHT WALL
+            // =========================================
+
             const x =
                 6.69;
+
 
             const z =
                 -22 +
                 index * 2.8;
+
 
             const y =
                 4.6 -
@@ -1567,6 +1729,7 @@ function setupBooks() {
 
         }
     );
+
 }
 
 
@@ -1574,65 +1737,6 @@ setTimeout(
     setupBooks,
     100
 );
-
-
-// =====================================================
-// CSS3D ROOM VISIBILITY
-// =====================================================
-
-function getCameraRoom() {
-
-    const z =
-        camera.position.z;
-
-
-    if (
-        z > -2
-    ) {
-
-        return 1;
-
-    }
-
-
-    if (
-        z > -14
-    ) {
-
-        return 2;
-
-    }
-
-
-    return 3;
-}
-
-
-function updateCSS3DVisibility() {
-
-    const room =
-        getCameraRoom();
-
-
-    if (
-        aquariumObject
-    ) {
-
-        aquariumObject.visible =
-            room === 1;
-
-    }
-
-
-    cssBookObjects.forEach(
-        (object) => {
-
-            object.visible =
-                room === 3;
-
-        }
-    );
-}
 
 
 // =====================================================
@@ -1865,6 +1969,7 @@ function keepCameraInside() {
 
     camera.position.y =
         CAMERA_HEIGHT;
+
 }
 
 
@@ -1872,7 +1977,9 @@ function keepCameraInside() {
 // MOVEMENT
 // =====================================================
 
-function moveCamera(delta) {
+function moveCamera(
+    delta
+) {
 
     const speed = 4;
 
@@ -1966,6 +2073,7 @@ function moveCamera(delta) {
 
 
     keepCameraInside();
+
 }
 
 
@@ -1978,11 +2086,14 @@ function updateCameraRotation() {
     camera.rotation.order =
         "YXZ";
 
+
     camera.rotation.y =
         yaw;
 
+
     camera.rotation.x =
         pitch;
+
 }
 
 
@@ -2057,7 +2168,9 @@ const infoPanel =
     );
 
 
-function showArtworkInfo(data) {
+function showArtworkInfo(
+    data
+) {
 
     const year =
         document.getElementById(
@@ -2083,7 +2196,9 @@ function showArtworkInfo(data) {
         );
 
 
-    if (year) {
+    if (
+        year
+    ) {
 
         year.textContent =
             data.year || "";
@@ -2091,7 +2206,9 @@ function showArtworkInfo(data) {
     }
 
 
-    if (title) {
+    if (
+        title
+    ) {
 
         title.textContent =
             data.title || "";
@@ -2099,7 +2216,9 @@ function showArtworkInfo(data) {
     }
 
 
-    if (medium) {
+    if (
+        medium
+    ) {
 
         medium.textContent =
             data.medium || "";
@@ -2107,7 +2226,9 @@ function showArtworkInfo(data) {
     }
 
 
-    if (description) {
+    if (
+        description
+    ) {
 
         description.textContent =
             data.description || "";
@@ -2115,7 +2236,9 @@ function showArtworkInfo(data) {
     }
 
 
-    if (infoPanel) {
+    if (
+        infoPanel
+    ) {
 
         infoPanel.classList.remove(
             "hidden"
@@ -2136,13 +2259,17 @@ const closeInfo =
     );
 
 
-if (closeInfo) {
+if (
+    closeInfo
+) {
 
     closeInfo.addEventListener(
         "click",
         () => {
 
-            if (infoPanel) {
+            if (
+                infoPanel
+            ) {
 
                 infoPanel.classList.add(
                     "hidden"
@@ -2296,14 +2423,18 @@ function loadSong(
         ];
 
 
-    if (!song) {
+    if (
+        !song
+    ) {
 
         return;
 
     }
 
 
-    if (albumName) {
+    if (
+        albumName
+    ) {
 
         albumName.textContent =
             currentAlbum;
@@ -2311,7 +2442,9 @@ function loadSong(
     }
 
 
-    if (songTitle) {
+    if (
+        songTitle
+    ) {
 
         songTitle.textContent =
             song.title;
@@ -2319,7 +2452,9 @@ function loadSong(
     }
 
 
-    if (artistName) {
+    if (
+        artistName
+    ) {
 
         artistName.textContent =
             song.artist;
@@ -2341,7 +2476,9 @@ function loadSong(
     updatePlayButton();
 
 
-    if (shouldPlay) {
+    if (
+        shouldPlay
+    ) {
 
         playAudio();
 
@@ -2356,14 +2493,18 @@ function loadSong(
 
 function updatePlayButton() {
 
-    if (!playButton) {
+    if (
+        !playButton
+    ) {
 
         return;
 
     }
 
 
-    if (isPlaying) {
+    if (
+        isPlaying
+    ) {
 
         playButton.textContent =
             "Ⅱ";
@@ -2400,7 +2541,9 @@ function playAudio() {
         audio.play();
 
 
-    if (promise !== undefined) {
+    if (
+        promise !== undefined
+    ) {
 
         promise
             .then(
@@ -2447,14 +2590,18 @@ function pauseAudio() {
 }
 
 
-loadSong(false);
+loadSong(
+    false
+);
 
 
 // =====================================================
 // PLAY / PAUSE
 // =====================================================
 
-if (playButton) {
+if (
+    playButton
+) {
 
     playButton.addEventListener(
         "click",
@@ -2465,7 +2612,9 @@ if (playButton) {
             event.stopPropagation();
 
 
-            if (audio.paused) {
+            if (
+                audio.paused
+            ) {
 
                 playAudio();
 
@@ -2530,7 +2679,9 @@ audio.addEventListener(
         }
 
 
-        loadSong(true);
+        loadSong(
+            true
+        );
 
     }
 );
@@ -2540,7 +2691,9 @@ audio.addEventListener(
 // NEXT SONG
 // =====================================================
 
-if (nextButton) {
+if (
+    nextButton
+) {
 
     nextButton.addEventListener(
         "click",
@@ -2566,7 +2719,9 @@ if (nextButton) {
             }
 
 
-            loadSong(true);
+            loadSong(
+                true
+            );
 
         }
     );
@@ -2578,7 +2733,9 @@ if (nextButton) {
 // PREVIOUS SONG
 // =====================================================
 
-if (previousButton) {
+if (
+    previousButton
+) {
 
     previousButton.addEventListener(
         "click",
@@ -2592,7 +2749,9 @@ if (previousButton) {
             currentSong--;
 
 
-            if (currentSong < 0) {
+            if (
+                currentSong < 0
+            ) {
 
                 currentSong =
                     albums[
@@ -2602,7 +2761,9 @@ if (previousButton) {
             }
 
 
-            loadSong(true);
+            loadSong(
+                true
+            );
 
         }
     );
@@ -2642,7 +2803,9 @@ if (
 // CREATE ALBUM BUTTONS
 // =====================================================
 
-if (albumList) {
+if (
+    albumList
+) {
 
     Object.keys(
         albums
@@ -2678,10 +2841,14 @@ if (albumList) {
                     currentSong = 0;
 
 
-                    loadSong(false);
+                    loadSong(
+                        false
+                    );
 
 
-                    if (albumMenu) {
+                    if (
+                        albumMenu
+                    ) {
 
                         albumMenu.classList.add(
                             "hidden"
@@ -2731,8 +2898,6 @@ function animate() {
 
 
     updateCameraRotation();
-
-    updateCSS3DVisibility();
 
 
     renderer.render(
