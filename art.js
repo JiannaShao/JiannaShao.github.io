@@ -1127,33 +1127,13 @@ function createArtwork(art) {
             // =========================================
 
             const material =
-                new THREE.MeshStandardMaterial({
-
+                new THREE.MeshBasicMaterial({
+            
                     map: loadedTexture,
-
-                    color:
-                        new THREE.Color(
-                            1.12,
-                            1.12,
-                            1.12
-                        ),
-
-                    roughness: 0.7,
-
-                    metalness: 0,
-
+            
                     side:
-                        THREE.DoubleSide,
-
-                    transparent: false,
-
-                    opacity: 1,
-
-                    depthWrite: true,
-
-                    depthTest: true
+                        THREE.DoubleSide
                 });
-
 
             // =========================================
             // FRAME
