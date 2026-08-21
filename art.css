@@ -446,20 +446,21 @@ body {
 ===================================================== */
 
 #aquarium-world {
-
-    position: fixed;
+    position: absolute;
 
     width: 1000px;
+    height: auto;
 
-    left: 50%;
-    top: 50%;
+    left: 0;
+    top: 0;
 
-    transform:
-        translate(-50%, -50%);
+    margin: 0;
 
-    z-index: 20;
+    transform: none;
 
-    pointer-events: none;
+    z-index: 1;
+
+    pointer-events: auto;
 
     display: none;
 }
