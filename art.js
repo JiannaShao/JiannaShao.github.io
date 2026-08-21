@@ -1305,21 +1305,27 @@ artworks.forEach(
 // =====================================================
 // AQUARIUM
 // =====================================================
+//
+// The aquarium is displayed as a CSS3D object.
+// It sits slightly inside Room 1 from the LEFT WALL.
+//
+// LEFT WALL:
+// x = -7
+//
+// Aquarium faces into the room.
+// =====================================================
 
 const aquariumWorld =
     document.getElementById(
         "aquarium-world"
     );
 
-
 let aquariumObject = null;
 
 
 function setupAquarium() {
 
-    if (
-        !aquariumWorld
-    ) {
+    if (!aquariumWorld) {
 
         console.warn(
             "Aquarium element not found."
@@ -1330,9 +1336,9 @@ function setupAquarium() {
     }
 
 
-    // =========================================
-    // RESET ORIGINAL PAGE POSITIONING
-    // =========================================
+    // =================================================
+    // PREPARE HTML ELEMENT
+    // =================================================
 
     aquariumWorld.style.display =
         "block";
@@ -1349,6 +1355,9 @@ function setupAquarium() {
     aquariumWorld.style.width =
         "1000px";
 
+    aquariumWorld.style.height =
+        "auto";
+
     aquariumWorld.style.margin =
         "0";
 
@@ -1359,9 +1368,9 @@ function setupAquarium() {
         "auto";
 
 
-    // =========================================
-    // CSS3D OBJECT
-    // =========================================
+    // =================================================
+    // CREATE CSS3D OBJECT
+    // =================================================
 
     aquariumObject =
         new CSS3DObject(
@@ -1369,49 +1378,82 @@ function setupAquarium() {
         );
 
 
-    // =========================================
-    // ROOM 1 LEFT WALL
-    // =========================================
+    // =================================================
+    // POSITION
+    // =================================================
+    //
+    // Room 1 occupies z = 10 to z = -2.
+    //
+    // Aquarium is on the LEFT wall.
+    //
+    // The left wall is x = -7.
+    //
+    // Move it slightly INTO the room so the wall
+    // cannot cover it.
+    // =================================================
 
     aquariumObject.position.set(
-        -6.69,
+        -6.82,
         3.45,
         4
     );
 
 
-    // =========================================
-    // SIZE
-    // =========================================
+    // =================================================
+    // SCALE
+    // =================================================
     //
-    // 1000px × 0.0105 = 10.5 world units
+    // Original aquarium width = 1000 px.
     //
+    // 0.0125 = 12.5 world units.
+    //
+    // This leaves a small margin inside the 14-unit
+    // wide room.
+    // =================================================
 
     aquariumObject.scale.set(
-        0.0105,
-        0.0105,
-        0.0105
+        0.0125,
+        0.0125,
+        0.0125
     );
 
 
-    // =========================================
-    // FACE INTO ROOM
-    // =========================================
+    // =================================================
+    // ROTATION
+    // =================================================
+    //
+    // The HTML aquarium initially faces +Z.
+    //
+    // Rotate it 90 degrees so it faces INTO room 1.
+    // =================================================
 
-    aquariumObject.rotation.y =
-        Math.PI / 2;
+    aquariumObject.rotation.set(
+        0,
+        Math.PI / 2,
+        0
+    );
 
 
-    aquariumObject.userData.room =
-        1;
-
+    // =================================================
+    // ADD TO THREE.JS SCENE
+    // =================================================
 
     scene.add(
         aquariumObject
     );
 
+
+    console.log(
+        "Aquarium CSS3D object created:",
+        aquariumObject
+    );
+
 }
 
+
+// =====================================================
+// INITIALIZE
+// =====================================================
 
 setTimeout(
     setupAquarium,
