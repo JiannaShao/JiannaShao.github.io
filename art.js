@@ -885,21 +885,19 @@ function createGalleryLightForArtwork(
     if (
         wall === "front"
     ) {
-
-        lightZ =
-            art.position[2] +
-            0.25;
-
+    
+        artwork.position.z -=
+            0.08;
+    
     }
-
+    
     else if (
         wall === "back"
     ) {
-
-        lightZ =
-            art.position[2] -
-            0.25;
-
+    
+        artwork.position.z +=
+            0.08;
+    
     }
 
     else if (
