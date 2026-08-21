@@ -94,6 +94,9 @@ gallery.appendChild(
 const cssRenderer =
     new CSS3DRenderer();
 
+cssRenderer.domElement.id =
+    "css3d-renderer";
+
 cssRenderer.setSize(
     window.innerWidth,
     window.innerHeight
@@ -117,7 +120,6 @@ cssRenderer.domElement.style.zIndex =
 document.body.appendChild(
     cssRenderer.domElement
 );
-
 
 // =====================================================
 // GENERAL LIGHTING
@@ -1327,8 +1329,8 @@ function setupAquarium() {
 
     if (!aquariumWorld) {
 
-        console.warn(
-            "Aquarium element not found."
+        console.error(
+            "ERROR: #aquarium-world was not found."
         );
 
         return;
@@ -1336,9 +1338,13 @@ function setupAquarium() {
     }
 
 
-    // =================================================
-    // PREPARE HTML ELEMENT
-    // =================================================
+    console.log(
+        "Found aquarium:",
+        aquariumWorld
+    );
+
+
+    // Make sure the original CSS cannot hide it.
 
     aquariumWorld.style.display =
         "block";
@@ -1347,10 +1353,10 @@ function setupAquarium() {
         "absolute";
 
     aquariumWorld.style.left =
-        "0";
+        "0px";
 
     aquariumWorld.style.top =
-        "0";
+        "0px";
 
     aquariumWorld.style.width =
         "1000px";
@@ -1364,13 +1370,17 @@ function setupAquarium() {
     aquariumWorld.style.transform =
         "none";
 
+    aquariumWorld.style.visibility =
+        "visible";
+
+    aquariumWorld.style.opacity =
+        "1";
+
     aquariumWorld.style.pointerEvents =
         "auto";
 
 
-    // =================================================
-    // CREATE CSS3D OBJECT
-    // =================================================
+    // Create CSS3D object.
 
     aquariumObject =
         new CSS3DObject(
@@ -1378,38 +1388,16 @@ function setupAquarium() {
         );
 
 
-    // =================================================
-    // POSITION
-    // =================================================
-    //
-    // Room 1 occupies z = 10 to z = -2.
-    //
-    // Aquarium is on the LEFT wall.
-    //
-    // The left wall is x = -7.
-    //
-    // Move it slightly INTO the room so the wall
-    // cannot cover it.
-    // =================================================
+    // Position on left wall of room 1.
 
     aquariumObject.position.set(
-        -6.82,
+        -6.80,
         3.45,
         4
     );
 
 
-    // =================================================
-    // SCALE
-    // =================================================
-    //
-    // Original aquarium width = 1000 px.
-    //
-    // 0.0125 = 12.5 world units.
-    //
-    // This leaves a small margin inside the 14-unit
-    // wide room.
-    // =================================================
+    // 1000 px -> 12.5 world units.
 
     aquariumObject.scale.set(
         0.0125,
@@ -1418,14 +1406,7 @@ function setupAquarium() {
     );
 
 
-    // =================================================
-    // ROTATION
-    // =================================================
-    //
-    // The HTML aquarium initially faces +Z.
-    //
-    // Rotate it 90 degrees so it faces INTO room 1.
-    // =================================================
+    // Face toward the room.
 
     aquariumObject.rotation.set(
         0,
@@ -1434,31 +1415,20 @@ function setupAquarium() {
     );
 
 
-    // =================================================
-    // ADD TO THREE.JS SCENE
-    // =================================================
-
     scene.add(
         aquariumObject
     );
 
 
     console.log(
-        "Aquarium CSS3D object created:",
-        aquariumObject
+        "Aquarium added to Three.js scene.",
+        aquariumObject.position
     );
+
+    setupAquarium();
 
 }
 
-
-// =====================================================
-// INITIALIZE
-// =====================================================
-
-setTimeout(
-    setupAquarium,
-    100
-);
 
 
 // =====================================================
