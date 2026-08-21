@@ -1191,47 +1191,51 @@ function createArtwork(art) {
 
 
             // =========================================
-            // MOVE IMAGE IN FRONT OF FRAME
+            // MOVE IMAGE SLIGHTLY IN FRONT OF FRAME
             // =========================================
-
-            const wall =
-                getArtworkWall(art);
-
-
+            
+            const imageOffset = 0.08;
+            
+            const rotationY =
+                art.rotation[1];
+            
+            
+            // Front-facing wall
             if (
-                wall === "front"
+                Math.abs(rotationY - Math.PI) < 0.1
             ) {
-
-                artwork.position.z +=
-                    0.08;
-
+            
+                artwork.position.z -= imageOffset;
+            
             }
-
+            
+            
+            // Back-facing wall
             else if (
-                wall === "back"
+                Math.abs(rotationY) < 0.1
             ) {
-
-                artwork.position.z -=
-                    0.08;
-
+            
+                artwork.position.z += imageOffset;
+            
             }
-
+            
+            
+            // Left wall
             else if (
-                wall === "left"
+                rotationY > 0 &&
+                Math.abs(rotationY - Math.PI) > 0.1
             ) {
-
-                artwork.position.x +=
-                    0.08;
-
+            
+                artwork.position.x += imageOffset;
+            
             }
-
-            else if (
-                wall === "right"
-            ) {
-
-                artwork.position.x -=
-                    0.08;
-
+            
+            
+            // Right wall
+            else {
+            
+                artwork.position.x -= imageOffset;
+            
             }
 
 
