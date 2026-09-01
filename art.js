@@ -228,18 +228,30 @@ const COLUMN_HEIGHT = 3.0;
 /*
     Scale a GLB to a specific height and place its
     bottom directly on the floor.
+
+    Onshape exported these models with Z as the
+    vertical axis, so rotate them -90 degrees around
+    X to make them upright in Three.js.
 */
 function prepareFurnitureModel(model, targetHeight) {
 
+    // Rotate the Onshape Z-up model into Three.js Y-up.
+    model.rotation.x = -Math.PI / 2;
+
     model.updateMatrixWorld(true);
 
-    const initialBox = new THREE.Box3().setFromObject(model);
-    const initialSize = new THREE.Vector3();
+    const initialBox =
+        new THREE.Box3().setFromObject(model);
+
+    const initialSize =
+        new THREE.Vector3();
 
     initialBox.getSize(initialSize);
 
     if (initialSize.y > 0) {
-        const scale = targetHeight / initialSize.y;
+
+        const scale =
+            targetHeight / initialSize.y;
 
         model.scale.set(
             scale,
@@ -251,9 +263,10 @@ function prepareFurnitureModel(model, targetHeight) {
     model.updateMatrixWorld(true);
 
     // Recalculate after scaling.
-    const finalBox = new THREE.Box3().setFromObject(model);
+    const finalBox =
+        new THREE.Box3().setFromObject(model);
 
-    // Move model vertically so its lowest point is exactly y = 0.
+    // Put the bottom of the model exactly on the floor.
     model.position.y -= finalBox.min.y;
 
     model.updateMatrixWorld(true);
@@ -272,7 +285,6 @@ function prepareFurnitureModel(model, targetHeight) {
 
     return model;
 }
-
 
 /*
     Add a clone of a loaded furniture model.
