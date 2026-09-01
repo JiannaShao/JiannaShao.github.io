@@ -220,22 +220,17 @@ const BAMBOO_PATH = "RoomFurniture/Bamboo.glb";
 const COLUMN_PATH = "RoomFurniture/Column (1).glb";
 
 // Desired heights in gallery units.
-// The models are automatically scaled proportionally.
-const BAMBOO_HEIGHT = 2.4;
-const COLUMN_HEIGHT = 3.0;
+const BAMBOO_HEIGHT = 2.8;   // Slightly larger than before
+const COLUMN_HEIGHT = WALL_HEIGHT; // Full room height = 7
 
 
 /*
-    Scale a GLB to a specific height and place its
-    bottom directly on the floor.
-
-    Onshape exported these models with Z as the
-    vertical axis, so rotate them -90 degrees around
-    X to make them upright in Three.js.
+    Scale a GLB to a specific height, rotate it upright,
+    and place its bottom directly on the floor.
 */
 function prepareFurnitureModel(model, targetHeight) {
 
-    // Rotate the Onshape Z-up model into Three.js Y-up.
+    // The models were exported Z-up, while Three.js uses Y-up.
     model.rotation.x = -Math.PI / 2;
 
     model.updateMatrixWorld(true);
@@ -266,7 +261,7 @@ function prepareFurnitureModel(model, targetHeight) {
     const finalBox =
         new THREE.Box3().setFromObject(model);
 
-    // Put the bottom of the model exactly on the floor.
+    // Put the bottom directly on the floor.
     model.position.y -= finalBox.min.y;
 
     model.updateMatrixWorld(true);
@@ -286,8 +281,10 @@ function prepareFurnitureModel(model, targetHeight) {
     return model;
 }
 
+
 /*
-    Add a clone of a loaded furniture model.
+    Add a furniture model and create an invisible
+    collision box around it.
 */
 function addFurnitureClone(
     sourceModel,
@@ -295,7 +292,8 @@ function addFurnitureClone(
     targetHeight
 ) {
 
-    const model = sourceModel.clone(true);
+    const model =
+        sourceModel.clone(true);
 
     prepareFurnitureModel(
         model,
@@ -307,7 +305,69 @@ function addFurnitureClone(
 
     scene.add(model);
 
+
+    // -------------------------------------------------
+    // COLLISION BOX
+    // -------------------------------------------------
+
+    model.updateMatrixWorld(true);
+
+    const box =
+        new THREE.Box3().setFromObject(model);
+
+    // Slightly enlarge the collision area so the
+    // player cannot visually clip through the object.
+    const collisionPadding = 0.25;
+
+    box.min.x -= collisionPadding;
+    box.max.x += collisionPadding;
+
+    box.min.z -= collisionPadding;
+    box.max.z += collisionPadding;
+
+    furnitureColliders.push({
+        box: box
+    });
+
+
     return model;
+}
+
+
+/* =====================================================
+   FURNITURE COLLISION
+===================================================== */
+
+const furnitureColliders = [];
+
+
+/*
+    Returns true if the camera/player would intersect
+    a piece of furniture at the proposed position.
+*/
+function furnitureCollision(newPosition) {
+
+    // Radius of the player/camera.
+    const playerRadius = 0.35;
+
+    for (const collider of furnitureColliders) {
+
+        const box = collider.box;
+
+        if (
+            newPosition.x + playerRadius > box.min.x &&
+            newPosition.x - playerRadius < box.max.x &&
+            newPosition.z + playerRadius > box.min.z &&
+            newPosition.z - playerRadius < box.max.z
+        ) {
+
+            return true;
+
+        }
+
+    }
+
+    return false;
 }
 
 
@@ -317,33 +377,49 @@ function addFurnitureClone(
 
 const bambooPositions = [
 
-    // Room 1
+    // -----------------------------------------
+    // ROOM 1
+    // -----------------------------------------
+
     [4.8, 7.6],
 
-    // Room 2
+
+    // -----------------------------------------
+    // ROOM 2
+    // -----------------------------------------
+
     [-5.0, -10.8],
 
-    // Room 3
+
+    // -----------------------------------------
+    // ROOM 3
+    // -----------------------------------------
+
     [-5.0, -23.0]
 
 ];
 
+
 furnitureLoader.load(
+
     BAMBOO_PATH,
 
     (gltf) => {
 
-        const bamboo = gltf.scene;
+        const bamboo =
+            gltf.scene;
 
-        bambooPositions.forEach((position) => {
+        bambooPositions.forEach(
+            (position) => {
 
-            addFurnitureClone(
-                bamboo,
-                position,
-                BAMBOO_HEIGHT
-            );
+                addFurnitureClone(
+                    bamboo,
+                    position,
+                    BAMBOO_HEIGHT
+                );
 
-        });
+            }
+        );
 
     },
 
@@ -357,6 +433,7 @@ furnitureLoader.load(
         );
 
     }
+
 );
 
 
@@ -365,70 +442,83 @@ furnitureLoader.load(
 ===================================================== */
 
 /*
-    Exterior corners of each room.
+    Exactly four columns per room.
 
-    These are slightly inset from the walls so the
-    column does not become half-buried inside the wall.
+    One column is placed at each actual corner
+    of each room.
+
+    There are NO columns beside the doorways.
 */
+
 const columnPositions = [
 
-    // -----------------------------------------
+    // =========================================
     // ROOM 1
-    // -----------------------------------------
+    // =========================================
 
-    [-6.35, 9.35],
-    [ 6.35, 9.35],
+    [-6.35,  9.35],   // back-left
+    [ 6.35,  9.35],   // back-right
+    [-6.35, -1.35],   // front-left
+    [ 6.35, -1.35],   // front-right
 
-    [-6.35, -1.35],
-    [ 6.35, -1.35],
 
-
-    // -----------------------------------------
+    // =========================================
     // ROOM 2
-    // -----------------------------------------
+    // =========================================
 
-    [-6.35, -2.65],
-    [ 6.35, -2.65],
+    [-6.35, -2.65],   // back-left
+    [ 6.35, -2.65],   // back-right
+    [-6.35, -13.35],  // front-left
+    [ 6.35, -13.35],  // front-right
 
-    [-6.35, -13.35],
-    [ 6.35, -13.35],
 
-
-    // -----------------------------------------
+    // =========================================
     // ROOM 3
-    // -----------------------------------------
+    // =========================================
 
-    [-6.35, -14.65],
-    [ 6.35, -14.65],
-
-    [-6.35, -25.35],
-    [ 6.35, -25.35],
-
-
-    // -----------------------------------------
-    // PARTITION CORNERS
-    // -----------------------------------------
-    //
-    // These are the corners immediately beside
-    // the doorways created by the partition walls.
-    //
-    // They are offset slightly away from the
-    // doorway so they don't block the passage.
-    // -----------------------------------------
-
-    [-2.65, -1.55],
-    [ 2.65, -1.55],
-
-    [-2.65, -2.45],
-    [ 2.65, -2.45],
-
-    [-2.65, -13.55],
-    [ 2.65, -13.55],
-
-    [-2.65, -14.45],
-    [ 2.65, -14.45]
+    [-6.35, -14.65],  // back-left
+    [ 6.35, -14.65],  // back-right
+    [-6.35, -25.35],  // front-left
+    [ 6.35, -25.35]   // front-right
 
 ];
+
+
+furnitureLoader.load(
+
+    COLUMN_PATH,
+
+    (gltf) => {
+
+        const column =
+            gltf.scene;
+
+        columnPositions.forEach(
+            (position) => {
+
+                addFurnitureClone(
+                    column,
+                    position,
+                    COLUMN_HEIGHT
+                );
+
+            }
+        );
+
+    },
+
+    undefined,
+
+    (error) => {
+
+        console.error(
+            "Could not load Column (1).glb:",
+            error
+        );
+
+    }
+
+);
 
 
 furnitureLoader.load(
@@ -2243,9 +2333,15 @@ function moveCamera(delta) {
         );
 
 
-        camera.position.copy(
-            newPosition
-        );
+        // Only move if the new position is not inside
+        // a plant or column.
+        if (!furnitureCollision(newPosition)) {
+        
+            camera.position.copy(
+                newPosition
+            );
+        
+        }
 
     }
 
