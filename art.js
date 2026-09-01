@@ -5,6 +5,8 @@ import {
     CSS3DObject
 } from "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/renderers/CSS3DRenderer.js";
 
+import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/loaders/GLTFLoader.js";
+
 
 // =====================================================
 // BASIC SETUP
@@ -207,6 +209,246 @@ const CAMERA_HEIGHT = 2;
 
 const collidableObjects = [];
 
+
+/* =====================================================
+   3D FURNITURE
+===================================================== */
+
+const furnitureLoader = new GLTFLoader();
+
+const BAMBOO_PATH = "RoomFurniture/Bamboo.glb";
+const COLUMN_PATH = "RoomFurniture/Column (1).glb";
+
+// Desired heights in gallery units.
+// The models are automatically scaled proportionally.
+const BAMBOO_HEIGHT = 2.4;
+const COLUMN_HEIGHT = 3.0;
+
+
+/*
+    Scale a GLB to a specific height and place its
+    bottom directly on the floor.
+*/
+function prepareFurnitureModel(model, targetHeight) {
+
+    model.updateMatrixWorld(true);
+
+    const initialBox = new THREE.Box3().setFromObject(model);
+    const initialSize = new THREE.Vector3();
+
+    initialBox.getSize(initialSize);
+
+    if (initialSize.y > 0) {
+        const scale = targetHeight / initialSize.y;
+
+        model.scale.set(
+            scale,
+            scale,
+            scale
+        );
+    }
+
+    model.updateMatrixWorld(true);
+
+    // Recalculate after scaling.
+    const finalBox = new THREE.Box3().setFromObject(model);
+
+    // Move model vertically so its lowest point is exactly y = 0.
+    model.position.y -= finalBox.min.y;
+
+    model.updateMatrixWorld(true);
+
+    // Enable shadows.
+    model.traverse((child) => {
+
+        if (child.isMesh) {
+
+            child.castShadow = true;
+            child.receiveShadow = true;
+
+        }
+
+    });
+
+    return model;
+}
+
+
+/*
+    Add a clone of a loaded furniture model.
+*/
+function addFurnitureClone(
+    sourceModel,
+    position,
+    targetHeight
+) {
+
+    const model = sourceModel.clone(true);
+
+    prepareFurnitureModel(
+        model,
+        targetHeight
+    );
+
+    model.position.x = position[0];
+    model.position.z = position[1];
+
+    scene.add(model);
+
+    return model;
+}
+
+
+/* =====================================================
+   BAMBOO PLANTS
+===================================================== */
+
+const bambooPositions = [
+
+    // Room 1
+    [4.8, 7.6],
+
+    // Room 2
+    [-5.0, -10.8],
+
+    // Room 3
+    [-5.0, -23.0]
+
+];
+
+furnitureLoader.load(
+    BAMBOO_PATH,
+
+    (gltf) => {
+
+        const bamboo = gltf.scene;
+
+        bambooPositions.forEach((position) => {
+
+            addFurnitureClone(
+                bamboo,
+                position,
+                BAMBOO_HEIGHT
+            );
+
+        });
+
+    },
+
+    undefined,
+
+    (error) => {
+
+        console.error(
+            "Could not load Bamboo.glb:",
+            error
+        );
+
+    }
+);
+
+
+/* =====================================================
+   COLUMNS
+===================================================== */
+
+/*
+    Exterior corners of each room.
+
+    These are slightly inset from the walls so the
+    column does not become half-buried inside the wall.
+*/
+const columnPositions = [
+
+    // -----------------------------------------
+    // ROOM 1
+    // -----------------------------------------
+
+    [-6.35, 9.35],
+    [ 6.35, 9.35],
+
+    [-6.35, -1.35],
+    [ 6.35, -1.35],
+
+
+    // -----------------------------------------
+    // ROOM 2
+    // -----------------------------------------
+
+    [-6.35, -2.65],
+    [ 6.35, -2.65],
+
+    [-6.35, -13.35],
+    [ 6.35, -13.35],
+
+
+    // -----------------------------------------
+    // ROOM 3
+    // -----------------------------------------
+
+    [-6.35, -14.65],
+    [ 6.35, -14.65],
+
+    [-6.35, -25.35],
+    [ 6.35, -25.35],
+
+
+    // -----------------------------------------
+    // PARTITION CORNERS
+    // -----------------------------------------
+    //
+    // These are the corners immediately beside
+    // the doorways created by the partition walls.
+    //
+    // They are offset slightly away from the
+    // doorway so they don't block the passage.
+    // -----------------------------------------
+
+    [-2.65, -1.55],
+    [ 2.65, -1.55],
+
+    [-2.65, -2.45],
+    [ 2.65, -2.45],
+
+    [-2.65, -13.55],
+    [ 2.65, -13.55],
+
+    [-2.65, -14.45],
+    [ 2.65, -14.45]
+
+];
+
+
+furnitureLoader.load(
+    COLUMN_PATH,
+
+    (gltf) => {
+
+        const column = gltf.scene;
+
+        columnPositions.forEach((position) => {
+
+            addFurnitureClone(
+                column,
+                position,
+                COLUMN_HEIGHT
+            );
+
+        });
+
+    },
+
+    undefined,
+
+    (error) => {
+
+        console.error(
+            "Could not load Column (1).glb:",
+            error
+        );
+
+    }
+);
 
 // =====================================================
 // FLOOR
@@ -430,7 +672,7 @@ const artworks = [
         position: [
             -6.84,
             3.1,
-            7.2
+            6.5
         ],
 
         rotation: [
@@ -452,7 +694,7 @@ const artworks = [
         position: [
             -6.84,
             3.1,
-            4.0
+            1.5
         ],
 
         rotation: [
@@ -674,7 +916,7 @@ const artworks = [
         position: [
             6.84,
             3.1,
-            -7.2
+            -9.5
         ],
 
         rotation: [
@@ -736,7 +978,7 @@ const artworks = [
         position: [
             6.84,
             3.1,
-            -4.2
+            -19.5
         ],
 
         rotation: [
