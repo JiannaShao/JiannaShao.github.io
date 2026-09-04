@@ -1,14 +1,16 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 
-const TEAL = "#35B8CC";
-const TEAL2 = "#27A0B4";
+const NAVY = "#14253D";
+const NAVY2 = "#263B58";
+const CREAM = "#F4F0E6";
+const MUTED = "#667080";
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 
 const NAV_ITEMS = [
   { label: "About",    href: "#about" },
   { label: "Work",     href: "#work" },
-  { label: "Research", href: "#research" },
+  { label: "Projects", href: "#projects" },
   { label: "Fine Art", href: "#art" },
   { label: "Contact",  href: "#contact" },
 ];
@@ -47,7 +49,7 @@ function CustomCursor() {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
         if (ref.current) {
-          ref.current.style.transform = `translate(${pos.current.x - 18}px, ${pos.current.y - 18}px)`;
+          ref.current.style.transform = `translate(${pos.current.x}px, ${pos.current.y}px)`;
         }
       });
     };
@@ -56,17 +58,10 @@ function CustomCursor() {
   }, []);
 
   return (
-    <div
-      ref={ref}
-      className="fixed top-0 left-0 z-[9999] pointer-events-none will-change-transform"
-      style={{
-        width: 36, height: 36,
-        borderRadius: "50%",
-        background: "rgba(255,255,255,0.92)",
-        border: "2.5px solid #0D1F26",
-        boxShadow: "0 2px 8px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,1)",
-      }}
-    />
+    <div ref={ref} className="xp-cursor" aria-hidden="true">
+      <span className="xp-cursor-shadow" />
+      <span className="xp-cursor-fill" />
+    </div>
   );
 }
 
@@ -163,7 +158,7 @@ function SnakePath() {
     return () => cancelAnimationFrame(raf);
   }, []);
 
-  const totalHeight = 8 + SNAKE_LOOPS * SNAKE_PITCH + 20;
+  const totalHeight = 8 + SNAKE_LOOPS * SNAKE_PITCH + 2;
 
   return (
     <div
@@ -181,7 +176,7 @@ function SnakePath() {
           ref={ghostRef}
           d={SNAKE_D}
           fill="none"
-          stroke={`${TEAL}30`}
+          stroke={`${NAVY2}30`}
           strokeWidth="4.5"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -191,7 +186,7 @@ function SnakePath() {
           ref={pathRef}
           d={SNAKE_D}
           fill="none"
-          stroke="url(#snakeGrad)"
+          stroke={NAVY2}
           strokeWidth="4.5"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -204,14 +199,8 @@ function SnakePath() {
           r="5"
           fill="white"
           opacity="0"
-          style={{ filter: `drop-shadow(0 0 4px ${TEAL}) drop-shadow(0 0 8px ${TEAL}80)` }}
+          style={{ filter: `drop-shadow(0 0 4px ${NAVY2}) drop-shadow(0 0 8px ${NAVY2}80)` }}
         />
-        <defs>
-          <linearGradient id="snakeGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#7FD8E8" />
-            <stop offset="100%" stopColor={TEAL2} />
-          </linearGradient>
-        </defs>
       </svg>
     </div>
   );
@@ -222,15 +211,14 @@ function SnakePath() {
 function Logo() {
   return (
     <div
-      className="flex items-center justify-center rounded-full shrink-0"
+      className="flex items-center justify-center shrink-0"
       style={{
         width: 34, height: 34,
-        background: "linear-gradient(145deg, rgba(255,255,255,0.9) 0%, rgba(127,216,232,0.6) 50%, rgba(39,160,180,0.85) 100%)",
-        boxShadow: "0 2px 12px rgba(53,184,204,0.4), inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(39,160,180,0.3)",
-        border: "1px solid rgba(255,255,255,0.8)",
+        background: NAVY,
+        border: `1px solid ${NAVY}`,
       }}
     >
-      <span className="font-display italic text-[11px] leading-none" style={{ color: "#0D4F5C" }}>JS</span>
+      <span className="font-display italic text-[11px] leading-none" style={{ color: CREAM }}>JS</span>
     </div>
   );
 }
@@ -248,41 +236,18 @@ function NavBubble({ item, isActive }: { item: typeof NAV_ITEMS[0]; isActive: bo
       onMouseLeave={() => setHovered(false)}
       className="relative flex items-center justify-center font-medium tracking-wide select-none"
       style={{
-        padding: hovered ? "8px 22px" : "6px 16px",
-        borderRadius: 9999,
-        fontSize: hovered ? "15px" : "13px",
-        color: active ? "#fff" : "#1A5060",
-        transform: hovered ? "scale(1.28)" : "scale(1)",
+        padding: hovered ? "8px 18px" : "7px 16px",
+        borderRadius: 4,
+        fontSize: 13,
+        color: active ? CREAM : NAVY,
+        background: active ? NAVY : "rgba(255,255,255,0.72)",
+        border: `1px solid ${active ? NAVY : "#D8D3C8"}`,
+        boxShadow: hovered ? "0 5px 14px rgba(20,37,61,0.12)" : "0 1px 3px rgba(20,37,61,0.05)",
+        transform: hovered ? "translateY(-1px)" : "none",
         zIndex: hovered ? 10 : 1,
-        transition: "all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1)",
-        background: active
-          ? `linear-gradient(
-              to bottom,
-              rgba(255,255,255,0.85) 0%,
-              rgba(127,216,232,0.55) 38%,
-              rgba(53,184,204,0.9) 55%,
-              rgba(30,140,160,1) 100%
-            )`
-          : "rgba(255,255,255,0.42)",
-        border: active
-          ? "1px solid rgba(255,255,255,0.7)"
-          : "1px solid rgba(255,255,255,0.6)",
-        boxShadow: hovered
-          ? `0 6px 24px rgba(53,184,204,0.5), 0 2px 8px rgba(53,184,204,0.3), inset 0 1px 0 rgba(255,255,255,1), inset 0 -1px 0 rgba(30,140,160,0.4)`
-          : active
-            ? `0 2px 10px rgba(53,184,204,0.3), inset 0 1px 0 rgba(255,255,255,0.8)`
-            : "0 1px 4px rgba(53,184,204,0.1), inset 0 1px 0 rgba(255,255,255,0.9)",
-        backdropFilter: "blur(10px)",
-        WebkitBackdropFilter: "blur(10px)",
+        transition: "all 0.18s ease",
       }}
     >
-      {/* Gloss highlight stripe */}
-      {active && (
-        <span
-          className="absolute left-2 right-2 top-[3px] rounded-full pointer-events-none"
-          style={{ height: "38%", background: "linear-gradient(to bottom, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0) 100%)" }}
-        />
-      )}
       <span className="relative z-10">{item.label}</span>
     </a>
   );
@@ -297,11 +262,10 @@ function Nav({ scrolled, activeSection }: { scrolled: boolean; activeSection: st
     <header
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
       style={{
-        background: scrolled ? "rgba(255,255,255,0.62)" : "transparent",
-        backdropFilter: scrolled ? "blur(20px) saturate(200%)" : "none",
-        WebkitBackdropFilter: scrolled ? "blur(20px) saturate(200%)" : "none",
-        borderBottom: scrolled ? "1px solid rgba(255,255,255,0.7)" : "none",
-        boxShadow: scrolled ? "0 2px 24px rgba(53,184,204,0.12)" : "none",
+        background: scrolled ? "rgba(244,240,230,0.96)" : "transparent",
+        
+        borderBottom: scrolled ? "1px solid #D8D3C8" : "none",
+        boxShadow: scrolled ? "0 2px 14px rgba(20,37,61,0.08)" : "none",
       }}
     >
       <nav className="max-w-6xl mx-auto px-6 lg:px-10 flex items-center h-16">
@@ -310,9 +274,9 @@ function Nav({ scrolled, activeSection }: { scrolled: boolean; activeSection: st
           <Logo />
           <span
             className="font-display text-lg tracking-wide transition-colors duration-200"
-            style={{ color: "#0D3540" }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = TEAL; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "#0D3540"; }}
+            style={{ color: NAVY }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = NAVY2; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "#14253D"; }}
           >
             Jianna Shao
           </span>
@@ -333,20 +297,20 @@ function Nav({ scrolled, activeSection }: { scrolled: boolean; activeSection: st
           onClick={() => setMenuOpen((o) => !o)}
           aria-label="Toggle menu"
         >
-          <span className={`block w-5 h-px transition-all duration-200 ${menuOpen ? "rotate-45 translate-y-[7px]" : ""}`} style={{ background: "#0D3540" }} />
-          <span className={`block w-5 h-px transition-all duration-200 ${menuOpen ? "opacity-0" : ""}`} style={{ background: "#0D3540" }} />
-          <span className={`block w-5 h-px transition-all duration-200 ${menuOpen ? "-rotate-45 -translate-y-[7px]" : ""}`} style={{ background: "#0D3540" }} />
+          <span className={`block w-5 h-px transition-all duration-200 ${menuOpen ? "rotate-45 translate-y-[7px]" : ""}`} style={{ background: "#14253D" }} />
+          <span className={`block w-5 h-px transition-all duration-200 ${menuOpen ? "opacity-0" : ""}`} style={{ background: "#14253D" }} />
+          <span className={`block w-5 h-px transition-all duration-200 ${menuOpen ? "-rotate-45 -translate-y-[7px]" : ""}`} style={{ background: "#14253D" }} />
         </button>
       </nav>
 
       {menuOpen && (
         <div
           className="md:hidden px-6 py-6 flex flex-col gap-4"
-          style={{ background: "rgba(255,255,255,0.85)", backdropFilter: "blur(20px)", borderTop: "1px solid rgba(255,255,255,0.7)" }}
+          style={{ background: CREAM, borderTop: `1px solid #D8D3C8` }}
         >
           {NAV_ITEMS.map((item) => (
             <a key={item.label} href={item.href} onClick={() => setMenuOpen(false)}
-              className="text-sm font-medium tracking-wide" style={{ color: "#0D3540" }}>
+              className="text-sm font-medium tracking-wide" style={{ color: NAVY }}>
               {item.label}
             </a>
           ))}
@@ -375,19 +339,19 @@ function Hero() {
         />
         {/* Aero glass gradient overlay */}
         <div className="absolute inset-0" style={{
-          background: "linear-gradient(to bottom, rgba(237,246,249,0) 0%, rgba(201,234,245,0.3) 50%, rgba(237,246,249,0.95) 100%)"
+          background: "linear-gradient(to bottom, rgba(244,240,230,0) 0%, rgba(244,240,230,0.35) 55%, rgba(244,240,230,0.96) 100%)"
         }} />
 
         <div className="relative max-w-6xl mx-auto w-full px-6 lg:px-10 pb-16 pt-32">
-          <p className="text-xs tracking-[0.2em] uppercase font-medium mb-6" style={{ color: TEAL }}>
+          <p className="text-xs tracking-[0.2em] uppercase font-medium mb-6" style={{ color: NAVY2 }}>
             Wesleyan University — Class of 2028
           </p>
-          <h1 className="font-display text-6xl md:text-8xl lg:text-9xl leading-[0.9] mb-8 max-w-4xl" style={{ color: "#0D3540" }}>
+          <h1 className="font-display text-6xl md:text-8xl lg:text-9xl leading-[0.9] mb-8 max-w-4xl" style={{ color: NAVY }}>
             Jianna
             <br />
-            <span className="italic" style={{ color: TEAL }}>Shao</span>
+            <span className="italic" style={{ color: NAVY2 }}>Shao</span>
           </h1>
-          <p className="text-base md:text-lg leading-relaxed font-light max-w-md" style={{ color: "#3A6572" }}>
+          <p className="text-base md:text-lg leading-relaxed font-light max-w-md" style={{ color: MUTED }}>
             Artist, designer, researcher, and creative technologist. Pursuing mathematics, art studio, and integrative design at Wesleyan.
           </p>
           <div className="mt-12 flex items-center gap-6">
@@ -395,18 +359,18 @@ function Hero() {
               href="#work"
               className="inline-flex items-center justify-center px-6 py-2.5 rounded-full text-sm font-medium tracking-wide transition-all duration-200"
               style={{
-                background: "linear-gradient(to bottom, rgba(255,255,255,0.85) 0%, rgba(127,216,232,0.55) 40%, rgba(53,184,204,0.9) 60%, rgba(30,140,160,1) 100%)",
-                color: "white", border: "1px solid rgba(255,255,255,0.7)",
-                boxShadow: "0 4px 16px rgba(53,184,204,0.35), inset 0 1px 0 rgba(255,255,255,0.9)",
+                background: NAVY,
+                color: CREAM, border: `1px solid ${NAVY}`,
+                boxShadow: "none",
               }}
               onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = "scale(1.05)"; }}
               onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = "scale(1)"; }}
             >
               View Work
             </a>
-            <a href="#contact" className="text-sm font-medium transition-colors" style={{ color: "#3A6572" }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = TEAL; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "#3A6572"; }}>
+            <a href="#contact" className="text-sm font-medium transition-colors" style={{ color: MUTED }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = NAVY2; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = MUTED; }}>
               Contact →
             </a>
           </div>
@@ -432,20 +396,20 @@ function WorkCard({ item, index }: { item: typeof FEATURED[0]; index: number }) 
       <a
         href={item.href}
         className="block overflow-hidden group relative rounded-2xl"
-        style={{ direction: "ltr", boxShadow: hovered ? "0 20px 48px rgba(53,184,204,0.25), 0 4px 16px rgba(53,184,204,0.15)" : "0 4px 20px rgba(53,184,204,0.1)" , transition: "box-shadow 0.3s ease" }}
+        style={{ direction: "ltr", boxShadow: hovered ? "0 20px 48px rgba(38,59,88,0.25), 0 4px 16px rgba(38,59,88,0.15)" : "0 4px 20px rgba(38,59,88,0.1)" , transition: "box-shadow 0.3s ease" }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
         <img src={item.img} alt={item.alt} className="w-full h-72 md:h-80 object-cover transition-transform duration-700 group-hover:scale-105" />
         {/* Glass overlay */}
         <div className="absolute inset-0 transition-opacity duration-300 rounded-2xl"
-          style={{ background: `linear-gradient(to top, rgba(13,53,64,0.5) 0%, transparent 60%), ${hovered ? `${TEAL}18` : "transparent"}` }} />
+          style={{ background: `linear-gradient(to top, rgba(20,37,61,0.5) 0%, transparent 60%), ${hovered ? `${NAVY2}18` : "transparent"}` }} />
         <div
           className="absolute bottom-4 right-4 text-xs tracking-widest uppercase font-medium px-3 py-1.5 rounded-full transition-all duration-300"
           style={{
-            background: "linear-gradient(to bottom, rgba(255,255,255,0.85) 0%, rgba(127,216,232,0.55) 40%, rgba(53,184,204,0.95) 60%, rgba(30,140,160,1) 100%)",
-            color: "white", border: "1px solid rgba(255,255,255,0.7)",
-            boxShadow: "0 2px 12px rgba(53,184,204,0.4), inset 0 1px 0 rgba(255,255,255,0.9)",
+            background: NAVY,
+            color: CREAM, border: `1px solid ${NAVY}`,
+            boxShadow: "none",
             opacity: hovered ? 1 : 0, transform: hovered ? "translateY(0)" : "translateY(6px)",
           }}
         >
@@ -454,16 +418,16 @@ function WorkCard({ item, index }: { item: typeof FEATURED[0]; index: number }) 
       </a>
       <div style={{ direction: "ltr" }}>
         <div className="flex items-baseline gap-4 mb-4">
-          <span className="font-display italic text-5xl leading-none" style={{ color: `${TEAL}55` }}>{item.num}</span>
-          <span className="text-xs tracking-[0.15em] uppercase font-medium" style={{ color: TEAL }}>{item.category}</span>
+          <span className="font-display italic text-5xl leading-none" style={{ color: `${NAVY2}55` }}>{item.num}</span>
+          <span className="text-xs tracking-[0.15em] uppercase font-medium" style={{ color: NAVY2 }}>{item.category}</span>
         </div>
-        <h3 className="font-display text-3xl md:text-4xl mb-4" style={{ color: "#0D3540" }}>{item.title}</h3>
-        <p className="leading-relaxed text-sm md:text-base mb-6 font-light" style={{ color: "#3A6572" }}>{item.desc}</p>
+        <h3 className="font-display text-3xl md:text-4xl mb-4" style={{ color: NAVY }}>{item.title}</h3>
+        <p className="leading-relaxed text-sm md:text-base mb-6 font-light" style={{ color: MUTED }}>{item.desc}</p>
         <a href={item.href}
           className="inline-flex items-center gap-2 text-xs tracking-widest uppercase font-medium border-b pb-0.5 transition-all duration-200"
-          style={{ color: "#0D3540", borderColor: `${TEAL}55` }}
-          onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.color = TEAL; el.style.borderColor = TEAL; }}
-          onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.color = "#0D3540"; el.style.borderColor = `${TEAL}55`; }}
+          style={{ color: NAVY, borderColor: `${NAVY2}55` }}
+          onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.color = NAVY2; el.style.borderColor = NAVY2; }}
+          onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.color = "#14253D"; el.style.borderColor = `${NAVY2}55`; }}
         >
           Explore →
         </a>
@@ -477,12 +441,12 @@ function Work() {
   return (
     <section id="work" className="max-w-6xl mx-auto px-6 lg:px-10 py-24 md:py-36">
       <div ref={ref} className={`flex items-end justify-between mb-16 pb-6 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
-        style={{ borderBottom: `1px solid ${TEAL}30` }}>
+        style={{ borderBottom: `1px solid ${NAVY2}30` }}>
         <div>
-          <p className="text-xs tracking-[0.2em] uppercase font-medium mb-2" style={{ color: TEAL }}>Selected Work</p>
-          <h2 className="font-display text-4xl md:text-5xl" style={{ color: "#0D3540" }}>Featured Projects</h2>
+          <p className="text-xs tracking-[0.2em] uppercase font-medium mb-2" style={{ color: NAVY2 }}>Selected Work</p>
+          <h2 className="font-display text-4xl md:text-5xl" style={{ color: NAVY }}>Featured Projects</h2>
         </div>
-        <span className="hidden md:block text-xs tracking-widest uppercase" style={{ color: "#3A6572" }}>2024 – 2026</span>
+        <span className="hidden md:block text-xs tracking-widest uppercase" style={{ color: MUTED }}>2024 – 2026</span>
       </div>
       <div className="flex flex-col gap-20">
         {FEATURED.map((item, i) => <WorkCard key={item.num} item={item} index={i} />)}
@@ -495,55 +459,64 @@ function Work() {
 
 function Research() {
   const { ref, visible } = useFadeIn();
+  const projects = [
+    {
+      number: "01",
+      type: "Research",
+      title: "WAAM Curvature Study",
+      text: "Investigating how toolpath curvature affects bead geometry in robotic wire arc additive manufacturing.",
+      href: "research.html",
+    },
+    {
+      number: "02",
+      type: "Creative Coding",
+      title: "Interactive Aquarium",
+      text: "A hand-drawn, interactive web environment combining animation, illustration, and playful interface design.",
+      href: "aquarium.html",
+    },
+    {
+      number: "03",
+      type: "3D + Art",
+      title: "Virtual Art Gallery",
+      text: "A navigable Three.js gallery translating a physical studio practice into an interactive digital space.",
+      href: "art.html",
+    },
+    {
+      number: "04",
+      type: "Mathematics + CS",
+      title: "Computational Modeling",
+      text: "Projects exploring mathematical structure through code, visualization, and computational problem solving.",
+      href: "#work",
+    },
+  ];
+
   return (
-    <section id="research">
-      <div
-        className="mx-4 md:mx-8 rounded-3xl overflow-hidden"
-        style={{
-          background: "linear-gradient(135deg, #0D3540 0%, #0A4A58 50%, #0D3A48 100%)",
-          boxShadow: "0 24px 64px rgba(13,53,64,0.35), inset 0 1px 0 rgba(255,255,255,0.08)",
-        }}
-      >
-        <div className="max-w-6xl mx-auto px-8 lg:px-14 py-24 md:py-32">
-          <div ref={ref} className={`grid md:grid-cols-2 gap-16 items-start transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-            <div>
-              <p className="text-xs tracking-[0.2em] uppercase font-medium mb-4" style={{ color: TEAL }}>Research</p>
-              <h2 className="font-display text-4xl md:text-5xl leading-tight mb-8 text-white">Inquiry at the Edge of Disciplines</h2>
-              <p className="leading-relaxed font-light mb-6" style={{ color: "#8ABFCA" }}>
-                My research sits at the intersection of mathematics, material fabrication, and design methodology. I investigate how computational thinking can inform and enhance physical making practices — and vice versa.
-              </p>
-              <p className="leading-relaxed font-light mb-10" style={{ color: "#8ABFCA" }}>
-                This work has been presented at the Wesleyan University undergraduate symposium, exploring manufacturing processes through a design-research lens.
-              </p>
-              <a
-                href="research.html"
-                className="inline-flex items-center justify-center px-5 py-2 rounded-full text-xs tracking-widest uppercase font-medium transition-all duration-200"
-                style={{
-                  background: "linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(127,216,232,0.2) 40%, rgba(53,184,204,0.35) 100%)",
-                  color: TEAL, border: "1px solid rgba(53,184,204,0.5)",
-                  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.1)",
-                }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = TEAL; (e.currentTarget as HTMLElement).style.color = "#fff"; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(53,184,204,0.5)"; (e.currentTarget as HTMLElement).style.color = TEAL; }}
-              >
-                View Research →
-              </a>
+    <section id="projects" className="max-w-6xl mx-auto px-6 lg:px-10 py-24 md:py-36">
+      <div ref={ref} className={`mb-12 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
+        <p className="text-xs tracking-[0.2em] uppercase font-medium mb-2" style={{ color: NAVY2 }}>Selected Projects</p>
+        <h2 className="font-display text-4xl md:text-5xl mb-4" style={{ color: NAVY }}>Projects Across Disciplines</h2>
+        <p className="max-w-2xl font-light leading-relaxed" style={{ color: MUTED }}>
+          A selection of work spanning research, design, art, creative technology, and mathematics.
+        </p>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-5">
+        {projects.map((project, index) => (
+          <a
+            key={project.number}
+            href={project.href}
+            className="project-box group block p-7 md:p-8"
+            style={{ transitionDelay: `${index * 70}ms` }}
+          >
+            <div className="flex items-start justify-between gap-4 mb-10">
+              <span className="font-display italic text-4xl leading-none" style={{ color: NAVY2 }}>{project.number}</span>
+              <span className="text-[10px] tracking-[0.18em] uppercase font-medium" style={{ color: MUTED }}>{project.type}</span>
             </div>
-            <div className="flex flex-col gap-5">
-              {[
-                { label: "Focus Area", value: "Manufacturing & Computational Design" },
-                { label: "Institution", value: "Wesleyan University" },
-                { label: "Majors", value: "Mathematics · Art Studio · Integrative Design" },
-                { label: "Year", value: "Sophomore, Class of 2028" },
-              ].map((item) => (
-                <div key={item.label} className="pt-4" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
-                  <p className="text-xs tracking-widest uppercase mb-1" style={{ color: "#3A6572" }}>{item.label}</p>
-                  <p className="font-light text-white">{item.value}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+            <h3 className="font-display text-2xl md:text-3xl mb-3" style={{ color: NAVY }}>{project.title}</h3>
+            <p className="text-sm leading-relaxed font-light max-w-md" style={{ color: MUTED }}>{project.text}</p>
+            <span className="inline-flex mt-7 text-xs tracking-widest uppercase font-medium" style={{ color: NAVY }}>View Project →</span>
+          </a>
+        ))}
       </div>
     </section>
   );
@@ -556,9 +529,9 @@ function Art() {
   return (
     <section id="art" className="max-w-6xl mx-auto px-6 lg:px-10 py-24 md:py-36">
       <div ref={ref} className={`mb-12 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
-        <p className="text-xs tracking-[0.2em] uppercase font-medium mb-2" style={{ color: TEAL }}>Fine Art</p>
-        <h2 className="font-display text-4xl md:text-5xl mb-4" style={{ color: "#0D3540" }}>Studio & Gallery</h2>
-        <p className="max-w-xl font-light leading-relaxed" style={{ color: "#3A6572" }}>
+        <p className="text-xs tracking-[0.2em] uppercase font-medium mb-2" style={{ color: NAVY2 }}>Fine Art</p>
+        <h2 className="font-display text-4xl md:text-5xl mb-4" style={{ color: NAVY }}>Studio & Gallery</h2>
+        <p className="max-w-xl font-light leading-relaxed" style={{ color: MUTED }}>
           A dual practice: traditional media rooted in sustained observation, and a 3D gallery exploring form in virtual space.
         </p>
       </div>
@@ -570,20 +543,17 @@ function Art() {
           <a
             key={card.title} href={card.href}
             className="group relative overflow-hidden h-96 block"
-            style={{ borderRadius: 20, boxShadow: "0 4px 20px rgba(53,184,204,0.12)", transition: "box-shadow 0.3s, transform 0.3s" }}
-            onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.boxShadow = "0 20px 48px rgba(53,184,204,0.28)"; el.style.transform = "translateY(-4px)"; }}
-            onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.boxShadow = "0 4px 20px rgba(53,184,204,0.12)"; el.style.transform = "translateY(0)"; }}
+            style={{ borderRadius: 20, boxShadow: "0 4px 20px rgba(38,59,88,0.12)", transition: "box-shadow 0.3s, transform 0.3s" }}
+            onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.boxShadow = "0 20px 48px rgba(38,59,88,0.28)"; el.style.transform = "translateY(-4px)"; }}
+            onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.boxShadow = "0 4px 20px rgba(38,59,88,0.12)"; el.style.transform = "translateY(0)"; }}
           >
             <img src={card.img} alt={card.alt} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90" />
-            <div className="absolute inset-0 transition-all duration-300" style={{ background: "linear-gradient(to top, rgba(13,53,64,0.75) 0%, transparent 55%)" }} />
+            <div className="absolute inset-0 transition-all duration-300" style={{ background: "linear-gradient(to top, rgba(20,37,61,0.75) 0%, transparent 55%)" }} />
             {/* Aero glass bottom bar on hover */}
             <div className="absolute bottom-0 left-0 right-0 p-6 pb-7">
-              <p className="text-xs tracking-widest uppercase mb-1" style={{ color: TEAL }}>{card.sub}</p>
+              <p className="text-xs tracking-widest uppercase mb-1" style={{ color: NAVY2 }}>{card.sub}</p>
               <h3 className="font-display text-2xl text-white">{card.title}</h3>
             </div>
-            {/* Shine sweep on hover */}
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-              style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 60%)" }} />
           </a>
         ))}
       </div>
@@ -596,13 +566,13 @@ function Art() {
 function Contact() {
   const { ref, visible } = useFadeIn();
   return (
-    <section id="contact" style={{ borderTop: `1px solid ${TEAL}25` }}>
+    <section id="contact" style={{ borderTop: `1px solid ${NAVY2}25` }}>
       <div className="max-w-6xl mx-auto px-6 lg:px-10 py-24 md:py-32">
         <div ref={ref} className={`grid md:grid-cols-2 gap-16 items-center transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <div>
-            <p className="text-xs tracking-[0.2em] uppercase font-medium mb-4" style={{ color: TEAL }}>Contact</p>
-            <h2 className="font-display text-4xl md:text-5xl mb-6" style={{ color: "#0D3540" }}>Let's Connect</h2>
-            <p className="leading-relaxed font-light" style={{ color: "#3A6572" }}>
+            <p className="text-xs tracking-[0.2em] uppercase font-medium mb-4" style={{ color: NAVY2 }}>Contact</p>
+            <h2 className="font-display text-4xl md:text-5xl mb-6" style={{ color: NAVY }}>Let's Connect</h2>
+            <p className="leading-relaxed font-light" style={{ color: MUTED }}>
               I'm always interested in conversations about design, research, and creative collaboration. Reach out via email or find me on the platforms below.
             </p>
           </div>
@@ -616,14 +586,14 @@ function Contact() {
                 key={item.label} href={item.href}
                 target={item.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer"
                 className="group flex items-center justify-between pb-4 transition-all duration-200"
-                style={{ borderBottom: `1px solid ${TEAL}25` }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderBottomColor = TEAL; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderBottomColor = `${TEAL}25`; }}
+                style={{ borderBottom: `1px solid ${NAVY2}25` }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderBottomColor = NAVY2; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderBottomColor = `${NAVY2}25`; }}
               >
-                <span className="text-xs tracking-widest uppercase transition-colors duration-200 group-hover:text-[#35B8CC]" style={{ color: "#3A6572" }}>{item.label}</span>
-                <span className="text-sm font-light flex items-center gap-2" style={{ color: "#0D3540" }}>
+                <span className="text-xs tracking-widest uppercase transition-colors duration-200 group-hover:text-[#263B58]" style={{ color: MUTED }}>{item.label}</span>
+                <span className="text-sm font-light flex items-center gap-2" style={{ color: NAVY }}>
                   {item.value}
-                  <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200" style={{ color: TEAL }}>→</span>
+                  <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200" style={{ color: NAVY2 }}>→</span>
                 </span>
               </a>
             ))}
@@ -636,10 +606,10 @@ function Contact() {
 
 function Footer() {
   return (
-    <footer style={{ borderTop: `1px solid ${TEAL}20`, background: "rgba(255,255,255,0.4)" }}>
+    <footer style={{ borderTop: `1px solid ${NAVY2}20`, background: "rgba(255,255,255,0.4)" }}>
       <div className="max-w-6xl mx-auto px-6 lg:px-10 py-8 flex items-center justify-between">
-        <span className="font-display text-sm" style={{ color: "#3A6572" }}>Jianna Shao</span>
-        <span className="text-xs" style={{ color: "#3A6572" }}>© 2026 · All rights reserved</span>
+        <span className="font-display text-sm" style={{ color: MUTED }}>Jianna Shao</span>
+        <span className="text-xs" style={{ color: MUTED }}>© 2026 · All rights reserved</span>
       </div>
     </footer>
   );
@@ -647,7 +617,7 @@ function Footer() {
 
 // ── App ───────────────────────────────────────────────────────────────────────
 
-const SECTION_IDS = ["about", "work", "research", "art", "contact"];
+const SECTION_IDS = ["about", "work", "projects", "art", "contact"];
 
 export default function App() {
   const [scrolled, setScrolled] = useState(false);

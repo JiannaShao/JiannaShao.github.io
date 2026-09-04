@@ -1,2 +1,18 @@
-# JiannaShao.github.io
-This is for my personal website! Does any of this code work, who knows. <3
+# Jianna Shao — Personal Website
+
+React + Vite + Tailwind CSS portfolio site configured for GitHub Pages.
+
+## Local development
+
+```bash
+pnpm install
+pnpm dev
+```
+
+## Build
+
+```bash
+pnpm build
+```
+
+GitHub Pages deployment is handled by `.github/workflows/deploy.yml`.
