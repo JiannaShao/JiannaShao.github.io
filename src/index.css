@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Work+Sans:wght@300;400;500;600&display=swap');
+@import 'tailwindcss';
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  background: radial-gradient(ellipse at 15% 0%, #C9EAF5 0%, transparent 45%),
+              radial-gradient(ellipse at 85% 100%, #C5EDD5 0%, transparent 45%),
+              #EDF6F9;
+  color: #142832;
+  font-family: 'Work Sans', system-ui, sans-serif;
+  /* Custom cursor */
+  cursor: none;
+}
+
+/* Apply custom cursor everywhere */
+*, *::before, *::after { cursor: none !important; }
+
+.font-display {
+  font-family: 'DM Serif Display', Georgia, serif;
+}
+
+/* Aero glass utility */
+.glass {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.glass-dark {
+  background: rgba(20, 40, 50, 0.7);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(53,184,204,0.35); border-radius: 2px; }
+
+/* Bubble pop animation */
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
