@@ -1,13 +1,93 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Jianna Shao — artist, designer, researcher, and creative technologist." />
-    <title>Jianna Shao</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Jianna Shao — artist, designer, researcher, and creative technologist.">
+  <title>Jianna Shao</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="xp-cursor" aria-hidden="true"><span class="cursor-shadow"></span><span class="cursor-fill"></span></div>
+
+  <header id="site-header">
+    <nav class="nav-wrap">
+      <a href="#about" class="wordmark"><span class="logo">JS</span><span>Jianna Shao</span></a>
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false"><i></i><i></i><i></i></button>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#art">Fine Art</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="mobile-nav">
+      <a href="#about">About</a><a href="#work">Work</a><a href="#projects">Projects</a><a href="#art">Fine Art</a><a href="#contact">Contact</a>
+    </div>
+  </header>
+
+  <div class="scroll-snake" aria-hidden="true"><svg id="snake-svg" viewBox="0 0 52 100" preserveAspectRatio="none"><path id="snake-ghost"/><path id="snake-path"/><circle id="snake-dot" r="3.2"/></svg></div>
+
+  <main>
+    <section id="about" class="hero">
+      <div class="hero-inner">
+        <div class="hero-image"></div>
+        <div class="hero-wash"></div>
+        <div class="content hero-content">
+          <p class="eyebrow">Wesleyan University — Class of 2028</p>
+          <h1>Jianna<br><em>Shao</em></h1>
+          <p class="intro">Artist, designer, researcher, and creative technologist. Pursuing mathematics, art studio, and integrative design at Wesleyan.</p>
+          <div class="hero-actions"><a class="button" href="#work">View Work</a><a class="text-link" href="#contact">Contact →</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="work" class="section content">
+      <div class="section-heading"><div><p class="eyebrow">Selected Work</p><h2>Featured Projects</h2></div><span class="date-range">2024 – 2026</span></div>
+      <div class="work-list">
+        <article class="work-card">
+          <div class="work-image image-design"><span>PRODUCT<br>DESIGN</span></div>
+          <div><div class="work-meta"><b>01</b><span>Product Design</span></div><h3>Interaction Systems</h3><p>User-centered design exploring the boundary between digital interfaces and physical form. Research-driven prototyping across mobile, web, and tangible media.</p><a class="under-link" href="#projects">Explore →</a></div>
+        </article>
+        <article class="work-card reverse">
+          <div class="work-image image-art"><span>FINE<br>ART</span></div>
+          <div><div class="work-meta"><b>02</b><span>Fine Art</span></div><h3>Studio Practice</h3><p>Traditional and experimental works spanning drawing, painting, and mixed media. A sustained inquiry into observation, memory, and material resistance.</p><a class="under-link" href="#art">Explore →</a></div>
+        </article>
+        <article class="work-card">
+          <div class="work-image image-research"><span>RESEARCH<br>+ MAKING</span></div>
+          <div><div class="work-meta"><b>03</b><span>Research</span></div><h3>Manufacturing + Making</h3><p>Interdisciplinary research bridging mathematics, engineering, and craft, with a focus on robotic fabrication and physical form.</p><a class="under-link" href="#projects">Explore →</a></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="projects" class="section content">
+      <div class="section-intro"><p class="eyebrow">Selected Projects</p><h2>Projects Across Disciplines</h2><p>A selection of work spanning research, design, art, creative technology, and mathematics.</p></div>
+      <div class="project-grid">
+        <a class="project-box" href="#contact"><span class="project-number">01</span><span class="project-type">Research</span><h3>WAAM Curvature Study</h3><p>Investigating how toolpath curvature affects bead geometry in robotic wire arc additive manufacturing.</p><span class="project-link">View Project →</span></a>
+        <a class="project-box" href="#contact"><span class="project-number">02</span><span class="project-type">Creative Coding</span><h3>Interactive Aquarium</h3><p>A hand-drawn, interactive web experience combining animation, illustration, and playful interaction.</p><span class="project-link">View Project →</span></a>
+        <a class="project-box" href="#contact"><span class="project-number">03</span><span class="project-type">3D + Art</span><h3>Virtual Art Gallery</h3><p>A navigable Three.js gallery translating a physical studio practice into an interactive digital space.</p><span class="project-link">View Project →</span></a>
+        <a class="project-box" href="#contact"><span class="project-number">04</span><span class="project-type">Mathematics + CS</span><h3>Computational Modeling</h3><p>Projects exploring mathematical structure through code, visualization, and computational problem solving.</p><span class="project-link">View Project →</span></a>
+      </div>
+    </section>
+
+    <section id="art" class="section content">
+      <div class="section-intro"><p class="eyebrow">Fine Art</p><h2>Studio &amp; Gallery</h2><p>A dual practice: traditional media rooted in sustained observation, and a 3D gallery exploring form in virtual space.</p></div>
+      <div class="art-grid">
+        <a href="#contact" class="art-card traditional"><div><small>Traditional</small><strong>Portfolio</strong></div></a>
+        <a href="#contact" class="art-card gallery"><div><small>Digital</small><strong>3D Gallery</strong></div></a>
+      </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+      <div class="content contact-grid"><div><p class="eyebrow">Contact</p><h2>Let's Connect</h2><p>I'm always interested in conversations about design, research, and creative collaboration.</p></div><div class="contact-links"><a href="mailto:bluejjay25@gmail.com"><span>Email</span><b>bluejjay25@gmail.com →</b></a><a href="https://linkedin.com/in/jianna-shao-7a7360349/" target="_blank" rel="noopener"><span>LinkedIn</span><b>jianna-shao →</b></a><a href="https://instagram.com/whenbluejayscry" target="_blank" rel="noopener"><span>Instagram</span><b>@whenbluejayscry →</b></a></div></div>
+    </section>
+  </main>
+
+  <footer><div class="content"><span>Jianna Shao</span><span>© 2026</span></div></footer>
+  <script src="script.js"></script>
+</body>
 </html>
