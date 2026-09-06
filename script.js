@@ -8,7 +8,7 @@
   const links=[...document.querySelectorAll('.nav-links a')];
   const sections=[...document.querySelectorAll('main section[id]')];
   function update(){
-    header.style.background=window.scrollY>40?'rgba(160,189,179,.97)':'#a0bdb3';
+    header.style.background=window.scrollY>40?'rgba(180,204,195,.97)':'#b4ccc3';
     header.style.borderBottom=window.scrollY>40?'1px solid #d8d3c8':'0';
     header.style.boxShadow=window.scrollY>40?'0 2px 14px rgba(20,37,61,.07)':'none';
     let current='about';
@@ -24,64 +24,125 @@
   // Build a full-height, scroll-progress snake. It scales to the viewport and never stops above the bottom.
   const svg=document.getElementById('snake-svg'), ghost=document.getElementById('snake-ghost'), path=document.getElementById('snake-path');
 
-  const R=7, lx=19, rx=33, loops=34;
-  let y=3;
+  function buildSnake(){
+    const rect=svg.getBoundingClientRect();
+    const W=Math.max(1,rect.width);
+    const H=Math.max(1,rect.height);
 
-  // Start by travelling from right to left, matching the original orientation.
-  let d=`M ${rx} ${y} L ${lx} ${y}`;
+    svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
 
-  for(let i=0;i<loops;i++){
-    const nextY=y+(2*R);
+    const stroke=4.5;
+    const pad=(stroke/2)+3;
+    const R=7;
+    const lx=pad+R;
+    const rx=W-pad-R;
 
-    if(i%2===0){
-      // Original orientation: curve outward to the LEFT,
-      // ending at the right-side x coordinate on the next row.
-      d+=` A ${R} ${R} 0 0 1 ${rx} ${nextY}`;
-      d+=` L ${lx} ${nextY}`;
-    }else{
-      // Then curve outward to the RIGHT.
-      d+=` A ${R} ${R} 0 0 0 ${lx} ${nextY}`;
-      d+=` L ${rx} ${nextY}`;
+    let y=pad+1;
+    let d=`M ${rx} ${y} L ${lx} ${y}`;
+    let leftTurn=true;
+
+    while(y + 2*R <= H-pad){
+      const nextY=y+2*R;
+
+      if(leftTurn){
+        d+=` A ${R} ${R} 0 0 1 ${rx} ${nextY} L ${lx} ${nextY}`;
+      }else{
+        d+=` A ${R} ${R} 0 0 0 ${lx} ${nextY} L ${rx} ${nextY}`;
+      }
+
+      y=nextY;
+      leftTurn=!leftTurn;
     }
 
-    y=nextY;
-  }
-
-  ghost.setAttribute('d',d);
-  path.setAttribute('d',d);
-
-  function resize(){
-    svg.setAttribute('viewBox',`0 0 52 ${y+3}`);
+    ghost.setAttribute('d',d);
+    path.setAttribute('d',d);
 
     const len=path.getTotalLength();
     path.style.strokeDasharray=`${len} ${len}`;
 
     function updateSnake(){
-      const doc=document.documentElement;
-      const maxScroll=Math.max(0,doc.scrollHeight-window.innerHeight);
-
-      // Snap cleanly at the extreme top and bottom so there is never
-      // residual fill at 0% or an unfinished segment at 100%.
-      let progress=0;
+      const max=Math.max(0,document.documentElement.scrollHeight-window.innerHeight);
+      let p=0;
 
       if(window.scrollY <= 1){
-        progress=0;
-      }else if(window.scrollY >= maxScroll-1){
-        progress=1;
-      }else if(maxScroll > 0){
-        progress=window.scrollY/maxScroll;
+        p=0;
+      }else if(max > 0 && window.scrollY >= max-1){
+        p=1;
+      }else if(max > 0){
+        p=window.scrollY/max;
       }
 
-      path.style.strokeDashoffset=`${len*(1-progress)}`;
+      path.style.strokeDashoffset=`${len*(1-p)}`;
     }
 
-    window.addEventListener('scroll',updateSnake,{passive:true});
-    window.addEventListener('resize',updateSnake,{passive:true});
-
-    // Force a clean initial state before any scrolling happens.
     path.style.strokeDashoffset=`${len}`;
     requestAnimationFrame(updateSnake);
+    return updateSnake;
   }
 
-  resize();
+  let updateSnake=buildSnake();
+  window.addEventListener('scroll',()=>updateSnake(),{passive:true});
+  window.addEventListener('resize',()=>{updateSnake=buildSnake();},{passive:true});
+  const resumeCanvas=document.getElementById('resume-canvas');
+  const resumeCanvasZoom=document.getElementById('resume-canvas-zoom');
+  const resumeButton=document.getElementById('resume-preview-button');
+  const resumeLightbox=document.getElementById('resume-lightbox');
+  const resumeClose=document.getElementById('resume-lightbox-close');
+
+  if(resumeCanvas && resumeCanvasZoom && resumeButton && resumeLightbox && resumeClose){
+    async function renderResume(){
+      try{
+        const pdfjsLib=await import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs');
+        pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs';
+
+        const pdf=await pdfjsLib.getDocument('Resume.pdf').promise;
+        const page=await pdf.getPage(1);
+
+        async function draw(canvas,targetWidth){
+          const base=page.getViewport({scale:1});
+          const scale=targetWidth/base.width;
+          const viewport=page.getViewport({scale});
+          const ratio=window.devicePixelRatio || 1;
+
+          canvas.width=Math.floor(viewport.width*ratio);
+          canvas.height=Math.floor(viewport.height*ratio);
+          canvas.style.width=viewport.width+'px';
+          canvas.style.height=viewport.height+'px';
+
+          const ctx=canvas.getContext('2d');
+          ctx.setTransform(ratio,0,0,ratio,0,0);
+
+          await page.render({canvasContext:ctx,viewport}).promise;
+        }
+
+        await draw(resumeCanvas,Math.min(760,resumeButton.clientWidth || 760));
+
+        resumeButton.addEventListener('click',async()=>{
+          resumeLightbox.classList.add('open');
+          resumeLightbox.setAttribute('aria-hidden','false');
+          document.body.classList.add('resume-zoom-open');
+          await draw(resumeCanvasZoom,Math.min(window.innerWidth*0.9,1100));
+        });
+
+        function closeResume(){
+          resumeLightbox.classList.remove('open');
+          resumeLightbox.setAttribute('aria-hidden','true');
+          document.body.classList.remove('resume-zoom-open');
+        }
+
+        resumeClose.addEventListener('click',closeResume);
+        resumeLightbox.addEventListener('click',e=>{
+          if(e.target===resumeLightbox) closeResume();
+        });
+        window.addEventListener('keydown',e=>{
+          if(e.key==='Escape') closeResume();
+        });
+      }catch(err){
+        console.error('Resume.pdf preview failed',err);
+      }
+    }
+
+    renderResume();
+  }
+
 })();

@@ -30,7 +30,7 @@
     </div>
   </header>
 
-  <div class="scroll-snake" aria-hidden="true"><svg id="snake-svg" viewBox="0 0 52 100" preserveAspectRatio="none"><path id="snake-ghost"/><path id="snake-path"/></svg></div>
+  <div class="scroll-snake" aria-hidden="true"><svg id="snake-svg" viewBox="0 0 52 100" preserveAspectRatio="xMidYMin meet"><path id="snake-ghost"/><path id="snake-path"/></svg></div>
 
   <main>
     <section id="about" class="hero">
@@ -83,7 +83,17 @@
 
     <section id="resume" class="section content resume-section">
       <div class="section-intro"><p class="eyebrow">Experience</p><h2>Resume</h2></div>
-      <div class="resume-display"><iframe src="Resume.pdf" title="Resume PDF"></iframe></div>
+      <div class="resume-display">
+        <button class="resume-preview-button" id="resume-preview-button" type="button" aria-label="Open resume preview">
+          <canvas id="resume-canvas"></canvas>
+        </button>
+      </div>
+      <div class="resume-lightbox" id="resume-lightbox" aria-hidden="true">
+        <button class="resume-lightbox-close" id="resume-lightbox-close" type="button" aria-label="Close resume preview">×</button>
+        <div class="resume-lightbox-inner">
+          <canvas id="resume-canvas-zoom"></canvas>
+        </div>
+      </div>
     </section>
 
     <section id="contact" class="contact-section">
