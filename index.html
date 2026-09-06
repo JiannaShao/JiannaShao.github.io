@@ -13,13 +13,19 @@
 <body>
   <div class="xp-cursor" aria-hidden="true"><span class="cursor-shadow"></span><span class="cursor-fill"></span></div>
 
-  <aside id="side-nav" class="side-nav">
+  <aside id="side-nav" class="side-nav is-open">
     <button id="side-nav-toggle" class="side-nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="true">
       <span class="side-nav-toggle-icon">←</span>
     </button>
 
     <div class="side-nav-inner">
-      <a class="side-brand" href="#top">JS</a>
+      <a class="side-brand" href="#top" aria-label="Home">
+        <svg class="side-logo" viewBox="0 0 64 64" aria-hidden="true">
+          <circle cx="32" cy="32" r="29"></circle>
+          <path d="M20 20v17c0 7 4 11 11 11"></path>
+          <path d="M44 21c-2-2-5-3-8-3-5 0-8 3-8 7 0 4 3 6 8 8 5 2 8 4 8 8 0 5-4 8-10 8-4 0-8-1-11-4"></path>
+        </svg>
+      </a>
 
       <nav class="side-links" aria-label="Primary navigation">
         <a href="#about">About</a>

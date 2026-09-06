@@ -308,3 +308,159 @@ body:has(.side-nav.collapsed){
   margin-left:auto;
   margin-right:auto;
 }
+
+/* =====================================================
+   SIDEBAR + SCROLLER FIXES
+===================================================== */
+
+.side-nav{
+  width:190px !important;
+  background:#e1ebe7;
+  overflow:visible;
+}
+
+.side-nav.collapsed{
+  width:56px !important;
+}
+
+.side-nav-inner{
+  padding:26px 18px 28px;
+}
+
+.side-links{
+  display:flex;
+  flex-direction:column;
+  gap:30px;
+  margin-top:8px;
+}
+
+.side-links a{
+  font-size:16px;
+  color:#42524d;
+  opacity:1;
+}
+
+.side-brand{
+  width:42px;
+  height:42px;
+  margin-bottom:46px;
+  display:block;
+  text-decoration:none;
+}
+
+.side-logo{
+  width:42px;
+  height:42px;
+  display:block;
+  fill:none;
+  stroke:#42524d;
+  stroke-width:2.6;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+.side-nav-toggle{
+  right:-20px;
+  top:26px;
+}
+
+.side-nav.collapsed .side-nav-inner{
+  padding-left:7px;
+  padding-right:7px;
+}
+
+.side-nav.collapsed .side-brand{
+  opacity:1 !important;
+  pointer-events:auto !important;
+  transform:none !important;
+  width:42px;
+  height:42px;
+}
+
+.side-nav.collapsed .side-logo{
+  width:42px;
+  height:42px;
+}
+
+.side-nav.collapsed .side-links{
+  opacity:0 !important;
+  pointer-events:none !important;
+  transform:translateX(-12px);
+}
+
+body.sidebar-open{
+  padding-left:190px !important;
+}
+
+body.sidebar-collapsed{
+  padding-left:56px !important;
+}
+
+/* Force the snake to stay visible above page content */
+.scroll-snake{
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  position:fixed !important;
+  right:0 !important;
+  top:0 !important;
+  bottom:0 !important;
+  width:42px !important;
+  height:100vh !important;
+  z-index:999 !important;
+  pointer-events:none !important;
+}
+
+.scroll-snake svg{
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  overflow:visible !important;
+}
+
+#snake-ghost,
+#snake-path{
+  display:block !important;
+  visibility:visible !important;
+  fill:none !important;
+  stroke-width:4.5 !important;
+  vector-effect:non-scaling-stroke !important;
+  stroke-linecap:round !important;
+  stroke-linejoin:round !important;
+}
+
+#snake-ghost{
+  stroke:#d5dfdc !important;
+  opacity:1 !important;
+}
+
+#snake-path{
+  stroke:#42524d !important;
+  opacity:1 !important;
+}
+
+@media(max-width:760px){
+  .side-nav{
+    width:56px !important;
+  }
+
+  .side-nav.is-open{
+    width:168px !important;
+  }
+
+  body.sidebar-open{
+    padding-left:168px !important;
+  }
+
+  body.sidebar-collapsed{
+    padding-left:56px !important;
+  }
+
+  .side-links{
+    gap:26px;
+  }
+
+  .scroll-snake{
+    width:30px !important;
+  }
+}
