@@ -931,3 +931,53 @@ body.sidebar-collapsed{
   background:#ffffff !important;
   image-rendering:pixelated !important;
 }
+
+/* V17 — snake position */
+.scroll-snake{
+  right:6px !important;
+}
+
+@media(max-width:760px){
+  .scroll-snake{
+    right:4px !important;
+  }
+}
+
+/* V17 — resume text button */
+.resume-display{
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+  margin-top:18px !important;
+}
+
+.resume-preview-button{
+  width:auto !important;
+  max-width:none !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:14px 24px !important;
+  border:1.5px solid rgba(66,82,77,.30) !important;
+  border-radius:10px !important;
+  background:#ffffff !important;
+  box-shadow:none !important;
+  cursor:pointer !important;
+}
+
+.resume-preview-button:hover{
+  transform:scale(1.05) !important;
+  box-shadow:none !important;
+}
+
+.resume-open-label{
+  font-size:16px;
+  color:#42524d;
+  line-height:1;
+  white-space:nowrap;
+}
+
+/* Old thumbnail canvas should not occupy space if still present anywhere */
+#resume-canvas{
+  display:none !important;
+}
