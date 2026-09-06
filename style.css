@@ -822,3 +822,112 @@ body.sidebar-collapsed{
   max-width:min(360px,82vw) !important;
   height:auto !important;
 }
+
+/* V16 — teal text accents */
+.teal-accent{
+  color:#85a4ab !important;
+}
+
+/* V16 — resume thumbnail directly on page background */
+.resume-display{
+  background:transparent !important;
+}
+
+.resume-preview-button{
+  width:fit-content !important;
+  max-width:min(360px,82vw) !important;
+  display:inline-block !important;
+  padding:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  overflow:visible !important;
+  background:transparent !important;
+  box-shadow:none !important;
+}
+
+.resume-preview-button:hover{
+  box-shadow:none !important;
+}
+
+.resume-preview-button canvas{
+  display:block !important;
+  width:auto !important;
+  max-width:min(360px,82vw) !important;
+  height:auto !important;
+  border:0 !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+  background:#ffffff !important;
+}
+
+/* V16 — thicker, pixelated custom cursor */
+.xp-cursor{
+  position:fixed !important;
+  left:0 !important;
+  top:0 !important;
+  width:30px !important;
+  height:36px !important;
+  margin-left:-2px !important;
+  margin-top:-2px !important;
+  pointer-events:none !important;
+  z-index:20000 !important;
+
+  /* Pixelated arrow shape */
+  clip-path:polygon(
+    0 0,
+    0 27px,
+    7px 27px,
+    7px 34px,
+    12px 34px,
+    12px 25px,
+    18px 31px,
+    23px 26px,
+    17px 20px,
+    27px 20px,
+    27px 15px,
+    16px 15px,
+    16px 10px,
+    10px 10px,
+    10px 5px,
+    5px 5px,
+    5px 0
+  );
+
+  background:
+    linear-gradient(#000,#000) !important;
+
+  border:0 !important;
+  box-shadow:none !important;
+  image-rendering:pixelated !important;
+}
+
+/* White inner cursor face, inset enough to leave a thick black pixel outline */
+.xp-cursor::after{
+  content:"" !important;
+  position:absolute !important;
+  left:4px !important;
+  top:4px !important;
+  width:22px !important;
+  height:28px !important;
+  clip-path:polygon(
+    0 0,
+    0 19px,
+    5px 19px,
+    5px 26px,
+    9px 26px,
+    9px 18px,
+    14px 23px,
+    18px 19px,
+    13px 14px,
+    21px 14px,
+    21px 11px,
+    12px 11px,
+    12px 7px,
+    8px 7px,
+    8px 3px,
+    4px 3px,
+    4px 0
+  );
+  background:#ffffff !important;
+  image-rendering:pixelated !important;
+}
