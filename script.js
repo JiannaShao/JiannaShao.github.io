@@ -710,32 +710,6 @@ resumeButton.addEventListener('click', async () => {
           );
         }
 
-        // Extra contour depth layers for a fuller 3D text volume.
-        const contourMeshes = fishGroup.children.slice();
-
-        contourMeshes.forEach((mesh, i) => {
-          if (i % 4 !== 0) return;
-
-          const cloneBack = mesh.clone();
-          cloneBack.position.z -= rand(0.16, 0.32);
-          cloneBack.position.x += rand(-0.035, 0.035);
-          cloneBack.position.y += rand(-0.035, 0.035);
-          cloneBack.rotation.z += rand(-0.08, 0.08);
-          cloneBack.scale.multiplyScalar(rand(0.94, 1.04));
-          fishGroup.add(cloneBack);
-
-          if (i % 8 === 0) {
-            const cloneFront = mesh.clone();
-            cloneFront.position.z += rand(0.18, 0.38);
-            cloneFront.position.x += rand(-0.035, 0.035);
-            cloneFront.position.y += rand(-0.035, 0.035);
-            cloneFront.rotation.z += rand(-0.10, 0.10);
-            cloneFront.scale.multiplyScalar(rand(0.92, 1.03));
-            fishGroup.add(cloneFront);
-          }
-        });
-
-
         // -------------------------------------------------
         // V29 — TWO ADDITIONAL ROUNDED TEXT LAYERS
         // Only two extra layers: one behind and one in front.
@@ -764,16 +738,21 @@ resumeButton.addEventListener('click', async () => {
             clone.position.x += rand(-0.055, 0.055);
             clone.position.y += rand(-0.055, 0.055);
 
-            // Slightly round the added front/back layers inward.
-            clone.position.y *= rand(0.965, 0.99);
+            // Pull the outer layers inward slightly so the side view
+            // rounds away from the larger central layer.
+            clone.position.y *= rand(0.91, 0.95);
+            clone.position.x =
+              -0.15 +
+              (clone.position.x + 0.15) * rand(0.965, 0.985);
 
             // Each letter tilts a little differently on every axis.
             clone.rotation.x += rand(-0.10, 0.10);
             clone.rotation.y += rand(-0.10, 0.10);
             clone.rotation.z += rand(-0.09, 0.09);
 
-            // Small size variance makes the repeated letters feel less copied.
-            const scaleVariance = rand(0.92, 1.07);
+            // The two outer layers are deliberately a little smaller
+            // than the main layer to create a rounded cross-section.
+            const scaleVariance = rand(0.86, 0.93);
             clone.scale.multiplyScalar(scaleVariance);
 
             fishGroup.add(clone);
@@ -783,7 +762,7 @@ resumeButton.addEventListener('click', async () => {
         // -------------------------------------------------
         // Initial angle + interaction
         // -------------------------------------------------
-        fishGroup.rotation.y = -0.30;
+        fishGroup.rotation.y = -Math.PI / 4;
         fishGroup.rotation.x = 0.04;
 
         let dragging = false;
