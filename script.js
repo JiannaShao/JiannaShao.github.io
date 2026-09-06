@@ -208,7 +208,7 @@ resumeButton.addEventListener('click', async () => {
         const scene = new THREE.Scene();
 
         const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
-        camera.position.set(0, 0, 8.7);
+        camera.position.set(0, 0, 9.15);
 
         const renderer = new THREE.WebGLRenderer({
           alpha: true,
@@ -448,86 +448,107 @@ resumeButton.addEventListener('click', async () => {
 
         // -------------------------------------------------
         // TAIL
-        // Two pointed lobes attached to a narrow peduncle.
+        // Mermaid-tail silhouette:
+        // narrow center stem feeding into two broad curved lobes.
         // -------------------------------------------------
-        const tailBaseX = 3.05;
-        const tailTipX = 5.75;
+        const tailBaseX = 3.02;
+        const tailForkX = 3.55;
+        const tailTipX = 5.35;
 
-        // Upper tail lobe
-        for (let t = 0; t <= 1; t += 0.05) {
-          const x = tailBaseX + (tailTipX - tailBaseX) * t;
+        // Narrow stem between body and fork.
+        for (let t = 0; t <= 1; t += 0.11) {
+          const x = tailBaseX + (tailForkX - tailBaseX) * t;
 
-          // Starts narrow, opens into lobe, then closes to pointed tip.
+          for (const side of [-1, 1]) {
+            addLetter(
+              nextLetter(),
+              x + rand(-0.035, 0.035),
+              side * rand(0.08, 0.20),
+              rand(-0.58, 0.58),
+              rand(0.24, 0.33),
+              side === 1 ? frontColor : sideColor,
+              side * rand(0.02, 0.14),
+              rand(0.10, 0.16),
+              rand(-0.10, 0.10),
+              rand(-0.12, 0.12)
+            );
+          }
+        }
+
+        // Upper rounded lobe, ending in a point.
+        for (let t = 0; t <= 1; t += 0.045) {
+          const x = tailForkX + (tailTipX - tailForkX) * t;
+
+          // Broad near the middle, narrows sharply toward point.
           const bulge = Math.sin(t * Math.PI);
-          const taper = Math.pow(1 - t, 0.18);
           const y =
-            0.18 +
-            bulge * 1.48 +
-            t * 0.38;
+            0.08 +
+            1.56 * Math.pow(bulge, 0.82) +
+            0.48 * t;
 
           addLetter(
             nextLetter(),
             x + rand(-0.04, 0.04),
-            y + rand(-0.05, 0.05),
-            rand(-0.78, 0.78),
-            rand(0.28, 0.41),
+            y + rand(-0.045, 0.045),
+            rand(-0.72, 0.72),
+            rand(0.27, 0.39),
             t > 0.80 ? darkEdgeColor : frontColor,
-            rand(0.30, 0.62),
-            rand(0.11, 0.18),
-            rand(-0.12, 0.12),
-            rand(-0.16, 0.16)
+            rand(0.26, 0.54),
+            rand(0.10, 0.17),
+            rand(-0.11, 0.11),
+            rand(-0.15, 0.15)
           );
 
-          if (t > 0.12 && t < 0.90 && Math.random() < 0.62) {
+          if (t > 0.12 && t < 0.88 && Math.random() < 0.68) {
             addLetter(
               nextLetter(),
-              x - rand(0.02, 0.10),
-              y - rand(0.18, 0.50),
-              rand(-0.74, 0.74),
-              rand(0.21, 0.31),
+              x - rand(0.02, 0.12),
+              y - rand(0.18, 0.52),
+              rand(-0.68, 0.68),
+              rand(0.20, 0.30),
               sideColor,
-              rand(0.14, 0.44),
-              rand(0.09, 0.15),
-              rand(-0.12, 0.12),
+              rand(0.10, 0.40),
+              rand(0.09, 0.14),
+              rand(-0.11, 0.11),
               rand(-0.14, 0.14)
             );
           }
         }
 
-        // Lower tail lobe
-        for (let t = 0; t <= 1; t += 0.05) {
-          const x = tailBaseX + (tailTipX - tailBaseX) * t;
+        // Lower rounded lobe, ending in a point.
+        for (let t = 0; t <= 1; t += 0.045) {
+          const x = tailForkX + (tailTipX - tailForkX) * t;
 
           const bulge = Math.sin(t * Math.PI);
           const y =
-            -0.18 -
-            bulge * 1.48 -
-            t * 0.38;
+            -0.08 -
+            1.56 * Math.pow(bulge, 0.82) -
+            0.48 * t;
 
           addLetter(
             nextLetter(),
             x + rand(-0.04, 0.04),
-            y + rand(-0.05, 0.05),
-            rand(-0.78, 0.78),
-            rand(0.28, 0.41),
+            y + rand(-0.045, 0.045),
+            rand(-0.72, 0.72),
+            rand(0.27, 0.39),
             t > 0.80 ? darkEdgeColor : frontColor,
-            rand(-0.62, -0.30),
-            rand(0.11, 0.18),
-            rand(-0.12, 0.12),
-            rand(-0.16, 0.16)
+            rand(-0.54, -0.26),
+            rand(0.10, 0.17),
+            rand(-0.11, 0.11),
+            rand(-0.15, 0.15)
           );
 
-          if (t > 0.12 && t < 0.90 && Math.random() < 0.62) {
+          if (t > 0.12 && t < 0.88 && Math.random() < 0.68) {
             addLetter(
               nextLetter(),
-              x - rand(0.02, 0.10),
-              y + rand(0.18, 0.50),
-              rand(-0.74, 0.74),
-              rand(0.21, 0.31),
+              x - rand(0.02, 0.12),
+              y + rand(0.18, 0.52),
+              rand(-0.68, 0.68),
+              rand(0.20, 0.30),
               sideColor,
-              rand(-0.44, -0.14),
-              rand(0.09, 0.15),
-              rand(-0.12, 0.12),
+              rand(-0.40, -0.10),
+              rand(0.09, 0.14),
+              rand(-0.11, 0.11),
               rand(-0.14, 0.14)
             );
           }
@@ -542,7 +563,7 @@ resumeButton.addEventListener('click', async () => {
           const base = bodyHalfHeight(x);
 
           const peak =
-            Math.pow(Math.sin(t * Math.PI), 1.10) * 1.15;
+            Math.pow(Math.sin(t * Math.PI), 1.55) * 1.34;
 
           const y = base + peak;
 
@@ -553,7 +574,7 @@ resumeButton.addEventListener('click', async () => {
             rand(-0.68, 0.68),
             rand(0.28, 0.39),
             frontColor,
-            -0.52 + t * 0.88,
+            -0.66 + t * 1.18,
             rand(0.11, 0.18),
             rand(-0.10, 0.10),
             rand(-0.14, 0.14)
@@ -635,10 +656,10 @@ resumeButton.addEventListener('click', async () => {
           for (let a = 0; a < Math.PI * 2; a += Math.PI / 6) {
             addLetter(
               'O',
-              -3.42 + Math.cos(a) * 0.23,
-              0.34 + Math.sin(a) * 0.23,
+              -3.42 + Math.cos(a) * 0.17,
+              0.34 + Math.sin(a) * 0.17,
               side * 0.62 + rand(-0.035, 0.035),
-              0.26,
+              0.20,
               darkEdgeColor,
               a + Math.PI / 2,
               0.13,

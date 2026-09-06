@@ -1246,3 +1246,35 @@ button{
     height:330px !important;
   }
 }
+
+/* V26 — smaller overall fish, mermaid-tail lobes, tighter eyes */
+.text-fish-3d-wrap{
+  max-width:1030px !important;
+  flex-basis:840px !important;
+}
+
+.text-fish-3d{
+  height:460px !important;
+}
+
+@media(max-width:1200px){
+  .text-fish-3d-wrap{
+    max-width:900px !important;
+  }
+
+  .text-fish-3d{
+    height:410px !important;
+  }
+}
+
+@media(max-width:900px){
+  .text-fish-3d{
+    height:345px !important;
+  }
+}
+
+@media(max-width:760px){
+  .text-fish-3d{
+    height:315px !important;
+  }
+}
