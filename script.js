@@ -8,7 +8,7 @@
   const links=[...document.querySelectorAll('.nav-links a')];
   const sections=[...document.querySelectorAll('main section[id]')];
   function update(){
-    header.style.background=window.scrollY>40?'rgba(114,168,149,.97)':'#72a895';
+    header.style.background=window.scrollY>40?'rgba(160,189,179,.97)':'#a0bdb3';
     header.style.borderBottom=window.scrollY>40?'1px solid #d8d3c8':'0';
     header.style.boxShadow=window.scrollY>40?'0 2px 14px rgba(20,37,61,.07)':'none';
     let current='about';
@@ -23,30 +23,65 @@
 
   // Build a full-height, scroll-progress snake. It scales to the viewport and never stops above the bottom.
   const svg=document.getElementById('snake-svg'), ghost=document.getElementById('snake-ghost'), path=document.getElementById('snake-path');
+
   const R=7, lx=19, rx=33, loops=34;
-  let y=3, d=`M ${rx} ${y} L ${lx} ${y}`;
+  let y=3;
+
+  // Start by travelling from right to left, matching the original orientation.
+  let d=`M ${rx} ${y} L ${lx} ${y}`;
+
   for(let i=0;i<loops;i++){
-    const nextY=y+2*R;
+    const nextY=y+(2*R);
+
     if(i%2===0){
-      d+=` A ${R} ${R} 0 0 0 ${rx} ${nextY} L ${lx} ${nextY}`;
+      // Original orientation: curve outward to the LEFT,
+      // ending at the right-side x coordinate on the next row.
+      d+=` A ${R} ${R} 0 0 1 ${rx} ${nextY}`;
+      d+=` L ${lx} ${nextY}`;
     }else{
-      d+=` A ${R} ${R} 0 0 1 ${lx} ${nextY} L ${rx} ${nextY}`;
+      // Then curve outward to the RIGHT.
+      d+=` A ${R} ${R} 0 0 0 ${lx} ${nextY}`;
+      d+=` L ${rx} ${nextY}`;
     }
+
     y=nextY;
   }
-  ghost.setAttribute('d',d); path.setAttribute('d',d);
+
+  ghost.setAttribute('d',d);
+  path.setAttribute('d',d);
+
   function resize(){
     svg.setAttribute('viewBox',`0 0 52 ${y+3}`);
+
     const len=path.getTotalLength();
     path.style.strokeDasharray=`${len} ${len}`;
+
     function updateSnake(){
-      const max=Math.max(0,document.documentElement.scrollHeight-window.innerHeight);
-      const p=max>0?Math.max(0,Math.min(window.scrollY/max,1)):0;
-      path.style.strokeDashoffset=`${len*(1-p)}`;
+      const doc=document.documentElement;
+      const maxScroll=Math.max(0,doc.scrollHeight-window.innerHeight);
+
+      // Snap cleanly at the extreme top and bottom so there is never
+      // residual fill at 0% or an unfinished segment at 100%.
+      let progress=0;
+
+      if(window.scrollY <= 1){
+        progress=0;
+      }else if(window.scrollY >= maxScroll-1){
+        progress=1;
+      }else if(maxScroll > 0){
+        progress=window.scrollY/maxScroll;
+      }
+
+      path.style.strokeDashoffset=`${len*(1-progress)}`;
     }
+
     window.addEventListener('scroll',updateSnake,{passive:true});
     window.addEventListener('resize',updateSnake,{passive:true});
-    updateSnake();
+
+    // Force a clean initial state before any scrolling happens.
+    path.style.strokeDashoffset=`${len}`;
+    requestAnimationFrame(updateSnake);
   }
+
   resize();
 })();
