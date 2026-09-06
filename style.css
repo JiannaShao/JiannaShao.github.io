@@ -1175,3 +1175,29 @@ button{
 @media(max-width:760px){
   .text-fish-3d{height:295px !important;}
 }
+
+/* V24 — larger, longer fish with mirrored fins/eyes */
+.text-fish-3d-wrap{
+  max-width:940px !important;
+  flex-basis:760px !important;
+}
+
+.text-fish-3d{
+  height:430px !important;
+}
+
+@media(max-width:1100px){
+  .text-fish-3d-wrap{
+    max-width:820px !important;
+  }
+
+  .text-fish-3d{
+    height:380px !important;
+  }
+}
+
+@media(max-width:760px){
+  .text-fish-3d{
+    height:320px !important;
+  }
+}

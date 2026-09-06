@@ -208,7 +208,7 @@ resumeButton.addEventListener('click', async () => {
         const scene = new THREE.Scene();
 
         const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
-        camera.position.set(0, 0, 10.2);
+        camera.position.set(0, 0, 9.4);
 
         const renderer = new THREE.WebGLRenderer({
           alpha: true,
@@ -279,7 +279,11 @@ resumeButton.addEventListener('click', async () => {
           const mesh = new THREE.Mesh(geo, material);
 
           mesh.position.set(x, y, z);
-          mesh.rotation.set(rotX, rotY, rotZ);
+          mesh.rotation.set(
+            rotX + rand(-0.10, 0.10),
+            rotY + rand(-0.10, 0.10),
+            rotZ + rand(-0.08, 0.08)
+          );
           fishGroup.add(mesh);
         }
 
@@ -306,7 +310,7 @@ resumeButton.addEventListener('click', async () => {
         // -------------------------------------------------
         function bodyHalfHeight(x) {
           const center = -0.15;
-          const rx = 3.72;
+          const rx = 4.18;
 
           const normalized = (x - center) / rx;
           const ellipse = Math.sqrt(Math.max(0, 1 - normalized * normalized));
@@ -314,13 +318,13 @@ resumeButton.addEventListener('click', async () => {
           let h = 1.55 * ellipse;
 
           // Slightly taper head and tail for a fish-like profile.
-          if (x < -2.75) {
-            const headT = Math.max(0, Math.min(1, (x + 3.72) / 0.97));
+          if (x < -3.10) {
+            const headT = Math.max(0, Math.min(1, (x + 4.18) / 1.08));
             h *= 0.28 + Math.pow(headT, 0.72) * 0.72;
           }
 
-          if (x > 2.20) {
-            h *= 1 - ((x - 2.20) / 1.05) * 0.25;
+          if (x > 2.55) {
+            h *= 1 - ((x - 2.55) / 1.15) * 0.25;
           }
 
           return Math.max(0, h);
@@ -345,7 +349,7 @@ resumeButton.addEventListener('click', async () => {
         // -------------------------------------------------
         const bodyXStep = 0.24;
 
-        for (let x = -3.62; x <= 2.95; x += bodyXStep) {
+        for (let x = -4.05; x <= 3.35; x += bodyXStep) {
           const hh = bodyHalfHeight(x);
           if (hh <= 0.12) continue;
 
@@ -424,63 +428,86 @@ resumeButton.addEventListener('click', async () => {
 
         // -------------------------------------------------
         // TAIL
-        // Softer curved fan rather than sharp triangles.
+        // Two-lobed mermaid-style tail: one upper lobe,
+        // one lower lobe, with a narrow waist at the base.
         // -------------------------------------------------
-        const tailBaseX = 2.45;
-        const tailTipX = 4.85;
+        const tailBaseX = 2.95;
+        const tailTipX = 5.35;
 
-        for (let t = 0; t <= 1; t += 0.07) {
+        // Upper lobe
+        for (let t = 0; t <= 1; t += 0.055) {
           const x = tailBaseX + (tailTipX - tailBaseX) * t;
 
-          const spread = 0.30 + Math.sin(t * Math.PI) * 1.42;
-
-          const pointFactor = 1 - Math.pow(Math.max(0, t - 0.82) / 0.18, 1.25);
-          const finalSpread = Math.max(0.03, spread * pointFactor);
-          const topY = finalSpread;
-          const bottomY = -finalSpread;
-
-          const tailAngleTop = rand(0.34, 0.62);
-          const tailAngleBottom = rand(-0.62, -0.34);
+          const arch = Math.sin(t * Math.PI);
+          const y =
+            0.18 +
+            arch * 1.55 +
+            t * 0.20;
 
           addLetter(
             nextLetter(),
             x + rand(-0.05, 0.05),
-            topY + rand(-0.05, 0.05),
-            rand(-0.72, 0.72),
-            rand(0.30, 0.42),
-            t > 0.7 ? darkEdgeColor : frontColor,
-            tailAngleTop,
+            y + rand(-0.05, 0.05),
+            rand(-0.76, 0.76),
+            rand(0.29, 0.42),
+            t > 0.78 ? darkEdgeColor : frontColor,
+            rand(0.25, 0.58),
             rand(0.11, 0.18),
-            rand(-0.1, 0.1),
-            rand(-0.12, 0.12)
+            rand(-0.12, 0.12),
+            rand(-0.15, 0.15)
           );
 
-          addLetter(
-            nextLetter(),
-            x + rand(-0.05, 0.05),
-            bottomY + rand(-0.05, 0.05),
-            rand(-0.72, 0.72),
-            rand(0.30, 0.42),
-            t > 0.7 ? darkEdgeColor : frontColor,
-            tailAngleBottom,
-            rand(0.11, 0.18),
-            rand(-0.1, 0.1),
-            rand(-0.12, 0.12)
-          );
-
-          // Sparse inner tail.
-          if (Math.random() < 0.55) {
+          if (t > 0.15 && t < 0.90 && Math.random() < 0.55) {
             addLetter(
               nextLetter(),
               x,
-              rand(bottomY * 0.65, topY * 0.65),
-              rand(-0.5, 0.5),
-              rand(0.23, 0.33),
+              y - rand(0.18, 0.48),
+              rand(-0.72, 0.72),
+              rand(0.22, 0.32),
               sideColor,
-              rand(-0.35, 0.35),
-              rand(0.09, 0.14),
-              rand(-0.1, 0.1),
-              rand(-0.1, 0.1)
+              rand(0.12, 0.42),
+              rand(0.09, 0.15),
+              rand(-0.12, 0.12),
+              rand(-0.14, 0.14)
+            );
+          }
+        }
+
+        // Lower lobe
+        for (let t = 0; t <= 1; t += 0.055) {
+          const x = tailBaseX + (tailTipX - tailBaseX) * t;
+
+          const arch = Math.sin(t * Math.PI);
+          const y =
+            -0.18 -
+            arch * 1.55 -
+            t * 0.20;
+
+          addLetter(
+            nextLetter(),
+            x + rand(-0.05, 0.05),
+            y + rand(-0.05, 0.05),
+            rand(-0.76, 0.76),
+            rand(0.29, 0.42),
+            t > 0.78 ? darkEdgeColor : frontColor,
+            rand(-0.58, -0.25),
+            rand(0.11, 0.18),
+            rand(-0.12, 0.12),
+            rand(-0.15, 0.15)
+          );
+
+          if (t > 0.15 && t < 0.90 && Math.random() < 0.55) {
+            addLetter(
+              nextLetter(),
+              x,
+              y + rand(0.18, 0.48),
+              rand(-0.72, 0.72),
+              rand(0.22, 0.32),
+              sideColor,
+              rand(-0.42, -0.12),
+              rand(0.09, 0.15),
+              rand(-0.12, 0.12),
+              rand(-0.14, 0.14)
             );
           }
         }
@@ -537,43 +564,59 @@ resumeButton.addEventListener('click', async () => {
         }
 
         // -------------------------------------------------
-        // SIDE / PECTORAL FIN
-        // Rounded diagonal cluster.
+        // SIDE / PECTORAL FINS
+        // Mirrored on both sides, with tips pointing toward tail.
         // -------------------------------------------------
-        for (let t = 0; t <= 1; t += 0.10) {
-          const x = -1.65 + t * 1.28;
-          const y = -0.14 - Math.pow(Math.sin(t * Math.PI), 1.45) * 0.92;
+        for (const side of [-1, 1]) {
+          for (let t = 0; t <= 1; t += 0.09) {
+            const x = -1.70 + t * 1.52;
 
-          addLetter(
-            nextLetter(),
-            x,
-            y,
-            rand(0.10, 0.72),
-            rand(0.28, 0.38),
-            sideColor,
-            0.62 - t * 1.12,
-            rand(0.11, 0.17),
-            rand(-0.08, 0.08),
-            rand(-0.15, 0.15)
-          );
+            // Root near shoulder, pointed end trails backward toward tail.
+            const sweep = Math.pow(t, 1.15);
+            const y =
+              -0.12 -
+              Math.sin(t * Math.PI) * 0.70;
+
+            const z =
+              side * (
+                0.30 +
+                Math.sin(t * Math.PI) * 0.72
+              );
+
+            addLetter(
+              nextLetter(),
+              x + sweep * 0.42,
+              y,
+              z,
+              rand(0.27, 0.37),
+              side === 1 ? frontColor : sideColor,
+              -0.52 + t * 0.28,
+              rand(0.11, 0.17),
+              side * rand(-0.12, 0.12),
+              side * rand(0.15, 0.30)
+            );
+          }
         }
 
         // -------------------------------------------------
-        // HEAD + EYE
+        // HEAD + EYES
+        // Eye rings on both sides of the fish.
         // -------------------------------------------------
-        for (let a = 0; a < Math.PI * 2; a += Math.PI / 6) {
-          addLetter(
-            'O',
-            -2.35 + Math.cos(a) * 0.23,
-            0.34 + Math.sin(a) * 0.23,
-            0.55 + rand(-0.04, 0.04),
-            0.26,
-            darkEdgeColor,
-            a + Math.PI / 2,
-            0.10,
-            rand(-0.06, 0.06),
-            rand(-0.08, 0.08)
-          );
+        for (const side of [-1, 1]) {
+          for (let a = 0; a < Math.PI * 2; a += Math.PI / 6) {
+            addLetter(
+              'O',
+              -2.72 + Math.cos(a) * 0.23,
+              0.34 + Math.sin(a) * 0.23,
+              side * 0.62 + rand(-0.035, 0.035),
+              0.26,
+              darkEdgeColor,
+              a + Math.PI / 2,
+              0.13,
+              rand(-0.06, 0.06),
+              side * rand(0.06, 0.12)
+            );
+          }
         }
 
         // Small mouth / snout accents.
@@ -582,7 +625,7 @@ resumeButton.addEventListener('click', async () => {
 
           addLetter(
             nextLetter(),
-            -3.62 + t * 0.56,
+            -4.04 + t * 0.62,
             -0.02 + t * 0.04,
             rand(-0.18, 0.35),
             rand(0.22, 0.30),
