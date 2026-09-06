@@ -267,8 +267,14 @@ resumeButton.addEventListener('click', async () => {
           rotX = 0,
           rotY = 0
         ) {
+          // Randomly make a small percentage of letters white.
+          const resolvedColor =
+            Math.random() < 0.085
+              ? '#ffffff'
+              : color;
+
           const material = new THREE.MeshBasicMaterial({
-            map: makeLetterTexture(letter, color),
+            map: makeLetterTexture(letter, resolvedColor),
             transparent: true,
             depthWrite: true,
             side: THREE.DoubleSide
@@ -718,7 +724,7 @@ resumeButton.addEventListener('click', async () => {
         // -------------------------------------------------
         const volumeSource = fishGroup.children.slice();
 
-        const volumeDepths = [-0.42, 0.42];
+        const volumeDepths = [-0.58, -0.28, 0.28, 0.58];
 
         volumeSource.forEach((mesh, i) => {
           const isLikelyEdge =
@@ -750,9 +756,14 @@ resumeButton.addEventListener('click', async () => {
             clone.rotation.y += rand(-0.10, 0.10);
             clone.rotation.z += rand(-0.09, 0.09);
 
-            // The two outer layers are deliberately a little smaller
-            // than the main layer to create a rounded cross-section.
-            const scaleVariance = rand(0.86, 0.93);
+            // Layer-specific rounding:
+            // first outer layer stays fairly close to the main surface,
+            // second outer layer shrinks much more to round the profile.
+            const isSecondOuterLayer = Math.abs(depth) > 0.30;
+            const scaleVariance = isSecondOuterLayer
+              ? rand(0.60, 0.70)
+              : rand(0.80, 0.90);
+
             clone.scale.multiplyScalar(scaleVariance);
 
             fishGroup.add(clone);
@@ -762,7 +773,7 @@ resumeButton.addEventListener('click', async () => {
         // -------------------------------------------------
         // Initial angle + interaction
         // -------------------------------------------------
-        fishGroup.rotation.y = -Math.PI / 4;
+        fishGroup.rotation.y = Math.PI / 4;
         fishGroup.rotation.x = 0.04;
 
         let dragging = false;

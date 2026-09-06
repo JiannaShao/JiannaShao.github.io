@@ -1318,3 +1318,34 @@ button{
 .text-fish-3d{
   overflow:visible !important;
 }
+
+/* V31 — +5% fish size */
+.text-fish-3d-wrap{
+  max-width:966px !important;
+  flex-basis:798px !important;
+}
+
+.text-fish-3d{
+  height:431px !important;
+}
+
+@media(max-width:1200px){
+  .text-fish-3d-wrap{
+    max-width:861px !important;
+  }
+  .text-fish-3d{
+    height:389px !important;
+  }
+}
+
+@media(max-width:900px){
+  .text-fish-3d{
+    height:341px !important;
+  }
+}
+
+@media(max-width:760px){
+  .text-fish-3d{
+    height:310px !important;
+  }
+}
