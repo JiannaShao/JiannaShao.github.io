@@ -1201,3 +1201,48 @@ button{
     height:320px !important;
   }
 }
+
+/* V25 — larger and closer to long fish drawing proportions */
+.hero-title-row{
+  gap:8px !important;
+}
+
+.text-fish-3d-wrap{
+  max-width:1120px !important;
+  flex-basis:900px !important;
+  margin-right:-28px !important;
+}
+
+.text-fish-3d{
+  height:500px !important;
+}
+
+.text-fish-hint{
+  margin-top:-22px !important;
+}
+
+@media(max-width:1200px){
+  .text-fish-3d-wrap{
+    max-width:940px !important;
+  }
+
+  .text-fish-3d{
+    height:440px !important;
+  }
+}
+
+@media(max-width:900px){
+  .text-fish-3d{
+    height:360px !important;
+  }
+}
+
+@media(max-width:760px){
+  .text-fish-3d-wrap{
+    margin-right:0 !important;
+  }
+
+  .text-fish-3d{
+    height:330px !important;
+  }
+}

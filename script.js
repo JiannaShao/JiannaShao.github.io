@@ -208,7 +208,7 @@ resumeButton.addEventListener('click', async () => {
         const scene = new THREE.Scene();
 
         const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
-        camera.position.set(0, 0, 9.4);
+        camera.position.set(0, 0, 8.7);
 
         const renderer = new THREE.WebGLRenderer({
           alpha: true,
@@ -309,25 +309,45 @@ resumeButton.addEventListener('click', async () => {
         // narrowing toward head and tail.
         // -------------------------------------------------
         function bodyHalfHeight(x) {
-          const center = -0.15;
-          const rx = 4.18;
+          // Long torpedo/tuna-like body.
+          // Pointed at the snout, fullest just behind the head,
+          // then gradually narrows into the tail peduncle.
+          const noseX = -4.65;
+          const shoulderX = -2.55;
+          const bellyCenterX = -0.55;
+          const tailBaseX = 3.25;
 
-          const normalized = (x - center) / rx;
-          const ellipse = Math.sqrt(Math.max(0, 1 - normalized * normalized));
+          if (x < noseX || x > tailBaseX) return 0;
 
-          let h = 1.55 * ellipse;
+          let h = 0;
 
-          // Slightly taper head and tail for a fish-like profile.
-          if (x < -3.10) {
-            const headT = Math.max(0, Math.min(1, (x + 4.18) / 1.08));
-            h *= 0.28 + Math.pow(headT, 0.72) * 0.72;
+          // Sharp triangular-ish snout transitioning into the body.
+          if (x <= shoulderX) {
+            const t = (x - noseX) / (shoulderX - noseX);
+            h = 0.10 + Math.pow(t, 0.72) * 1.36;
+          } else {
+            // Long smooth torso.
+            const bodyT = (x - shoulderX) / (tailBaseX - shoulderX);
+
+            // Fullest around the front/mid body, then taper smoothly.
+            const crown =
+              1.46 -
+              0.12 * Math.pow((x - bellyCenterX) / 2.9, 2);
+
+            const taper =
+              1.0 -
+              Math.pow(Math.max(0, bodyT - 0.46) / 0.54, 1.28) * 0.58;
+
+            h = crown * taper;
           }
 
-          if (x > 2.55) {
-            h *= 1 - ((x - 2.55) / 1.15) * 0.25;
+          // Extra narrowing right before tail.
+          if (x > 2.65) {
+            const t = (x - 2.65) / 0.60;
+            h *= 1 - 0.42 * t;
           }
 
-          return Math.max(0, h);
+          return Math.max(0.08, h);
         }
 
         // Tangent-like angle based on local silhouette slope.
@@ -349,7 +369,7 @@ resumeButton.addEventListener('click', async () => {
         // -------------------------------------------------
         const bodyXStep = 0.24;
 
-        for (let x = -4.05; x <= 3.35; x += bodyXStep) {
+        for (let x = -4.58; x <= 3.18; x += bodyXStep) {
           const hh = bodyHalfHeight(x);
           if (hh <= 0.12) continue;
 
@@ -402,7 +422,7 @@ resumeButton.addEventListener('click', async () => {
         // text pieces for volume.
         // -------------------------------------------------
         for (let i = 0; i < 120; i++) {
-          const x = rand(-2.8, 2.15);
+          const x = rand(-4.15, 2.85);
           const hh = bodyHalfHeight(x);
 
           if (hh <= 0.2) continue;
@@ -428,44 +448,45 @@ resumeButton.addEventListener('click', async () => {
 
         // -------------------------------------------------
         // TAIL
-        // Two-lobed mermaid-style tail: one upper lobe,
-        // one lower lobe, with a narrow waist at the base.
+        // Two pointed lobes attached to a narrow peduncle.
         // -------------------------------------------------
-        const tailBaseX = 2.95;
-        const tailTipX = 5.35;
+        const tailBaseX = 3.05;
+        const tailTipX = 5.75;
 
-        // Upper lobe
-        for (let t = 0; t <= 1; t += 0.055) {
+        // Upper tail lobe
+        for (let t = 0; t <= 1; t += 0.05) {
           const x = tailBaseX + (tailTipX - tailBaseX) * t;
 
-          const arch = Math.sin(t * Math.PI);
+          // Starts narrow, opens into lobe, then closes to pointed tip.
+          const bulge = Math.sin(t * Math.PI);
+          const taper = Math.pow(1 - t, 0.18);
           const y =
             0.18 +
-            arch * 1.55 +
-            t * 0.20;
+            bulge * 1.48 +
+            t * 0.38;
 
           addLetter(
             nextLetter(),
-            x + rand(-0.05, 0.05),
+            x + rand(-0.04, 0.04),
             y + rand(-0.05, 0.05),
-            rand(-0.76, 0.76),
-            rand(0.29, 0.42),
-            t > 0.78 ? darkEdgeColor : frontColor,
-            rand(0.25, 0.58),
+            rand(-0.78, 0.78),
+            rand(0.28, 0.41),
+            t > 0.80 ? darkEdgeColor : frontColor,
+            rand(0.30, 0.62),
             rand(0.11, 0.18),
             rand(-0.12, 0.12),
-            rand(-0.15, 0.15)
+            rand(-0.16, 0.16)
           );
 
-          if (t > 0.15 && t < 0.90 && Math.random() < 0.55) {
+          if (t > 0.12 && t < 0.90 && Math.random() < 0.62) {
             addLetter(
               nextLetter(),
-              x,
-              y - rand(0.18, 0.48),
-              rand(-0.72, 0.72),
-              rand(0.22, 0.32),
+              x - rand(0.02, 0.10),
+              y - rand(0.18, 0.50),
+              rand(-0.74, 0.74),
+              rand(0.21, 0.31),
               sideColor,
-              rand(0.12, 0.42),
+              rand(0.14, 0.44),
               rand(0.09, 0.15),
               rand(-0.12, 0.12),
               rand(-0.14, 0.14)
@@ -473,38 +494,38 @@ resumeButton.addEventListener('click', async () => {
           }
         }
 
-        // Lower lobe
-        for (let t = 0; t <= 1; t += 0.055) {
+        // Lower tail lobe
+        for (let t = 0; t <= 1; t += 0.05) {
           const x = tailBaseX + (tailTipX - tailBaseX) * t;
 
-          const arch = Math.sin(t * Math.PI);
+          const bulge = Math.sin(t * Math.PI);
           const y =
             -0.18 -
-            arch * 1.55 -
-            t * 0.20;
+            bulge * 1.48 -
+            t * 0.38;
 
           addLetter(
             nextLetter(),
-            x + rand(-0.05, 0.05),
+            x + rand(-0.04, 0.04),
             y + rand(-0.05, 0.05),
-            rand(-0.76, 0.76),
-            rand(0.29, 0.42),
-            t > 0.78 ? darkEdgeColor : frontColor,
-            rand(-0.58, -0.25),
+            rand(-0.78, 0.78),
+            rand(0.28, 0.41),
+            t > 0.80 ? darkEdgeColor : frontColor,
+            rand(-0.62, -0.30),
             rand(0.11, 0.18),
             rand(-0.12, 0.12),
-            rand(-0.15, 0.15)
+            rand(-0.16, 0.16)
           );
 
-          if (t > 0.15 && t < 0.90 && Math.random() < 0.55) {
+          if (t > 0.12 && t < 0.90 && Math.random() < 0.62) {
             addLetter(
               nextLetter(),
-              x,
-              y + rand(0.18, 0.48),
-              rand(-0.72, 0.72),
-              rand(0.22, 0.32),
+              x - rand(0.02, 0.10),
+              y + rand(0.18, 0.50),
+              rand(-0.74, 0.74),
+              rand(0.21, 0.31),
               sideColor,
-              rand(-0.42, -0.12),
+              rand(-0.44, -0.14),
               rand(0.09, 0.15),
               rand(-0.12, 0.12),
               rand(-0.14, 0.14)
@@ -514,86 +535,94 @@ resumeButton.addEventListener('click', async () => {
 
         // -------------------------------------------------
         // DORSAL FIN
-        // Curved arc of letters with smooth angle changes.
+        // Tall pointed dorsal fin located behind the head.
         // -------------------------------------------------
-        for (let t = 0; t <= 1; t += 0.08) {
-          const x = -1.55 + t * 1.7;
+        for (let t = 0; t <= 1; t += 0.075) {
+          const x = -2.05 + t * 1.65;
           const base = bodyHalfHeight(x);
-          const lift = Math.pow(Math.sin(t * Math.PI), 1.35) * 1.22;
-          const y = base + lift;
 
-          const rot = -0.52 + t * 1.04;
+          const peak =
+            Math.pow(Math.sin(t * Math.PI), 1.10) * 1.15;
+
+          const y = base + peak;
 
           addLetter(
             nextLetter(),
             x,
             y,
             rand(-0.68, 0.68),
-            rand(0.29, 0.40),
+            rand(0.28, 0.39),
             frontColor,
-            rot,
+            -0.52 + t * 0.88,
             rand(0.11, 0.18),
-            rand(-0.1, 0.1),
-            rand(-0.12, 0.12)
+            rand(-0.10, 0.10),
+            rand(-0.14, 0.14)
           );
         }
 
         // -------------------------------------------------
         // BOTTOM FIN
+        // Smaller pointed ventral fin farther back.
         // -------------------------------------------------
-        for (let t = 0; t <= 1; t += 0.09) {
-          const x = -0.45 + t * 1.45;
+        for (let t = 0; t <= 1; t += 0.085) {
+          const x = 0.15 + t * 1.65;
           const base = -bodyHalfHeight(x);
-          const drop = Math.pow(Math.sin(t * Math.PI), 1.4) * 0.94;
-          const y = base - drop;
 
-          const rot = 0.48 - t * 0.96;
+          const drop =
+            Math.pow(Math.sin(t * Math.PI), 1.15) * 0.82;
+
+          const y = base - drop;
 
           addLetter(
             nextLetter(),
             x,
             y,
-            rand(-0.68, 0.68),
-            rand(0.28, 0.38),
+            rand(-0.66, 0.66),
+            rand(0.27, 0.37),
             frontColor,
-            rot,
+            0.42 - t * 0.78,
             rand(0.11, 0.17),
-            rand(-0.1, 0.1),
-            rand(-0.12, 0.12)
+            rand(-0.10, 0.10),
+            rand(-0.14, 0.14)
           );
         }
 
         // -------------------------------------------------
         // SIDE / PECTORAL FINS
-        // Mirrored on both sides, with tips pointing toward tail.
+        // One on each side, attached just behind head and
+        // sweeping backward toward tail.
         // -------------------------------------------------
         for (const side of [-1, 1]) {
-          for (let t = 0; t <= 1; t += 0.09) {
-            const x = -1.70 + t * 1.52;
+          for (let t = 0; t <= 1; t += 0.085) {
+            const rootX = -2.25;
+            const tipX = -0.55;
 
-            // Root near shoulder, pointed end trails backward toward tail.
-            const sweep = Math.pow(t, 1.15);
+            const x =
+              rootX +
+              (tipX - rootX) *
+              Math.pow(t, 0.92);
+
             const y =
-              -0.12 -
-              Math.sin(t * Math.PI) * 0.70;
+              -0.18 -
+              Math.sin(t * Math.PI) * 0.58;
 
             const z =
               side * (
-                0.30 +
-                Math.sin(t * Math.PI) * 0.72
+                0.34 +
+                Math.sin(t * Math.PI) * 0.78
               );
 
             addLetter(
               nextLetter(),
-              x + sweep * 0.42,
+              x,
               y,
               z,
               rand(0.27, 0.37),
               side === 1 ? frontColor : sideColor,
-              -0.52 + t * 0.28,
+              -0.42 + t * 0.18,
               rand(0.11, 0.17),
-              side * rand(-0.12, 0.12),
-              side * rand(0.15, 0.30)
+              side * rand(-0.10, 0.10),
+              side * rand(0.18, 0.34)
             );
           }
         }
@@ -606,7 +635,7 @@ resumeButton.addEventListener('click', async () => {
           for (let a = 0; a < Math.PI * 2; a += Math.PI / 6) {
             addLetter(
               'O',
-              -2.72 + Math.cos(a) * 0.23,
+              -3.42 + Math.cos(a) * 0.23,
               0.34 + Math.sin(a) * 0.23,
               side * 0.62 + rand(-0.035, 0.035),
               0.26,
@@ -625,7 +654,7 @@ resumeButton.addEventListener('click', async () => {
 
           addLetter(
             nextLetter(),
-            -4.04 + t * 0.62,
+            -4.56 + t * 0.64,
             -0.02 + t * 0.04,
             rand(-0.18, 0.35),
             rand(0.22, 0.30),
