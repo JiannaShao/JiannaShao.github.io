@@ -8,7 +8,7 @@
   const links=[...document.querySelectorAll('.nav-links a')];
   const sections=[...document.querySelectorAll('main section[id]')];
   function update(){
-    header.style.background=window.scrollY>40?'rgba(202,222,215,.97)':'#caded7';
+    header.style.background='#e1ebe7';
     header.style.borderBottom=window.scrollY>40?'1px solid #d8d3c8':'0';
     header.style.boxShadow=window.scrollY>40?'0 2px 14px rgba(20,37,61,.07)':'none';
     let current='about';
@@ -115,13 +115,13 @@
           await page.render({canvasContext:ctx,viewport}).promise;
         }
 
-        await draw(resumeCanvas,Math.min(760,resumeButton.clientWidth || 760));
+        await draw(resumeCanvas,Math.min(360,resumeButton.clientWidth || 360));
 
         resumeButton.addEventListener('click',async()=>{
           resumeLightbox.classList.add('open');
           resumeLightbox.setAttribute('aria-hidden','false');
           document.body.classList.add('resume-zoom-open');
-          await draw(resumeCanvasZoom,Math.min(window.innerWidth*0.9,1100));
+          await draw(resumeCanvasZoom,Math.min(window.innerWidth*0.88,1100));
         });
 
         function closeResume(){
