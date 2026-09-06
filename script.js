@@ -27,6 +27,6 @@
   let d=`M ${rx} 3 L ${lx} 3`, y=3;
   for(let i=0;i<loops;i++){d+=i%2===0?` A ${R} ${R} 0 0 0 ${lx} ${y+pitch} L ${rx} ${y+pitch}`:` A ${R} ${R} 0 0 1 ${rx} ${y+pitch} L ${lx} ${y+pitch}`;y+=pitch}
   ghost.setAttribute('d',d);path.setAttribute('d',d);
-  function resize(){svg.setAttribute('viewBox',`0 0 52 ${y+3}`);const len=path.getTotalLength();path.style.strokeDasharray=len;window.addEventListener('scroll',()=>{const max=document.documentElement.scrollHeight-innerHeight;const p=max>0?Math.min(scrollY/max,1):0;path.style.strokeDashoffset=len*(1-p);const pt=path.getPointAtLength(Math.max(0,Math.min(len-.1,len*p)));dot.setAttribute('cx',pt.x);dot.setAttribute('cy',pt.y);dot.style.opacity=p>.005?'1':'0'},{passive:true})}
+  function resize(){svg.setAttribute('viewBox',`0 0 52 ${y+3}`);const len=path.getTotalLength();path.style.strokeDasharray=len;function updateSnake(){const max=document.documentElement.scrollHeight-innerHeight;const p=max>0?Math.min(scrollY/max,1):0;path.style.strokeDashoffset=len*(1-p);const pt=path.getPointAtLength(Math.max(0,Math.min(len-.1,len*p)));dot.setAttribute('cx',pt.x);dot.setAttribute('cy',pt.y);dot.style.opacity=p>.005?'1':'0'}window.addEventListener('scroll',updateSnake,{passive:true});updateSnake()}
   resize();
 })();
