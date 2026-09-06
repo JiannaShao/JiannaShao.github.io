@@ -8,7 +8,7 @@
   const links=[...document.querySelectorAll('.nav-links a')];
   const sections=[...document.querySelectorAll('main section[id]')];
   function update(){
-    header.style.background=window.scrollY>40?'rgba(245,241,231,.96)':'transparent';
+    header.style.background=window.scrollY>40?'rgba(114,168,149,.97)':'#72a895';
     header.style.borderBottom=window.scrollY>40?'1px solid #d8d3c8':'0';
     header.style.boxShadow=window.scrollY>40?'0 2px 14px rgba(20,37,61,.07)':'none';
     let current='about';
@@ -23,32 +23,29 @@
 
   // Build a full-height, scroll-progress snake. It scales to the viewport and never stops above the bottom.
   const svg=document.getElementById('snake-svg'), ghost=document.getElementById('snake-ghost'), path=document.getElementById('snake-path');
-  const R=7, pitch=15, lx=21, rx=31, loops=32;
-  let d=`M ${rx} 3 L ${lx} 3`, y=3;
+  const R=7, lx=19, rx=33, loops=34;
+  let y=3, d=`M ${rx} ${y} L ${lx} ${y}`;
   for(let i=0;i<loops;i++){
-    d+=i%2===0
-      ? ` A ${R} ${R} 0 0 0 ${lx} ${y+pitch} L ${rx} ${y+pitch}`
-      : ` A ${R} ${R} 0 0 1 ${rx} ${y+pitch} L ${lx} ${y+pitch}`;
-    y+=pitch;
+    const nextY=y+2*R;
+    if(i%2===0){
+      d+=` A ${R} ${R} 0 0 0 ${rx} ${nextY} L ${lx} ${nextY}`;
+    }else{
+      d+=` A ${R} ${R} 0 0 1 ${lx} ${nextY} L ${rx} ${nextY}`;
+    }
+    y=nextY;
   }
-  ghost.setAttribute('d',d);
-  path.setAttribute('d',d);
-
+  ghost.setAttribute('d',d); path.setAttribute('d',d);
   function resize(){
     svg.setAttribute('viewBox',`0 0 52 ${y+3}`);
     const len=path.getTotalLength();
-
-    // Ghost is the complete snake; the dark path is the exact scroll-progress fill.
     path.style.strokeDasharray=`${len} ${len}`;
-
     function updateSnake(){
-      const max=document.documentElement.scrollHeight-innerHeight;
-      const p=max>0?Math.min(scrollY/max,1):0;
-
-      path.style.strokeDashoffset=len*(1-p);
+      const max=Math.max(0,document.documentElement.scrollHeight-window.innerHeight);
+      const p=max>0?Math.max(0,Math.min(window.scrollY/max,1)):0;
+      path.style.strokeDashoffset=`${len*(1-p)}`;
     }
-
     window.addEventListener('scroll',updateSnake,{passive:true});
+    window.addEventListener('resize',updateSnake,{passive:true});
     updateSnake();
   }
   resize();
