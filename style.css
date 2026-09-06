@@ -774,3 +774,51 @@ body.sidebar-collapsed{
 .side-nav-inner{
   pointer-events:auto !important;
 }
+
+/* V15 — sidebar link positioning */
+.side-links{
+  padding-left:14px !important;
+}
+
+.side-links a{
+  transition:color .16s ease, transform .18s ease !important;
+}
+
+.side-links a:hover{
+  color:#ffffff !important;
+  transform:translateX(4px) !important;
+}
+
+/* V15 — Projects Across Disciplines spacing */
+.projects-grid,
+.project-grid{
+  gap:28px !important;
+  column-gap:32px !important;
+  row-gap:28px !important;
+}
+
+/* V15 — resume thumbnail frame */
+.resume-display{
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+}
+
+.resume-preview-button{
+  width:fit-content !important;
+  max-width:min(360px,82vw) !important;
+  display:inline-block !important;
+  padding:0 !important;
+  border:1.5px solid rgba(66,82,77,.28) !important;
+  border-radius:10px !important;
+  overflow:hidden !important;
+  background:#ffffff !important;
+  box-shadow:none !important;
+}
+
+.resume-preview-button canvas{
+  display:block !important;
+  width:auto !important;
+  max-width:min(360px,82vw) !important;
+  height:auto !important;
+}

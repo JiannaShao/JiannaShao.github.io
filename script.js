@@ -70,22 +70,16 @@
     const leftX = edge + radius;
     const rightX = W - edge - radius;
 
-    // Start with a clean straight vertical lead-in before the snake pattern.
-    const startX = rightX;
-    const startY = edge + 2;
-    const leadIn = 18;
-
-    let y = startY + leadIn;
-
-    // Straight entry segment, then first horizontal run.
-    let d = `M ${startX} ${startY} L ${startX} ${y} L ${leftX} ${y}`;
-
-    let goLeft = true;
+    // First row uses the exact same geometry as every later row:
+    // straight horizontal segment followed by an exact semicircle.
+    let y = edge + 2;
+    let d = `M ${rightX} ${y} L ${leftX} ${y}`;
+    let turnRight = true;
 
     while (y + radius * 2 <= H - edge - 2) {
       const nextY = y + radius * 2;
 
-      if (goLeft) {
+      if (turnRight) {
         d += ` A ${radius} ${radius} 0 0 1 ${rightX} ${nextY}`;
         d += ` L ${leftX} ${nextY}`;
       } else {
@@ -94,7 +88,7 @@
       }
 
       y = nextY;
-      goLeft = !goLeft;
+      turnRight = !turnRight;
     }
 
     snakeGhost.setAttribute('d', d);
