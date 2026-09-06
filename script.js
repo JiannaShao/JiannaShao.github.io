@@ -737,59 +737,44 @@ resumeButton.addEventListener('click', async () => {
 
 
         // -------------------------------------------------
-        // V28 — DENSE ROUNDED VOLUME
-        // Add many more depth slices so the fish reads as a
-        // rounded 3D body when viewed from an angle.
+        // V29 — TWO ADDITIONAL ROUNDED TEXT LAYERS
+        // Only two extra layers: one behind and one in front.
+        // Each clone gets slight letter-by-letter variation so
+        // the layers do not look like exact duplicates.
         // -------------------------------------------------
         const volumeSource = fishGroup.children.slice();
 
-        // Seven additional depth slices around the existing shell.
-        // Outer slices contract slightly in X/Y, approximating a rounded
-        // cross-section instead of a flat stack of text.
-        const volumeDepths = [-0.92, -0.66, -0.42, -0.20, 0.20, 0.42, 0.66, 0.92];
+        const volumeDepths = [-0.42, 0.42];
 
         volumeSource.forEach((mesh, i) => {
-          // Keep nearly all silhouette/body letters, but thin a few interior
-          // clones for performance and to preserve some negative space.
-          const isLikelyEdge = Math.abs(mesh.position.y) > 0.55 || mesh.position.x > 2.7 || mesh.position.x < -3.0;
-          const densityGate = isLikelyEdge ? 1 : 0.72;
+          const isLikelyEdge =
+            Math.abs(mesh.position.y) > 0.55 ||
+            mesh.position.x > 2.7 ||
+            mesh.position.x < -3.0;
 
-          if (Math.random() > densityGate) return;
+          // Preserve a little more negative space through the middle.
+          if (!isLikelyEdge && Math.random() > 0.78) return;
 
-          volumeDepths.forEach((depth, di) => {
-            // Elliptical cross-section: farther Z slices pull inward slightly.
-            const normalized = Math.min(1, Math.abs(depth) / 0.92);
-            const roundScale = Math.sqrt(Math.max(0.34, 1 - normalized * normalized * 0.50));
-
-            // Skip a few center/interior clones at the deepest slices so the
-            // fish stays textural rather than becoming a solid block.
-            if (!isLikelyEdge && normalized > 0.72 && Math.random() < 0.30) return;
-
+          volumeDepths.forEach((depth) => {
             const clone = mesh.clone();
 
-            clone.position.z += depth + rand(-0.045, 0.045);
+            clone.position.z += depth + rand(-0.055, 0.055);
 
-            // Pull the depth slices inward toward the fish's centerline,
-            // producing a barrel/rounded shape from oblique views.
-            clone.position.y *= roundScale;
-            clone.position.x =
-              -0.15 +
-              (clone.position.x + 0.15) *
-              (0.985 - normalized * 0.028);
+            // Small positional differences from layer to layer.
+            clone.position.x += rand(-0.055, 0.055);
+            clone.position.y += rand(-0.055, 0.055);
 
-            // Tiny irregularity keeps the layers from reading as perfect sheets.
-            clone.position.x += rand(-0.035, 0.035);
-            clone.position.y += rand(-0.035, 0.035);
+            // Slightly round the added front/back layers inward.
+            clone.position.y *= rand(0.965, 0.99);
 
-            clone.rotation.x += rand(-0.075, 0.075);
-            clone.rotation.y += rand(-0.075, 0.075);
-            clone.rotation.z += rand(-0.060, 0.060);
+            // Each letter tilts a little differently on every axis.
+            clone.rotation.x += rand(-0.10, 0.10);
+            clone.rotation.y += rand(-0.10, 0.10);
+            clone.rotation.z += rand(-0.09, 0.09);
 
-            // Slightly smaller at the deepest outer slices, which helps
-            // visually round the top/bottom and nose/tail edges.
-            clone.scale.multiplyScalar(
-              1 - normalized * rand(0.025, 0.065)
-            );
+            // Small size variance makes the repeated letters feel less copied.
+            const scaleVariance = rand(0.92, 1.07);
+            clone.scale.multiplyScalar(scaleVariance);
 
             fishGroup.add(clone);
           });
