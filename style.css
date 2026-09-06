@@ -981,3 +981,55 @@ body.sidebar-collapsed{
 #resume-canvas{
   display:none !important;
 }
+
+/* V18 — resume: no outer section frame, thumbnail restored */
+#resume,
+.resume-section,
+.resume-display{
+  border:none !important;
+  outline:none !important;
+  box-shadow:none !important;
+}
+
+.resume-display{
+  background:transparent !important;
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+}
+
+.resume-preview-button{
+  width:min(360px,82vw) !important;
+  max-width:min(360px,82vw) !important;
+  display:block !important;
+  padding:0 !important;
+  border:0 !important;
+  outline:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  overflow:visible !important;
+  cursor:pointer !important;
+}
+
+.resume-preview-button:hover{
+  transform:scale(1.04) !important;
+  box-shadow:none !important;
+}
+
+.resume-preview-button canvas,
+#resume-canvas{
+  display:block !important;
+  width:100% !important;
+  max-width:100% !important;
+  height:auto !important;
+  border:0 !important;
+  outline:0 !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+  background:#ffffff !important;
+}
+
+.resume-open-label{
+  display:none !important;
+}
