@@ -13,22 +13,24 @@
 <body>
   <div class="xp-cursor" aria-hidden="true"><span class="cursor-shadow"></span><span class="cursor-fill"></span></div>
 
-  <header id="site-header">
-    <nav class="nav-wrap">
-      <a href="#about" class="wordmark"><span class="logo">JS</span><span>Jianna Shao</span></a>
-      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false"><i></i><i></i><i></i></button>
-      <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#work">Work</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#art">Fine Art</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-    <div class="mobile-nav">
-      <a href="#about">About</a><a href="#work">Work</a><a href="#projects">Projects</a><a href="#art">Fine Art</a><a href="#contact">Contact</a>
+  <aside id="side-nav" class="side-nav">
+    <button id="side-nav-toggle" class="side-nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="true">
+      <span class="side-nav-toggle-icon">←</span>
+    </button>
+
+    <div class="side-nav-inner">
+      <a class="side-brand" href="#top">JS</a>
+
+      <nav class="side-links" aria-label="Primary navigation">
+        <a href="#about">About</a>
+        <a href="#work">Work</a>
+        <a href="#projects">Projects</a>
+        <a href="#art">Fine Art</a>
+        <a href="#resume">Resume</a>
+        <a href="#contact">Contact</a>
+      </nav>
     </div>
-  </header>
+  </aside>
 
   <div class="scroll-snake" aria-hidden="true"><svg id="snake-svg" viewBox="0 0 52 100" preserveAspectRatio="xMidYMin meet"><path id="snake-ghost"/><path id="snake-path"/></svg></div>
 
