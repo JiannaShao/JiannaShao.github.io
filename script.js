@@ -8,7 +8,7 @@
   const links=[...document.querySelectorAll('.nav-links a')];
   const sections=[...document.querySelectorAll('main section[id]')];
   function update(){
-    header.style.background=window.scrollY>40?'rgba(180,204,195,.97)':'#b4ccc3';
+    header.style.background=window.scrollY>40?'rgba(202,222,215,.97)':'#caded7';
     header.style.borderBottom=window.scrollY>40?'1px solid #d8d3c8':'0';
     header.style.boxShadow=window.scrollY>40?'0 2px 14px rgba(20,37,61,.07)':'none';
     let current='about';
