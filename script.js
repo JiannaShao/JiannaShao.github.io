@@ -208,7 +208,7 @@ resumeButton.addEventListener('click', async () => {
         const scene = new THREE.Scene();
 
         const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
-        camera.position.set(0, 0, 9.15);
+        camera.position.set(0, 0, 9.75);
 
         const renderer = new THREE.WebGLRenderer({
           alpha: true,
@@ -484,7 +484,7 @@ resumeButton.addEventListener('click', async () => {
           const y =
             0.08 +
             1.56 * Math.pow(bulge, 0.82) +
-            0.48 * t;
+            0.12 * t;
 
           addLetter(
             nextLetter(),
@@ -523,7 +523,7 @@ resumeButton.addEventListener('click', async () => {
           const y =
             -0.08 -
             1.56 * Math.pow(bulge, 0.82) -
-            0.48 * t;
+            0.12 * t;
 
           addLetter(
             nextLetter(),
@@ -550,6 +550,31 @@ resumeButton.addEventListener('click', async () => {
               rand(0.09, 0.14),
               rand(-0.11, 0.11),
               rand(-0.14, 0.14)
+            );
+          }
+        }
+
+        // Straighten the very back edge of the two tail lobes.
+        // These vertical rows prevent the trailing silhouette from curling inward.
+        for (const side of [-1, 1]) {
+          const outerY = side * 0.28;
+          const innerY = side * 0.08;
+
+          for (let i = 0; i <= 5; i++) {
+            const u = i / 5;
+            const y = innerY + (outerY - innerY) * u;
+
+            addLetter(
+              nextLetter(),
+              tailTipX + rand(-0.025, 0.025),
+              y,
+              rand(-0.60, 0.60),
+              rand(0.23, 0.31),
+              darkEdgeColor,
+              side * rand(-0.08, 0.08),
+              rand(0.10, 0.15),
+              rand(-0.08, 0.08),
+              rand(-0.10, 0.10)
             );
           }
         }
@@ -710,10 +735,70 @@ resumeButton.addEventListener('click', async () => {
           }
         });
 
+
+        // -------------------------------------------------
+        // V28 — DENSE ROUNDED VOLUME
+        // Add many more depth slices so the fish reads as a
+        // rounded 3D body when viewed from an angle.
+        // -------------------------------------------------
+        const volumeSource = fishGroup.children.slice();
+
+        // Seven additional depth slices around the existing shell.
+        // Outer slices contract slightly in X/Y, approximating a rounded
+        // cross-section instead of a flat stack of text.
+        const volumeDepths = [-0.92, -0.66, -0.42, -0.20, 0.20, 0.42, 0.66, 0.92];
+
+        volumeSource.forEach((mesh, i) => {
+          // Keep nearly all silhouette/body letters, but thin a few interior
+          // clones for performance and to preserve some negative space.
+          const isLikelyEdge = Math.abs(mesh.position.y) > 0.55 || mesh.position.x > 2.7 || mesh.position.x < -3.0;
+          const densityGate = isLikelyEdge ? 1 : 0.72;
+
+          if (Math.random() > densityGate) return;
+
+          volumeDepths.forEach((depth, di) => {
+            // Elliptical cross-section: farther Z slices pull inward slightly.
+            const normalized = Math.min(1, Math.abs(depth) / 0.92);
+            const roundScale = Math.sqrt(Math.max(0.34, 1 - normalized * normalized * 0.50));
+
+            // Skip a few center/interior clones at the deepest slices so the
+            // fish stays textural rather than becoming a solid block.
+            if (!isLikelyEdge && normalized > 0.72 && Math.random() < 0.30) return;
+
+            const clone = mesh.clone();
+
+            clone.position.z += depth + rand(-0.045, 0.045);
+
+            // Pull the depth slices inward toward the fish's centerline,
+            // producing a barrel/rounded shape from oblique views.
+            clone.position.y *= roundScale;
+            clone.position.x =
+              -0.15 +
+              (clone.position.x + 0.15) *
+              (0.985 - normalized * 0.028);
+
+            // Tiny irregularity keeps the layers from reading as perfect sheets.
+            clone.position.x += rand(-0.035, 0.035);
+            clone.position.y += rand(-0.035, 0.035);
+
+            clone.rotation.x += rand(-0.075, 0.075);
+            clone.rotation.y += rand(-0.075, 0.075);
+            clone.rotation.z += rand(-0.060, 0.060);
+
+            // Slightly smaller at the deepest outer slices, which helps
+            // visually round the top/bottom and nose/tail edges.
+            clone.scale.multiplyScalar(
+              1 - normalized * rand(0.025, 0.065)
+            );
+
+            fishGroup.add(clone);
+          });
+        });
+
         // -------------------------------------------------
         // Initial angle + interaction
         // -------------------------------------------------
-        fishGroup.rotation.y = -0.24;
+        fishGroup.rotation.y = -0.30;
         fishGroup.rotation.x = 0.04;
 
         let dragging = false;

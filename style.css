@@ -1278,3 +1278,43 @@ button{
     height:315px !important;
   }
 }
+
+/* V27 — smaller fish + straighter tail trailing edge */
+.text-fish-3d-wrap{
+  max-width:920px !important;
+  flex-basis:760px !important;
+  margin-right:-12px !important;
+}
+
+.text-fish-3d{
+  height:410px !important;
+}
+
+@media(max-width:1200px){
+  .text-fish-3d-wrap{
+    max-width:820px !important;
+  }
+  .text-fish-3d{
+    height:370px !important;
+  }
+}
+
+@media(max-width:900px){
+  .text-fish-3d{
+    height:325px !important;
+  }
+}
+
+@media(max-width:760px){
+  .text-fish-3d-wrap{
+    margin-right:0 !important;
+  }
+  .text-fish-3d{
+    height:295px !important;
+  }
+}
+
+/* V28 — deeper rounded text volume */
+.text-fish-3d{
+  overflow:visible !important;
+}
