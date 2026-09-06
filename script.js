@@ -134,47 +134,7 @@ update();
   }
 });
   }
-
-  const sideNav = document.getElementById('side-nav');
-  const sideNavToggle = document.getElementById('side-nav-toggle');
-
-  if (sideNav && sideNavToggle) {
-    const icon = sideNavToggle.querySelector('.side-nav-toggle-icon');
-
-    function setSidebar(open) {
-      sideNav.classList.toggle('is-open', open);
-      sideNav.classList.toggle('collapsed', !open);
-      document.body.classList.toggle('sidebar-open', open);
-      document.body.classList.toggle('sidebar-collapsed', !open);
-
-      sideNavToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-
-      if (icon) {
-        icon.textContent = open ? '←' : '→';
-      }
-    }
-
-    // Desktop starts open; small screens start collapsed.
-    setSidebar(window.innerWidth > 760);
-
-    sideNavToggle.addEventListener('click', () => {
-      setSidebar(!sideNav.classList.contains('is-open'));
-    });
-
-    document.querySelectorAll('.side-links a').forEach(link => {
-      link.addEventListener('click', () => {
-        if (window.innerWidth <= 760) {
-          setSidebar(false);
-        }
-      });
-    });
-
-    window.addEventListener('resize', () => {
-      if (window.innerWidth > 760 && !sideNav.classList.contains('is-open')) {
-        setSidebar(true);
-      }
-    });
-  }
+}
 
   window.addEventListener('load', () => {
     if (typeof buildSnake === 'function') {

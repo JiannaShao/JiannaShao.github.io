@@ -464,3 +464,123 @@ body.sidebar-collapsed{
     width:30px !important;
   }
 }
+
+/* =====================================================
+   HOVER SIDEBAR
+===================================================== */
+
+:root{
+  --sidebar-collapsed:58px;
+  --sidebar-expanded:190px;
+}
+
+.side-nav{
+  width:var(--sidebar-collapsed) !important;
+  transition:width .24s ease;
+  overflow:visible;
+}
+
+.side-nav:hover{
+  width:var(--sidebar-expanded) !important;
+}
+
+.side-nav-inner{
+  padding:24px 8px 28px;
+  overflow:hidden;
+}
+
+.side-brand{
+  width:42px;
+  height:42px;
+  margin:0 0 52px 0;
+  opacity:1 !important;
+  pointer-events:auto !important;
+  transform:none !important;
+}
+
+.side-logo{
+  width:42px;
+  height:42px;
+  display:block;
+}
+
+.side-links{
+  display:flex;
+  flex-direction:column;
+  gap:34px;
+  opacity:0;
+  pointer-events:none;
+  transform:translateX(-10px);
+  transition:opacity .18s ease,transform .18s ease;
+  white-space:nowrap;
+}
+
+.side-nav:hover .side-links{
+  opacity:1;
+  pointer-events:auto;
+  transform:none;
+}
+
+.side-links a{
+  font-size:16px;
+}
+
+/* Keep page content aligned to collapsed sidebar.
+   Sidebar overlays outward on hover instead of shifting the whole page. */
+body,
+body.sidebar-open,
+body.sidebar-collapsed{
+  padding-left:var(--sidebar-collapsed) !important;
+}
+
+/* No toggle control */
+.side-nav-toggle{
+  display:none !important;
+}
+
+@media(max-width:760px){
+  :root{
+    --sidebar-collapsed:54px;
+    --sidebar-expanded:168px;
+  }
+
+  .side-nav{
+    width:var(--sidebar-collapsed) !important;
+  }
+
+  .side-nav:hover{
+    width:var(--sidebar-expanded) !important;
+  }
+
+  body,
+  body.sidebar-open,
+  body.sidebar-collapsed{
+    padding-left:var(--sidebar-collapsed) !important;
+  }
+
+  .side-links{
+    gap:28px;
+  }
+}
+
+/* Keep the scrolling snake fully inside the visible viewport */
+.scroll-snake{
+  right:18px !important;
+  width:42px !important;
+  overflow:visible !important;
+}
+
+.scroll-snake svg{
+  overflow:visible !important;
+}
+
+@media(max-width:760px){
+  .scroll-snake{
+    right:10px !important;
+    width:30px !important;
+  }
+}
+
+.xp-cursor{
+  border-width:2px !important;
+}
