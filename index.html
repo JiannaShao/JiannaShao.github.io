@@ -52,7 +52,8 @@
 <div class="hero-title-row">
   <h1>Jianna<br><em><span class="teal-accent">Shao</span></em></h1>
   <div class="text-fish" aria-label="Decorative fish made from editable text">
-    <pre>
+      <div class="text-fish-stage">
+        <pre class="fish-layer fish-layer-back" aria-hidden="true">
                   AAAAAA
              AAAA      AAA
         AAAA              AAA
@@ -69,8 +70,55 @@ AA     LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL   AAAA    TTTT
                  FFFFFF     FFFFF
                     FFFF  FFFF
                        FFFF
-    </pre>
-  </div>
+        </pre>
+
+        <pre class="fish-layer fish-layer-mid" aria-hidden="true">
+                  AAAAAA
+             AAAA      AAA
+        AAAA              AAA
+     AAA                     AAA        TTT
+   AAA                         AAA     TTTTT
+  AA      O                      AAAAAA   TTTTTT
+ AA                                  AAAAA    TTTTT
+AA     LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL   AAAA    TTTT
+ AA        EEEEEEEEEEEEEEEEEEEEEEEE          AAA TTT
+  AAA          TTTTTTTTTTTTTTT             AAAA
+    AAAA            TTTTT               AAAA
+       AAAAA                         AAAAA
+            AAAAAAAAAAAAAAAAAAAAAAAAA
+                 FFFFFF     FFFFF
+                    FFFF  FFFF
+                       FFFF
+        </pre>
+
+        <pre class="fish-layer fish-layer-front">
+                  AAAAAA
+             AAAA      AAA
+        AAAA              AAA
+     AAA                     AAA        TTT
+   AAA                         AAA     TTTTT
+  AA      O                      AAAAAA   TTTTTT
+ AA                                  AAAAA    TTTTT
+AA     LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL   AAAA    TTTT
+ AA        EEEEEEEEEEEEEEEEEEEEEEEE          AAA TTT
+  AAA          TTTTTTTTTTTTTTT             AAAA
+    AAAA            TTTTT               AAAA
+       AAAAA                         AAAAA
+            AAAAAAAAAAAAAAAAAAAAAAAAA
+                 FFFFFF     FFFFF
+                    FFFF  FFFF
+                       FFFF
+        </pre>
+
+        <!-- Edge-definition letters. These are separate editable text pieces
+             placed at different z-depths so the outline reads more clearly. -->
+        <span class="fish-edge edge-dorsal edge-z3">A A A A A A</span>
+        <span class="fish-edge edge-belly edge-z2">S H A O S H A O</span>
+        <span class="fish-edge edge-tail-top edge-z4">T T T T</span>
+        <span class="fish-edge edge-tail-bottom edge-z3">F F F F</span>
+        <span class="fish-edge edge-head edge-z5">W E S</span>
+      </div>
+    </div>
 </div>
           <p class="intro">Artist, designer, researcher, and creative technologist. Pursuing mathematics, art studio, and integrative design at Wesleyan.</p>
 </div>
