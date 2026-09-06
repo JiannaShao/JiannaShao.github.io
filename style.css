@@ -982,54 +982,68 @@ body.sidebar-collapsed{
   display:none !important;
 }
 
-/* V18 — resume: no outer section frame, thumbnail restored */
-#resume,
-.resume-section,
-.resume-display{
-  border:none !important;
-  outline:none !important;
-  box-shadow:none !important;
+/* V19 — editable text fish beside main heading */
+.hero-title-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:34px;
+  width:100%;
 }
 
-.resume-display{
-  background:transparent !important;
-  display:flex !important;
-  justify-content:center !important;
-  align-items:center !important;
+.hero-title-row h1{
+  flex:0 1 auto;
 }
 
-.resume-preview-button{
-  width:min(360px,82vw) !important;
-  max-width:min(360px,82vw) !important;
-  display:block !important;
-  padding:0 !important;
-  border:0 !important;
-  outline:0 !important;
-  border-radius:0 !important;
-  background:transparent !important;
-  box-shadow:none !important;
-  overflow:visible !important;
-  cursor:pointer !important;
+.text-fish{
+  flex:0 0 auto;
+  width:min(390px,38vw);
+  overflow:hidden;
+  color:#85a4ab;
+  line-height:.72;
+  transform:scaleX(1.05);
+  transform-origin:center;
+  user-select:none;
+  pointer-events:none;
 }
 
-.resume-preview-button:hover{
-  transform:scale(1.04) !important;
-  box-shadow:none !important;
+.text-fish pre{
+  margin:0;
+  font-family:"Courier New",Courier,monospace;
+  font-size:8px;
+  font-weight:700;
+  line-height:.78;
+  letter-spacing:-.65px;
+  white-space:pre;
+  color:inherit;
 }
 
-.resume-preview-button canvas,
-#resume-canvas{
-  display:block !important;
-  width:100% !important;
-  max-width:100% !important;
-  height:auto !important;
-  border:0 !important;
-  outline:0 !important;
-  border-radius:0 !important;
-  box-shadow:none !important;
-  background:#ffffff !important;
+@media(max-width:900px){
+  .hero-title-row{
+    gap:18px;
+  }
+
+  .text-fish{
+    width:min(300px,34vw);
+  }
+
+  .text-fish pre{
+    font-size:6px;
+  }
 }
 
-.resume-open-label{
-  display:none !important;
+@media(max-width:650px){
+  .hero-title-row{
+    display:block;
+  }
+
+  .text-fish{
+    width:280px;
+    max-width:80vw;
+    margin:22px 0 0 auto;
+  }
+
+  .text-fish pre{
+    font-size:5.8px;
+  }
 }

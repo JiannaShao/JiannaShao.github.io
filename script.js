@@ -133,13 +133,12 @@
   }
 
   /* RESUME PREVIEW / LIGHTBOX */
-  const resumeCanvas = document.getElementById('resume-canvas');
   const resumeCanvasZoom = document.getElementById('resume-canvas-zoom');
   const resumeButton = document.getElementById('resume-preview-button');
   const resumeLightbox = document.getElementById('resume-lightbox');
   const resumeClose = document.getElementById('resume-lightbox-close');
 
-  if (resumeCanvas && resumeCanvasZoom && resumeButton && resumeLightbox && resumeClose) {
+  if (resumeCanvasZoom && resumeButton && resumeLightbox && resumeClose) {
     async function renderResume() {
       try {
         const pdfjsLib = await import(
