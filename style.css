@@ -1144,3 +1144,20 @@ button{
     height:270px;
   }
 }
+
+/* V22 — organic 3D fish refinement */
+.text-fish-3d{
+  height:350px !important;
+}
+
+@media(max-width:980px){
+  .text-fish-3d{
+    height:310px !important;
+  }
+}
+
+@media(max-width:760px){
+  .text-fish-3d{
+    height:285px !important;
+  }
+}

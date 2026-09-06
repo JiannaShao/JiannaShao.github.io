@@ -208,7 +208,7 @@ resumeButton.addEventListener('click', async () => {
         const scene = new THREE.Scene();
 
         const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
-        camera.position.set(0, 0, 9.2);
+        camera.position.set(0, 0, 9.4);
 
         const renderer = new THREE.WebGLRenderer({
           alpha: true,
@@ -226,9 +226,9 @@ resumeButton.addEventListener('click', async () => {
           'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789SHAOWESLEYAN';
 
         const frontColor = '#85a4ab';
-        const sideColor = '#45636b';
+        const sideColor = '#48666d';
+        const darkEdgeColor = '#2f484f';
 
-        // Make one letter into a canvas texture, then place it as a small plane.
         const textureCache = new Map();
 
         function makeLetterTexture(letter, color) {
@@ -241,7 +241,7 @@ resumeButton.addEventListener('click', async () => {
 
           const ctx = c.getContext('2d');
           ctx.clearRect(0, 0, 128, 128);
-          ctx.font = '700 86px Georgia, serif';
+          ctx.font = '700 88px Georgia, serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillStyle = color;
@@ -255,7 +255,18 @@ resumeButton.addEventListener('click', async () => {
           return tex;
         }
 
-        function addLetter(letter, x, y, z, size, color, rotZ = 0) {
+        function addLetter(
+          letter,
+          x,
+          y,
+          z,
+          size,
+          color,
+          rotZ = 0,
+          thickness = 0.08,
+          rotX = 0,
+          rotY = 0
+        ) {
           const material = new THREE.MeshBasicMaterial({
             map: makeLetterTexture(letter, color),
             transparent: true,
@@ -263,115 +274,326 @@ resumeButton.addEventListener('click', async () => {
             side: THREE.DoubleSide
           });
 
-          const geo = new THREE.PlaneGeometry(size, size);
+          // Slightly thicker geometry: shallow box instead of flat plane.
+          const geo = new THREE.BoxGeometry(size, size, thickness);
           const mesh = new THREE.Mesh(geo, material);
+
           mesh.position.set(x, y, z);
-          mesh.rotation.z = rotZ;
+          mesh.rotation.set(rotX, rotY, rotZ);
           fishGroup.add(mesh);
         }
 
         let letterIndex = 0;
+
         function nextLetter() {
           const ch = FISH_TEXT[letterIndex % FISH_TEXT.length];
           letterIndex++;
           return ch;
         }
 
-        // Fish silhouette: elliptical body, tail, fins, and a hollow eye area.
-        // Each point gets several depth layers so the object reads as genuinely 3D.
-        const points = [];
+        function rand(min, max) {
+          return min + Math.random() * (max - min);
+        }
 
-        const bodyStep = 0.34;
-        for (let y = -1.55; y <= 1.55; y += bodyStep) {
-          for (let x = -3.25; x <= 2.55; x += bodyStep) {
-            const nx = (x + 0.45) / 3.15;
-            const ny = y / 1.52;
-            const insideBody = nx * nx + ny * ny <= 1;
+        function clamp(v, min, max) {
+          return Math.max(min, Math.min(max, v));
+        }
 
-            // Narrow the snout slightly.
-            const snoutCut = x < -2.65 && Math.abs(y) > (x + 3.25) * 1.8 + 0.15;
+        // -------------------------------------------------
+        // BODY SHAPE
+        // Organic fish body using an ellipse with soft
+        // narrowing toward head and tail.
+        // -------------------------------------------------
+        function bodyHalfHeight(x) {
+          const center = -0.25;
+          const rx = 3.25;
 
-            // Leave subtle negative space around the eye.
-            const eyeHole =
-              ((x + 2.28) ** 2) / 0.18 +
-              ((y - 0.35) ** 2) / 0.10 < 1;
+          const normalized = (x - center) / rx;
+          const ellipse = Math.sqrt(Math.max(0, 1 - normalized * normalized));
 
-            if (insideBody && !snoutCut && !eyeHole) {
-              points.push([x, y, 'body']);
-            }
+          let h = 1.55 * ellipse;
+
+          // Slightly taper head and tail for a fish-like profile.
+          if (x < -2.35) {
+            h *= 0.72 + ((x + 3.25) / 0.9) * 0.28;
           }
-        }
 
-        // Tail triangles.
-        for (let y = -1.75; y <= 1.75; y += bodyStep) {
-          for (let x = 2.1; x <= 4.0; x += bodyStep) {
-            const t = (x - 2.1) / 1.9;
-            const halfHeight = 0.48 + t * 1.35;
-            if (Math.abs(y) <= halfHeight && Math.abs(y) >= t * 0.12) {
-              points.push([x, y, 'tail']);
-            }
+          if (x > 1.85) {
+            h *= 1 - ((x - 1.85) / 0.95) * 0.25;
           }
+
+          return Math.max(0, h);
         }
 
-        // Top and bottom fins.
-        for (let x = -1.45; x <= 0.25; x += bodyStep) {
-          const t = (x + 1.45) / 1.7;
-          const topY = 1.38 + Math.sin(t * Math.PI) * 1.02;
-          points.push([x, topY, 'fin']);
+        // Tangent-like angle based on local silhouette slope.
+        function silhouetteAngle(x, top = true) {
+          const eps = 0.03;
+          const y1 = bodyHalfHeight(x - eps);
+          const y2 = bodyHalfHeight(x + eps);
+
+          const slope = (y2 - y1) / (2 * eps);
+          const angle = Math.atan(slope);
+
+          return top ? angle : -angle;
         }
 
-        for (let x = -0.55; x <= 1.0; x += bodyStep) {
-          const t = (x + 0.55) / 1.55;
-          const bottomY = -1.34 - Math.sin(t * Math.PI) * 0.82;
-          points.push([x, bottomY, 'fin']);
-        }
+        // -------------------------------------------------
+        // EDGE LETTERS
+        // Concentrate text near top and bottom silhouette
+        // rather than filling the center uniformly.
+        // -------------------------------------------------
+        const bodyXStep = 0.24;
 
-        // Side fin.
-        for (let x = -1.7; x <= -0.35; x += bodyStep) {
-          const t = (x + 1.7) / 1.35;
-          const finY = -0.25 - Math.sin(t * Math.PI) * 0.72;
-          points.push([x, finY, 'fin']);
-        }
+        for (let x = -3.15; x <= 2.55; x += bodyXStep) {
+          const hh = bodyHalfHeight(x);
+          if (hh <= 0.12) continue;
 
-        // Build several shallow z-layers to give the text fish thickness.
-        const depthLayers = [-0.34, -0.17, 0, 0.17, 0.34];
+          // Top edge
+          for (let layer = 0; layer < 2; layer++) {
+            const inset = layer * 0.18 + rand(-0.04, 0.05);
 
-        for (const [x, y, region] of points) {
-          depthLayers.forEach((z, zi) => {
-            // Slightly thinner population on rear layers keeps it readable.
-            if (zi !== 2 && Math.random() > 0.58) return;
-
-            const edgeBias =
-              region === 'tail' || region === 'fin' ? 0.28 : 0.0;
+            const y = hh - inset + rand(-0.07, 0.07);
+            const z = rand(-0.45, 0.48);
 
             addLetter(
               nextLetter(),
-              x,
+              x + rand(-0.06, 0.06),
               y,
               z,
-              0.34 + edgeBias,
-              zi === 2 ? frontColor : sideColor,
-              (Math.random() - 0.5) * 0.18
+              rand(0.27, 0.39),
+              layer === 0 ? darkEdgeColor : frontColor,
+              silhouetteAngle(x, true) + rand(-0.15, 0.15),
+              rand(0.07, 0.13),
+              rand(-0.08, 0.08),
+              rand(-0.12, 0.12)
             );
-          });
+          }
+
+          // Bottom edge
+          for (let layer = 0; layer < 2; layer++) {
+            const inset = layer * 0.18 + rand(-0.04, 0.05);
+
+            const y = -hh + inset + rand(-0.07, 0.07);
+            const z = rand(-0.45, 0.48);
+
+            addLetter(
+              nextLetter(),
+              x + rand(-0.06, 0.06),
+              y,
+              z,
+              rand(0.27, 0.39),
+              layer === 0 ? darkEdgeColor : frontColor,
+              silhouetteAngle(x, false) + rand(-0.15, 0.15),
+              rand(0.07, 0.13),
+              rand(-0.08, 0.08),
+              rand(-0.12, 0.12)
+            );
+          }
         }
 
-        // Eye ring made from O characters.
-        for (let a = 0; a < Math.PI * 2; a += Math.PI / 5) {
+        // -------------------------------------------------
+        // SPARSE INTERIOR
+        // Keep center much emptier, with only occasional
+        // text pieces for volume.
+        // -------------------------------------------------
+        for (let i = 0; i < 80; i++) {
+          const x = rand(-2.8, 2.15);
+          const hh = bodyHalfHeight(x);
+
+          if (hh <= 0.2) continue;
+
+          const y = rand(-hh * 0.64, hh * 0.64);
+
+          // Create a central empty band.
+          if (Math.abs(y) < hh * 0.30 && Math.random() < 0.72) continue;
+
           addLetter(
-            'O',
-            -2.28 + Math.cos(a) * 0.25,
-            0.35 + Math.sin(a) * 0.25,
-            0.46,
-            0.28,
-            '#233b42',
-            a * 0.12
+            nextLetter(),
+            x + rand(-0.08, 0.08),
+            y + rand(-0.08, 0.08),
+            rand(-0.55, 0.55),
+            rand(0.22, 0.34),
+            Math.random() < 0.65 ? frontColor : sideColor,
+            rand(-0.45, 0.45),
+            rand(0.06, 0.11),
+            rand(-0.14, 0.14),
+            rand(-0.16, 0.16)
           );
         }
 
-        // Gentle initial angle so the depth is visible immediately.
-        fishGroup.rotation.y = -0.28;
-        fishGroup.rotation.x = 0.05;
+        // -------------------------------------------------
+        // TAIL
+        // Softer curved fan rather than sharp triangles.
+        // -------------------------------------------------
+        const tailBaseX = 2.1;
+        const tailTipX = 4.05;
+
+        for (let t = 0; t <= 1; t += 0.07) {
+          const x = tailBaseX + (tailTipX - tailBaseX) * t;
+
+          const spread = 0.45 + Math.sin(t * Math.PI * 0.9) * 1.12;
+
+          const topY = spread;
+          const bottomY = -spread;
+
+          const tailAngleTop = rand(0.18, 0.42);
+          const tailAngleBottom = rand(-0.42, -0.18);
+
+          addLetter(
+            nextLetter(),
+            x + rand(-0.05, 0.05),
+            topY + rand(-0.05, 0.05),
+            rand(-0.45, 0.45),
+            rand(0.30, 0.42),
+            t > 0.7 ? darkEdgeColor : frontColor,
+            tailAngleTop,
+            rand(0.08, 0.14),
+            rand(-0.1, 0.1),
+            rand(-0.12, 0.12)
+          );
+
+          addLetter(
+            nextLetter(),
+            x + rand(-0.05, 0.05),
+            bottomY + rand(-0.05, 0.05),
+            rand(-0.45, 0.45),
+            rand(0.30, 0.42),
+            t > 0.7 ? darkEdgeColor : frontColor,
+            tailAngleBottom,
+            rand(0.08, 0.14),
+            rand(-0.1, 0.1),
+            rand(-0.12, 0.12)
+          );
+
+          // Sparse inner tail.
+          if (Math.random() < 0.55) {
+            addLetter(
+              nextLetter(),
+              x,
+              rand(bottomY * 0.65, topY * 0.65),
+              rand(-0.5, 0.5),
+              rand(0.23, 0.33),
+              sideColor,
+              rand(-0.35, 0.35),
+              rand(0.06, 0.10),
+              rand(-0.1, 0.1),
+              rand(-0.1, 0.1)
+            );
+          }
+        }
+
+        // -------------------------------------------------
+        // DORSAL FIN
+        // Curved arc of letters with smooth angle changes.
+        // -------------------------------------------------
+        for (let t = 0; t <= 1; t += 0.08) {
+          const x = -1.55 + t * 1.7;
+          const base = bodyHalfHeight(x);
+          const lift = Math.sin(t * Math.PI) * 0.95;
+          const y = base + lift;
+
+          const rot = -0.35 + t * 0.75;
+
+          addLetter(
+            nextLetter(),
+            x,
+            y,
+            rand(-0.4, 0.45),
+            rand(0.29, 0.40),
+            frontColor,
+            rot,
+            rand(0.08, 0.14),
+            rand(-0.1, 0.1),
+            rand(-0.12, 0.12)
+          );
+        }
+
+        // -------------------------------------------------
+        // BOTTOM FIN
+        // -------------------------------------------------
+        for (let t = 0; t <= 1; t += 0.09) {
+          const x = -0.45 + t * 1.45;
+          const base = -bodyHalfHeight(x);
+          const drop = Math.sin(t * Math.PI) * 0.72;
+          const y = base - drop;
+
+          const rot = 0.32 - t * 0.62;
+
+          addLetter(
+            nextLetter(),
+            x,
+            y,
+            rand(-0.4, 0.45),
+            rand(0.28, 0.38),
+            frontColor,
+            rot,
+            rand(0.08, 0.13),
+            rand(-0.1, 0.1),
+            rand(-0.12, 0.12)
+          );
+        }
+
+        // -------------------------------------------------
+        // SIDE / PECTORAL FIN
+        // Rounded diagonal cluster.
+        // -------------------------------------------------
+        for (let t = 0; t <= 1; t += 0.10) {
+          const x = -1.65 + t * 1.28;
+          const y = -0.18 - Math.sin(t * Math.PI) * 0.72;
+
+          addLetter(
+            nextLetter(),
+            x,
+            y,
+            rand(0.12, 0.55),
+            rand(0.28, 0.38),
+            sideColor,
+            0.48 - t * 0.75,
+            rand(0.08, 0.13),
+            rand(-0.08, 0.08),
+            rand(-0.15, 0.15)
+          );
+        }
+
+        // -------------------------------------------------
+        // HEAD + EYE
+        // -------------------------------------------------
+        for (let a = 0; a < Math.PI * 2; a += Math.PI / 6) {
+          addLetter(
+            'O',
+            -2.35 + Math.cos(a) * 0.23,
+            0.34 + Math.sin(a) * 0.23,
+            0.55 + rand(-0.04, 0.04),
+            0.26,
+            darkEdgeColor,
+            a + Math.PI / 2,
+            0.10,
+            rand(-0.06, 0.06),
+            rand(-0.08, 0.08)
+          );
+        }
+
+        // Small mouth / snout accents.
+        for (let i = 0; i < 6; i++) {
+          const t = i / 5;
+
+          addLetter(
+            nextLetter(),
+            -3.10 + t * 0.38,
+            -0.06 + t * 0.08,
+            rand(-0.18, 0.35),
+            rand(0.22, 0.30),
+            darkEdgeColor,
+            rand(-0.18, 0.18),
+            rand(0.08, 0.12)
+          );
+        }
+
+        // -------------------------------------------------
+        // Initial angle + interaction
+        // -------------------------------------------------
+        fishGroup.rotation.y = -0.24;
+        fishGroup.rotation.x = 0.04;
 
         let dragging = false;
         let lastX = 0;
@@ -383,6 +605,7 @@ resumeButton.addEventListener('click', async () => {
           dragging = true;
           lastX = e.clientX;
           lastY = e.clientY;
+
           renderer.domElement.setPointerCapture(e.pointerId);
           renderer.domElement.style.cursor = 'grabbing';
         });
@@ -396,9 +619,10 @@ resumeButton.addEventListener('click', async () => {
           fishGroup.rotation.y += dx * 0.008;
           fishGroup.rotation.x += dy * 0.005;
 
-          fishGroup.rotation.x = Math.max(
+          fishGroup.rotation.x = clamp(
+            fishGroup.rotation.x,
             -0.65,
-            Math.min(0.65, fishGroup.rotation.x)
+            0.65
           );
 
           lastX = e.clientX;
@@ -409,8 +633,10 @@ resumeButton.addEventListener('click', async () => {
           dragging = false;
           renderer.domElement.style.cursor = 'grab';
 
-          if (e?.pointerId !== undefined &&
-              renderer.domElement.hasPointerCapture?.(e.pointerId)) {
+          if (
+            e?.pointerId !== undefined &&
+            renderer.domElement.hasPointerCapture?.(e.pointerId)
+          ) {
             renderer.domElement.releasePointerCapture(e.pointerId);
           }
         }
@@ -420,16 +646,19 @@ resumeButton.addEventListener('click', async () => {
 
         function resizeFish() {
           const rect = fishHost.getBoundingClientRect();
+
           const w = Math.max(280, rect.width);
           const h = Math.max(190, rect.height);
 
           renderer.setSize(w, h, false);
+
           camera.aspect = w / h;
           camera.updateProjectionMatrix();
         }
 
         const resizeObserver = new ResizeObserver(resizeFish);
         resizeObserver.observe(fishHost);
+
         resizeFish();
 
         function animateFish() {
