@@ -754,3 +754,23 @@ body.sidebar-collapsed{
     gap:30px !important;
   }
 }
+
+/* V14 adjustments */
+.scroll-snake{
+  right:12px !important;
+}
+
+@media(max-width:760px){
+  .scroll-snake{
+    right:7px !important;
+  }
+}
+
+/* Make the entire visible rail the hover-sensitive area */
+.side-nav{
+  pointer-events:auto !important;
+}
+
+.side-nav-inner{
+  pointer-events:auto !important;
+}

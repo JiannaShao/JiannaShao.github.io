@@ -9,14 +9,13 @@
   }
 
   /* SIDEBAR
-     Hover the logo to open.
-     Keep it open while the pointer remains anywhere over the sidebar.
+     Hover anywhere over the collapsed rail to open.
+     Keep it open while the pointer remains over the sidebar.
      Close when the pointer leaves the sidebar. */
   const sideNav = document.getElementById('side-nav');
-  const sideBrand = document.querySelector('.side-brand');
 
-  if (sideNav && sideBrand) {
-    sideBrand.addEventListener('mouseenter', () => {
+  if (sideNav) {
+    sideNav.addEventListener('mouseenter', () => {
       sideNav.classList.add('hover-open');
     });
 
@@ -25,12 +24,16 @@
     });
 
     // Touch/click fallback for devices without hover.
-    sideBrand.addEventListener('click', (e) => {
-      if (window.matchMedia('(hover:none)').matches) {
-        e.preventDefault();
-        sideNav.classList.toggle('hover-open');
-      }
-    });
+    const sideBrand = document.querySelector('.side-brand');
+
+    if (sideBrand) {
+      sideBrand.addEventListener('click', (e) => {
+        if (window.matchMedia('(hover:none)').matches) {
+          e.preventDefault();
+          sideNav.classList.toggle('hover-open');
+        }
+      });
+    }
 
     document.querySelectorAll('.side-links a').forEach((link) => {
       link.addEventListener('click', () => {
@@ -57,7 +60,6 @@
     const W = Math.max(36, rect.width || 48);
     const H = Math.max(300, rect.height || window.innerHeight);
 
-    // Use CSS pixel proportions in the viewBox so curves are not distorted.
     snakeSvg.setAttribute('viewBox', `0 0 ${W} ${H}`);
     snakeSvg.setAttribute('preserveAspectRatio', 'none');
 
@@ -65,23 +67,28 @@
     const edge = stroke / 2 + 3;
     const radius = Math.min(8, Math.max(6, (W - edge * 2) / 4));
 
-    // Keep path well inside both left and right edges.
     const leftX = edge + radius;
     const rightX = W - edge - radius;
 
-    let y = edge + 2;
+    // Start with a clean straight vertical lead-in before the snake pattern.
+    const startX = rightX;
+    const startY = edge + 2;
+    const leadIn = 18;
+
+    let y = startY + leadIn;
+
+    // Straight entry segment, then first horizontal run.
+    let d = `M ${startX} ${startY} L ${startX} ${y} L ${leftX} ${y}`;
+
     let goLeft = true;
-    let d = `M ${rightX} ${y} L ${leftX} ${y}`;
 
     while (y + radius * 2 <= H - edge - 2) {
       const nextY = y + radius * 2;
 
       if (goLeft) {
-        // Exact half-circle on the left.
         d += ` A ${radius} ${radius} 0 0 1 ${rightX} ${nextY}`;
         d += ` L ${leftX} ${nextY}`;
       } else {
-        // Exact half-circle on the right.
         d += ` A ${radius} ${radius} 0 0 0 ${leftX} ${nextY}`;
         d += ` L ${rightX} ${nextY}`;
       }
