@@ -208,7 +208,7 @@ resumeButton.addEventListener('click', async () => {
         const scene = new THREE.Scene();
 
         const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
-        camera.position.set(0, 0, 9.4);
+        camera.position.set(0, 0, 10.2);
 
         const renderer = new THREE.WebGLRenderer({
           alpha: true,
@@ -305,8 +305,8 @@ resumeButton.addEventListener('click', async () => {
         // narrowing toward head and tail.
         // -------------------------------------------------
         function bodyHalfHeight(x) {
-          const center = -0.25;
-          const rx = 3.25;
+          const center = -0.15;
+          const rx = 3.72;
 
           const normalized = (x - center) / rx;
           const ellipse = Math.sqrt(Math.max(0, 1 - normalized * normalized));
@@ -314,12 +314,13 @@ resumeButton.addEventListener('click', async () => {
           let h = 1.55 * ellipse;
 
           // Slightly taper head and tail for a fish-like profile.
-          if (x < -2.35) {
-            h *= 0.72 + ((x + 3.25) / 0.9) * 0.28;
+          if (x < -2.75) {
+            const headT = Math.max(0, Math.min(1, (x + 3.72) / 0.97));
+            h *= 0.28 + Math.pow(headT, 0.72) * 0.72;
           }
 
-          if (x > 1.85) {
-            h *= 1 - ((x - 1.85) / 0.95) * 0.25;
+          if (x > 2.20) {
+            h *= 1 - ((x - 2.20) / 1.05) * 0.25;
           }
 
           return Math.max(0, h);
@@ -344,16 +345,16 @@ resumeButton.addEventListener('click', async () => {
         // -------------------------------------------------
         const bodyXStep = 0.24;
 
-        for (let x = -3.15; x <= 2.55; x += bodyXStep) {
+        for (let x = -3.62; x <= 2.95; x += bodyXStep) {
           const hh = bodyHalfHeight(x);
           if (hh <= 0.12) continue;
 
           // Top edge
-          for (let layer = 0; layer < 2; layer++) {
-            const inset = layer * 0.18 + rand(-0.04, 0.05);
+          for (let layer = 0; layer < 3; layer++) {
+            const inset = layer * 0.15 + rand(-0.04, 0.05);
 
             const y = hh - inset + rand(-0.07, 0.07);
-            const z = rand(-0.45, 0.48);
+            const z = rand(-0.72, 0.72);
 
             addLetter(
               nextLetter(),
@@ -363,18 +364,18 @@ resumeButton.addEventListener('click', async () => {
               rand(0.27, 0.39),
               layer === 0 ? darkEdgeColor : frontColor,
               silhouetteAngle(x, true) + rand(-0.15, 0.15),
-              rand(0.07, 0.13),
+              rand(0.10, 0.17),
               rand(-0.08, 0.08),
               rand(-0.12, 0.12)
             );
           }
 
           // Bottom edge
-          for (let layer = 0; layer < 2; layer++) {
-            const inset = layer * 0.18 + rand(-0.04, 0.05);
+          for (let layer = 0; layer < 3; layer++) {
+            const inset = layer * 0.15 + rand(-0.04, 0.05);
 
             const y = -hh + inset + rand(-0.07, 0.07);
-            const z = rand(-0.45, 0.48);
+            const z = rand(-0.72, 0.72);
 
             addLetter(
               nextLetter(),
@@ -384,7 +385,7 @@ resumeButton.addEventListener('click', async () => {
               rand(0.27, 0.39),
               layer === 0 ? darkEdgeColor : frontColor,
               silhouetteAngle(x, false) + rand(-0.15, 0.15),
-              rand(0.07, 0.13),
+              rand(0.10, 0.17),
               rand(-0.08, 0.08),
               rand(-0.12, 0.12)
             );
@@ -396,7 +397,7 @@ resumeButton.addEventListener('click', async () => {
         // Keep center much emptier, with only occasional
         // text pieces for volume.
         // -------------------------------------------------
-        for (let i = 0; i < 80; i++) {
+        for (let i = 0; i < 120; i++) {
           const x = rand(-2.8, 2.15);
           const hh = bodyHalfHeight(x);
 
@@ -405,17 +406,17 @@ resumeButton.addEventListener('click', async () => {
           const y = rand(-hh * 0.64, hh * 0.64);
 
           // Create a central empty band.
-          if (Math.abs(y) < hh * 0.30 && Math.random() < 0.72) continue;
+          if (Math.abs(y) < hh * 0.34 && Math.random() < 0.78) continue;
 
           addLetter(
             nextLetter(),
             x + rand(-0.08, 0.08),
             y + rand(-0.08, 0.08),
-            rand(-0.55, 0.55),
+            rand(-0.78, 0.78),
             rand(0.22, 0.34),
             Math.random() < 0.65 ? frontColor : sideColor,
-            rand(-0.45, 0.45),
-            rand(0.06, 0.11),
+            rand(-0.72, 0.72),
+            rand(0.09, 0.15),
             rand(-0.14, 0.14),
             rand(-0.16, 0.16)
           );
@@ -425,29 +426,31 @@ resumeButton.addEventListener('click', async () => {
         // TAIL
         // Softer curved fan rather than sharp triangles.
         // -------------------------------------------------
-        const tailBaseX = 2.1;
-        const tailTipX = 4.05;
+        const tailBaseX = 2.45;
+        const tailTipX = 4.85;
 
         for (let t = 0; t <= 1; t += 0.07) {
           const x = tailBaseX + (tailTipX - tailBaseX) * t;
 
-          const spread = 0.45 + Math.sin(t * Math.PI * 0.9) * 1.12;
+          const spread = 0.30 + Math.sin(t * Math.PI) * 1.42;
 
-          const topY = spread;
-          const bottomY = -spread;
+          const pointFactor = 1 - Math.pow(Math.max(0, t - 0.82) / 0.18, 1.25);
+          const finalSpread = Math.max(0.03, spread * pointFactor);
+          const topY = finalSpread;
+          const bottomY = -finalSpread;
 
-          const tailAngleTop = rand(0.18, 0.42);
-          const tailAngleBottom = rand(-0.42, -0.18);
+          const tailAngleTop = rand(0.34, 0.62);
+          const tailAngleBottom = rand(-0.62, -0.34);
 
           addLetter(
             nextLetter(),
             x + rand(-0.05, 0.05),
             topY + rand(-0.05, 0.05),
-            rand(-0.45, 0.45),
+            rand(-0.72, 0.72),
             rand(0.30, 0.42),
             t > 0.7 ? darkEdgeColor : frontColor,
             tailAngleTop,
-            rand(0.08, 0.14),
+            rand(0.11, 0.18),
             rand(-0.1, 0.1),
             rand(-0.12, 0.12)
           );
@@ -456,11 +459,11 @@ resumeButton.addEventListener('click', async () => {
             nextLetter(),
             x + rand(-0.05, 0.05),
             bottomY + rand(-0.05, 0.05),
-            rand(-0.45, 0.45),
+            rand(-0.72, 0.72),
             rand(0.30, 0.42),
             t > 0.7 ? darkEdgeColor : frontColor,
             tailAngleBottom,
-            rand(0.08, 0.14),
+            rand(0.11, 0.18),
             rand(-0.1, 0.1),
             rand(-0.12, 0.12)
           );
@@ -475,7 +478,7 @@ resumeButton.addEventListener('click', async () => {
               rand(0.23, 0.33),
               sideColor,
               rand(-0.35, 0.35),
-              rand(0.06, 0.10),
+              rand(0.09, 0.14),
               rand(-0.1, 0.1),
               rand(-0.1, 0.1)
             );
@@ -489,20 +492,20 @@ resumeButton.addEventListener('click', async () => {
         for (let t = 0; t <= 1; t += 0.08) {
           const x = -1.55 + t * 1.7;
           const base = bodyHalfHeight(x);
-          const lift = Math.sin(t * Math.PI) * 0.95;
+          const lift = Math.pow(Math.sin(t * Math.PI), 1.35) * 1.22;
           const y = base + lift;
 
-          const rot = -0.35 + t * 0.75;
+          const rot = -0.52 + t * 1.04;
 
           addLetter(
             nextLetter(),
             x,
             y,
-            rand(-0.4, 0.45),
+            rand(-0.68, 0.68),
             rand(0.29, 0.40),
             frontColor,
             rot,
-            rand(0.08, 0.14),
+            rand(0.11, 0.18),
             rand(-0.1, 0.1),
             rand(-0.12, 0.12)
           );
@@ -514,20 +517,20 @@ resumeButton.addEventListener('click', async () => {
         for (let t = 0; t <= 1; t += 0.09) {
           const x = -0.45 + t * 1.45;
           const base = -bodyHalfHeight(x);
-          const drop = Math.sin(t * Math.PI) * 0.72;
+          const drop = Math.pow(Math.sin(t * Math.PI), 1.4) * 0.94;
           const y = base - drop;
 
-          const rot = 0.32 - t * 0.62;
+          const rot = 0.48 - t * 0.96;
 
           addLetter(
             nextLetter(),
             x,
             y,
-            rand(-0.4, 0.45),
+            rand(-0.68, 0.68),
             rand(0.28, 0.38),
             frontColor,
             rot,
-            rand(0.08, 0.13),
+            rand(0.11, 0.17),
             rand(-0.1, 0.1),
             rand(-0.12, 0.12)
           );
@@ -539,17 +542,17 @@ resumeButton.addEventListener('click', async () => {
         // -------------------------------------------------
         for (let t = 0; t <= 1; t += 0.10) {
           const x = -1.65 + t * 1.28;
-          const y = -0.18 - Math.sin(t * Math.PI) * 0.72;
+          const y = -0.14 - Math.pow(Math.sin(t * Math.PI), 1.45) * 0.92;
 
           addLetter(
             nextLetter(),
             x,
             y,
-            rand(0.12, 0.55),
+            rand(0.10, 0.72),
             rand(0.28, 0.38),
             sideColor,
-            0.48 - t * 0.75,
-            rand(0.08, 0.13),
+            0.62 - t * 1.12,
+            rand(0.11, 0.17),
             rand(-0.08, 0.08),
             rand(-0.15, 0.15)
           );
@@ -574,13 +577,13 @@ resumeButton.addEventListener('click', async () => {
         }
 
         // Small mouth / snout accents.
-        for (let i = 0; i < 6; i++) {
-          const t = i / 5;
+        for (let i = 0; i < 9; i++) {
+          const t = i / 8;
 
           addLetter(
             nextLetter(),
-            -3.10 + t * 0.38,
-            -0.06 + t * 0.08,
+            -3.62 + t * 0.56,
+            -0.02 + t * 0.04,
             rand(-0.18, 0.35),
             rand(0.22, 0.30),
             darkEdgeColor,
@@ -588,6 +591,31 @@ resumeButton.addEventListener('click', async () => {
             rand(0.08, 0.12)
           );
         }
+
+        // Extra contour depth layers for a fuller 3D text volume.
+        const contourMeshes = fishGroup.children.slice();
+
+        contourMeshes.forEach((mesh, i) => {
+          if (i % 4 !== 0) return;
+
+          const cloneBack = mesh.clone();
+          cloneBack.position.z -= rand(0.16, 0.32);
+          cloneBack.position.x += rand(-0.035, 0.035);
+          cloneBack.position.y += rand(-0.035, 0.035);
+          cloneBack.rotation.z += rand(-0.08, 0.08);
+          cloneBack.scale.multiplyScalar(rand(0.94, 1.04));
+          fishGroup.add(cloneBack);
+
+          if (i % 8 === 0) {
+            const cloneFront = mesh.clone();
+            cloneFront.position.z += rand(0.18, 0.38);
+            cloneFront.position.x += rand(-0.035, 0.035);
+            cloneFront.position.y += rand(-0.035, 0.035);
+            cloneFront.rotation.z += rand(-0.10, 0.10);
+            cloneFront.scale.multiplyScalar(rand(0.92, 1.03));
+            fishGroup.add(cloneFront);
+          }
+        });
 
         // -------------------------------------------------
         // Initial angle + interaction
