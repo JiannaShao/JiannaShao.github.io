@@ -783,6 +783,97 @@ resumeButton.addEventListener('click', async () => {
           });
         });
 
+
+        // -------------------------------------------------
+        // VISUAL REGENERATION
+        // Every 5 seconds, regenerate the visible text composition:
+        // new letters, colors, positions, angles, depth and size.
+        // The underlying silhouette remains stable.
+        // -------------------------------------------------
+        const regenerationStates =
+          fishGroup.children.map((mesh) => ({
+            mesh,
+            x: mesh.position.x,
+            y: mesh.position.y,
+            z: mesh.position.z,
+            rx: mesh.rotation.x,
+            ry: mesh.rotation.y,
+            rz: mesh.rotation.z,
+            sx: mesh.scale.x,
+            sy: mesh.scale.y,
+            sz: mesh.scale.z
+          }));
+
+        function randomFishColor() {
+          const roll = Math.random();
+
+          if (roll < 0.40) return '#e1ebe7';
+          if (roll < 0.49) return '#ffffff';
+          if (roll < 0.72) return frontColor;
+          if (roll < 0.90) return sideColor;
+          return darkEdgeColor;
+        }
+
+        function regenerateFishVisual() {
+          regenerationStates.forEach((state) => {
+            const mesh = state.mesh;
+
+            // Re-randomize the visible character.
+            const newLetter =
+              FISH_TEXT[
+                Math.floor(Math.random() * FISH_TEXT.length)
+              ];
+
+            const newColor =
+              randomFishColor();
+
+            // Give each mesh its own material so each regeneration
+            // can change independently even when geometry was cloned.
+            if (mesh.material) {
+              const nextMaterial =
+                mesh.material.clone();
+
+              nextMaterial.map =
+                makeLetterTexture(
+                  newLetter,
+                  newColor
+                );
+
+              nextMaterial.needsUpdate = true;
+
+              mesh.material =
+                nextMaterial;
+            }
+
+            // Rebuild the visual arrangement around the original silhouette.
+            mesh.position.set(
+              state.x + rand(-0.075, 0.075),
+              state.y + rand(-0.075, 0.075),
+              state.z + rand(-0.095, 0.095)
+            );
+
+            mesh.rotation.set(
+              state.rx + rand(-0.15, 0.15),
+              state.ry + rand(-0.15, 0.15),
+              state.rz + rand(-0.13, 0.13)
+            );
+
+            const sizeVariation =
+              rand(0.90, 1.10);
+
+            mesh.scale.set(
+              state.sx * sizeVariation,
+              state.sy * sizeVariation,
+              state.sz * sizeVariation
+            );
+          });
+        }
+
+        setInterval(
+          regenerateFishVisual,
+          5000
+        );
+
         // -------------------------------------------------
         // Initial angle + interaction
         // -------------------------------------------------
@@ -838,6 +929,96 @@ resumeButton.addEventListener('click', async () => {
         renderer.domElement.addEventListener('pointerup', stopDrag);
         renderer.domElement.addEventListener('pointercancel', stopDrag);
 
+
+        // -------------------------------------------------
+        // FLOATING WHITE "O" BUBBLES
+        // -------------------------------------------------
+        const bubbleGroup =
+          new THREE.Group();
+
+        scene.add(bubbleGroup);
+
+        const bubbles = [];
+
+        function spawnTextBubble() {
+          const bubbleSize =
+            rand(0.18, 0.34);
+
+          const geometry =
+            new THREE.PlaneGeometry(
+              bubbleSize,
+              bubbleSize
+            );
+
+          const material =
+            new THREE.MeshBasicMaterial({
+              map: makeLetterTexture('O', '#ffffff'),
+              transparent: true,
+              opacity: rand(0.58, 0.90),
+              depthWrite: false,
+              side: THREE.DoubleSide
+            });
+
+          const bubble =
+            new THREE.Mesh(
+              geometry,
+              material
+            );
+
+          // Spawn at the mouth in fish-local coordinates,
+          // then convert that point into scene/world coordinates.
+          const mouthPoint =
+            new THREE.Vector3(
+              -4.30 + rand(-0.10, 0.14),
+              0.28 + rand(-0.08, 0.18),
+              rand(-0.18, 0.18)
+            );
+
+          fishGroup.localToWorld(
+            mouthPoint
+          );
+
+          bubble.position.copy(
+            mouthPoint
+          );
+
+          bubble.userData = {
+            riseSpeed: rand(0.38, 0.68),
+            driftSpeed: rand(-0.10, 0.10),
+            wobbleSpeed: rand(1.2, 2.3),
+            wobbleAmount: rand(0.035, 0.075),
+            phase: rand(0, Math.PI * 2),
+            life: 0
+          };
+
+          bubbleGroup.add(
+            bubble
+          );
+
+          bubbles.push(
+            bubble
+          );
+        }
+
+        function spawnBubbleCluster() {
+          const count =
+            Math.random() < 0.35
+              ? 2
+              : 1;
+
+          for (let i = 0; i < count; i++) {
+            setTimeout(
+              spawnTextBubble,
+              i * rand(120, 260)
+            );
+          }
+        }
+
+        setInterval(
+          spawnBubbleCluster,
+          1250
+        );
+
         function resizeFish() {
           const rect = fishHost.getBoundingClientRect();
 
@@ -855,9 +1036,81 @@ resumeButton.addEventListener('click', async () => {
 
         resizeFish();
 
-        function animateFish() {
+        let lastFishFrame =
+          performance.now();
+
+        function animateFish(now = performance.now()) {
           requestAnimationFrame(animateFish);
-          renderer.render(scene, camera);
+
+          const delta =
+            Math.min(
+              (now - lastFishFrame) / 1000,
+              0.05
+            );
+
+          lastFishFrame =
+            now;
+
+          const time =
+            now / 1000;
+
+          for (let i = bubbles.length - 1; i >= 0; i--) {
+            const bubble =
+              bubbles[i];
+
+            const data =
+              bubble.userData;
+
+            data.life +=
+              delta;
+
+            bubble.position.y +=
+              data.riseSpeed * delta;
+
+            bubble.position.x +=
+              data.driftSpeed * delta +
+              Math.sin(
+                time * data.wobbleSpeed +
+                data.phase
+              ) *
+              data.wobbleAmount *
+              delta;
+
+            bubble.rotation.z +=
+              0.22 * delta;
+
+            // Fade slightly near the end.
+            if (data.life > 4.2) {
+              bubble.material.opacity =
+                Math.max(
+                  0,
+                  0.90 -
+                  (data.life - 4.2) * 0.75
+                );
+            }
+
+            if (
+              data.life > 5.35 ||
+              bubble.position.y > 4.25
+            ) {
+              bubbleGroup.remove(
+                bubble
+              );
+
+              bubble.geometry.dispose();
+              bubble.material.dispose();
+
+              bubbles.splice(
+                i,
+                1
+              );
+            }
+          }
+
+          renderer.render(
+            scene,
+            camera
+          );
         }
 
         animateFish();

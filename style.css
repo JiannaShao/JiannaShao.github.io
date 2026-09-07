@@ -1349,3 +1349,20 @@ button{
     height:310px !important;
   }
 }
+
+/* V40 — move 3D fish farther right */
+.text-fish-3d-wrap{
+  transform:translateX(56px) !important;
+}
+
+@media(max-width:900px){
+  .text-fish-3d-wrap{
+    transform:translateX(26px) !important;
+  }
+}
+
+@media(max-width:760px){
+  .text-fish-3d-wrap{
+    transform:none !important;
+  }
+}
