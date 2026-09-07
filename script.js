@@ -265,7 +265,7 @@ resumeButton.addEventListener('click', async () => {
         scene.add(fishGroup);
 
         const FISH_TEXT =
-          'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789SHAOWESLEYAN';
+          'SWIMEAT';
 
         const frontColor = '#85a4ab';
         const sideColor = '#48666d';
@@ -391,6 +391,9 @@ resumeButton.addEventListener('click', async () => {
           rotX = 0,
           rotY = 0
         ) {
+          // V64 — reduce total fish letter blocks by about 10%.
+          if (Math.random() < 0.10) return;
+
           // Stronger visible accent mix.
           // 40% navbar light green, 8% white, remainder original fish colors.
           const accentRoll = Math.random();

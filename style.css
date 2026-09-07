@@ -1897,3 +1897,30 @@ button{
     color:#e8ebea !important;
   }
 }
+
+/* V64 — Featured Projects + Resume spacing */
+
+/* Explore links no longer grow; hover changes to light gray only */
+.under-link{
+  transform:none !important;
+  transition:color .16s ease, border-color .16s ease !important;
+}
+
+@media (hover:hover) and (pointer:fine){
+  .under-link:hover{
+    transform:none !important;
+    color:#e8ebea !important;
+    border-color:#e8ebea !important;
+  }
+}
+
+/* Move Click to open 30px left from V63 position */
+.resume-section .resume-heading-row{
+  gap:46px !important;
+}
+
+@media(max-width:600px){
+  .resume-section .resume-heading-row{
+    gap:26px !important;
+  }
+}
