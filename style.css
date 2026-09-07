@@ -1681,3 +1681,114 @@ button{
 .single-art-grid .art-card{
   max-width:840px !important;
 }
+
+/* V59 — sidebar navigation + retracting dropdown menus */
+.side-links{
+  display:flex !important;
+  flex-direction:column !important;
+  gap:0 !important;
+  width:170px !important;
+  padding-left:14px !important;
+}
+
+.side-nav-item{
+  width:100%;
+  margin:0 0 30px 0;
+}
+
+.side-nav-item:last-child{
+  margin-bottom:0;
+}
+
+.side-main-link,
+.side-dropdown-toggle{
+  width:100%;
+  min-height:24px;
+  padding:0;
+  border:0;
+  background:transparent;
+  color:#42524d !important;
+  font-family:inherit;
+  font-size:16px !important;
+  font-weight:400;
+  line-height:1.35;
+  text-align:left;
+  text-decoration:none;
+  white-space:nowrap;
+  cursor:pointer;
+  transition:color .16s ease, transform .18s ease !important;
+}
+
+.side-dropdown-toggle{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding-right:15px;
+}
+
+.side-main-link:hover,
+.side-dropdown-toggle:hover{
+  color:#ffffff !important;
+  transform:translateX(4px) !important;
+}
+
+.side-dropdown-arrow{
+  display:inline-block;
+  font-size:18px;
+  line-height:1;
+  transition:transform .22s ease;
+}
+
+.side-dropdown.is-open .side-dropdown-arrow{
+  transform:rotate(180deg);
+}
+
+.side-submenu-wrap{
+  display:grid;
+  grid-template-rows:0fr;
+  opacity:0;
+  transition:grid-template-rows .26s ease, opacity .18s ease, margin-top .26s ease;
+  margin-top:0;
+}
+
+.side-dropdown.is-open .side-submenu-wrap{
+  grid-template-rows:1fr;
+  opacity:1;
+  margin-top:13px;
+}
+
+.side-submenu{
+  min-height:0;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  gap:11px;
+  padding-left:12px;
+}
+
+.side-submenu a{
+  display:block;
+  color:#42524d !important;
+  font-size:14px !important;
+  line-height:1.3;
+  text-decoration:none;
+  white-space:nowrap;
+  opacity:.82;
+  transition:color .16s ease, transform .18s ease, opacity .16s ease !important;
+}
+
+.side-submenu a:hover{
+  color:#ffffff !important;
+  opacity:1;
+  transform:translateX(4px) !important;
+}
+
+@media(max-width:900px){
+  .side-nav-item{
+    margin-bottom:24px;
+  }
+
+  .side-submenu{
+    gap:10px;
+  }
+}

@@ -35,6 +35,37 @@
     });
   }
 
+  // Sidebar dropdowns.
+  // Submenus remain in normal flow, so items below slide down and retract
+  // automatically as each dropdown opens/closes.
+  document.querySelectorAll('.side-dropdown-toggle').forEach((toggle) => {
+    toggle.addEventListener('click', () => {
+      const dropdown =
+        toggle.closest('.side-dropdown');
+
+      const willOpen =
+        !dropdown.classList.contains('is-open');
+
+      dropdown.classList.toggle(
+        'is-open',
+        willOpen
+      );
+
+      toggle.setAttribute(
+        'aria-expanded',
+        String(willOpen)
+      );
+    });
+  });
+
+  // The four project pages do not exist yet, so keep those labels clickable
+  // without navigating away or jumping to the top of the page.
+  document.querySelectorAll('[data-placeholder-project]').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+    });
+  });
+
   /* SCROLLING SNAKE
      Built directly in the visible SVG. It is independent of the sidebar
      and custom cursor, and is rebuilt after load/resize. */
