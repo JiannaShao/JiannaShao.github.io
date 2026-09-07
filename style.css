@@ -1629,3 +1629,8 @@ button{
   background-position:center center !important;
   background-repeat:no-repeat !important;
 }
+
+/* V54 — 2px sidebar white stripe */
+.side-nav::after{
+  width:2px !important;
+}

@@ -228,7 +228,7 @@ resumeButton.addEventListener('click', async () => {
         fishGroup.scale.setScalar(1.04);
         fishGroup.position.set(
           0.34,
-          0.20,
+          0.05,
           0
         );
         scene.add(fishGroup);
