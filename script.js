@@ -729,7 +729,7 @@ resumeButton.addEventListener('click', async () => {
         // -------------------------------------------------
         const volumeSource = fishGroup.children.slice();
 
-        const volumeDepths = [-0.58, -0.28, 0.28, 0.58];
+        const volumeDepths = [-0.92, -0.76, -0.58, -0.28, 0.28, 0.58, 0.76, 0.92];
 
         volumeSource.forEach((mesh, i) => {
           const isLikelyEdge =
@@ -761,13 +761,21 @@ resumeButton.addEventListener('click', async () => {
             clone.rotation.y += rand(-0.10, 0.10);
             clone.rotation.z += rand(-0.09, 0.09);
 
-            // Keep the four central/main layers unchanged.
-            // Nearer outer layers remain 51.2–57.6%.
-            // Farthest outer layer is another 15% smaller: 32.64–38.08%.
+            // Progressive rounded depth:
+            // ±0.28 = 51.2–57.6%
+            // ±0.58 = 32.64–38.08%
+            // ±0.76 = 27–32%
+            // ±0.92 = 22–27%
+            const absDepth = Math.abs(depth);
+
             const scaleVariance =
-              Math.abs(depth) > 0.40
-                ? rand(0.3264, 0.3808)
-                : rand(0.512, 0.576);
+              absDepth > 0.84
+                ? rand(0.22, 0.27)
+                : absDepth > 0.67
+                  ? rand(0.27, 0.32)
+                  : absDepth > 0.40
+                    ? rand(0.3264, 0.3808)
+                    : rand(0.512, 0.576);
 
             clone.scale.multiplyScalar(scaleVariance);
 
@@ -778,7 +786,7 @@ resumeButton.addEventListener('click', async () => {
         // -------------------------------------------------
         // Initial angle + interaction
         // -------------------------------------------------
-        fishGroup.rotation.y = Math.PI / 6;
+        fishGroup.rotation.y = THREE.MathUtils.degToRad(40);
         fishGroup.rotation.x = 0.04;
 
         let dragging = false;
