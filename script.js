@@ -209,9 +209,9 @@ resumeButton.addEventListener('click', async () => {
 
         const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
         camera.position.set(
-          -1.59,
-          3.33,
-          9.02
+          -3.22,
+          2.52,
+          8.85
         );
         camera.lookAt(0, 0, 0);
 
@@ -764,15 +764,15 @@ resumeButton.addEventListener('click', async () => {
             const absDepth = Math.abs(depth);
 
             if (absDepth > 0.40) {
-              clone.position.y *= rand(0.76, 0.83);
+              clone.position.y *= rand(0.68, 0.76);
               clone.position.x =
                 -0.15 +
-                (clone.position.x + 0.15) * rand(0.90, 0.94);
+                (clone.position.x + 0.15) * rand(0.86, 0.91);
             } else {
-              clone.position.y *= rand(0.84, 0.89);
+              clone.position.y *= rand(0.79, 0.85);
               clone.position.x =
                 -0.15 +
-                (clone.position.x + 0.15) * rand(0.935, 0.965);
+                (clone.position.x + 0.15) * rand(0.91, 0.95);
             }
 
             // Each letter tilts a little differently on every axis.
@@ -780,13 +780,13 @@ resumeButton.addEventListener('click', async () => {
             clone.rotation.y += rand(-0.10, 0.10);
             clone.rotation.z += rand(-0.09, 0.09);
 
-            // Stronger rounded falloff:
-            // ±0.28 = 42–48%
-            // ±0.58 = 22–28%
+            // Even stronger rounded falloff:
+            // ±0.28 = 37–43%
+            // ±0.58 = 17–23%
             const scaleVariance =
               absDepth > 0.40
-                ? rand(0.22, 0.28)
-                : rand(0.42, 0.48);
+                ? rand(0.17, 0.23)
+                : rand(0.37, 0.43);
 
             clone.scale.multiplyScalar(scaleVariance);
 
