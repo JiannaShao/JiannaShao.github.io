@@ -869,6 +869,9 @@ resumeButton.addEventListener('click', async () => {
           });
         }
 
+        // Regenerate immediately on load, then twice per second.
+        regenerateFishVisual();
+
         setInterval(
           regenerateFishVisual,
           500
