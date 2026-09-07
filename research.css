@@ -781,3 +781,291 @@ footer a{
 .presentation{
     border-radius:14px;
 }
+
+
+/* =====================================================
+   V3 — typography, width, and scrolling snake aligned
+   with the main index page
+===================================================== */
+
+:root{
+    --navy:#14253d;
+    --navy2:#263b58;
+    --muted:#667080;
+    --line:#d9ddda;
+    --cream:#fafafa;
+    --sidebar-rail:58px;
+    --sidebar-full:200px;
+}
+
+/* Same page-level typography as index.html */
+html{
+    scroll-behavior:smooth;
+    scrollbar-width:none;
+}
+
+::-webkit-scrollbar{
+    width:0;
+    height:0;
+    display:none;
+}
+
+body{
+    margin:0;
+    padding-left:var(--sidebar-rail) !important;
+    background:var(--cream) !important;
+    color:var(--navy) !important;
+    font-family:'Work Sans',Arial,sans-serif !important;
+    font-size:16px !important;
+}
+
+h1,
+h2,
+h3{
+    font-family:'DM Serif Display',Georgia,serif !important;
+    color:var(--navy) !important;
+    font-weight:400 !important;
+}
+
+p{
+    margin-top:0;
+}
+
+/* Match the main site's content width instead of spanning most of viewport */
+.page > .hero,
+.page > .section{
+    width:min(1152px,calc(100% - 96px)) !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    box-sizing:border-box;
+}
+
+.hero{
+    min-height:100vh !important;
+    padding:90px 0 100px !important;
+    gap:64px !important;
+}
+
+.section{
+    padding:115px 0 !important;
+}
+
+/* Index-style type scale */
+.eyebrow,
+.section-label{
+    font-family:'Work Sans',Arial,sans-serif !important;
+    font-size:14px !important;
+    letter-spacing:.2em !important;
+    text-transform:uppercase !important;
+    font-weight:600 !important;
+    line-height:1.35 !important;
+}
+
+.eyebrow{
+    margin-bottom:13px !important;
+}
+
+.section-label{
+    margin-bottom:40px !important;
+}
+
+.hero h1{
+    font-size:clamp(68px,10vw,136px) !important;
+    line-height:.86 !important;
+    letter-spacing:-.03em !important;
+    margin:0 0 28px !important;
+}
+
+.subtitle{
+    max-width:560px !important;
+    color:var(--muted) !important;
+    font-family:'Work Sans',Arial,sans-serif !important;
+    font-size:17px !important;
+    line-height:1.7 !important;
+    font-weight:300 !important;
+}
+
+.section h2{
+    font-size:clamp(38px,5vw,56px) !important;
+    line-height:1 !important;
+    margin:0 0 35px !important;
+}
+
+.body-text{
+    max-width:750px !important;
+    color:var(--muted) !important;
+    font-family:'Work Sans',Arial,sans-serif !important;
+    font-size:15px !important;
+    line-height:1.75 !important;
+    font-weight:300 !important;
+}
+
+.process-item h3{
+    font-size:29px !important;
+    line-height:1.1 !important;
+}
+
+.process-item p,
+.output p{
+    color:var(--muted) !important;
+    font-size:15px !important;
+    line-height:1.75 !important;
+    font-weight:300 !important;
+}
+
+.process-item span,
+.output > span{
+    font-size:14px !important;
+    letter-spacing:.16em !important;
+    text-transform:uppercase !important;
+    font-weight:600 !important;
+}
+
+figcaption{
+    color:var(--muted) !important;
+    font-size:13px !important;
+    line-height:1.5 !important;
+    font-weight:300 !important;
+}
+
+.note{
+    color:var(--muted) !important;
+    font-size:13px !important;
+    line-height:1.6 !important;
+    font-weight:300 !important;
+}
+
+.output h3{
+    font-size:29px !important;
+    line-height:1.1 !important;
+    margin:0 0 8px !important;
+}
+
+/* Keep the previous palette choices */
+.eyebrow,
+.section-label,
+.process-item span,
+.output > span{
+    color:#4c6170 !important;
+}
+
+.process-item{
+    border-top-color:#4c6170 !important;
+}
+
+.findings{
+    background:#e8ebea !important;
+    padding-left:48px !important;
+    padding-right:48px !important;
+}
+
+/* Same rounded image/card feel as index */
+.hero-image,
+.image-box,
+.photo-grid figure{
+    border-radius:14px !important;
+    overflow:hidden !important;
+}
+
+.hero-image img,
+.image-box img,
+.photo-grid img{
+    border-radius:14px !important;
+}
+
+/* Same scrolling snake as index */
+.scroll-snake{
+    display:block !important;
+    visibility:visible !important;
+    opacity:1 !important;
+    position:fixed !important;
+    top:8px !important;
+    bottom:8px !important;
+    right:12px !important;
+    width:48px !important;
+    height:auto !important;
+    z-index:5500 !important;
+    pointer-events:none !important;
+    overflow:visible !important;
+}
+
+.scroll-snake svg{
+    display:block !important;
+    visibility:visible !important;
+    width:48px !important;
+    height:100% !important;
+    overflow:visible !important;
+}
+
+#snake-ghost,
+#snake-path{
+    display:block !important;
+    visibility:visible !important;
+    fill:none !important;
+    stroke-width:4.5 !important;
+    vector-effect:non-scaling-stroke !important;
+    stroke-linecap:round !important;
+    stroke-linejoin:round !important;
+}
+
+#snake-ghost{
+    stroke:#d5dfdc !important;
+    opacity:1 !important;
+}
+
+#snake-path{
+    stroke:#42524d !important;
+    opacity:1 !important;
+    stroke-dasharray:1;
+    stroke-dashoffset:1;
+}
+
+@media(max-width:800px){
+    :root{
+        --sidebar-rail:54px;
+        --sidebar-full:176px;
+    }
+
+    .page > .hero,
+    .page > .section{
+        width:calc(100% - 72px) !important;
+    }
+
+    .hero{
+        grid-template-columns:1fr !important;
+        padding:70px 0 80px !important;
+    }
+
+    .section{
+        padding:85px 0 !important;
+    }
+
+    .hero h1{
+        font-size:76px !important;
+    }
+
+    .subtitle{
+        font-size:15px !important;
+        max-width:390px !important;
+    }
+
+    .scroll-snake{
+        right:7px !important;
+        width:38px !important;
+    }
+
+    .scroll-snake svg{
+        width:38px !important;
+    }
+
+    .findings{
+        padding-left:28px !important;
+        padding-right:28px !important;
+    }
+}
+
+@media(max-width:500px){
+    .hero h1{
+        font-size:64px !important;
+    }
+}
