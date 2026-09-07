@@ -1599,3 +1599,20 @@ button{
     -webkit-text-stroke:2px #14253d !important;
   }
 }
+
+/* V52 — narrower sidebar white stripe */
+.side-nav::after{
+  width:5px !important;
+}
+
+/* V52 — logo behaves like a regular hover button */
+.side-brand{
+  transform-origin:center center !important;
+  transition:transform .18s ease !important;
+}
+
+@media (hover:hover) and (pointer:fine){
+  .side-brand:hover{
+    transform:scale(1.10) !important;
+  }
+}

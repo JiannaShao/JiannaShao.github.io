@@ -225,7 +225,7 @@ resumeButton.addEventListener('click', async () => {
         fishHost.appendChild(renderer.domElement);
 
         const fishGroup = new THREE.Group();
-        fishGroup.scale.setScalar(1.1115);
+        fishGroup.scale.setScalar(1.04);
         fishGroup.position.set(
           0.34,
           0.20,
@@ -891,7 +891,7 @@ resumeButton.addEventListener('click', async () => {
         // -------------------------------------------------
         // Initial angle + interaction
         // -------------------------------------------------
-        fishGroup.rotation.y = THREE.MathUtils.degToRad(33);
+        fishGroup.rotation.y = THREE.MathUtils.degToRad(63);
         fishGroup.rotation.x = 0.04;
 
         let dragging = false;
