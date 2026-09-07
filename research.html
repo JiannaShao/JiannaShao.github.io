@@ -7,11 +7,79 @@
 
     <title>Research</title>
 
-    <link rel="stylesheet" href="research.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="research.css?v=3">
 </head>
 
 
 <body>
+
+<aside id="side-nav" class="side-nav">
+<div class="side-nav-inner">
+      <a class="side-brand" href="index.html" aria-label="Home">
+        <svg class="side-logo" viewBox="0 0 64 64" aria-hidden="true">
+          <circle cx="32" cy="32" r="29"></circle>
+          <path d="M20 20v17c0 7 4 11 11 11"></path>
+          <path d="M44 21c-2-2-5-3-8-3-5 0-8 3-8 7 0 4 3 6 8 8 5 2 8 4 8 8 0 5-4 8-10 8-4 0-8-1-11-4"></path>
+        </svg>
+      </a>
+
+      <nav class="side-links" aria-label="Primary navigation">
+        <div class="side-nav-item">
+          <a class="side-main-link" href="index.html#about">About</a>
+        </div>
+
+        <div class="side-nav-item side-dropdown">
+          <button
+            class="side-dropdown-toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="portfolio-submenu"
+          >
+            <span>Portfolios</span>
+            <span class="side-dropdown-arrow" aria-hidden="true">⌄</span>
+          </button>
+          <div class="side-submenu-wrap" id="portfolio-submenu">
+            <div class="side-submenu">
+              <a href="design.html">Product Design</a>
+              <a href="art-portfolio.html">Fine Art</a>
+              <a href="research.html">Research</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="side-nav-item side-dropdown">
+          <button
+            class="side-dropdown-toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="projects-submenu"
+          >
+            <span>Projects</span>
+            <span class="side-dropdown-arrow" aria-hidden="true">⌄</span>
+          </button>
+          <div class="side-submenu-wrap" id="projects-submenu">
+            <div class="side-submenu">
+              <a href="#" data-placeholder-project="Game Design">Game Design</a>
+              <a href="#" data-placeholder-project="Art Exhibits">Art Exhibits</a>
+              <a href="#" data-placeholder-project="MATLAB Game">MATLAB Game</a>
+              <a href="#" data-placeholder-project="Animation">Animation</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="side-nav-item">
+          <a class="side-main-link" href="art.html">My Gallery Room</a>
+        </div>
+
+        <div class="side-nav-item">
+          <a class="side-main-link" href="index.html#contact">Contact</a>
+        </div>
+      </nav>
+    </div>
+  </aside>
 
     <main class="page">
 
@@ -232,19 +300,49 @@
             </div>
 
         </section>
+</main>
 
 
-        <!-- =========================
-             FOOTER
-        ========================= -->
+    <script>
+    (() => {
+        const sideNav = document.getElementById('side-nav');
 
-        <footer>
+        if (sideNav) {
+            sideNav.addEventListener('mouseenter', () => {
+                sideNav.classList.add('hover-open');
+            });
 
-            <a href="index.html">← Back to Home</a>
+            sideNav.addEventListener('mouseleave', () => {
+                sideNav.classList.remove('hover-open');
+            });
 
-        </footer>
+            const sideBrand = sideNav.querySelector('.side-brand');
 
-    </main>
+            if (sideBrand) {
+                sideBrand.addEventListener('click', (e) => {
+                    if (window.matchMedia('(hover:none)').matches) {
+                        e.preventDefault();
+                        sideNav.classList.toggle('hover-open');
+                    }
+                });
+            }
+        }
+
+        document.querySelectorAll('.side-dropdown-toggle').forEach((toggle) => {
+            toggle.addEventListener('click', () => {
+                const dropdown = toggle.closest('.side-dropdown');
+                const willOpen = !dropdown.classList.contains('is-open');
+
+                dropdown.classList.toggle('is-open', willOpen);
+                toggle.setAttribute('aria-expanded', String(willOpen));
+            });
+        });
+
+        document.querySelectorAll('[data-placeholder-project]').forEach((link) => {
+            link.addEventListener('click', (e) => e.preventDefault());
+        });
+    })();
+    </script>
 
 </body>
 
