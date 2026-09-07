@@ -209,9 +209,9 @@ resumeButton.addEventListener('click', async () => {
 
         const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
         camera.position.set(
-          0,
-          4.88,
-          8.44
+          -1.59,
+          3.33,
+          9.02
         );
         camera.lookAt(0, 0, 0);
 
@@ -225,7 +225,7 @@ resumeButton.addEventListener('click', async () => {
         fishHost.appendChild(renderer.domElement);
 
         const fishGroup = new THREE.Group();
-        fishGroup.scale.setScalar(1.09);
+        fishGroup.scale.setScalar(1.17);
         scene.add(fishGroup);
 
         const FISH_TEXT =
@@ -280,7 +280,7 @@ resumeButton.addEventListener('click', async () => {
             accentRoll < 0.40
               ? '#e1ebe7'
               : accentRoll < 0.48
-                ? '#ffffff'
+                ? '#14253d'
                 : color;
 
           const material = new THREE.MeshBasicMaterial({
@@ -814,7 +814,7 @@ resumeButton.addEventListener('click', async () => {
           const roll = Math.random();
 
           if (roll < 0.40) return '#e1ebe7';
-          if (roll < 0.49) return '#ffffff';
+          if (roll < 0.49) return '#14253d';
           if (roll < 0.72) return frontColor;
           if (roll < 0.90) return sideColor;
           return darkEdgeColor;

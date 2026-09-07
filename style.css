@@ -1422,3 +1422,62 @@ button{
   font-family:'Work Sans', Arial, sans-serif !important;
   font-weight:500 !important;
 }
+
+/* V47 — larger hero fish */
+.text-fish-3d-wrap{
+  max-width:1045px !important;
+  flex-basis:865px !important;
+}
+
+.text-fish-3d{
+  height:468px !important;
+}
+
+@media(max-width:1200px){
+  .text-fish-3d-wrap{
+    max-width:925px !important;
+  }
+
+  .text-fish-3d{
+    height:420px !important;
+  }
+}
+
+@media(max-width:900px){
+  .text-fish-3d{
+    height:366px !important;
+  }
+}
+
+@media(max-width:760px){
+  .text-fish-3d{
+    height:330px !important;
+  }
+}
+
+/* White O divider between hero and Featured Projects */
+.o-divider{
+  width:100%;
+  box-sizing:border-box;
+  overflow:hidden;
+  padding:12px 20px 14px;
+  color:#ffffff;
+  font-family:Georgia, 'Times New Roman', serif;
+  font-size:22px;
+  font-weight:700;
+  line-height:1;
+  letter-spacing:7px;
+  white-space:nowrap;
+  text-align:center;
+  -webkit-text-stroke:0.75px rgba(20,37,61,.34);
+  text-shadow:0 1px 0 rgba(20,37,61,.18);
+  background:transparent;
+}
+
+@media(max-width:760px){
+  .o-divider{
+    font-size:18px;
+    letter-spacing:5px;
+    padding:10px 12px 12px;
+  }
+}
