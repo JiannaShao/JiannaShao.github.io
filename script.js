@@ -685,67 +685,6 @@ resumeButton.addEventListener('click', async () => {
           );
         }
 
-        // -------------------------------------------------
-        // SIDE / PECTORAL FINS
-        // One on each side, attached just behind head and
-        // sweeping backward toward tail.
-        // -------------------------------------------------
-        for (const side of [-1, 1]) {
-          for (let t = 0; t <= 1; t += 0.085) {
-            const rootX = -2.25;
-            const tipX = -0.55;
-
-            const x =
-              rootX +
-              (tipX - rootX) *
-              Math.pow(t, 0.92);
-
-            const y =
-              -0.18 -
-              Math.sin(t * Math.PI) * 0.58;
-
-            const z =
-              side * (
-                0.34 +
-                Math.sin(t * Math.PI) * 0.78
-              );
-
-            addLetter(
-              nextLetter(),
-              x,
-              y,
-              z,
-              rand(0.27, 0.37),
-              side === 1 ? frontColor : sideColor,
-              -0.42 + t * 0.18,
-              rand(0.11, 0.17),
-              side * rand(-0.10, 0.10),
-              side * rand(0.18, 0.34)
-            );
-          }
-        }
-
-        // -------------------------------------------------
-        // HEAD + EYES
-        // Eye rings on both sides of the fish.
-        // -------------------------------------------------
-        for (const side of [-1, 1]) {
-          for (let a = 0; a < Math.PI * 2; a += Math.PI / 6) {
-            addLetter(
-              'O',
-              -3.42 + Math.cos(a) * 0.17,
-              0.34 + Math.sin(a) * 0.17,
-              side * 0.62 + rand(-0.035, 0.035),
-              0.20,
-              darkEdgeColor,
-              a + Math.PI / 2,
-              0.13,
-              rand(-0.06, 0.06),
-              side * rand(0.06, 0.12)
-            );
-          }
-        }
-
         // Small mouth / snout accents.
         for (let i = 0; i < 9; i++) {
           const t = i / 8;

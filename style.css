@@ -1818,3 +1818,51 @@ button{
     transform:translate(-34px, -24px);
   }
 }
+
+/* V62 — requested interaction + sidebar updates */
+
+/* Sidebar background */
+.side-nav{
+  background:#e8ebea !important;
+}
+
+/* Featured Projects: Explore links grow 20% on hover */
+.under-link{
+  transform-origin:left center;
+  transition:transform .18s ease, color .16s ease, border-color .16s ease !important;
+}
+
+@media (hover:hover) and (pointer:fine){
+  .under-link:hover{
+    transform:scale(1.20) !important;
+  }
+}
+
+/* Resume: Click to open grows 30% on hover */
+.resume-section .resume-inline-open{
+  transform-origin:center center !important;
+  transition:transform .18s ease !important;
+}
+
+@media (hover:hover) and (pointer:fine){
+  .resume-section .resume-inline-open:hover{
+    transform:scale(1.30) !important;
+  }
+}
+
+/* Contact links: hovered link text becomes white */
+.contact-links a{
+  transition:color .16s ease !important;
+}
+
+.contact-links a span,
+.contact-links a b{
+  transition:color .16s ease !important;
+}
+
+@media (hover:hover) and (pointer:fine){
+  .contact-links a:hover span,
+  .contact-links a:hover b{
+    color:#ffffff !important;
+  }
+}
