@@ -268,14 +268,14 @@ resumeButton.addEventListener('click', async () => {
           rotX = 0,
           rotY = 0
         ) {
-          // Random accent mix:
-          // keep some white, but use the navbar light green more often.
+          // Stronger visible accent mix.
+          // 40% navbar light green, 8% white, remainder original fish colors.
           const accentRoll = Math.random();
           const resolvedColor =
-            accentRoll < 0.10
-              ? '#ffffff'
-              : accentRoll < 0.35
-                ? '#e1ebe7'
+            accentRoll < 0.40
+              ? '#e1ebe7'
+              : accentRoll < 0.48
+                ? '#ffffff'
                 : color;
 
           const material = new THREE.MeshBasicMaterial({
@@ -762,12 +762,11 @@ resumeButton.addEventListener('click', async () => {
             clone.rotation.z += rand(-0.09, 0.09);
 
             // Keep the four central/main layers unchanged.
-            // All additional outer layers are another 20% smaller:
-            // nearer outer layers = 51.2–57.6%;
-            // far outer layers = 38.4–44.8%.
+            // Nearer outer layers remain 51.2–57.6%.
+            // Farthest outer layer is another 15% smaller: 32.64–38.08%.
             const scaleVariance =
               Math.abs(depth) > 0.40
-                ? rand(0.384, 0.448)
+                ? rand(0.3264, 0.3808)
                 : rand(0.512, 0.576);
 
             clone.scale.multiplyScalar(scaleVariance);
