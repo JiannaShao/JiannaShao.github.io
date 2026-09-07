@@ -226,6 +226,11 @@ resumeButton.addEventListener('click', async () => {
 
         const fishGroup = new THREE.Group();
         fishGroup.scale.setScalar(1.1115);
+        fishGroup.position.set(
+          0.34,
+          0.20,
+          0
+        );
         scene.add(fishGroup);
 
         const FISH_TEXT =

@@ -1530,3 +1530,22 @@ button{
     padding-top:40px !important;
   }
 }
+
+/* V49 — decorative white stripe on the sidebar's right edge */
+.side-nav::after{
+  content:"";
+  position:absolute;
+  top:0;
+  right:0;
+  bottom:0;
+  width:20px;
+  background:#ffffff;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* Keep sidebar contents above the decorative stripe. */
+.side-nav > *{
+  position:relative;
+  z-index:1;
+}
