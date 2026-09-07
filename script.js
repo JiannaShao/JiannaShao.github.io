@@ -911,7 +911,7 @@ resumeButton.addEventListener('click', async () => {
                 : 1;
 
             const faceWidth =
-              0.50;
+              1.50;
 
             const faceHeight =
               faceWidth * aspect;
@@ -927,7 +927,8 @@ resumeButton.addEventListener('click', async () => {
                 map: faceTexture,
                 transparent: true,
                 side: THREE.DoubleSide,
-                depthWrite: false
+                depthWrite: false,
+                depthTest: false
               });
 
             const faceEye =
@@ -939,11 +940,11 @@ resumeButton.addEventListener('click', async () => {
             faceEye.position.set(
               -3.42,
               0.34,
-              0.755
+              1.08
             );
 
             faceEye.renderOrder =
-              10;
+              999;
 
             fishGroup.add(
               faceEye
