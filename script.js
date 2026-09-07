@@ -743,6 +743,7 @@ resumeButton.addEventListener('click', async () => {
 
           volumeDepths.forEach((depth) => {
             const clone = mesh.clone();
+            const farOuter = Math.abs(depth) > 0.40;
 
             clone.position.z += depth + rand(-0.055, 0.055);
 
@@ -770,7 +771,6 @@ resumeButton.addEventListener('click', async () => {
             // Rounded cross-section:
             // inner outer layer = 80–90% of the main layer;
             // far outer layer = 60–70% of the main layer.
-            const farOuter = Math.abs(depth) > 0.40;
             const scaleVariance = farOuter
               ? rand(0.60, 0.70)
               : rand(0.80, 0.90);
