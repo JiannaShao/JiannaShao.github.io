@@ -220,10 +220,7 @@ resumeButton.addEventListener('click', async () => {
         fishHost.appendChild(renderer.domElement);
 
         const fishGroup = new THREE.Group();
-
-        // V32: enlarge the actual 3D fish by 5%.
         fishGroup.scale.setScalar(1.05);
-
         scene.add(fishGroup);
 
         const FISH_TEXT =
@@ -271,11 +268,9 @@ resumeButton.addEventListener('click', async () => {
           rotX = 0,
           rotY = 0
         ) {
-          // Randomly turn some letters white.
-          // This happens when the base letters are created, so the white
-          // accents remain visible throughout the layered fish.
+          // Randomly make some letters white.
           const resolvedColor =
-            Math.random() < 0.12
+            Math.random() < 0.10
               ? '#ffffff'
               : color;
 
@@ -743,7 +738,6 @@ resumeButton.addEventListener('click', async () => {
 
           volumeDepths.forEach((depth) => {
             const clone = mesh.clone();
-            const farOuter = Math.abs(depth) > 0.40;
 
             clone.position.z += depth + rand(-0.055, 0.055);
 
@@ -751,28 +745,24 @@ resumeButton.addEventListener('click', async () => {
             clone.position.x += rand(-0.055, 0.055);
             clone.position.y += rand(-0.055, 0.055);
 
-            // Pull farther layers inward more strongly to make the
-            // silhouette visibly round when rotated.
-            clone.position.y *= farOuter
-              ? rand(0.80, 0.86)
-              : rand(0.90, 0.95);
-
+            // Pull the outer layers inward slightly so the side view
+            // rounds away from the larger central layer.
+            clone.position.y *= rand(0.91, 0.95);
             clone.position.x =
               -0.15 +
-              (clone.position.x + 0.15) *
-              (farOuter ? rand(0.93, 0.96) : rand(0.965, 0.985));
+              (clone.position.x + 0.15) * rand(0.965, 0.985);
 
             // Each letter tilts a little differently on every axis.
             clone.rotation.x += rand(-0.10, 0.10);
             clone.rotation.y += rand(-0.10, 0.10);
             clone.rotation.z += rand(-0.09, 0.09);
 
-            // Rounded cross-section:
-            // inner outer layer = 80–90% of the main layer;
-            // far outer layer = 60–70% of the main layer.
-            const scaleVariance = farOuter
-              ? rand(0.60, 0.70)
-              : rand(0.80, 0.90);
+            // Inner outer layers (±0.28) are 80–90% scale.
+            // Far outer layers (±0.58) are 60–70% scale.
+            const scaleVariance =
+              Math.abs(depth) > 0.40
+                ? rand(0.60, 0.70)
+                : rand(0.80, 0.90);
 
             clone.scale.multiplyScalar(scaleVariance);
 
