@@ -1866,3 +1866,34 @@ button{
     color:#ffffff !important;
   }
 }
+
+/* V63 — locked fish, tighter hero copy, resume spacing, contact hover */
+
+/* Fish is decorative/fixed rather than draggable */
+.text-fish-3d canvas{
+  cursor:default !important;
+}
+
+/* Pull the hero description closer to Shao */
+.hero .intro{
+  margin-top:-18px !important;
+}
+
+/* Move Resume open button ~50px farther right */
+.resume-section .resume-heading-row{
+  gap:76px !important;
+}
+
+@media(max-width:600px){
+  .resume-section .resume-heading-row{
+    gap:26px !important;
+  }
+}
+
+/* Let’s Connect hover uses the sidebar gray */
+@media (hover:hover) and (pointer:fine){
+  .contact-links a:hover span,
+  .contact-links a:hover b{
+    color:#e8ebea !important;
+  }
+}

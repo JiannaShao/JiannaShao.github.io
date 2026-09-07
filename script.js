@@ -297,6 +297,88 @@ resumeButton.addEventListener('click', async () => {
           return tex;
         }
 
+        function makeOutlinedLetterTexture(
+          letter,
+          fillColor,
+          strokeColor,
+          strokeWidth = 5
+        ) {
+          const key =
+            `outline-${letter}-${fillColor}-${strokeColor}-${strokeWidth}`;
+
+          if (textureCache.has(key)) {
+            return textureCache.get(key);
+          }
+
+          const c =
+            document.createElement('canvas');
+
+          c.width = 128;
+          c.height = 128;
+
+          const ctx =
+            c.getContext('2d');
+
+          ctx.clearRect(
+            0,
+            0,
+            128,
+            128
+          );
+
+          ctx.font =
+            '700 90px Georgia, serif';
+
+          ctx.textAlign =
+            'center';
+
+          ctx.textBaseline =
+            'middle';
+
+          ctx.lineJoin =
+            'round';
+
+          ctx.strokeStyle =
+            strokeColor;
+
+          ctx.lineWidth =
+            strokeWidth;
+
+          ctx.strokeText(
+            letter,
+            64,
+            66
+          );
+
+          ctx.fillStyle =
+            fillColor;
+
+          ctx.fillText(
+            letter,
+            64,
+            66
+          );
+
+          const tex =
+            new THREE.CanvasTexture(c);
+
+          tex.colorSpace =
+            THREE.SRGBColorSpace;
+
+          tex.minFilter =
+            THREE.LinearFilter;
+
+          tex.magFilter =
+            THREE.LinearFilter;
+
+          textureCache.set(
+            key,
+            tex
+          );
+
+          return tex;
+        }
+
         function addLetter(
           letter,
           x,
@@ -864,54 +946,8 @@ resumeButton.addEventListener('click', async () => {
         fishGroup.rotation.y = THREE.MathUtils.degToRad(13);
         fishGroup.rotation.x = 0.04;
 
-        let dragging = false;
-        let lastX = 0;
-        let lastY = 0;
+        renderer.domElement.style.cursor = 'default';
 
-        renderer.domElement.style.cursor = 'grab';
-
-        renderer.domElement.addEventListener('pointerdown', (e) => {
-          dragging = true;
-          lastX = e.clientX;
-          lastY = e.clientY;
-
-          renderer.domElement.setPointerCapture(e.pointerId);
-          renderer.domElement.style.cursor = 'grabbing';
-        });
-
-        renderer.domElement.addEventListener('pointermove', (e) => {
-          if (!dragging) return;
-
-          const dx = e.clientX - lastX;
-          const dy = e.clientY - lastY;
-
-          fishGroup.rotation.y += dx * 0.008;
-          fishGroup.rotation.x += dy * 0.005;
-
-          fishGroup.rotation.x = clamp(
-            fishGroup.rotation.x,
-            -0.65,
-            0.65
-          );
-
-          lastX = e.clientX;
-          lastY = e.clientY;
-        });
-
-        function stopDrag(e) {
-          dragging = false;
-          renderer.domElement.style.cursor = 'grab';
-
-          if (
-            e?.pointerId !== undefined &&
-            renderer.domElement.hasPointerCapture?.(e.pointerId)
-          ) {
-            renderer.domElement.releasePointerCapture(e.pointerId);
-          }
-        }
-
-        renderer.domElement.addEventListener('pointerup', stopDrag);
-        renderer.domElement.addEventListener('pointercancel', stopDrag);
 
 
         // -------------------------------------------------
@@ -936,7 +972,7 @@ resumeButton.addEventListener('click', async () => {
 
           const material =
             new THREE.MeshBasicMaterial({
-              map: makeLetterTexture('O', '#ffffff'),
+              map: makeOutlinedLetterTexture('O', '#ffffff', '#14253d', 5),
               transparent: true,
               opacity: rand(0.58, 0.90),
               depthWrite: false,
