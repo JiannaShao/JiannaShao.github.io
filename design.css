@@ -807,3 +807,498 @@ p {
     }
 
 }
+
+
+/* =====================================================
+   INDEX-ALIGNED PORTFOLIO SHELL
+===================================================== */
+
+:root{
+    --navy:#14253d;
+    --navy2:#263b58;
+    --muted:#667080;
+    --line:#d9ddda;
+    --cream:#fafafa;
+    --accent:#4c6170;
+    --light-accent:#e8ebea;
+    --sidebar-rail:58px;
+    --sidebar-full:200px;
+}
+
+html{
+    scroll-behavior:smooth;
+    scrollbar-width:none;
+}
+
+::-webkit-scrollbar{
+    width:0;
+    height:0;
+    display:none;
+}
+
+body{
+    margin:0;
+    padding-left:var(--sidebar-rail) !important;
+    background:var(--cream) !important;
+    color:var(--navy) !important;
+    font-family:'Work Sans',Arial,sans-serif !important;
+    font-size:16px !important;
+}
+
+h1,
+h2,
+h3{
+    font-family:'DM Serif Display',Georgia,serif !important;
+    color:var(--navy) !important;
+    font-weight:400 !important;
+}
+
+p,
+li{
+    font-family:'Work Sans',Arial,sans-serif !important;
+}
+
+/* Match index typography */
+.eyebrow{
+    color:var(--accent) !important;
+    font-size:14px !important;
+    letter-spacing:.2em !important;
+    text-transform:uppercase !important;
+    font-weight:600 !important;
+    line-height:1.35 !important;
+    margin-bottom:13px !important;
+}
+
+h1{
+    font-size:clamp(68px,10vw,136px) !important;
+    line-height:.86 !important;
+    letter-spacing:-.03em !important;
+    margin:0 0 28px !important;
+}
+
+h2{
+    font-size:clamp(38px,5vw,56px) !important;
+    line-height:1 !important;
+    margin:0 0 25px !important;
+}
+
+.hero-subtitle,
+.section-subtitle,
+.description-text p,
+.feature-box p:last-child,
+.detail-text p:last-child,
+.design-text-box{
+    color:var(--muted) !important;
+    font-size:15px !important;
+    line-height:1.75 !important;
+    font-weight:300 !important;
+}
+
+.description-text ul{
+    color:var(--navy) !important;
+    font-size:15px !important;
+    line-height:1.85 !important;
+}
+
+/* Same effective webpage width as index */
+.project-hero,
+.project-intro,
+.feature-section,
+.design-section,
+.project-details,
+.final-project{
+    width:min(1152px,calc(100% - 96px)) !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    box-sizing:border-box;
+}
+
+.project-hero{
+    min-height:100vh !important;
+}
+
+.project-intro,
+.project-details{
+    padding-left:0 !important;
+    padding-right:0 !important;
+}
+
+.description-box,
+.section-heading,
+.detail-row,
+.intro-image,
+.design-image-grid,
+.final-image-grid{
+    max-width:100% !important;
+}
+
+/* Replace the old cream/dark system with index navy + neutral gray */
+.project-intro,
+.project-details,
+.final-project{
+    background:var(--cream) !important;
+}
+
+.description-box,
+.design-section{
+    background:#ffffff !important;
+}
+
+.design-text-box{
+    background:var(--light-accent) !important;
+    border-left-color:var(--accent) !important;
+}
+
+.image-placeholder,
+.detail-image{
+    background:var(--light-accent) !important;
+}
+
+.hero-content{
+    color:var(--navy) !important;
+    background:rgba(250,250,250,.94) !important;
+}
+
+.hero-content .eyebrow{
+    color:var(--accent) !important;
+}
+
+/* Rounded corners consistent with index */
+.hero-content,
+.description-box,
+.feature-box,
+.design-text-box,
+.hero-image,
+.intro-image,
+.design-large-image,
+.design-small-image,
+.detail-image,
+.final-image{
+    border-radius:14px !important;
+}
+
+.project-hero{
+    border-radius:0 0 14px 14px !important;
+}
+
+/* Image hover treatment — 10% larger, matching research page */
+.intro-image,
+.design-large-image,
+.design-small-image,
+.detail-image,
+.final-image{
+    overflow:hidden !important;
+}
+
+.intro-image img,
+.design-large-image img,
+.design-small-image img,
+.detail-image img,
+.final-image img{
+    transition:transform .22s ease !important;
+    transform-origin:center center;
+}
+
+@media (hover:hover) and (pointer:fine){
+    .intro-image:hover img,
+    .design-large-image:hover img,
+    .design-small-image:hover img,
+    .detail-image:hover img,
+    .final-image:hover img{
+        transform:scale(1.10);
+    }
+}
+
+/* Background-image sections also get a subtle interactive zoom */
+.hero-image,
+.feature-image{
+    transition:transform .22s ease !important;
+    transform-origin:center center;
+}
+
+@media (hover:hover) and (pointer:fine){
+    .project-hero:hover .hero-image,
+    .feature-section:hover .feature-image{
+        transform:scale(1.10);
+    }
+}
+
+/* =====================================================
+   SHARED SIDEBAR
+===================================================== */
+
+.side-nav{
+    position:fixed !important;
+    left:0 !important;
+    top:0 !important;
+    bottom:0 !important;
+    width:var(--sidebar-rail) !important;
+    background:#e8ebea !important;
+    border-right:1px solid rgba(66,82,77,.12) !important;
+    z-index:6000 !important;
+    overflow:hidden !important;
+    transition:width .24s ease !important;
+    pointer-events:auto !important;
+}
+
+.side-nav::after{
+    content:"";
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    width:2px;
+    background:#ffffff;
+    pointer-events:none;
+    z-index:0;
+}
+
+.side-nav.hover-open{
+    width:var(--sidebar-full) !important;
+}
+
+.side-nav-inner{
+    position:relative;
+    z-index:1;
+    height:100% !important;
+    width:var(--sidebar-full) !important;
+    padding:24px 8px 28px !important;
+    overflow:hidden !important;
+}
+
+.side-brand{
+    display:block !important;
+    width:42px !important;
+    height:42px !important;
+    margin:0 0 56px 0 !important;
+    color:#42524d;
+    text-decoration:none;
+    transform-origin:center center !important;
+    transition:transform .18s ease !important;
+}
+
+.side-logo{
+    width:42px;
+    height:42px;
+    display:block;
+    fill:none;
+    stroke:currentColor;
+    stroke-width:2.2;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+
+.side-links{
+    display:flex !important;
+    flex-direction:column !important;
+    gap:0 !important;
+    width:170px !important;
+    padding-left:14px !important;
+    opacity:0 !important;
+    pointer-events:none !important;
+    transform:translateX(-8px) !important;
+    transition:opacity .16s ease .04s, transform .2s ease !important;
+    white-space:nowrap;
+}
+
+.side-nav.hover-open .side-links{
+    opacity:1 !important;
+    pointer-events:auto !important;
+    transform:none !important;
+}
+
+.side-nav-item{
+    width:100%;
+    margin:0 0 30px 0;
+}
+
+.side-nav-item:last-child{
+    margin-bottom:0;
+}
+
+.side-main-link,
+.side-dropdown-toggle{
+    width:100%;
+    min-height:24px;
+    padding:0;
+    border:0;
+    background:transparent;
+    color:#42524d !important;
+    font-family:'Work Sans',Arial,sans-serif !important;
+    font-size:16px !important;
+    font-weight:400;
+    line-height:1.35;
+    text-align:left;
+    text-decoration:none;
+    white-space:nowrap;
+    cursor:pointer;
+    transition:color .16s ease, transform .18s ease !important;
+}
+
+.side-dropdown-toggle{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding-right:15px;
+}
+
+.side-main-link:hover,
+.side-dropdown-toggle:hover{
+    color:#ffffff !important;
+    transform:translateX(4px) !important;
+}
+
+.side-dropdown-arrow{
+    display:inline-block;
+    font-size:18px;
+    line-height:1;
+    transition:transform .22s ease;
+}
+
+.side-dropdown.is-open .side-dropdown-arrow{
+    transform:rotate(180deg);
+}
+
+.side-submenu-wrap{
+    display:grid;
+    grid-template-rows:0fr;
+    opacity:0;
+    transition:grid-template-rows .26s ease, opacity .18s ease, margin-top .26s ease;
+    margin-top:0;
+}
+
+.side-dropdown.is-open .side-submenu-wrap{
+    grid-template-rows:1fr;
+    opacity:1;
+    margin-top:13px;
+}
+
+.side-submenu{
+    min-height:0;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    gap:11px;
+    padding-left:12px;
+}
+
+.side-submenu a{
+    display:block;
+    color:#42524d !important;
+    font-family:'Work Sans',Arial,sans-serif !important;
+    font-size:14px !important;
+    line-height:1.3;
+    text-decoration:none;
+    white-space:nowrap;
+    opacity:.82;
+    transition:color .16s ease, transform .18s ease, opacity .16s ease !important;
+}
+
+.side-submenu a:hover{
+    color:#ffffff !important;
+    opacity:1;
+    transform:translateX(4px) !important;
+}
+
+@media (hover:hover) and (pointer:fine){
+    .side-brand:hover{
+        transform:scale(1.10) !important;
+    }
+}
+
+/* =====================================================
+   SCROLLING SNAKE
+===================================================== */
+
+.scroll-snake{
+    display:block !important;
+    visibility:visible !important;
+    opacity:1 !important;
+    position:fixed !important;
+    top:8px !important;
+    bottom:8px !important;
+    right:12px !important;
+    width:48px !important;
+    height:auto !important;
+    z-index:5500 !important;
+    pointer-events:none !important;
+    overflow:visible !important;
+}
+
+.scroll-snake svg{
+    display:block !important;
+    visibility:visible !important;
+    width:48px !important;
+    height:100% !important;
+    overflow:visible !important;
+}
+
+#snake-ghost,
+#snake-path{
+    display:block !important;
+    visibility:visible !important;
+    fill:none !important;
+    stroke-width:4.5 !important;
+    vector-effect:non-scaling-stroke !important;
+    stroke-linecap:round !important;
+    stroke-linejoin:round !important;
+}
+
+#snake-ghost{
+    stroke:#d5dfdc !important;
+    opacity:1 !important;
+}
+
+#snake-path{
+    stroke:#42524d !important;
+    opacity:1 !important;
+    stroke-dasharray:1;
+    stroke-dashoffset:1;
+}
+
+@media(max-width:750px){
+    :root{
+        --sidebar-rail:54px;
+        --sidebar-full:176px;
+    }
+
+    .project-hero,
+    .project-intro,
+    .feature-section,
+    .design-section,
+    .project-details,
+    .final-project{
+        width:calc(100% - 72px) !important;
+    }
+
+    h1{
+        font-size:76px !important;
+    }
+
+    .hero-subtitle{
+        font-size:15px !important;
+    }
+
+    .scroll-snake{
+        right:7px !important;
+        width:38px !important;
+    }
+
+    .scroll-snake svg{
+        width:38px !important;
+    }
+
+    .side-nav-item{
+        margin-bottom:24px;
+    }
+
+    .side-submenu{
+        gap:10px;
+    }
+}
+
+@media(max-width:500px){
+    h1{
+        font-size:64px !important;
+    }
+}
