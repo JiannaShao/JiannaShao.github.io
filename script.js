@@ -753,7 +753,6 @@ resumeButton.addEventListener('click', async () => {
 
             // Pull farther layers inward more strongly to make the
             // silhouette visibly round when rotated.
-            const farOuter = Math.abs(depth) > 0.40;
             clone.position.y *= farOuter
               ? rand(0.80, 0.86)
               : rand(0.90, 0.95);
