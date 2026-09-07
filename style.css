@@ -1549,3 +1549,53 @@ button{
   position:relative;
   z-index:1;
 }
+
+/* V50 — slightly taller 3D fish container */
+.text-fish-3d{
+  height:490px !important;
+}
+
+@media(max-width:1200px){
+  .text-fish-3d{
+    height:442px !important;
+  }
+}
+
+@media(max-width:900px){
+  .text-fish-3d{
+    height:386px !important;
+  }
+}
+
+@media(max-width:760px){
+  .text-fish-3d{
+    height:348px !important;
+  }
+}
+
+/* V50 — reduce sidebar decorative stripe to 10px */
+.side-nav::after{
+  width:10px !important;
+}
+
+/* V50 — divider O's: full visibility + 2px navy outline */
+.o-divider{
+  font-size:30px !important;
+  line-height:1.2 !important;
+  padding:8px 20px 9px !important;
+  margin:-6px 0 -8px !important;
+  overflow:visible !important;
+  color:#ffffff !important;
+  -webkit-text-stroke:2px #14253d !important;
+  text-shadow:none !important;
+}
+
+@media(max-width:760px){
+  .o-divider{
+    font-size:24px !important;
+    line-height:1.2 !important;
+    padding:7px 12px 8px !important;
+    margin:-4px 0 -6px !important;
+    -webkit-text-stroke:2px #14253d !important;
+  }
+}
