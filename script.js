@@ -208,7 +208,12 @@ resumeButton.addEventListener('click', async () => {
         const scene = new THREE.Scene();
 
         const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
-        camera.position.set(0, 0, 9.75);
+        camera.position.set(
+          0,
+          4.88,
+          8.44
+        );
+        camera.lookAt(0, 0, 0);
 
         const renderer = new THREE.WebGLRenderer({
           alpha: true,
@@ -220,7 +225,7 @@ resumeButton.addEventListener('click', async () => {
         fishHost.appendChild(renderer.domElement);
 
         const fishGroup = new THREE.Group();
-        fishGroup.scale.setScalar(1.05);
+        fishGroup.scale.setScalar(1.09);
         scene.add(fishGroup);
 
         const FISH_TEXT =
@@ -754,15 +759,15 @@ resumeButton.addEventListener('click', async () => {
             const absDepth = Math.abs(depth);
 
             if (absDepth > 0.40) {
-              clone.position.y *= rand(0.82, 0.88);
+              clone.position.y *= rand(0.76, 0.83);
               clone.position.x =
                 -0.15 +
-                (clone.position.x + 0.15) * rand(0.93, 0.96);
+                (clone.position.x + 0.15) * rand(0.90, 0.94);
             } else {
-              clone.position.y *= rand(0.88, 0.92);
+              clone.position.y *= rand(0.84, 0.89);
               clone.position.x =
                 -0.15 +
-                (clone.position.x + 0.15) * rand(0.95, 0.975);
+                (clone.position.x + 0.15) * rand(0.935, 0.965);
             }
 
             // Each letter tilts a little differently on every axis.
@@ -770,13 +775,13 @@ resumeButton.addEventListener('click', async () => {
             clone.rotation.y += rand(-0.10, 0.10);
             clone.rotation.z += rand(-0.09, 0.09);
 
-            // More pronounced rounded falloff:
-            // ±0.28 = 46–52%
-            // ±0.58 = 27–33%
+            // Stronger rounded falloff:
+            // ±0.28 = 42–48%
+            // ±0.58 = 22–28%
             const scaleVariance =
               absDepth > 0.40
-                ? rand(0.27, 0.33)
-                : rand(0.46, 0.52);
+                ? rand(0.22, 0.28)
+                : rand(0.42, 0.48);
 
             clone.scale.multiplyScalar(scaleVariance);
 
@@ -946,7 +951,7 @@ resumeButton.addEventListener('click', async () => {
 
         function spawnTextBubble() {
           const bubbleSize =
-            rand(0.18, 0.34);
+            rand(0.20, 0.37);
 
           const geometry =
             new THREE.PlaneGeometry(
@@ -1004,29 +1009,19 @@ resumeButton.addEventListener('click', async () => {
           );
         }
 
-        function spawnBubbleCluster() {
-          const count =
-            Math.random() < 0.18
-              ? 2
-              : 1;
+        function spawnBubbleTrail() {
+          // One bubble at a time for a more regular trail.
+          spawnTextBubble();
 
-          for (let i = 0; i < count; i++) {
-            setTimeout(
-              spawnTextBubble,
-              i * rand(180, 280)
-            );
-          }
-
-          // Keep production on the slower end with a narrow range.
           setTimeout(
-            spawnBubbleCluster,
-            rand(2400, 3200)
+            spawnBubbleTrail,
+            rand(2200, 2700)
           );
         }
 
         setTimeout(
-          spawnBubbleCluster,
-          rand(1800, 2400)
+          spawnBubbleTrail,
+          rand(1600, 2100)
         );
 
         function resizeFish() {
