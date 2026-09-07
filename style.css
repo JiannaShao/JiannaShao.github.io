@@ -1481,3 +1481,52 @@ button{
     padding:10px 12px 12px;
   }
 }
+
+/* V48 — fit fish fully in frame */
+.text-fish-3d-wrap{
+  transform:translateX(88px) !important;
+  max-width:1045px !important;
+  flex-basis:865px !important;
+}
+
+@media(max-width:900px){
+  .text-fish-3d-wrap{
+    transform:translateX(42px) !important;
+  }
+}
+
+@media(max-width:760px){
+  .text-fish-3d-wrap{
+    transform:none !important;
+  }
+}
+
+/* V48 — larger, plain-white O divider with tighter section spacing */
+.o-divider{
+  color:#ffffff !important;
+  font-size:30px !important;
+  font-weight:700 !important;
+  letter-spacing:5px !important;
+  line-height:.9 !important;
+  padding:2px 20px 3px !important;
+  margin:-10px 0 -12px !important;
+  -webkit-text-stroke:0 !important;
+  text-shadow:none !important;
+}
+
+#work{
+  padding-top:46px !important;
+}
+
+@media(max-width:760px){
+  .o-divider{
+    font-size:24px !important;
+    letter-spacing:4px !important;
+    padding:2px 12px 3px !important;
+    margin:-6px 0 -8px !important;
+  }
+
+  #work{
+    padding-top:40px !important;
+  }
+}
