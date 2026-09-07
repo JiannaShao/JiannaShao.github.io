@@ -729,7 +729,7 @@ resumeButton.addEventListener('click', async () => {
         // -------------------------------------------------
         const volumeSource = fishGroup.children.slice();
 
-        const volumeDepths = [-0.92, -0.76, -0.58, -0.28, 0.28, 0.58, 0.76, 0.92];
+        const volumeDepths = [-0.58, -0.28, 0.28, 0.58];
 
         volumeSource.forEach((mesh, i) => {
           const isLikelyEdge =
@@ -749,33 +749,34 @@ resumeButton.addEventListener('click', async () => {
             clone.position.x += rand(-0.055, 0.055);
             clone.position.y += rand(-0.055, 0.055);
 
-            // Pull the outer layers inward slightly so the side view
-            // rounds away from the larger central layer.
-            clone.position.y *= rand(0.91, 0.95);
-            clone.position.x =
-              -0.15 +
-              (clone.position.x + 0.15) * rand(0.965, 0.985);
+            // Stronger rounding: pull layers inward more as they move
+            // away from the center, so the fish reads less like stacked slabs.
+            const absDepth = Math.abs(depth);
+
+            if (absDepth > 0.40) {
+              clone.position.y *= rand(0.82, 0.88);
+              clone.position.x =
+                -0.15 +
+                (clone.position.x + 0.15) * rand(0.93, 0.96);
+            } else {
+              clone.position.y *= rand(0.88, 0.92);
+              clone.position.x =
+                -0.15 +
+                (clone.position.x + 0.15) * rand(0.95, 0.975);
+            }
 
             // Each letter tilts a little differently on every axis.
             clone.rotation.x += rand(-0.10, 0.10);
             clone.rotation.y += rand(-0.10, 0.10);
             clone.rotation.z += rand(-0.09, 0.09);
 
-            // Progressive rounded depth:
-            // ±0.28 = 51.2–57.6%
-            // ±0.58 = 32.64–38.08%
-            // ±0.76 = 27–32%
-            // ±0.92 = 22–27%
-            const absDepth = Math.abs(depth);
-
+            // More pronounced rounded falloff:
+            // ±0.28 = 46–52%
+            // ±0.58 = 27–33%
             const scaleVariance =
-              absDepth > 0.84
-                ? rand(0.22, 0.27)
-                : absDepth > 0.67
-                  ? rand(0.27, 0.32)
-                  : absDepth > 0.40
-                    ? rand(0.3264, 0.3808)
-                    : rand(0.512, 0.576);
+              absDepth > 0.40
+                ? rand(0.27, 0.33)
+                : rand(0.46, 0.52);
 
             clone.scale.multiplyScalar(scaleVariance);
 

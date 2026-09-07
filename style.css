@@ -1416,3 +1416,9 @@ button{
     margin-bottom:0 !important;
   }
 }
+
+/* V45 — resume open label uses the site's existing Work Sans UI font */
+.resume-open-label{
+  font-family:'Work Sans', Arial, sans-serif !important;
+  font-weight:500 !important;
+}
