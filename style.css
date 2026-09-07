@@ -1634,3 +1634,45 @@ button{
 .side-nav::after{
   width:2px !important;
 }
+
+/* V55 — requested portfolio imagery */
+
+/* Hero image behind Jianna Shao heading + 3D fish */
+.hero-image{
+  background-image:url("ArtFiles/img11.JPG") !important;
+  background-size:cover !important;
+  background-position:center center !important;
+  background-repeat:no-repeat !important;
+}
+
+/* Featured Projects */
+.image-design{
+  background-image:url("DesignImages/Final2.JPG") !important;
+  background-size:cover !important;
+  background-position:center center !important;
+  background-repeat:no-repeat !important;
+}
+
+.image-art{
+  background-image:url("ArtFiles/img1.jpg") !important;
+  background-size:cover !important;
+  background-position:center center !important;
+  background-repeat:no-repeat !important;
+}
+
+.image-research{
+  background-image:url("ResarchImages/Welding.png") !important;
+  background-size:cover !important;
+  background-position:center center !important;
+  background-repeat:no-repeat !important;
+}
+
+/* Studio & Gallery */
+.art-card.gallery:before{
+  background-image:
+    linear-gradient(135deg,rgba(20,37,61,.04),rgba(20,37,61,.16)),
+    url("ArtFiles/img14.jpg") !important;
+  background-size:cover !important;
+  background-position:center center !important;
+  background-repeat:no-repeat !important;
+}
