@@ -1676,3 +1676,8 @@ button{
   background-position:center center !important;
   background-repeat:no-repeat !important;
 }
+
+/* V56 — slightly wider 3D Gallery card */
+.single-art-grid .art-card{
+  max-width:840px !important;
+}

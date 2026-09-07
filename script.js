@@ -889,6 +889,76 @@ resumeButton.addEventListener('click', async () => {
         );
 
         // -------------------------------------------------
+        // RIGHT-SIDE EYE IMAGE
+        // Face.png sits on the +Z eye and keeps its original aspect ratio.
+        // 0.50 world units is approximately 40px at the current view.
+        // -------------------------------------------------
+        const faceTextureLoader =
+          new THREE.TextureLoader();
+
+        faceTextureLoader.load(
+          'Face.png',
+          (faceTexture) => {
+            faceTexture.colorSpace =
+              THREE.SRGBColorSpace;
+
+            const image =
+              faceTexture.image;
+
+            const aspect =
+              image && image.naturalWidth
+                ? image.naturalHeight / image.naturalWidth
+                : 1;
+
+            const faceWidth =
+              0.50;
+
+            const faceHeight =
+              faceWidth * aspect;
+
+            const faceGeometry =
+              new THREE.PlaneGeometry(
+                faceWidth,
+                faceHeight
+              );
+
+            const faceMaterial =
+              new THREE.MeshBasicMaterial({
+                map: faceTexture,
+                transparent: true,
+                side: THREE.DoubleSide,
+                depthWrite: false
+              });
+
+            const faceEye =
+              new THREE.Mesh(
+                faceGeometry,
+                faceMaterial
+              );
+
+            faceEye.position.set(
+              -3.42,
+              0.34,
+              0.755
+            );
+
+            faceEye.renderOrder =
+              10;
+
+            fishGroup.add(
+              faceEye
+            );
+          },
+          undefined,
+          (error) => {
+            console.error(
+              'Face.png failed to load:',
+              error
+            );
+          }
+        );
+
+        // -------------------------------------------------
         // Initial angle + interaction
         // -------------------------------------------------
         fishGroup.rotation.y = THREE.MathUtils.degToRad(13);
