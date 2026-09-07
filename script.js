@@ -242,7 +242,7 @@ resumeButton.addEventListener('click', async () => {
 
           const ctx = c.getContext('2d');
           ctx.clearRect(0, 0, 128, 128);
-          ctx.font = '700 88px Georgia, serif';
+          ctx.font = '700 90px Georgia, serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillStyle = color;
@@ -880,7 +880,7 @@ resumeButton.addEventListener('click', async () => {
         // -------------------------------------------------
         // Initial angle + interaction
         // -------------------------------------------------
-        fishGroup.rotation.y = THREE.MathUtils.degToRad(40);
+        fishGroup.rotation.y = THREE.MathUtils.degToRad(33);
         fishGroup.rotation.x = 0.04;
 
         let dragging = false;
