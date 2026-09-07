@@ -1616,3 +1616,16 @@ button{
     transform:scale(1.10) !important;
   }
 }
+
+/* V53 — sidebar stripe doubled from 5px to 10px */
+.side-nav::after{
+  width:10px !important;
+}
+
+/* V53 — Unit Inches image behind the hero heading and fish */
+.hero-image{
+  background-image:url("DesignImages/Unit Inches.png") !important;
+  background-size:cover !important;
+  background-position:center center !important;
+  background-repeat:no-repeat !important;
+}

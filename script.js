@@ -891,7 +891,7 @@ resumeButton.addEventListener('click', async () => {
         // -------------------------------------------------
         // Initial angle + interaction
         // -------------------------------------------------
-        fishGroup.rotation.y = THREE.MathUtils.degToRad(63);
+        fishGroup.rotation.y = THREE.MathUtils.degToRad(13);
         fishGroup.rotation.x = 0.04;
 
         let dragging = false;
