@@ -1366,3 +1366,53 @@ button{
     transform:none !important;
   }
 }
+
+/* V41 — reduce former top-navbar whitespace by ~30% */
+.hero{
+  padding-top:46px !important;
+}
+
+/* V41 — resume heading + inline open button, no container */
+.resume-section .resume-heading-row{
+  display:flex !important;
+  align-items:flex-end !important;
+  justify-content:flex-start !important;
+  gap:26px !important;
+  margin-bottom:0 !important;
+}
+
+.resume-section .resume-heading-row > div{
+  flex:0 0 auto;
+}
+
+.resume-section .resume-inline-open{
+  width:auto !important;
+  max-width:none !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:11px 18px !important;
+  margin:0 0 3px 0 !important;
+  border:1.5px solid rgba(66,82,77,.30) !important;
+  border-radius:10px !important;
+  background:#ffffff !important;
+  box-shadow:none !important;
+  overflow:visible !important;
+  transform:none;
+}
+
+.resume-section .resume-inline-open:hover{
+  transform:scale(1.05) !important;
+}
+
+@media(max-width:600px){
+  .resume-section .resume-heading-row{
+    align-items:center !important;
+    gap:16px !important;
+    flex-wrap:wrap !important;
+  }
+
+  .resume-section .resume-inline-open{
+    margin-bottom:0 !important;
+  }
+}
