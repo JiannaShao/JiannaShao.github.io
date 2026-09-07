@@ -871,7 +871,7 @@ resumeButton.addEventListener('click', async () => {
 
         setInterval(
           regenerateFishVisual,
-          5000
+          500
         );
 
         // -------------------------------------------------
@@ -967,19 +967,19 @@ resumeButton.addEventListener('click', async () => {
 
           // Spawn at the mouth in fish-local coordinates,
           // then convert that point into scene/world coordinates.
-          const mouthPoint =
+          const bubbleSpawnPoint =
             new THREE.Vector3(
-              -4.30 + rand(-0.10, 0.14),
-              0.28 + rand(-0.08, 0.18),
-              rand(-0.18, 0.18)
+              -3.60 + rand(-0.12, 0.16),
+              1.18 + rand(-0.05, 0.14),
+              0.48 + rand(-0.08, 0.12)
             );
 
           fishGroup.localToWorld(
-            mouthPoint
+            bubbleSpawnPoint
           );
 
           bubble.position.copy(
-            mouthPoint
+            bubbleSpawnPoint
           );
 
           bubble.userData = {
@@ -1002,21 +1002,27 @@ resumeButton.addEventListener('click', async () => {
 
         function spawnBubbleCluster() {
           const count =
-            Math.random() < 0.35
+            Math.random() < 0.18
               ? 2
               : 1;
 
           for (let i = 0; i < count; i++) {
             setTimeout(
               spawnTextBubble,
-              i * rand(120, 260)
+              i * rand(180, 280)
             );
           }
+
+          // Keep production on the slower end with a narrow range.
+          setTimeout(
+            spawnBubbleCluster,
+            rand(2400, 3200)
+          );
         }
 
-        setInterval(
+        setTimeout(
           spawnBubbleCluster,
-          1250
+          rand(1800, 2400)
         );
 
         function resizeFish() {
