@@ -269,12 +269,12 @@ resumeButton.addEventListener('click', async () => {
           rotY = 0
         ) {
           // Random accent mix:
-          // some letters white, some the navbar's light green.
+          // keep some white, but use the navbar light green more often.
           const accentRoll = Math.random();
           const resolvedColor =
             accentRoll < 0.10
               ? '#ffffff'
-              : accentRoll < 0.20
+              : accentRoll < 0.35
                 ? '#e1ebe7'
                 : color;
 
@@ -761,13 +761,14 @@ resumeButton.addEventListener('click', async () => {
             clone.rotation.y += rand(-0.10, 0.10);
             clone.rotation.z += rand(-0.09, 0.09);
 
-            // Reduced another 20% for stronger rounding:
-            // inner/second outer layers = 64–72% of main layer;
-            // far outer layers = 48–56% of main layer.
+            // Keep the four central/main layers unchanged.
+            // All additional outer layers are another 20% smaller:
+            // nearer outer layers = 51.2–57.6%;
+            // far outer layers = 38.4–44.8%.
             const scaleVariance =
               Math.abs(depth) > 0.40
-                ? rand(0.48, 0.56)
-                : rand(0.64, 0.72);
+                ? rand(0.384, 0.448)
+                : rand(0.512, 0.576);
 
             clone.scale.multiplyScalar(scaleVariance);
 
