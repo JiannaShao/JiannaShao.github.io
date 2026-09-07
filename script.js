@@ -268,11 +268,15 @@ resumeButton.addEventListener('click', async () => {
           rotX = 0,
           rotY = 0
         ) {
-          // Randomly make some letters white.
+          // Random accent mix:
+          // some letters white, some the navbar's light green.
+          const accentRoll = Math.random();
           const resolvedColor =
-            Math.random() < 0.10
+            accentRoll < 0.10
               ? '#ffffff'
-              : color;
+              : accentRoll < 0.20
+                ? '#e1ebe7'
+                : color;
 
           const material = new THREE.MeshBasicMaterial({
             map: makeLetterTexture(letter, resolvedColor),
@@ -757,12 +761,13 @@ resumeButton.addEventListener('click', async () => {
             clone.rotation.y += rand(-0.10, 0.10);
             clone.rotation.z += rand(-0.09, 0.09);
 
-            // Inner outer layers (±0.28) are 80–90% scale.
-            // Far outer layers (±0.58) are 60–70% scale.
+            // Reduced another 20% for stronger rounding:
+            // inner/second outer layers = 64–72% of main layer;
+            // far outer layers = 48–56% of main layer.
             const scaleVariance =
               Math.abs(depth) > 0.40
-                ? rand(0.60, 0.70)
-                : rand(0.80, 0.90);
+                ? rand(0.48, 0.56)
+                : rand(0.64, 0.72);
 
             clone.scale.multiplyScalar(scaleVariance);
 
@@ -773,7 +778,7 @@ resumeButton.addEventListener('click', async () => {
         // -------------------------------------------------
         // Initial angle + interaction
         // -------------------------------------------------
-        fishGroup.rotation.y = Math.PI / 4;
+        fishGroup.rotation.y = Math.PI / 6;
         fishGroup.rotation.x = 0.04;
 
         let dragging = false;
