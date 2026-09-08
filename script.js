@@ -794,7 +794,7 @@ resumeButton.addEventListener('click', async () => {
         // -------------------------------------------------
         const volumeSource = fishGroup.children.slice();
 
-        const volumeDepths = [-0.58, -0.28, 0.28, 0.58];
+        const volumeDepths = [-0.58, 0.58];
 
         volumeSource.forEach((mesh, i) => {
           const isLikelyEdge =

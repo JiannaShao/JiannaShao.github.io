@@ -1985,3 +1985,15 @@ button{
         transform:translateX(8px) !important;
     }
 }
+
+
+/* V73 — two fewer fish depth layers + slight right shift */
+.text-fish-3d-wrap{
+    transform:translateX(10px) !important;
+}
+
+@media(max-width:700px){
+    .text-fish-3d-wrap{
+        transform:translateX(12px) !important;
+    }
+}
