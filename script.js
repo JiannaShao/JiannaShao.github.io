@@ -946,7 +946,7 @@ resumeButton.addEventListener('click', async () => {
         // -------------------------------------------------
         // Initial angle + interaction
         // -------------------------------------------------
-        fishGroup.rotation.y = THREE.MathUtils.degToRad(8);
+        fishGroup.rotation.y = THREE.MathUtils.degToRad(5);
         fishGroup.rotation.x = 0.04;
 
         renderer.domElement.style.cursor = 'default';

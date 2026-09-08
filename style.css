@@ -1952,3 +1952,14 @@ button{
         font-size:12px;
     }
 }
+
+/* V70 — refine fish position */
+.text-fish-3d-wrap{
+    transform:translateX(-12px) !important;
+}
+
+@media(max-width:700px){
+    .text-fish-3d-wrap{
+        transform:translateX(-6px) !important;
+    }
+}
