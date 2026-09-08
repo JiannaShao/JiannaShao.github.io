@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects | Jianna Shao</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="project.css?v=1">
+</head>
+<body>
+
+  <aside id="side-nav" class="side-nav">
+    <a class="side-brand" href="index.html" aria-label="Home">JS</a>
+    <nav class="side-links" aria-label="Primary navigation">
+      <div class="side-nav-item"><a class="side-main-link" href="index.html#about">About</a></div>
+      <div class="side-nav-item side-dropdown">
+        <button class="side-dropdown-toggle" type="button" aria-expanded="false" aria-controls="portfolio-submenu">
+          <span>Portfolios</span><span class="side-dropdown-arrow" aria-hidden="true">⌄</span>
+        </button>
+        <div class="side-submenu-wrap" id="portfolio-submenu">
+          <div class="side-submenu">
+            <a href="design.html">Product Design</a>
+            <a href="art-portfolio.html">Fine Art</a>
+            <a href="research.html">Research</a>
+          </div>
+        </div>
+      </div>
+      <div class="side-nav-item"><a class="side-main-link" href="project.html">Projects</a></div>
+      <div class="side-nav-item"><a class="side-main-link" href="art.html">My Gallery Room</a></div>
+      <div class="side-nav-item"><a class="side-main-link" href="index.html#contact">Contact</a></div>
+    </nav>
+  </aside>
+
+  <div class="scroll-snake" aria-hidden="true">
+    <svg id="snake-svg" viewBox="0 0 48 1000" preserveAspectRatio="none">
+      <path id="snake-ghost" d="" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+      <path id="snake-path" d="" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </div>
+
+  <main class="page">
+    <header class="project-hero">
+      <p class="eyebrow">Selected Work</p>
+      <h1>Projects</h1>
+      <p class="hero-copy">A collection of independent, collaborative, and experimental work spanning visual design, making, interactive media, and research.</p>
+    </header>
+
+    <section class="project-section project-one" id="project-one">
+      <div class="section-heading">
+        <div><p class="section-number">01</p><h2>Project One</h2></div>
+        <p class="section-summary">A drawing-heavy project with many pieces visible at once. Click any image to open it larger without losing the overall wall of work.</p>
+      </div>
+
+      <div class="mosaic-grid">
+        <button class="mosaic-card span-tall image-button" type="button"><img src="ProjectImages/Project1/drawing-01.jpg" alt="Project One drawing 1"></button>
+        <article class="mosaic-text-card"><p class="small-label">Context</p><p>Add a short explanation here. These text cards can sit between drawings so the visual sequence and written process stay mixed together.</p></article>
+        <button class="mosaic-card span-wide image-button" type="button"><img src="ProjectImages/Project1/drawing-02.jpg" alt="Project One drawing 2"></button>
+        <button class="mosaic-card image-button" type="button"><img src="ProjectImages/Project1/drawing-03.jpg" alt="Project One drawing 3"></button>
+        <button class="mosaic-card span-tall image-button" type="button"><img src="ProjectImages/Project1/drawing-04.jpg" alt="Project One drawing 4"></button>
+        <article class="mosaic-text-card accent-card"><p class="small-label">Process Note</p><p>Use this for a quote, material note, process observation, or short reflection.</p></article>
+        <button class="mosaic-card image-button" type="button"><img src="ProjectImages/Project1/drawing-05.jpg" alt="Project One drawing 5"></button>
+        <button class="mosaic-card span-wide image-button" type="button"><img src="ProjectImages/Project1/drawing-06.jpg" alt="Project One drawing 6"></button>
+        <button class="mosaic-card image-button" type="button"><img src="ProjectImages/Project1/drawing-07.jpg" alt="Project One drawing 7"></button>
+        <button class="mosaic-card span-tall image-button" type="button"><img src="ProjectImages/Project1/drawing-08.jpg" alt="Project One drawing 8"></button>
+        <button class="mosaic-card image-button" type="button"><img src="ProjectImages/Project1/drawing-09.jpg" alt="Project One drawing 9"></button>
+        <article class="mosaic-text-card"><p class="small-label">Development</p><p>Add another short text block here to explain how the project changed over time.</p></article>
+        <button class="mosaic-card span-wide image-button" type="button"><img src="ProjectImages/Project1/drawing-10.jpg" alt="Project One drawing 10"></button>
+      </div>
+      <p class="interaction-note">Click any image to view it larger.</p>
+    </section>
+
+    <section class="project-section project-two" id="project-two">
+      <div class="section-heading">
+        <div><p class="section-number">02</p><h2>Project Two</h2></div>
+        <p class="section-summary">A more editorial section with more room for writing, large-format images, and one featured poster.</p>
+      </div>
+
+      <div class="editorial-intro">
+        <div class="editorial-copy">
+          <p>Add your main project description here. This area is designed for a few substantial paragraphs rather than lots of short captions.</p>
+          <p>You can explain your role, the goal of the project, the process, constraints, collaborators, and what changed between the initial concept and final result.</p>
+        </div>
+        <div class="project-meta">
+          <p><span>Role</span>Your role</p>
+          <p><span>Year</span>2026</p>
+          <p><span>Tools</span>Add tools / media</p>
+        </div>
+      </div>
+
+      <figure class="large-media">
+        <img src="ProjectImages/Project2/large-image-01.jpg" alt="Project Two large image 1">
+        <figcaption>Add a caption here.</figcaption>
+      </figure>
+
+      <div class="poster-layout">
+        <figure class="poster-media">
+          <img src="ProjectImages/Project2/poster.jpg" alt="Project Two poster">
+          <figcaption>Featured poster.</figcaption>
+        </figure>
+        <div class="poster-copy">
+          <p class="small-label">Poster / Final Artifact</p>
+          <h3>A focused place for the central visual.</h3>
+          <p>Use this text to discuss the poster, final presentation, exhibition, publication, or other primary output.</p>
+          <p>Because the poster remains large on screen, the viewer can examine it while reading the contextual text beside it.</p>
+        </div>
+      </div>
+
+      <figure class="large-media">
+        <img src="ProjectImages/Project2/large-image-02.jpg" alt="Project Two large image 2">
+        <figcaption>Add a second large-image caption here.</figcaption>
+      </figure>
+    </section>
+
+    <section class="project-section project-three" id="project-three">
+      <div class="section-heading">
+        <div><p class="section-number">03</p><h2>Project Three</h2></div>
+        <p class="section-summary">A photo-led section with relatively large images and enough text space for a detailed project narrative.</p>
+      </div>
+
+      <div class="story-block">
+        <div class="story-copy">
+          <p>This section is suited to a project where the photographs themselves are important, but the viewer also needs a fuller explanation of what was made, why it was made, and how the project developed.</p>
+          <p>Keep your longer description here. You can use several paragraphs without the page becoming too dense because the photographs are intentionally larger and spaced farther apart.</p>
+        </div>
+        <figure class="story-image"><img src="ProjectImages/Project3/photo-01.jpg" alt="Project Three photo 1"></figure>
+      </div>
+
+      <div class="photo-pair">
+        <figure><img src="ProjectImages/Project3/photo-02.jpg" alt="Project Three photo 2"><figcaption>Add caption.</figcaption></figure>
+        <figure><img src="ProjectImages/Project3/photo-03.jpg" alt="Project Three photo 3"><figcaption>Add caption.</figcaption></figure>
+      </div>
+
+      <div class="story-block reverse-story">
+        <div class="story-copy">
+          <p class="small-label">Reflection</p>
+          <h3>Add a secondary project idea or takeaway.</h3>
+          <p>This block can hold a reflection, technical explanation, exhibition context, or what you would change in a future iteration.</p>
+        </div>
+        <figure class="story-image"><img src="ProjectImages/Project3/photo-04.jpg" alt="Project Three photo 4"></figure>
+      </div>
+    </section>
+
+    <section class="project-section project-four" id="project-four">
+      <div class="section-heading">
+        <div><p class="section-number">04</p><h2>Project Four</h2></div>
+      </div>
+      <div class="empty-project-space" aria-hidden="true"></div>
+    </section>
+  </main>
+
+  <div id="image-lightbox" class="image-lightbox" aria-hidden="true">
+    <button class="lightbox-close" type="button" aria-label="Close image">×</button>
+    <img id="lightbox-image" src="" alt="">
+  </div>
+
+  <script>
+    const sideNav = document.getElementById('side-nav');
+    if (sideNav) {
+      sideNav.addEventListener('mouseenter', () => sideNav.classList.add('hover-open'));
+      sideNav.addEventListener('mouseleave', () => sideNav.classList.remove('hover-open'));
+      const sideBrand = document.querySelector('.side-brand');
+      if (sideBrand) {
+        sideBrand.addEventListener('click', (event) => {
+          if (window.matchMedia('(hover:none)').matches) {
+            event.preventDefault();
+            sideNav.classList.toggle('hover-open');
+          }
+        });
+      }
+    }
+
+    document.querySelectorAll('.side-dropdown-toggle').forEach((toggle) => {
+      toggle.addEventListener('click', () => {
+        const dropdown = toggle.closest('.side-dropdown');
+        const willOpen = !dropdown.classList.contains('is-open');
+        dropdown.classList.toggle('is-open', willOpen);
+        toggle.setAttribute('aria-expanded', String(willOpen));
+      });
+    });
+
+    const snakeSvg = document.getElementById('snake-svg');
+    const snakeGhost = document.getElementById('snake-ghost');
+    const snakePath = document.getElementById('snake-path');
+
+    function buildSnakePath() {
+      if (!snakeSvg || !snakeGhost || !snakePath) return;
+      const leftX = 10;
+      const rightX = 38;
+      const topY = 12;
+      const bottomY = 988;
+      const radius = (rightX - leftX) / 2;
+      const straightLength = 115;
+      let y = topY;
+      let x = leftX;
+      let d = `M ${x} ${y}`;
+      let direction = 1;
+
+      while (y + straightLength < bottomY) {
+        y += straightLength;
+        d += ` L ${x} ${y}`;
+        const nextX = direction === 1 ? rightX : leftX;
+        d += ` A ${radius} ${radius} 0 0 ${direction === 1 ? 1 : 0} ${nextX} ${y + radius * 2}`;
+        y += radius * 2;
+        x = nextX;
+        direction *= -1;
+      }
+
+      if (y < bottomY) d += ` L ${x} ${bottomY}`;
+      snakeGhost.setAttribute('d', d);
+      snakePath.setAttribute('d', d);
+      const totalLength = snakePath.getTotalLength();
+      snakePath.style.strokeDasharray = `${totalLength}`;
+      snakePath.style.strokeDashoffset = `${totalLength}`;
+      updateSnake();
+    }
+
+    function updateSnake() {
+      if (!snakePath) return;
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+      const totalLength = snakePath.getTotalLength();
+      snakePath.style.strokeDashoffset = `${totalLength * (1 - progress)}`;
+    }
+
+    window.addEventListener('scroll', updateSnake, { passive: true });
+    window.addEventListener('resize', buildSnakePath);
+    requestAnimationFrame(buildSnakePath);
+
+    const lightbox = document.getElementById('image-lightbox');
+    const lightboxImage = document.getElementById('lightbox-image');
+    const lightboxClose = document.querySelector('.lightbox-close');
+
+    function closeLightbox() {
+      if (!lightbox || !lightboxImage) return;
+      lightbox.classList.remove('is-open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      lightboxImage.src = '';
+      lightboxImage.alt = '';
+      document.body.classList.remove('lightbox-open');
+    }
+
+    document.querySelectorAll('.project-one .image-button img').forEach((image) => {
+      image.closest('.image-button').addEventListener('click', () => {
+        lightboxImage.src = image.src;
+        lightboxImage.alt = image.alt;
+        lightbox.classList.add('is-open');
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('lightbox-open');
+      });
+    });
+
+    if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+    if (lightbox) {
+      lightbox.addEventListener('click', (event) => {
+        if (event.target === lightbox) closeLightbox();
+      });
+    }
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeLightbox();
+    });
+  </script>
+</body>
+</html>
