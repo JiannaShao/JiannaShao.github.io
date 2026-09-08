@@ -1963,3 +1963,14 @@ button{
         transform:translateX(-6px) !important;
     }
 }
+
+/* V71 — move fish farther right */
+.text-fish-3d-wrap{
+    transform:translateX(-4px) !important;
+}
+
+@media(max-width:700px){
+    .text-fish-3d-wrap{
+        transform:translateX(-2px) !important;
+    }
+}
