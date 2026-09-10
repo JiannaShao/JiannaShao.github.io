@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="project.css?v=7">
+  <link rel="stylesheet" href="project.css?v=8">
 </head>
 <body>
 
@@ -498,7 +498,7 @@
         'SunpuddleFiles/Bird6.png'
       ];
 
-      const GROW_FRAME_TIME = 520;
+      const GROW_FRAME_TIME = 676;
 
       function createLoopingImage(frames, altText, className) {
         if (!Array.isArray(frames) || frames.length === 0) return null;
@@ -568,7 +568,7 @@
           bird.draggable = false;
 
           let birdFrame = 0;
-          let birdProgress = 0;
+          let birdProgress = 1.08;
 
           const BIRD_FRAME_TIME = 145;
           const BIRD_TRAVEL_PER_FRAME = 0.018;
@@ -581,11 +581,11 @@
               (birdFrame + 1) %
               BIRD_FRAMES.length;
 
-            birdProgress +=
+            birdProgress -=
               BIRD_TRAVEL_PER_FRAME;
 
-            if (birdProgress > 1.08) {
-              birdProgress = -0.10;
+            if (birdProgress < -0.10) {
+              birdProgress = 1.08;
             }
 
             bird.src =

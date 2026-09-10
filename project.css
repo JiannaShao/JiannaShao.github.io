@@ -2141,3 +2141,197 @@ figcaption{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.5;}
     transition:none !important;
   }
 }
+
+
+/* =====================================================
+   V8 — BIRD DIRECTION / PLANT SCALE / ASSET SPACING
+===================================================== */
+
+/* Bird is now 500% of the original V5 size and flies right -> left. */
+.garden-bird{
+  top:-92px !important;
+  left:0 !important;
+  width:100% !important;
+  height:330px !important;
+  transform:none !important;
+  display:block !important;
+  overflow:visible !important;
+  pointer-events:none !important;
+}
+
+.garden-bird .bird-sprite{
+  position:absolute;
+  top:0;
+
+  left:calc(
+    (100% - 460px) *
+    var(--bird-progress, 1.08)
+  );
+
+  width:auto !important;
+  height:auto !important;
+  max-width:460px !important;
+  max-height:330px !important;
+
+  object-fit:contain !important;
+  aspect-ratio:auto !important;
+
+  transition:left 145ms linear !important;
+  will-change:left;
+}
+
+
+/* Give the enlarged plants a little more vertical room. */
+.sunpuddle-garden{
+  min-height:435px !important;
+  padding-top:118px !important;
+}
+
+.garden-plants-row{
+  min-height:305px !important;
+}
+
+
+/*
+  Corn stays 30% larger than the V5 size.
+  Every other plant is now 80% larger than its V5 size.
+*/
+.plant-tomato .garden-sprite{
+  max-height:261px !important;   /* 145 × 1.80 */
+}
+
+.plant-cucumber .garden-sprite{
+  max-height:225px !important;   /* 125 × 1.80 */
+}
+
+.plant-bean .garden-sprite{
+  max-height:284px !important;   /* 158 × 1.80 */
+}
+
+.plant-corn .garden-sprite{
+  max-height:283px !important;   /* 218 × 1.30 */
+}
+
+.plant-lettuce .garden-sprite{
+  max-height:189px !important;   /* 105 × 1.80 */
+}
+
+.plant-onion .garden-sprite{
+  max-height:266px !important;   /* 148 × 1.80 */
+}
+
+.plant-strawberry .garden-sprite{
+  max-height:184px !important;   /* 102 × 1.80 */
+}
+
+.plant-potato .garden-sprite{
+  max-height:315px !important;   /* 175 × 1.80 */
+}
+
+
+/* -----------------------------------------------------
+   Lower assets: boxes never overlap one another.
+   Hover scaling stays clipped inside each item's box.
+----------------------------------------------------- */
+
+.sunpuddle-reference-grid{
+  align-items:stretch !important;
+}
+
+.sunpuddle-reference-grid > .reference-card,
+.sunpuddle-reference-grid > .reference-text-card{
+  position:relative !important;
+  z-index:1 !important;
+  min-width:0 !important;
+  min-height:0;
+  overflow:hidden !important;
+  transform:none !important;
+}
+
+.sunpuddle-reference-grid > .reference-card:hover,
+.sunpuddle-reference-grid > .reference-text-card:hover{
+  z-index:1 !important;
+  transform:none !important;
+}
+
+.sunpuddle-reference-grid .reference-card img{
+  max-width:100% !important;
+  max-height:100% !important;
+  object-fit:contain !important;
+  transform:scale(1) !important;
+}
+
+.sunpuddle-reference-grid .reference-card:hover img{
+  transform:scale(1.045) !important;
+}
+
+/* Egg has its own grid cell and cannot intrude into neighboring assets. */
+.sunpuddle-reference-grid > .egg-card{
+  position:relative !important;
+  z-index:1 !important;
+  min-width:0 !important;
+  overflow:hidden !important;
+}
+
+.sunpuddle-reference-grid .egg-sprite{
+  max-width:100% !important;
+  max-height:100% !important;
+}
+
+
+/* Responsive bird / plant sizing */
+@media(max-width:900px){
+  .garden-bird{
+    top:-62px !important;
+    height:275px !important;
+  }
+
+  .garden-bird .bird-sprite{
+    left:calc(
+      (100% - 385px) *
+      var(--bird-progress, 1.08)
+    );
+    max-width:385px !important;
+    max-height:275px !important;
+  }
+
+  .sunpuddle-garden{
+    min-height:390px !important;
+    padding-top:104px !important;
+  }
+
+  .garden-plants-row{
+    min-height:275px !important;
+  }
+}
+
+@media(max-width:700px){
+  .garden-bird{
+    top:-38px !important;
+    height:215px !important;
+  }
+
+  .garden-bird .bird-sprite{
+    left:calc(
+      (100% - 300px) *
+      var(--bird-progress, 1.08)
+    );
+    max-width:300px !important;
+    max-height:215px !important;
+  }
+
+  .sunpuddle-garden{
+    min-height:335px !important;
+    padding-top:90px !important;
+  }
+
+  .garden-plants-row{
+    min-height:225px !important;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .garden-bird .bird-sprite{
+    transition:none !important;
+  }
+}
