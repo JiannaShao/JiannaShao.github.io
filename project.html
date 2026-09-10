@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="project.css?v=8">
+  <link rel="stylesheet" href="project.css?v=9">
 </head>
 <body>
 
@@ -96,6 +96,8 @@
         <div class="sunpuddle-garden">
           <div id="bird-animation" class="garden-bird" aria-label="Bird animation"></div>
           <div id="garden-plants" class="garden-plants-row"></div>
+
+          <div class="garden-dirt" aria-hidden="true"></div>
 
           <div class="garden-planter" aria-hidden="true">
             <div class="garden-planter-rim"></div>
@@ -584,7 +586,20 @@
             birdProgress -=
               BIRD_TRAVEL_PER_FRAME;
 
-            if (birdProgress < -0.10) {
+            const birdTravelDistance =
+              Math.max(
+                1,
+                Math.abs(
+                  birdSlot.clientWidth -
+                  bird.getBoundingClientRect().width
+                )
+              );
+
+            const earlierStopProgress =
+              -0.10 +
+              (15 / birdTravelDistance);
+
+            if (birdProgress < earlierStopProgress) {
               birdProgress = 1.08;
             }
 
