@@ -2644,3 +2644,139 @@ figcaption{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.5;}
     max-height:358px !important;
   }
 }
+
+
+/* =====================================================
+   V11 — 200PX GARDEN OVERLAP / DOUBLE DIRT / TALLER ASSETS
+===================================================== */
+
+/*
+  Pull the entire plant/soil/planter group upward by ~200px.
+  The heading and flying bird stay visually underneath the plants,
+  creating the requested overlap instead of a large empty gap.
+*/
+.garden-subsection{
+  position:relative;
+}
+
+.first-section-heading{
+  position:relative;
+  z-index:2;
+}
+
+.sunpuddle-garden{
+  position:relative;
+  z-index:3;
+
+  min-height:340px !important;
+  padding-top:190px !important;
+  margin-top:-200px !important;
+}
+
+/* Bird stays behind the plant layer. */
+.garden-bird{
+  z-index:2 !important;
+}
+
+/* Plants, dirt, and planter sit above the bird + heading. */
+.garden-plants-row{
+  position:relative;
+  z-index:12 !important;
+}
+
+.garden-dirt{
+  position:relative;
+  z-index:10 !important;
+
+  /* 2× the previous 22px dirt height */
+  height:44px !important;
+
+  /* keep it tucked behind the plant bases and attached to planter */
+  margin:-35px auto -5px !important;
+}
+
+.garden-planter{
+  position:relative;
+  z-index:9 !important;
+}
+
+
+/* =====================================================
+   BOTTOM 8 ASSETS — SLIGHTLY TALLER
+===================================================== */
+
+/*
+  Keep the same layout/column placement, but give the bottom image rows
+  more vertical room so the assets read taller without overlapping.
+*/
+.sunpuddle-reference-grid{
+  grid-auto-rows:165px !important;
+}
+
+.fish-one-card,
+.wishes-table-card,
+.fish-three-card,
+.fish-two-card,
+.dandelion-card,
+.pot-card{
+  min-height:165px !important;
+}
+
+.text-card-two{
+  min-height:346px !important;
+}
+
+.text-card-three,
+.park-sign-card{
+  min-height:346px !important;
+}
+
+/* Preserve the current enlarged image scale while allowing more visible height. */
+.fish-one-card img,
+.wishes-table-card img,
+.fish-three-card img,
+.fish-two-card img,
+.dandelion-card img,
+.pot-card img{
+  max-height:145px !important;
+}
+
+.park-sign-card img{
+  max-height:300px !important;
+}
+
+
+/* Responsive overlap is reduced proportionally so the mobile layout stays usable. */
+@media(max-width:900px){
+  .sunpuddle-garden{
+    min-height:315px !important;
+    padding-top:160px !important;
+    margin-top:-165px !important;
+  }
+
+  .garden-dirt{
+    height:40px !important;
+    margin:-31px auto -5px !important;
+  }
+
+  .sunpuddle-reference-grid{
+    grid-auto-rows:150px !important;
+  }
+}
+
+@media(max-width:700px){
+  .sunpuddle-garden{
+    min-height:285px !important;
+    padding-top:130px !important;
+    margin-top:-125px !important;
+  }
+
+  .garden-dirt{
+    height:36px !important;
+    margin:-28px auto -4px !important;
+  }
+
+  .sunpuddle-reference-grid{
+    grid-auto-rows:150px !important;
+  }
+}
