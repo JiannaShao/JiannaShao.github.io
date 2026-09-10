@@ -3352,3 +3352,54 @@ figcaption{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.5;}
     margin:0 auto;
   }
 }
+
+
+/* =====================================================
+   V17 — PROJECT 2 LEFT IMAGES FILL AVAILABLE ROW WIDTH
+===================================================== */
+
+/*
+  WP1, WP2, and WP3 now fill the entire remaining left-column width
+  beside the metadata / WP4 column.
+*/
+.project-two-v16-layout .project-two-large-stack{
+  width:100% !important;
+  align-items:stretch !important;
+}
+
+.project-two-v16-layout .project-two-large-stack .large-media{
+  width:100% !important;
+  max-width:none !important;
+  margin:0 !important;
+}
+
+.project-two-v16-layout .project-two-large-stack .large-media img{
+  display:block;
+  width:100% !important;
+  height:auto !important;
+  max-width:none !important;
+  max-height:none !important;
+  object-fit:contain !important;
+}
+
+/* Keep the same two-column relationship while letting the images
+   naturally size from the available horizontal space. */
+.project-two-v16-layout{
+  grid-template-columns:minmax(0,1fr) minmax(340px,.9fr) !important;
+}
+
+@media(max-width:900px){
+  .project-two-v16-layout{
+    grid-template-columns:minmax(0,1fr) minmax(280px,.82fr) !important;
+  }
+
+  .project-two-v16-layout .project-two-large-stack .large-media{
+    width:100% !important;
+  }
+}
+
+@media(max-width:700px){
+  .project-two-v16-layout .project-two-large-stack .large-media{
+    width:100% !important;
+  }
+}
