@@ -600,3 +600,464 @@ figcaption{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.5;}
   .large-media{width:100%;}
   .image-lightbox{padding:24px;}
 }
+
+
+/* =====================================================
+   V3 — PROJECT 1 ANIMATED FLAT GARDEN
+===================================================== */
+
+.garden-subsection{
+  margin-top:8px;
+}
+
+.garden-planter{
+  width:100%;
+  margin:0 0 18px;
+}
+
+.garden-planter-rim{
+  width:100%;
+  height:18px;
+  border-radius:7px 7px 3px 3px;
+  background:#7d5134;
+  box-shadow:0 4px 0 rgba(20,37,61,.07);
+}
+
+.garden-planter-body{
+  width:96%;
+  height:34px;
+  margin:0 auto;
+  border-radius:0 0 12px 12px;
+  background:#946542;
+}
+
+.garden-stage{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(110px,16%);
+  gap:22px;
+  align-items:end;
+  width:100%;
+  min-height:250px;
+  padding:18px 18px 12px;
+  border-radius:14px;
+  background:#fff;
+  border:1px solid var(--line);
+}
+
+.garden-plants-area{
+  min-width:0;
+  align-self:end;
+}
+
+.garden-plants-row{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:10px;
+  width:100%;
+  min-height:205px;
+}
+
+.garden-plant{
+  flex:1 1 0;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  min-width:0;
+  margin:0;
+}
+
+.garden-sprite{
+  display:block;
+  width:auto !important;
+  height:auto !important;
+  max-width:100%;
+  max-height:205px;
+  object-fit:contain !important;
+}
+
+.garden-egg-area{
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  min-width:0;
+  min-height:218px;
+}
+
+.egg-animation-slot{
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  width:100%;
+  min-height:218px;
+}
+
+.egg-sprite{
+  display:block;
+  width:auto !important;
+  height:auto !important;
+  max-width:100%;
+  max-height:218px;
+  object-fit:contain !important;
+}
+
+.garden-path-placeholder,
+.egg-path-placeholder{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:170px;
+  padding:18px;
+  border:1px dashed #bcc8c4;
+  border-radius:12px;
+  color:var(--muted);
+  font-size:12px;
+  text-align:center;
+}
+
+.garden-path-placeholder{
+  width:100%;
+}
+
+.egg-path-placeholder{
+  width:100%;
+  min-height:210px;
+}
+
+.garden-note-card{
+  width:min(650px,100%);
+  margin-top:18px;
+  padding:18px 20px;
+  border-radius:14px;
+  background:var(--light-accent);
+}
+
+.garden-note-card .small-label{
+  margin-bottom:8px;
+}
+
+.garden-note-card p:last-child{
+  margin:0;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.6;
+}
+
+/* Keep every garden animation at its original image ratio. */
+.garden-stage img{
+  aspect-ratio:auto !important;
+}
+
+/* =====================================================
+   V3 — PROJECT 2: THREE LARGE IMAGES LEFT / PAGE RIGHT
+===================================================== */
+
+.project-two-media-layout{
+  display:grid;
+  grid-template-columns:minmax(0,1.55fr) minmax(280px,.65fr);
+  gap:46px;
+  align-items:start;
+  width:100%;
+}
+
+.project-two-large-stack{
+  display:flex;
+  flex-direction:column;
+  gap:36px;
+  min-width:0;
+}
+
+.project-two-large-stack .large-media{
+  width:100%;
+  margin:0;
+}
+
+.project-two-large-stack .large-media img{
+  width:100%;
+  height:auto;
+  max-height:none;
+  object-fit:contain;
+  border-radius:14px;
+}
+
+.project-two-media-layout .portrait-paper-media{
+  position:sticky;
+  top:34px;
+  width:100%;
+  margin:0;
+}
+
+.project-two-media-layout .paper-frame{
+  width:100%;
+  aspect-ratio:8.5 / 11;
+}
+
+.project-two-media-layout .paper-frame img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+
+@media(max-width:800px){
+  .garden-stage{
+    grid-template-columns:minmax(0,1fr) 105px;
+    gap:12px;
+    padding:14px 12px 10px;
+  }
+
+  .garden-plants-row{
+    gap:6px;
+  }
+
+  .garden-sprite{
+    max-height:170px;
+  }
+
+  .egg-sprite{
+    max-height:190px;
+  }
+
+  .project-two-media-layout{
+    grid-template-columns:minmax(0,1fr) minmax(220px,.62fr);
+    gap:28px;
+  }
+}
+
+@media(max-width:620px){
+  .garden-stage{
+    grid-template-columns:1fr;
+  }
+
+  .garden-egg-area,
+  .egg-animation-slot{
+    min-height:170px;
+  }
+
+  .egg-sprite{
+    max-height:170px;
+  }
+
+  .project-two-media-layout{
+    grid-template-columns:1fr;
+  }
+
+  .project-two-media-layout .portrait-paper-media{
+    position:static;
+    width:min(440px,88%);
+    margin:0 auto;
+  }
+}
+
+
+/* =====================================================
+   V4 — SUNPUDDLE FIRST-SECTION ASSETS
+===================================================== */
+
+/*
+  Eight plant positions are visible at once, left-to-right.
+  Their images never receive a forced aspect ratio, so every animation
+  frame keeps the proportions of the uploaded PNG.
+*/
+.garden-stage{
+  grid-template-columns:minmax(0,1fr) minmax(118px,14%);
+  gap:18px;
+  min-height:270px;
+}
+
+.garden-plants-row{
+  align-items:flex-end;
+  gap:4px;
+  min-height:220px;
+}
+
+.garden-plant{
+  flex:1 1 0;
+  min-width:0;
+  overflow:visible;
+}
+
+.garden-sprite{
+  width:auto !important;
+  height:auto !important;
+  max-width:100% !important;
+  max-height:220px !important;
+  object-fit:contain !important;
+  aspect-ratio:auto !important;
+  transform-origin:50% 100%;
+  transition:transform .18s ease;
+}
+
+.garden-plant:hover .garden-sprite{
+  transform:scale(1.07);
+}
+
+.garden-egg-area,
+.egg-animation-slot{
+  min-height:238px;
+}
+
+.egg-sprite{
+  width:auto !important;
+  height:auto !important;
+  max-width:100% !important;
+  max-height:238px !important;
+  object-fit:contain !important;
+  aspect-ratio:auto !important;
+}
+
+
+/* Bird + static supporting images under the garden row */
+.sunpuddle-asset-row{
+  display:grid;
+  grid-template-columns:minmax(150px,.72fr) minmax(170px,.82fr) minmax(0,1.8fr);
+  gap:16px;
+  align-items:start;
+  margin-top:20px;
+}
+
+.sunpuddle-asset-card{
+  min-width:0;
+  margin:0;
+  border-radius:14px;
+}
+
+.bird-asset-card{
+  padding:18px;
+  background:#fff;
+  border:1px solid var(--line);
+}
+
+.bird-animation-slot{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-height:190px;
+}
+
+.bird-sprite{
+  display:block;
+  width:auto !important;
+  height:auto !important;
+  max-width:100% !important;
+  max-height:190px !important;
+  object-fit:contain !important;
+  aspect-ratio:auto !important;
+}
+
+.static-asset-card{
+  display:block;
+  width:100%;
+  padding:0;
+  overflow:hidden;
+  border:1px solid var(--line);
+  background:#fff;
+  cursor:zoom-in;
+}
+
+.static-asset-card img{
+  display:block;
+  width:100% !important;
+  height:auto !important;
+  max-height:none !important;
+  object-fit:contain !important;
+  aspect-ratio:auto !important;
+  transition:transform .22s ease;
+}
+
+.static-asset-card:hover img{
+  transform:scale(1.035);
+}
+
+.sunpuddle-asset-row figcaption{
+  margin-bottom:0;
+}
+
+
+/* Project 2 remains: 3 large images stacked left, paper image right. */
+.project-two-media-layout{
+  grid-template-columns:minmax(0,1.48fr) minmax(300px,.72fr);
+  gap:52px;
+}
+
+.project-two-large-stack{
+  gap:34px;
+}
+
+.project-two-media-layout .portrait-paper-media{
+  align-self:start;
+}
+
+
+@media(max-width:900px){
+  .garden-stage{
+    grid-template-columns:minmax(0,1fr) 108px;
+  }
+
+  .garden-sprite{
+    max-height:180px !important;
+  }
+
+  .egg-sprite{
+    max-height:205px !important;
+  }
+
+  .sunpuddle-asset-row{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .wide-static-asset{
+    grid-column:1 / -1;
+  }
+
+  .project-two-media-layout{
+    grid-template-columns:minmax(0,1.35fr) minmax(235px,.65fr);
+    gap:30px;
+  }
+}
+
+
+@media(max-width:620px){
+  .garden-stage{
+    grid-template-columns:1fr;
+  }
+
+  .garden-plants-row{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:10px 6px;
+  }
+
+  .garden-sprite{
+    max-height:150px !important;
+  }
+
+  .garden-egg-area,
+  .egg-animation-slot{
+    min-height:180px;
+  }
+
+  .egg-sprite{
+    max-height:180px !important;
+  }
+
+  .sunpuddle-asset-row{
+    grid-template-columns:1fr;
+  }
+
+  .wide-static-asset{
+    grid-column:auto;
+  }
+
+  .bird-animation-slot{
+    min-height:160px;
+  }
+
+  .bird-sprite{
+    max-height:160px !important;
+  }
+
+  .project-two-media-layout{
+    grid-template-columns:1fr;
+  }
+}

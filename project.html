@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="project.css?v=2">
+  <link rel="stylesheet" href="project.css?v=4">
 </head>
 <body>
 
@@ -87,38 +87,61 @@
         <p class="section-summary">A drawing-heavy project with many pieces visible at once. Click any drawing to open it larger without losing the overall wall of work.</p>
       </div>
 
-      <div class="mosaic-subsection">
+      <div class="mosaic-subsection garden-subsection">
         <div class="subsection-heading">
           <p class="small-label">Part I</p>
           <h3>First Section</h3>
         </div>
 
-        <div class="mosaic-grid">
-          <button class="mosaic-card tall image-button" type="button">
-            <img src="ProjectImages/Project1/drawing-01.jpg" alt="Project One drawing 1">
+        <!-- Long planter row -->
+        <div class="garden-planter" aria-hidden="true">
+          <div class="garden-planter-rim"></div>
+          <div class="garden-planter-body"></div>
+        </div>
+
+        <!--
+          Flat vegetable-garden row.
+          Each plant position continuously cycles through its own growth frames.
+          The egg animation stays on the far right because it is taller.
+        -->
+        <div class="garden-stage">
+          <div class="garden-plants-area">
+            <div id="garden-plants" class="garden-plants-row"></div>
+          </div>
+
+          <div class="garden-egg-area">
+            <div id="egg-animation" class="egg-animation-slot"></div>
+          </div>
+        </div>
+
+        <!-- Additional Sunpuddle art from the same asset set -->
+        <div class="sunpuddle-asset-row">
+          <figure class="sunpuddle-asset-card bird-asset-card">
+            <div id="bird-animation" class="bird-animation-slot"></div>
+            <figcaption>Bird animation</figcaption>
+          </figure>
+
+          <button class="sunpuddle-asset-card static-asset-card image-button" type="button">
+            <img
+              src="SunpuddleFiles/Dandelion2.png"
+              alt="Sunpuddle dandelion artwork"
+            >
           </button>
 
-          <button class="mosaic-card wide image-button" type="button">
-            <img src="ProjectImages/Project1/drawing-02.jpg" alt="Project One drawing 2">
+          <button class="sunpuddle-asset-card static-asset-card wide-static-asset image-button" type="button">
+            <img
+              src="SunpuddleFiles/DuckVillage.png"
+              alt="Sunpuddle Duck Village artwork"
+            >
           </button>
+        </div>
 
-          <article class="mosaic-text-card">
-            <p class="small-label">Context</p>
-            <p>Add a short explanation here. Text cards fill the spaces between drawings so the page stays visually full rather than leaving blank gaps.</p>
-          </article>
-
-          <button class="mosaic-card image-button" type="button">
-            <img src="ProjectImages/Project1/drawing-03.jpg" alt="Project One drawing 3">
-          </button>
-
-          <article class="mosaic-text-card accent-card">
-            <p class="small-label">Process Note</p>
-            <p>Use this for a material note, process observation, quotation, or short reflection.</p>
-          </article>
-
-          <button class="mosaic-card image-button" type="button">
-            <img src="ProjectImages/Project1/drawing-04.jpg" alt="Project One drawing 4">
-          </button>
+        <div class="garden-note-card">
+          <p class="small-label">Animated Assets</p>
+          <p>
+            The vegetable sprites, bird, and egg continuously loop through their
+            frames. Static artwork keeps its original image proportions.
+          </p>
         </div>
       </div>
 
@@ -170,7 +193,7 @@
         </div>
       </div>
 
-      <p class="interaction-note">Click any image to view it larger.</p>
+      <p class="interaction-note">Garden animations loop automatically. Images in the second section can still be opened larger.</p>
     </section>
 
     <!-- =====================================================
@@ -198,22 +221,31 @@
         </div>
       </div>
 
-      <figure class="large-media">
-        <img src="ProjectImages/Project2/large-image-01.jpg" alt="Project Two large image 1">
-        <figcaption>Add a caption here.</figcaption>
-      </figure>
+      <div class="project-two-media-layout">
+        <div class="project-two-large-stack">
+          <figure class="large-media">
+            <img src="ProjectImages/Project2/large-image-01.jpg" alt="Project Two large image 1">
+            <figcaption>Add a caption here.</figcaption>
+          </figure>
 
-      <figure class="portrait-paper-media">
-        <div class="paper-frame">
-          <img src="ProjectImages/Project2/vertical-page.jpg" alt="Project Two vertical page image">
+          <figure class="large-media">
+            <img src="ProjectImages/Project2/large-image-02.jpg" alt="Project Two large image 2">
+            <figcaption>Add a second large-image caption here.</figcaption>
+          </figure>
+
+          <figure class="large-media">
+            <img src="ProjectImages/Project2/large-image-03.jpg" alt="Project Two large image 3">
+            <figcaption>Add a third large-image caption here.</figcaption>
+          </figure>
         </div>
-        <figcaption>Add a caption for the vertical page image.</figcaption>
-      </figure>
 
-      <figure class="large-media">
-        <img src="ProjectImages/Project2/large-image-02.jpg" alt="Project Two large image 2">
-        <figcaption>Add a second large-image caption here.</figcaption>
-      </figure>
+        <figure class="portrait-paper-media">
+          <div class="paper-frame">
+            <img src="ProjectImages/Project2/vertical-page.jpg" alt="Project Two vertical page image">
+          </div>
+          <figcaption>Add a caption for the vertical page image.</figcaption>
+        </figure>
+      </div>
     </section>
 
     <!-- =====================================================
@@ -337,6 +369,178 @@
           toggle.setAttribute('aria-expanded', String(willOpen));
         });
       });
+
+      /* =====================================================
+         PROJECT 1 — SUNPUDDLE ANIMATIONS
+      ====================================================== */
+
+      const GARDEN_PLANTS = [
+        {
+          name: 'Potato',
+          frames: [
+            'SunpuddleFiles/Potatoplant1.png',
+            'SunpuddleFiles/potatoplant2.png'
+          ]
+        },
+        {
+          name: 'Strawberry',
+          frames: [
+            'SunpuddleFiles/StrawberryPlant1.png',
+            'SunpuddleFiles/strawberryplant2.png',
+            'SunpuddleFiles/strawberryplant3.png',
+            'SunpuddleFiles/strawberryplant4.png'
+          ]
+        },
+        {
+          name: 'Bean',
+          frames: [
+            'SunpuddleFiles/beanplant1.png',
+            'SunpuddleFiles/beanplant2.png',
+            'SunpuddleFiles/beanplant3.png',
+            'SunpuddleFiles/beanplant4.png'
+          ]
+        },
+        {
+          name: 'Corn',
+          frames: [
+            'SunpuddleFiles/cornplant1.png',
+            'SunpuddleFiles/cornplant2.png',
+            'SunpuddleFiles/cornplant3.png'
+          ]
+        },
+        {
+          name: 'Cucumber',
+          frames: [
+            'SunpuddleFiles/cucumberplant.png',
+            'SunpuddleFiles/cucumberplant2.png',
+            'SunpuddleFiles/cucumberplant3.png',
+            'SunpuddleFiles/cucumberplant4.png',
+            'SunpuddleFiles/cucumberplant5.png'
+          ]
+        },
+        {
+          name: 'Lettuce',
+          frames: [
+            'SunpuddleFiles/lettuceplant1.png',
+            'SunpuddleFiles/lettuceplant2.png',
+            'SunpuddleFiles/lettuceplant3.png'
+          ]
+        },
+        {
+          name: 'Onion',
+          frames: [
+            'SunpuddleFiles/onionplant1.png',
+            'SunpuddleFiles/onionplant2.png',
+            'SunpuddleFiles/onionplant3.png'
+          ]
+        },
+        {
+          name: 'Tomato',
+          frames: [
+            'SunpuddleFiles/tomatoplant1.png',
+            'SunpuddleFiles/tomatoplant2.png',
+            'SunpuddleFiles/tomatoplant3.png',
+            'SunpuddleFiles/tomatoplant4.png',
+            'SunpuddleFiles/tomatoplant5.png'
+          ]
+        }
+      ];
+
+      const EGG_FRAMES = [
+        'SunpuddleFiles/Egg1.png',
+        'SunpuddleFiles/Egg2.png',
+        'SunpuddleFiles/Egg3.png',
+        'SunpuddleFiles/Egg4.png',
+        'SunpuddleFiles/Egg5.png',
+        'SunpuddleFiles/Egg6.png'
+      ];
+
+      const BIRD_FRAMES = [
+        'SunpuddleFiles/Bird1.png',
+        'SunpuddleFiles/Bird2.png',
+        'SunpuddleFiles/Bird3.png',
+        'SunpuddleFiles/Bird4.png',
+        'SunpuddleFiles/Bird5.png',
+        'SunpuddleFiles/Bird6.png'
+      ];
+
+      const GROW_FRAME_TIME = 520;
+
+      function createLoopingImage(frames, altText, className) {
+        if (!Array.isArray(frames) || frames.length === 0) return null;
+
+        const image = document.createElement('img');
+        image.className = className;
+        image.alt = altText;
+        image.src = frames[0];
+        image.decoding = 'async';
+
+        let frameIndex = 0;
+
+        window.setInterval(() => {
+          frameIndex = (frameIndex + 1) % frames.length;
+          image.src = frames[frameIndex];
+        }, GROW_FRAME_TIME);
+
+        return image;
+      }
+
+      function buildGardenAnimations() {
+        const plantsRow = document.getElementById('garden-plants');
+        const eggSlot = document.getElementById('egg-animation');
+        const birdSlot = document.getElementById('bird-animation');
+
+        if (plantsRow) {
+          plantsRow.innerHTML = '';
+
+          GARDEN_PLANTS.forEach((plant, index) => {
+            const figure = document.createElement('figure');
+            figure.className = 'garden-plant';
+
+            const image = createLoopingImage(
+              plant.frames,
+              `${plant.name || `Plant ${index + 1}`} growing animation`,
+              'garden-sprite'
+            );
+
+            if (image) {
+              figure.appendChild(image);
+            }
+
+            plantsRow.appendChild(figure);
+          });
+        }
+
+        if (eggSlot) {
+          eggSlot.innerHTML = '';
+
+          const egg = createLoopingImage(
+            EGG_FRAMES,
+            'Egg animation',
+            'egg-sprite'
+          );
+
+          if (egg) {
+            eggSlot.appendChild(egg);
+          }
+        }
+
+        if (birdSlot) {
+          birdSlot.innerHTML = '';
+
+          const bird = createLoopingImage(
+            BIRD_FRAMES,
+            'Bird animation',
+            'bird-sprite'
+          );
+
+          if (bird) {
+            birdSlot.appendChild(bird);
+          }
+        }
+      }
+
+      buildGardenAnimations();
 
       /* =====================================================
          SCROLLING SNAKE — same build method as index
