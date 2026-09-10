@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="project.css?v=13">
+  <link rel="stylesheet" href="project.css?v=14">
 </head>
 <body>
 
@@ -252,24 +252,24 @@
       <div class="project-two-media-layout">
         <div class="project-two-large-stack">
           <figure class="large-media">
-            <img src="ProjectImages/Project2/large-image-01.jpg" alt="Project Two large image 1">
+            <img src="WP1.jpeg" alt="Project Two large image 1" class="project-two-zoomable" tabindex="0" role="button" aria-label="Click to magnify image">
             <figcaption>Add a caption here.</figcaption>
           </figure>
 
           <figure class="large-media">
-            <img src="ProjectImages/Project2/large-image-02.jpg" alt="Project Two large image 2">
+            <img src="WP2.jpeg" alt="Project Two large image 2" class="project-two-zoomable" tabindex="0" role="button" aria-label="Click to magnify image">
             <figcaption>Add a second large-image caption here.</figcaption>
           </figure>
 
           <figure class="large-media">
-            <img src="ProjectImages/Project2/large-image-03.jpg" alt="Project Two large image 3">
+            <img src="WP3.jpeg" alt="Project Two large image 3" class="project-two-zoomable" tabindex="0" role="button" aria-label="Click to magnify image">
             <figcaption>Add a third large-image caption here.</figcaption>
           </figure>
         </div>
 
         <figure class="portrait-paper-media">
           <div class="paper-frame">
-            <img src="ProjectImages/Project2/vertical-page.jpg" alt="Project Two vertical page image">
+            <img src="WP4.jpg" alt="Project Two vertical page image" class="project-two-zoomable" tabindex="0" role="button" aria-label="Click to magnify image">
           </div>
           <figcaption>Add a caption for the vertical page image.</figcaption>
         </figure>
@@ -345,10 +345,10 @@
   </main>
 
   <!-- =====================================================
-       PROJECT ONE LIGHTBOX
+       PROJECT TWO IMAGE MAGNIFIER
   ====================================================== -->
   <div id="image-lightbox" class="image-lightbox" aria-hidden="true">
-    <button class="lightbox-close" type="button" aria-label="Close image">×</button>
+    <button class="lightbox-close" type="button" aria-label="Close magnified image">×</button>
     <img id="lightbox-image" src="" alt="">
   </div>
 
@@ -714,6 +714,77 @@
         window.addEventListener('resize', buildSnake, { passive: true });
         window.addEventListener('scroll', updateSnake, { passive: true });
       }
+
+      /* =====================================================
+         PROJECT 2 IMAGE MAGNIFIER
+      ====================================================== */
+      const imageLightbox = document.getElementById('image-lightbox');
+      const lightboxImage = document.getElementById('lightbox-image');
+      const lightboxClose = document.querySelector('.lightbox-close');
+      const projectTwoImages = document.querySelectorAll(
+        '.project-two .project-two-zoomable'
+      );
+
+      function openProjectTwoImage(image) {
+        if (!imageLightbox || !lightboxImage || !image) return;
+
+        lightboxImage.src = image.src;
+        lightboxImage.alt = image.alt || 'Magnified Project Two image';
+
+        imageLightbox.classList.add('is-open');
+        imageLightbox.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('lightbox-open');
+
+        if (lightboxClose) {
+          lightboxClose.focus();
+        }
+      }
+
+      function closeProjectTwoImage() {
+        if (!imageLightbox || !lightboxImage) return;
+
+        imageLightbox.classList.remove('is-open');
+        imageLightbox.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('lightbox-open');
+
+        lightboxImage.src = '';
+        lightboxImage.alt = '';
+      }
+
+      projectTwoImages.forEach((image) => {
+        image.addEventListener('click', () => {
+          openProjectTwoImage(image);
+        });
+
+        image.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            openProjectTwoImage(image);
+          }
+        });
+      });
+
+      if (lightboxClose) {
+        lightboxClose.addEventListener('click', closeProjectTwoImage);
+      }
+
+      if (imageLightbox) {
+        imageLightbox.addEventListener('click', (event) => {
+          if (event.target === imageLightbox) {
+            closeProjectTwoImage();
+          }
+        });
+      }
+
+      document.addEventListener('keydown', (event) => {
+        if (
+          event.key === 'Escape' &&
+          imageLightbox &&
+          imageLightbox.classList.contains('is-open')
+        ) {
+          closeProjectTwoImage();
+        }
+      });
     })();
   </script>
 </body>

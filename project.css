@@ -2976,3 +2976,200 @@ figcaption{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.5;}
     max-height:335px !important;
   }
 }
+
+
+/* =====================================================
+   V14 — PROJECT 1 REFINEMENTS + PROJECT 2 IMAGE ZOOM
+===================================================== */
+
+/* Bird another 25px higher. */
+.garden-bird{
+  top:198px !important;
+}
+
+
+/* -----------------------------------------------------
+   Project 1: taller Pond Plants + Context row
+----------------------------------------------------- */
+
+/*
+  Row 4 now gets extra height, while the overall arrangement stays intact.
+*/
+.sunpuddle-reference-grid{
+  grid-template-rows:
+    165px
+    165px
+    165px
+    195px
+    165px
+    165px
+    210px
+    210px !important;
+}
+
+.text-card-one,
+.pond-plants-card{
+  min-height:0 !important;
+  height:100% !important;
+}
+
+.pond-plants-card img{
+  max-height:168px !important;
+}
+
+
+/* -----------------------------------------------------
+   Project 1: wider Process text box
+----------------------------------------------------- */
+
+/* Process grows from 3 columns to 4. */
+.text-card-two{
+  grid-column:9 / span 4 !important;
+  grid-row:5 / span 2 !important;
+}
+
+/* Assets to its left become slightly narrower. */
+.fish-one-card{
+  grid-column:1 / span 3 !important;
+  grid-row:5 !important;
+}
+
+.wishes-table-card{
+  grid-column:4 / span 2 !important;
+  grid-row:5 !important;
+}
+
+.fish-three-card{
+  grid-column:6 / span 3 !important;
+  grid-row:5 !important;
+}
+
+.fish-two-card{
+  grid-column:1 / span 3 !important;
+  grid-row:6 !important;
+}
+
+.dandelion-card{
+  grid-column:4 / span 2 !important;
+  grid-row:6 !important;
+}
+
+.pot-card{
+  grid-column:6 / span 3 !important;
+  grid-row:6 !important;
+}
+
+
+/* -----------------------------------------------------
+   Project 2: hover + click magnification
+----------------------------------------------------- */
+
+.project-two .large-media,
+.project-two .portrait-paper-media{
+  overflow:visible;
+}
+
+.project-two .project-two-zoomable{
+  cursor:zoom-in !important;
+  transform:scale(1);
+  transform-origin:center center;
+  transition:
+    transform .22s ease,
+    filter .22s ease !important;
+}
+
+@media(hover:hover) and (pointer:fine){
+  .project-two .project-two-zoomable:hover{
+    transform:scale(1.035) !important;
+    filter:brightness(.97);
+  }
+}
+
+.project-two .project-two-zoomable:focus-visible{
+  outline:3px solid var(--accent);
+  outline-offset:5px;
+}
+
+/* Keep all four Project 2 image ratios intact. */
+.project-two-large-stack .large-media img{
+  width:100%;
+  height:auto !important;
+  max-height:none !important;
+  object-fit:contain !important;
+}
+
+.project-two-media-layout .paper-frame img{
+  width:100%;
+  height:100%;
+  object-fit:contain !important;
+}
+
+
+/* Magnified image view. */
+.image-lightbox{
+  cursor:zoom-out;
+}
+
+.image-lightbox img{
+  width:auto !important;
+  height:auto !important;
+  max-width:92vw !important;
+  max-height:88vh !important;
+  object-fit:contain !important;
+  cursor:default;
+}
+
+
+/* -----------------------------------------------------
+   Responsive equivalents
+----------------------------------------------------- */
+
+@media(max-width:900px){
+  .garden-bird{
+    top:133px !important;
+  }
+
+  .sunpuddle-reference-grid{
+    grid-template-rows:
+      150px
+      150px
+      150px
+      178px
+      150px
+      150px
+      190px
+      190px !important;
+  }
+}
+
+@media(max-width:700px){
+  .garden-bird{
+    top:65px !important;
+  }
+
+  /* Existing mobile auto-placement takes priority here. */
+  .sunpuddle-reference-grid{
+    grid-template-rows:none !important;
+  }
+
+  .text-card-one,
+  .pond-plants-card{
+    min-height:190px !important;
+    height:auto !important;
+  }
+
+  .text-card-two{
+    grid-column:4 / span 3 !important;
+    grid-row:auto / span 2 !important;
+  }
+
+  .fish-one-card,
+  .wishes-table-card,
+  .fish-three-card,
+  .fish-two-card,
+  .dandelion-card,
+  .pot-card{
+    grid-column:span 2 !important;
+    grid-row:auto !important;
+  }
+}
