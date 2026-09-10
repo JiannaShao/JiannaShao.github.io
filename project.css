@@ -3219,3 +3219,136 @@ figcaption{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.5;}
     max-height:229px !important;
   }
 }
+
+
+/* =====================================================
+   V16 — PROJECT 2 REARRANGEMENT
+===================================================== */
+
+/* Main description spans the width above the media. */
+.project-two-intro-copy{
+  width:min(780px,100%);
+  margin-bottom:54px;
+}
+
+.project-two-intro-copy p{
+  color:var(--muted);
+  font-size:15px;
+  line-height:1.75;
+}
+
+
+/*
+  Left: three reduced images.
+  Right: metadata box first, then larger vertical WP4 image beneath it.
+*/
+.project-two-v16-layout{
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) minmax(340px,.9fr) !important;
+  gap:64px !important;
+  align-items:start !important;
+}
+
+.project-two-large-stack{
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  gap:34px !important;
+}
+
+/* Large images are approximately half their previous displayed size. */
+.project-two-large-stack .large-media{
+  width:50% !important;
+  margin:0 auto !important;
+}
+
+.project-two-large-stack .large-media img{
+  width:100% !important;
+  height:auto !important;
+  max-height:none !important;
+  object-fit:contain !important;
+  border-radius:14px;
+}
+
+
+/* Right column */
+.project-two-right-column{
+  display:flex;
+  flex-direction:column;
+  gap:46px;
+  min-width:0;
+}
+
+.project-two-right-column .project-meta{
+  width:100%;
+  margin:0;
+}
+
+
+/* Vertical image is moved down and made larger. */
+.project-two-right-column .portrait-paper-media{
+  width:100% !important;
+  max-width:620px !important;
+  margin:0 auto !important;
+}
+
+.project-two-right-column .paper-frame{
+  width:100% !important;
+  aspect-ratio:8.5 / 11;
+  padding:10px;
+}
+
+.project-two-right-column .paper-frame img{
+  width:100% !important;
+  height:100% !important;
+  object-fit:contain !important;
+}
+
+
+/* No Project 2 captions. */
+.project-two figcaption{
+  display:none !important;
+}
+
+
+/* Retain hover and click magnification behavior. */
+.project-two .project-two-zoomable{
+  cursor:zoom-in !important;
+  transition:transform .22s ease, filter .22s ease !important;
+  transform-origin:center center;
+}
+
+@media(hover:hover) and (pointer:fine){
+  .project-two .project-two-zoomable:hover{
+    transform:scale(1.045) !important;
+    filter:brightness(.97);
+  }
+}
+
+
+@media(max-width:900px){
+  .project-two-v16-layout{
+    grid-template-columns:minmax(0,1fr) minmax(280px,.82fr) !important;
+    gap:38px !important;
+  }
+
+  .project-two-large-stack .large-media{
+    width:58% !important;
+  }
+}
+
+
+@media(max-width:700px){
+  .project-two-v16-layout{
+    grid-template-columns:1fr !important;
+  }
+
+  .project-two-large-stack .large-media{
+    width:min(70%,420px) !important;
+  }
+
+  .project-two-right-column{
+    width:min(100%,520px);
+    margin:0 auto;
+  }
+}
