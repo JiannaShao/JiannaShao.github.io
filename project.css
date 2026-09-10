@@ -2780,3 +2780,105 @@ figcaption{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.5;}
     grid-auto-rows:150px !important;
   }
 }
+
+
+/* =====================================================
+   V12 — MORE OVERLAP / HUGE BIRD / SIDEBAR TEXT BOX COLOR
+===================================================== */
+
+/*
+  Pull the plants + dirt + planter upward ANOTHER 200px.
+  V11 used -200px, so the total overlap is now about -400px.
+*/
+.sunpuddle-garden{
+  margin-top:-400px !important;
+}
+
+
+/*
+  Bird:
+  - moved DOWN by about 500px from its previous position
+  - another +300 percentage points from the original bird size
+    (800% -> 1100% of original)
+  - starts 120px farther to the right
+  - sits above the plants so the flying bird visibly overlaps them
+*/
+.garden-bird{
+  top:383px !important;
+  z-index:25 !important;
+  height:726px !important;
+}
+
+.garden-bird .bird-sprite{
+  left:calc(
+    ((100% - 1012px) * var(--bird-progress, 1.08))
+    + 120px
+  ) !important;
+
+  max-width:1012px !important;
+  max-height:726px !important;
+}
+
+
+/* Keep plants/dirt/planter stacked below the bird. */
+.garden-plants-row{
+  z-index:12 !important;
+}
+
+.garden-dirt{
+  z-index:10 !important;
+}
+
+.garden-planter{
+  z-index:9 !important;
+}
+
+
+/* Text boxes now use the exact same background as the sidebar. */
+.reference-text-card{
+  background:var(--light-accent) !important;
+}
+
+
+/* Responsive: preserve the same relative changes while keeping it usable. */
+@media(max-width:900px){
+  .sunpuddle-garden{
+    margin-top:-330px !important;
+  }
+
+  .garden-bird{
+    top:318px !important;
+    height:610px !important;
+  }
+
+  .garden-bird .bird-sprite{
+    left:calc(
+      ((100% - 850px) * var(--bird-progress, 1.08))
+      + 100px
+    ) !important;
+
+    max-width:850px !important;
+    max-height:610px !important;
+  }
+}
+
+@media(max-width:700px){
+  .sunpuddle-garden{
+    margin-top:-250px !important;
+  }
+
+  .garden-bird{
+    top:250px !important;
+    height:465px !important;
+  }
+
+  .garden-bird .bird-sprite{
+    left:calc(
+      ((100% - 648px) * var(--bird-progress, 1.08))
+      + 80px
+    ) !important;
+
+    max-width:648px !important;
+    max-height:465px !important;
+  }
+}
