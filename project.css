@@ -2882,3 +2882,97 @@ figcaption{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.5;}
     max-height:465px !important;
   }
 }
+
+
+/* =====================================================
+   V13 — BIRD RANGE / VARIED PLANT SPEEDS / PARK SIGN ROW
+===================================================== */
+
+/* Bird is 160px higher than V12. */
+.garden-bird{
+  top:223px !important;
+}
+
+/* Bird begins another 150px farther right than V12.
+   V12 offset = 120px; new offset = 270px. */
+.garden-bird .bird-sprite{
+  left:calc(
+    ((100% - 1012px) * var(--bird-progress, 1.08))
+    + 270px
+  ) !important;
+}
+
+
+/* Make the final Park Sign + text row genuinely taller,
+   rather than letting the contents overflow a shorter grid row. */
+.sunpuddle-reference-grid{
+  grid-template-rows:
+    repeat(6, 165px)
+    210px
+    210px !important;
+}
+
+.text-card-three,
+.park-sign-card{
+  min-height:0 !important;
+  height:100% !important;
+}
+
+.park-sign-card img{
+  max-height:385px !important;
+}
+
+
+/* Responsive versions keep the last row taller without overlap. */
+@media(max-width:900px){
+  .garden-bird{
+    top:158px !important;
+  }
+
+  .garden-bird .bird-sprite{
+    left:calc(
+      ((100% - 850px) * var(--bird-progress, 1.08))
+      + 250px
+    ) !important;
+  }
+
+  .sunpuddle-reference-grid{
+    grid-template-rows:
+      repeat(6, 150px)
+      190px
+      190px !important;
+  }
+
+  .park-sign-card img{
+    max-height:345px !important;
+  }
+}
+
+@media(max-width:700px){
+  .garden-bird{
+    top:90px !important;
+  }
+
+  .garden-bird .bird-sprite{
+    left:calc(
+      ((100% - 648px) * var(--bird-progress, 1.08))
+      + 230px
+    ) !important;
+  }
+
+  /* At this breakpoint the grid rearranges, so allow its auto placement
+     to determine height while preserving a larger Park Sign/text pair. */
+  .sunpuddle-reference-grid{
+    grid-template-rows:none !important;
+  }
+
+  .text-card-three,
+  .park-sign-card{
+    min-height:380px !important;
+    height:auto !important;
+  }
+
+  .park-sign-card img{
+    max-height:335px !important;
+  }
+}

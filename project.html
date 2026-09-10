@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="project.css?v=12">
+  <link rel="stylesheet" href="project.css?v=13">
 </head>
 <body>
 
@@ -406,6 +406,7 @@
         {
           name: 'Tomato',
           className: 'tomato',
+          frameTime: 880,
           frames: [
             'SunpuddleFiles/tomatoplant1.png',
             'SunpuddleFiles/tomatoplant2.png',
@@ -417,6 +418,7 @@
         {
           name: 'Cucumber',
           className: 'cucumber',
+          frameTime: 965,
           frames: [
             'SunpuddleFiles/cucumberplant.png',
             'SunpuddleFiles/cucumberplant2.png',
@@ -428,6 +430,7 @@
         {
           name: 'Bean',
           className: 'bean',
+          frameTime: 1050,
           frames: [
             'SunpuddleFiles/beanplant1.png',
             'SunpuddleFiles/beanplant2.png',
@@ -438,6 +441,7 @@
         {
           name: 'Corn',
           className: 'corn',
+          frameTime: 1140,
           frames: [
             'SunpuddleFiles/cornplant1.png',
             'SunpuddleFiles/cornplant2.png',
@@ -447,6 +451,7 @@
         {
           name: 'Lettuce',
           className: 'lettuce',
+          frameTime: 1230,
           frames: [
             'SunpuddleFiles/lettuceplant1.png',
             'SunpuddleFiles/lettuceplant2.png',
@@ -456,6 +461,7 @@
         {
           name: 'Onion',
           className: 'onion',
+          frameTime: 1320,
           frames: [
             'SunpuddleFiles/onionplant1.png',
             'SunpuddleFiles/onionplant2.png',
@@ -465,6 +471,7 @@
         {
           name: 'Strawberry',
           className: 'strawberry',
+          frameTime: 1410,
           frames: [
             'SunpuddleFiles/StrawberryPlant1.png',
             'SunpuddleFiles/strawberryplant2.png',
@@ -475,6 +482,7 @@
         {
           name: 'Potato',
           className: 'potato',
+          frameTime: 1500,
           frames: [
             'SunpuddleFiles/Potatoplant1.png',
             'SunpuddleFiles/potatoplant2.png'
@@ -502,7 +510,7 @@
 
       const GROW_FRAME_TIME = 676;
 
-      function createLoopingImage(frames, altText, className) {
+      function createLoopingImage(frames, altText, className, frameTime = GROW_FRAME_TIME) {
         if (!Array.isArray(frames) || frames.length === 0) return null;
 
         const image = document.createElement('img');
@@ -516,7 +524,7 @@
         window.setInterval(() => {
           frameIndex = (frameIndex + 1) % frames.length;
           image.src = frames[frameIndex];
-        }, GROW_FRAME_TIME);
+        }, frameTime);
 
         return image;
       }
@@ -536,7 +544,8 @@
             const image = createLoopingImage(
               plant.frames,
               `${plant.name || `Plant ${index + 1}`} growing animation`,
-              'garden-sprite'
+              'garden-sprite',
+              plant.frameTime
             );
 
             if (image) {
@@ -597,7 +606,8 @@
 
             const earlierStopProgress =
               -0.10 +
-              (15 / birdTravelDistance);
+              (15 / birdTravelDistance) -
+              (560 / birdTravelDistance);
 
             if (birdProgress < earlierStopProgress) {
               birdProgress = 1.08;
