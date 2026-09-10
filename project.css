@@ -2504,3 +2504,143 @@ figcaption{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.5;}
     margin:-15px auto -3px;
   }
 }
+
+
+/* =====================================================
+   V10 — FIRST-SECTION SPACING / PLANTS / LOWER ASSETS
+===================================================== */
+
+/* Reduce the space between "First Section" and the garden by ~40%. */
+.garden-subsection .subsection-heading{
+  margin-bottom:16px !important;
+}
+
+.sunpuddle-garden{
+  padding-top:114px !important;
+  min-height:464px !important;
+}
+
+
+/* Bird: raise another ~20px so it visually aligns with the subsection heading. */
+.garden-bird{
+  top:-117px !important;
+}
+
+
+/* Additional plant increases from V9. */
+.plant-lettuce .garden-sprite{
+  max-height:369px !important;   /* 246 × 1.50 */
+}
+
+.plant-strawberry .garden-sprite{
+  max-height:359px !important;   /* 239 × 1.50 */
+}
+
+.plant-onion .garden-sprite{
+  max-height:519px !important;   /* 346 × 1.50 */
+}
+
+.plant-potato .garden-sprite{
+  max-height:492px !important;   /* 410 × 1.20 */
+}
+
+
+/* Potato, tomato, and onion sit 5px lower than the other plants. */
+.plant-potato .garden-sprite,
+.plant-tomato .garden-sprite,
+.plant-onion .garden-sprite{
+  position:relative !important;
+  top:5px !important;
+}
+
+
+/*
+  Bottom 8 image assets: another +15% from V9.
+  These remain clipped within their own cards so they cannot overlap neighbors.
+*/
+.pond-plants-card img,
+.fish-one-card img,
+.wishes-table-card img,
+.fish-three-card img,
+.fish-two-card img,
+.dandelion-card img,
+.pot-card img,
+.park-sign-card img{
+  transform:scale(1.3225) !important; /* 1.15 × 1.15 */
+  transform-origin:center center !important;
+}
+
+.pond-plants-card:hover img,
+.fish-one-card:hover img,
+.wishes-table-card:hover img,
+.fish-three-card:hover img,
+.fish-two-card:hover img,
+.dandelion-card:hover img,
+.pot-card:hover img,
+.park-sign-card:hover img{
+  transform:scale(1.38) !important;
+}
+
+
+/* Responsive adjustments preserve the same intent without crushing the garden. */
+@media(max-width:900px){
+  .garden-subsection .subsection-heading{
+    margin-bottom:16px !important;
+  }
+
+  .sunpuddle-garden{
+    padding-top:96px !important;
+    min-height:430px !important;
+  }
+
+  .garden-bird{
+    top:-87px !important;
+  }
+
+  .plant-lettuce .garden-sprite{
+    max-height:323px !important;
+  }
+
+  .plant-strawberry .garden-sprite{
+    max-height:314px !important;
+  }
+
+  .plant-onion .garden-sprite{
+    max-height:454px !important;
+  }
+
+  .plant-potato .garden-sprite{
+    max-height:431px !important;
+  }
+}
+
+@media(max-width:700px){
+  .garden-subsection .subsection-heading{
+    margin-bottom:14px !important;
+  }
+
+  .sunpuddle-garden{
+    padding-top:78px !important;
+    min-height:360px !important;
+  }
+
+  .garden-bird{
+    top:-63px !important;
+  }
+
+  .plant-lettuce .garden-sprite{
+    max-height:268px !important;
+  }
+
+  .plant-strawberry .garden-sprite{
+    max-height:260px !important;
+  }
+
+  .plant-onion .garden-sprite{
+    max-height:377px !important;
+  }
+
+  .plant-potato .garden-sprite{
+    max-height:358px !important;
+  }
+}
