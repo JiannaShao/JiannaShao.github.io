@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="project.css?v=4">
+  <link rel="stylesheet" href="project.css?v=5">
 </head>
 <body>
 
@@ -84,7 +84,7 @@
           <p class="section-number">01</p>
           <h2>Project One</h2>
         </div>
-        <p class="section-summary">A drawing-heavy project with many pieces visible at once. Click any drawing to open it larger without losing the overall wall of work.</p>
+        <p class="section-summary">A visually dense collection of illustrated assets, animated sprites, and process material arranged together as one continuous project study.</p>
       </div>
 
       <div class="mosaic-subsection garden-subsection">
@@ -93,55 +93,154 @@
           <h3>First Section</h3>
         </div>
 
-        <!-- Long planter row -->
-        <div class="garden-planter" aria-hidden="true">
-          <div class="garden-planter-rim"></div>
-          <div class="garden-planter-body"></div>
-        </div>
+        <!-- =================================================
+             FLAT GARDEN
+             Plants are unboxed and may overlap.
+             The planter sits directly underneath the plants.
+        ================================================== -->
+        <div class="sunpuddle-garden">
+          <div id="bird-animation" class="garden-bird" aria-label="Bird animation"></div>
 
-        <!--
-          Flat vegetable-garden row.
-          Each plant position continuously cycles through its own growth frames.
-          The egg animation stays on the far right because it is taller.
-        -->
-        <div class="garden-stage">
-          <div class="garden-plants-area">
-            <div id="garden-plants" class="garden-plants-row"></div>
-          </div>
+          <div id="garden-plants" class="garden-plants-row"></div>
 
-          <div class="garden-egg-area">
-            <div id="egg-animation" class="egg-animation-slot"></div>
+          <div class="garden-planter" aria-hidden="true">
+            <div class="garden-planter-rim"></div>
+            <div class="garden-planter-body"></div>
           </div>
         </div>
 
-        <!-- Additional Sunpuddle art from the same asset set -->
-        <div class="sunpuddle-asset-row">
-          <figure class="sunpuddle-asset-card bird-asset-card">
-            <div id="bird-animation" class="bird-animation-slot"></div>
-            <figcaption>Bird animation</figcaption>
-          </figure>
 
-          <button class="sunpuddle-asset-card static-asset-card image-button" type="button">
-            <img
-              src="SunpuddleFiles/Dandelion2.png"
-              alt="Sunpuddle dandelion artwork"
-            >
-          </button>
+        <!-- =================================================
+             TOP ASSET ROW
+             Large Duck Village, Bamboo, and cracking Egg.
+        ================================================== -->
+        <div class="sunpuddle-top-assets">
 
-          <button class="sunpuddle-asset-card static-asset-card wide-static-asset image-button" type="button">
+          <figure class="reference-card duck-village-card">
             <img
               src="SunpuddleFiles/DuckVillage.png"
-              alt="Sunpuddle Duck Village artwork"
+              alt="Duck Village"
             >
-          </button>
+          </figure>
+
+          <figure class="reference-card bamboo-card">
+            <img
+              src="SunpuddleFiles/treehousebamboo.png"
+              alt="Bamboo"
+            >
+          </figure>
+
+          <figure class="reference-card egg-card">
+            <div
+              id="egg-animation"
+              class="egg-animation-slot"
+              aria-label="Cracking egg animation"
+            ></div>
+          </figure>
+
         </div>
 
-        <div class="garden-note-card">
-          <p class="small-label">Animated Assets</p>
-          <p>
-            The vegetable sprites, bird, and egg continuously loop through their
-            frames. Static artwork keeps its original image proportions.
-          </p>
+
+        <!-- =================================================
+             LOWER ASSET MOSAIC
+             Matches the placement shown in the supplied layout.
+        ================================================== -->
+        <div class="sunpuddle-reference-grid">
+
+          <article class="reference-text-card text-card-one">
+            <p class="small-label">Context</p>
+            <p>
+              Add project context here. This larger text block is positioned
+              beside the illustrated environment assets.
+            </p>
+          </article>
+
+          <figure class="reference-card guzheng-card">
+            <img
+              src="SunpuddleFiles/TreeHouseGuzheng.png"
+              alt="Guzheng"
+            >
+          </figure>
+
+          <figure class="reference-card pond-plants-card">
+            <img
+              src="SunpuddleFiles/PondPlants.png"
+              alt="Pond plants"
+            >
+          </figure>
+
+          <figure class="reference-card fish-one-card">
+            <img
+              src="SunpuddleFiles/fishdecor1.png"
+              alt="Fish decoration 1"
+            >
+          </figure>
+
+          <figure class="reference-card wishes-table-card">
+            <img
+              src="SunpuddleFiles/fishingforwishestable.png"
+              alt="Fishing for Wishes table"
+            >
+          </figure>
+
+          <figure class="reference-card kitchen-card">
+            <img
+              src="SunpuddleFiles/Kitchen.png"
+              alt="Kitchen"
+            >
+          </figure>
+
+          <figure class="reference-card fish-two-card">
+            <img
+              src="SunpuddleFiles/fishdecor2.png"
+              alt="Fish decoration 2"
+            >
+          </figure>
+
+          <figure class="reference-card dandelion-card">
+            <img
+              src="SunpuddleFiles/Dandelion2.png"
+              alt="Dandelion"
+            >
+          </figure>
+
+          <figure class="reference-card fish-three-card">
+            <img
+              src="SunpuddleFiles/fishdecor3.png"
+              alt="Fish decoration 3"
+            >
+          </figure>
+
+          <article class="reference-text-card text-card-two">
+            <p class="small-label">Process</p>
+            <p>
+              Add a second project note here. The text cards fill the same
+              visual spaces shown in the reference layout.
+            </p>
+          </article>
+
+          <figure class="reference-card pot-card">
+            <img
+              src="SunpuddleFiles/pot.png"
+              alt="Pot"
+            >
+          </figure>
+
+          <figure class="reference-card park-sign-card">
+            <img
+              src="SunpuddleFiles/parksign.png"
+              alt="Park sign"
+            >
+          </figure>
+
+          <article class="reference-text-card text-card-three">
+            <p class="small-label">Takeaway</p>
+            <p>
+              Add a final short reflection, outcome, or description for this
+              part of the project.
+            </p>
+          </article>
+
         </div>
       </div>
 
@@ -192,8 +291,6 @@
           </article>
         </div>
       </div>
-
-      <p class="interaction-note">Garden animations loop automatically. Images in the second section can still be opened larger.</p>
     </section>
 
     <!-- =====================================================
@@ -376,40 +473,19 @@
 
       const GARDEN_PLANTS = [
         {
-          name: 'Potato',
+          name: 'Tomato',
+          className: 'tomato',
           frames: [
-            'SunpuddleFiles/Potatoplant1.png',
-            'SunpuddleFiles/potatoplant2.png'
-          ]
-        },
-        {
-          name: 'Strawberry',
-          frames: [
-            'SunpuddleFiles/StrawberryPlant1.png',
-            'SunpuddleFiles/strawberryplant2.png',
-            'SunpuddleFiles/strawberryplant3.png',
-            'SunpuddleFiles/strawberryplant4.png'
-          ]
-        },
-        {
-          name: 'Bean',
-          frames: [
-            'SunpuddleFiles/beanplant1.png',
-            'SunpuddleFiles/beanplant2.png',
-            'SunpuddleFiles/beanplant3.png',
-            'SunpuddleFiles/beanplant4.png'
-          ]
-        },
-        {
-          name: 'Corn',
-          frames: [
-            'SunpuddleFiles/cornplant1.png',
-            'SunpuddleFiles/cornplant2.png',
-            'SunpuddleFiles/cornplant3.png'
+            'SunpuddleFiles/tomatoplant1.png',
+            'SunpuddleFiles/tomatoplant2.png',
+            'SunpuddleFiles/tomatoplant3.png',
+            'SunpuddleFiles/tomatoplant4.png',
+            'SunpuddleFiles/tomatoplant5.png'
           ]
         },
         {
           name: 'Cucumber',
+          className: 'cucumber',
           frames: [
             'SunpuddleFiles/cucumberplant.png',
             'SunpuddleFiles/cucumberplant2.png',
@@ -419,7 +495,27 @@
           ]
         },
         {
+          name: 'Bean',
+          className: 'bean',
+          frames: [
+            'SunpuddleFiles/beanplant1.png',
+            'SunpuddleFiles/beanplant2.png',
+            'SunpuddleFiles/beanplant3.png',
+            'SunpuddleFiles/beanplant4.png'
+          ]
+        },
+        {
+          name: 'Corn',
+          className: 'corn',
+          frames: [
+            'SunpuddleFiles/cornplant1.png',
+            'SunpuddleFiles/cornplant2.png',
+            'SunpuddleFiles/cornplant3.png'
+          ]
+        },
+        {
           name: 'Lettuce',
+          className: 'lettuce',
           frames: [
             'SunpuddleFiles/lettuceplant1.png',
             'SunpuddleFiles/lettuceplant2.png',
@@ -428,6 +524,7 @@
         },
         {
           name: 'Onion',
+          className: 'onion',
           frames: [
             'SunpuddleFiles/onionplant1.png',
             'SunpuddleFiles/onionplant2.png',
@@ -435,13 +532,21 @@
           ]
         },
         {
-          name: 'Tomato',
+          name: 'Strawberry',
+          className: 'strawberry',
           frames: [
-            'SunpuddleFiles/tomatoplant1.png',
-            'SunpuddleFiles/tomatoplant2.png',
-            'SunpuddleFiles/tomatoplant3.png',
-            'SunpuddleFiles/tomatoplant4.png',
-            'SunpuddleFiles/tomatoplant5.png'
+            'SunpuddleFiles/StrawberryPlant1.png',
+            'SunpuddleFiles/strawberryplant2.png',
+            'SunpuddleFiles/strawberryplant3.png',
+            'SunpuddleFiles/strawberryplant4.png'
+          ]
+        },
+        {
+          name: 'Potato',
+          className: 'potato',
+          frames: [
+            'SunpuddleFiles/Potatoplant1.png',
+            'SunpuddleFiles/potatoplant2.png'
           ]
         }
       ];
@@ -495,7 +600,7 @@
 
           GARDEN_PLANTS.forEach((plant, index) => {
             const figure = document.createElement('figure');
-            figure.className = 'garden-plant';
+            figure.className = `garden-plant plant-${plant.className || 'generic'}`;
 
             const image = createLoopingImage(
               plant.frames,
@@ -620,47 +725,6 @@
         window.addEventListener('resize', buildSnake, { passive: true });
         window.addEventListener('scroll', updateSnake, { passive: true });
       }
-
-      /* =====================================================
-         PROJECT ONE IMAGE LIGHTBOX
-      ====================================================== */
-      const lightbox = document.getElementById('image-lightbox');
-      const lightboxImage = document.getElementById('lightbox-image');
-      const lightboxClose = document.querySelector('.lightbox-close');
-
-      function closeLightbox() {
-        if (!lightbox || !lightboxImage) return;
-
-        lightbox.classList.remove('is-open');
-        lightbox.setAttribute('aria-hidden', 'true');
-        lightboxImage.src = '';
-        lightboxImage.alt = '';
-        document.body.classList.remove('lightbox-open');
-      }
-
-      document.querySelectorAll('.project-one .image-button img').forEach((image) => {
-        image.closest('.image-button').addEventListener('click', () => {
-          lightboxImage.src = image.src;
-          lightboxImage.alt = image.alt;
-          lightbox.classList.add('is-open');
-          lightbox.setAttribute('aria-hidden', 'false');
-          document.body.classList.add('lightbox-open');
-        });
-      });
-
-      if (lightboxClose) {
-        lightboxClose.addEventListener('click', closeLightbox);
-      }
-
-      if (lightbox) {
-        lightbox.addEventListener('click', (event) => {
-          if (event.target === lightbox) closeLightbox();
-        });
-      }
-
-      document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') closeLightbox();
-      });
     })();
   </script>
 </body>
