@@ -3620,3 +3620,32 @@ figcaption{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.5;}
   font-size:15px;
   line-height:1.65;
 }
+
+
+/* =====================================================
+   V20 — LARGER SKETCHY SECRET CHARACTER ANIMATIONS
+===================================================== */
+
+.sketchy-sprite-card{
+  padding:10px !important;
+}
+
+.sketchy-animation-slot{
+  overflow:visible !important;
+}
+
+.sketchy-sprite{
+  width:112% !important;
+  height:112% !important;
+  max-width:112% !important;
+  max-height:112% !important;
+  object-fit:contain !important;
+  transform:scale(1.08);
+  transform-origin:center center;
+}
+
+@media(hover:hover) and (pointer:fine){
+  .sketchy-sprite-card:hover .sketchy-sprite{
+    transform:scale(1.125) !important;
+  }
+}
