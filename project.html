@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="project.css?v=17">
+  <link rel="stylesheet" href="project.css?v=18">
 </head>
 <body>
 
@@ -175,51 +175,84 @@
         </div>
       </div>
 
-      <div class="mosaic-subsection second-mosaic-subsection">
+      <div class="mosaic-subsection second-mosaic-subsection sketchy-secret-section">
         <div class="subsection-heading">
           <p class="small-label">Part II</p>
           <h3>Second Section</h3>
         </div>
 
-        <div class="mosaic-grid">
-          <button class="mosaic-card wide image-button" type="button">
-            <img src="ProjectImages/Project1/drawing-05.jpg" alt="Project One drawing 5">
-          </button>
+        <div class="sketchy-secret-layout">
 
-          <button class="mosaic-card tall image-button" type="button">
-            <img src="ProjectImages/Project1/drawing-06.jpg" alt="Project One drawing 6">
-          </button>
+          <div class="sketchy-video-card">
+            <video
+              class="sketchy-video"
+              controls
+              playsinline
+              preload="metadata"
+            >
+              <source
+                src="SketchySecretFiles/SketchyVideo2.mov"
+                type="video/quicktime"
+              >
+              Your browser does not support this video format.
+            </video>
+          </div>
 
-          <article class="mosaic-text-card">
-            <p class="small-label">Development</p>
-            <p>Add a short text block here to explain how this half of the project developed or changed.</p>
+          <div class="sketchy-row sketchy-row-one">
+            <figure class="sketchy-media-card sketchy-screenshot sketchy-screenshot-one">
+              <img
+                src="SketchySecretFiles/Screenshot1.png"
+                alt="Sketchy Secret screenshot 1"
+              >
+            </figure>
+
+            <figure class="sketchy-media-card sketchy-sprite-card">
+              <div
+                id="sketchy-front-animation"
+                class="sketchy-animation-slot"
+                aria-label="Front character animation"
+              ></div>
+            </figure>
+          </div>
+
+          <div class="sketchy-row sketchy-row-two">
+            <figure class="sketchy-media-card sketchy-sprite-card">
+              <div
+                id="sketchy-back-animation"
+                class="sketchy-animation-slot"
+                aria-label="Back character animation"
+              ></div>
+            </figure>
+
+            <figure class="sketchy-media-card sketchy-screenshot sketchy-screenshot-two">
+              <img
+                src="SketchySecretFiles/Screenshot2.png"
+                alt="Sketchy Secret screenshot 2"
+              >
+            </figure>
+          </div>
+
+          <article class="sketchy-text-panel">
+            <p>Add project text here.</p>
           </article>
 
-          <button class="mosaic-card image-button" type="button">
-            <img src="ProjectImages/Project1/drawing-07.jpg" alt="Project One drawing 7">
-          </button>
+          <div class="sketchy-row sketchy-row-three">
+            <figure class="sketchy-media-card sketchy-screenshot sketchy-screenshot-three">
+              <img
+                src="SketchySecretFiles/Screenshot3.png"
+                alt="Sketchy Secret screenshot 3"
+              >
+            </figure>
 
-          <article class="mosaic-text-card accent-card">
-            <p class="small-label">Detail</p>
-            <p>This card can hold another note so every otherwise open grid space contains useful text.</p>
-          </article>
+            <figure class="sketchy-media-card sketchy-sprite-card">
+              <div
+                id="sketchy-cb-animation"
+                class="sketchy-animation-slot"
+                aria-label="Character animation"
+              ></div>
+            </figure>
+          </div>
 
-          <button class="mosaic-card image-button" type="button">
-            <img src="ProjectImages/Project1/drawing-08.jpg" alt="Project One drawing 8">
-          </button>
-
-          <button class="mosaic-card wide image-button" type="button">
-            <img src="ProjectImages/Project1/drawing-09.jpg" alt="Project One drawing 9">
-          </button>
-
-          <button class="mosaic-card image-button" type="button">
-            <img src="ProjectImages/Project1/drawing-10.jpg" alt="Project One drawing 10">
-          </button>
-
-          <article class="mosaic-text-card">
-            <p class="small-label">Closing Note</p>
-            <p>Use this final card for a takeaway, outcome, or small piece of supporting context.</p>
-          </article>
         </div>
       </div>
     </section>
@@ -535,6 +568,30 @@
         'SunpuddleFiles/Bird6.png'
       ];
 
+      const SKETCHY_FRONT_FRAMES = [
+        'SketchySecretFiles/Front1.PNG',
+        'SketchySecretFiles/Front2.PNG',
+        'SketchySecretFiles/Front3.PNG',
+        'SketchySecretFiles/Front4.PNG'
+      ];
+
+      const SKETCHY_BACK_FRAMES = [
+        'SketchySecretFiles/Back1.PNG',
+        'SketchySecretFiles/Back2.PNG',
+        'SketchySecretFiles/Back3.PNG',
+        'SketchySecretFiles/Back4.PNG'
+      ];
+
+      const SKETCHY_CB_FRAMES = [
+        'SketchySecretFiles/CB1.PNG',
+        'SketchySecretFiles/CB2.PNG',
+        'SketchySecretFiles/CB3.PNG',
+        'SketchySecretFiles/CB4.PNG',
+        'SketchySecretFiles/CB5.PNG',
+        'SketchySecretFiles/CB6.PNG',
+        'SketchySecretFiles/CB7.PNG'
+      ];
+
       const GROW_FRAME_TIME = 676;
 
       function createLoopingImage(frames, altText, className, frameTime = GROW_FRAME_TIME) {
@@ -609,7 +666,7 @@
           let birdProgress = 1.08;
 
           const BIRD_FRAME_TIME = 145;
-          const BIRD_TRAVEL_PER_FRAME = 0.018;
+          const BIRD_TRAVEL_PER_FRAME = 0.028;
 
           bird.src = BIRD_FRAMES[birdFrame];
           birdSlot.appendChild(bird);
@@ -662,6 +719,50 @@
       }
 
       buildGardenAnimations();
+
+      /* =====================================================
+         PROJECT 1 — SKETCHY SECRET ANIMATIONS
+      ====================================================== */
+      function buildSketchyAnimations() {
+        const frontSlot = document.getElementById('sketchy-front-animation');
+        const backSlot = document.getElementById('sketchy-back-animation');
+        const cbSlot = document.getElementById('sketchy-cb-animation');
+
+        if (frontSlot) {
+          frontSlot.innerHTML = '';
+          const front = createLoopingImage(
+            SKETCHY_FRONT_FRAMES,
+            'Front character animation',
+            'sketchy-sprite',
+            300
+          );
+          if (front) frontSlot.appendChild(front);
+        }
+
+        if (backSlot) {
+          backSlot.innerHTML = '';
+          const back = createLoopingImage(
+            SKETCHY_BACK_FRAMES,
+            'Back character animation',
+            'sketchy-sprite',
+            300
+          );
+          if (back) backSlot.appendChild(back);
+        }
+
+        if (cbSlot) {
+          cbSlot.innerHTML = '';
+          const cb = createLoopingImage(
+            SKETCHY_CB_FRAMES,
+            'Character animation',
+            'sketchy-sprite',
+            240
+          );
+          if (cb) cbSlot.appendChild(cb);
+        }
+      }
+
+      buildSketchyAnimations();
 
       /* =====================================================
          SCROLLING SNAKE — same build method as index

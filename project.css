@@ -3403,3 +3403,207 @@ figcaption{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.5;}
     width:100% !important;
   }
 }
+
+
+/* =====================================================
+   V18 — PROJECT 1 PART II / SKETCHY SECRET
+===================================================== */
+
+.sketchy-secret-section{
+  margin-top:96px !important;
+}
+
+.sketchy-secret-layout{
+  display:flex;
+  flex-direction:column;
+  gap:30px;
+}
+
+
+/* -----------------------------------------------------
+   VIDEO
+----------------------------------------------------- */
+
+.sketchy-video-card{
+  width:100%;
+  overflow:hidden;
+  border-radius:28px;
+  background:#000;
+}
+
+.sketchy-video{
+  display:block;
+  width:100%;
+  aspect-ratio:16 / 9;
+  border:0;
+  background:#000;
+  object-fit:contain;
+}
+
+
+/* -----------------------------------------------------
+   IMAGE / ANIMATION ROWS
+----------------------------------------------------- */
+
+.sketchy-row{
+  display:grid;
+  width:100%;
+  gap:28px;
+  align-items:stretch;
+}
+
+/* Screenshot 1 large left / Front animation narrow right */
+.sketchy-row-one{
+  grid-template-columns:minmax(0,3fr) minmax(190px,1fr);
+}
+
+/* Back animation narrow left / Screenshot 2 large right */
+.sketchy-row-two{
+  grid-template-columns:minmax(190px,1fr) minmax(0,3fr);
+}
+
+/* Screenshot 3 large left / CB animation narrow right */
+.sketchy-row-three{
+  grid-template-columns:minmax(0,3fr) minmax(190px,1fr);
+}
+
+.sketchy-media-card{
+  margin:0;
+  min-width:0;
+  overflow:hidden;
+  border-radius:22px;
+  background:#fff;
+}
+
+/* All Part II visuals are hover-interactive but are not clickable/openable. */
+.sketchy-media-card img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  transition:
+    transform .24s ease,
+    filter .24s ease;
+  transform-origin:center center;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+
+@media(hover:hover) and (pointer:fine){
+  .sketchy-media-card:hover img{
+    transform:scale(1.045);
+    filter:brightness(.97);
+  }
+}
+
+.sketchy-screenshot{
+  background:#fff;
+}
+
+.sketchy-screenshot img{
+  object-fit:cover;
+}
+
+.sketchy-sprite-card{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:#fff;
+}
+
+.sketchy-animation-slot{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-height:100%;
+}
+
+.sketchy-sprite{
+  width:100% !important;
+  height:100% !important;
+  max-width:100% !important;
+  max-height:100% !important;
+  object-fit:contain !important;
+}
+
+
+/* Keep the paired rows close to the proportions in the supplied layout. */
+.sketchy-row-one .sketchy-media-card,
+.sketchy-row-two .sketchy-media-card,
+.sketchy-row-three .sketchy-media-card{
+  min-height:320px;
+}
+
+
+/* -----------------------------------------------------
+   TEXT PANEL
+----------------------------------------------------- */
+
+.sketchy-text-panel{
+  min-height:230px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:40px 52px;
+  border-radius:28px;
+  background:var(--light-accent);
+}
+
+.sketchy-text-panel p{
+  margin:0;
+  color:var(--navy);
+  font-size:18px;
+  line-height:1.7;
+}
+
+
+/* -----------------------------------------------------
+   RESPONSIVE
+----------------------------------------------------- */
+
+@media(max-width:900px){
+  .sketchy-row-one,
+  .sketchy-row-two,
+  .sketchy-row-three{
+    grid-template-columns:minmax(0,2.5fr) minmax(170px,1fr);
+  }
+
+  .sketchy-row-two{
+    grid-template-columns:minmax(170px,1fr) minmax(0,2.5fr);
+  }
+
+  .sketchy-row-one .sketchy-media-card,
+  .sketchy-row-two .sketchy-media-card,
+  .sketchy-row-three .sketchy-media-card{
+    min-height:270px;
+  }
+}
+
+@media(max-width:700px){
+  .sketchy-secret-layout{
+    gap:20px;
+  }
+
+  .sketchy-row-one,
+  .sketchy-row-two,
+  .sketchy-row-three{
+    grid-template-columns:1fr !important;
+  }
+
+  .sketchy-row-one .sketchy-media-card,
+  .sketchy-row-two .sketchy-media-card,
+  .sketchy-row-three .sketchy-media-card{
+    min-height:240px;
+  }
+
+  .sketchy-sprite-card{
+    min-height:300px !important;
+  }
+
+  .sketchy-text-panel{
+    min-height:200px;
+    padding:32px 28px;
+  }
+}
