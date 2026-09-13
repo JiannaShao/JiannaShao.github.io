@@ -226,9 +226,8 @@ resumeButton.addEventListener('click', async () => {
     renderResume();
   }
   /* =====================================================
-     SIDE-VIEW TEXT FISH — REFERENCE LAYOUT
-     Four text-block depth layers, orthographic side view,
-     smaller letter blocks, real J/S text, no O bubbles.
+     SIDE-VIEW TEXT FISH — REFERENCE LAYOUT V3
+     This fully replaces the old fish generator.
   ===================================================== */
   const fishHost = document.getElementById('text-fish-3d');
 
@@ -240,17 +239,15 @@ resumeButton.addEventListener('click', async () => {
         );
 
         fishHost.innerHTML = '';
-        fishHost.style.position = 'relative';
-        fishHost.style.overflow = 'visible';
 
         const scene = new THREE.Scene();
 
-        // Orthographic camera = true side view with no perspective angle.
+        /* Perfect side view: no perspective and no camera angle. */
         const camera = new THREE.OrthographicCamera(
-          -6.4,
-          6.4,
-          3.75,
-          -3.75,
+          -6.7,
+          6.7,
+          3.8,
+          -3.8,
           0.1,
           100
         );
@@ -272,71 +269,110 @@ resumeButton.addEventListener('click', async () => {
 
         const fishGroup = new THREE.Group();
 
-        // Lock the whole construction into a perfect side view.
-        fishGroup.rotation.set(0, 0, 0);
-        fishGroup.position.set(0, 0, 0);
+        /*
+          Smaller, less wide, and farther right than the prior version.
+        */
+        fishGroup.scale.set(
+          0.72,
+          0.82,
+          1
+        );
 
+        fishGroup.position.set(
+          1.05,
+          0.02,
+          0
+        );
+
+        fishGroup.rotation.set(0, 0, 0);
         scene.add(fishGroup);
 
         const FISH_TEXT = 'SWIMEAT';
 
-        // Existing fish palette retained.
         const frontColor = '#85a4ab';
         const sideColor = '#48666d';
-        const darkEdgeColor = '#2f484f';
+        const darkColor = '#2f484f';
         const navyColor = '#14253d';
         const lightColor = '#e1ebe7';
 
-        // Both sizes are smaller than the previous fish's text blocks.
-        // Outline/reference-red areas use SMALL.
-        // Eye/fin/reference-blue areas use LARGE.
-        const SMALL_BLOCK_SIZE = 0.125;
-        const LARGE_BLOCK_SIZE = 0.175;
+        /*
+          The actual letters are at least 5px larger than before.
+          Previous fish used 90px. This uses 105px.
+        */
+        const LETTER_FONT_PX = 105;
 
-        // Exactly four depth layers.
+        /*
+          Block geometry itself stays compact.
+          Blue/J/S areas use slightly larger blocks.
+        */
+        const SMALL_BLOCK_SIZE = 0.14;
+        const LARGE_BLOCK_SIZE = 0.19;
+
+        /*
+          Exactly four text layers.
+          Front layer is highest.
+          Each layer behind it is about 2px visually lower.
+        */
         const TEXT_LAYERS = [
-          -0.18,
-          -0.06,
-          0.06,
-          0.18
+          { z:  0.18, y:  0.000 },
+          { z:  0.06, y: -0.045 },
+          { z: -0.06, y: -0.090 },
+          { z: -0.18, y: -0.135 }
         ];
 
         let letterIndex = 0;
 
         function nextLetter() {
-          const letter =
+          const ch =
             FISH_TEXT[
               letterIndex %
               FISH_TEXT.length
             ];
 
           letterIndex++;
-          return letter;
+          return ch;
         }
 
-        function rand(min, max) {
-          return min + Math.random() * (max - min);
+        function randomColor() {
+          const r = Math.random();
+
+          if (r < 0.34) return frontColor;
+          if (r < 0.60) return sideColor;
+          if (r < 0.80) return darkColor;
+          if (r < 0.92) return navyColor;
+
+          return lightColor;
         }
 
         const textureCache = new Map();
 
         function makeLetterTexture(letter, color) {
-          const key = `${letter}-${color}`;
+          const key =
+            `${letter}-${color}`;
 
           if (textureCache.has(key)) {
             return textureCache.get(key);
           }
 
-          const canvas = document.createElement('canvas');
+          const canvas =
+            document.createElement('canvas');
 
           canvas.width = 128;
           canvas.height = 128;
 
-          const ctx = canvas.getContext('2d');
+          const ctx =
+            canvas.getContext('2d');
 
-          ctx.clearRect(0, 0, 128, 128);
+          ctx.clearRect(
+            0,
+            0,
+            128,
+            128
+          );
 
-          ctx.font = '700 90px Georgia, serif';
+          ctx.font =
+            `700 ${LETTER_FONT_PX}px Georgia, serif`;
+
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillStyle = color;
@@ -367,29 +403,6 @@ resumeButton.addEventListener('click', async () => {
           return texture;
         }
 
-        function randomFishColor() {
-          const roll = Math.random();
-
-          if (roll < 0.34) {
-            return frontColor;
-          }
-
-          if (roll < 0.60) {
-            return sideColor;
-          }
-
-          if (roll < 0.80) {
-            return darkEdgeColor;
-          }
-
-          if (roll < 0.92) {
-            return navyColor;
-          }
-
-          return lightColor;
-        }
-
-        // Reuse geometry instead of generating a new box for every character.
         const smallGeometry =
           new THREE.BoxGeometry(
             SMALL_BLOCK_SIZE,
@@ -406,40 +419,33 @@ resumeButton.addEventListener('click', async () => {
 
         const textMeshes = [];
 
-        function addTextBlock(
+        function addBlock(
           x,
           y,
           size,
           z,
           color = null,
-          rotation = 0
+          rotation = 0,
+          lockColor = false
         ) {
-          const letter = nextLetter();
-
           const resolvedColor =
-            color ||
-            randomFishColor();
-
-          const material =
-            new THREE.MeshBasicMaterial({
-              map: makeLetterTexture(
-                letter,
-                resolvedColor
-              ),
-              transparent: true,
-              depthWrite: true,
-              side: THREE.DoubleSide
-            });
-
-          const geometry =
-            size === LARGE_BLOCK_SIZE
-              ? largeGeometry
-              : smallGeometry;
+            color || randomColor();
 
           const mesh =
             new THREE.Mesh(
-              geometry,
-              material
+              size === LARGE_BLOCK_SIZE
+                ? largeGeometry
+                : smallGeometry,
+
+              new THREE.MeshBasicMaterial({
+                map: makeLetterTexture(
+                  nextLetter(),
+                  resolvedColor
+                ),
+                transparent: true,
+                depthWrite: true,
+                side: THREE.DoubleSide
+              })
             );
 
           mesh.position.set(
@@ -448,46 +454,51 @@ resumeButton.addEventListener('click', async () => {
             z
           );
 
-          // Only Z rotation is used to trace the flat silhouette.
-          // No X/Y tilt is added.
           mesh.rotation.set(
             0,
             0,
             rotation
           );
 
-          fishGroup.add(mesh);
+          mesh.userData.lockColor =
+            lockColor
+              ? resolvedColor
+              : null;
 
+          fishGroup.add(mesh);
           textMeshes.push(mesh);
         }
 
-        function addLayeredBlock(
+        function addFourLayers(
           x,
           y,
           size,
           color = null,
-          rotation = 0
+          rotation = 0,
+          lockColor = false
         ) {
-          TEXT_LAYERS.forEach((z) => {
-            addTextBlock(
+          TEXT_LAYERS.forEach((layer) => {
+            addBlock(
               x,
-              y,
+              y + layer.y,
               size,
-              z,
+              layer.z,
               color,
-              rotation
+              rotation,
+              lockColor
             );
           });
         }
 
-        function makeLine(
+        function drawLine(
           x1,
           y1,
           x2,
           y2,
           spacing,
           size,
-          color = null
+          color = null,
+          lockColor = false
         ) {
           const dx = x2 - x1;
           const dy = y2 - y1;
@@ -495,44 +506,42 @@ resumeButton.addEventListener('click', async () => {
           const distance =
             Math.hypot(dx, dy);
 
-          const count =
+          const steps =
             Math.max(
               1,
               Math.ceil(
-                distance /
-                spacing
+                distance / spacing
               )
             );
 
           const angle =
-            Math.atan2(
-              dy,
-              dx
-            );
+            Math.atan2(dy, dx);
 
           for (
             let i = 0;
-            i <= count;
+            i <= steps;
             i++
           ) {
             const t =
-              i / count;
+              i / steps;
 
-            addLayeredBlock(
+            addFourLayers(
               x1 + dx * t,
               y1 + dy * t,
               size,
               color,
-              angle
+              angle,
+              lockColor
             );
           }
         }
 
-        function makeCurve(
+        function drawCurve(
           pointFunction,
           steps,
           size,
-          color = null
+          color = null,
+          lockColor = false
         ) {
           for (
             let i = 0;
@@ -542,10 +551,10 @@ resumeButton.addEventListener('click', async () => {
             const t =
               i / steps;
 
-            const point =
+            const p =
               pointFunction(t);
 
-            const next =
+            const q =
               pointFunction(
                 Math.min(
                   1,
@@ -555,21 +564,22 @@ resumeButton.addEventListener('click', async () => {
 
             const angle =
               Math.atan2(
-                next.y - point.y,
-                next.x - point.x
+                q.y - p.y,
+                q.x - p.x
               );
 
-            addLayeredBlock(
-              point.x,
-              point.y,
+            addFourLayers(
+              p.x,
+              p.y,
               size,
               color,
-              angle
+              angle,
+              lockColor
             );
           }
         }
 
-        function makeRoundedRectangle(
+        function roundedRect(
           cx,
           cy,
           width,
@@ -589,158 +599,301 @@ resumeButton.addEventListener('click', async () => {
           const bottom =
             cy - height / 2;
 
-          makeLine(
+          drawLine(
             left + radius,
             top,
             right - radius,
             top,
-            0.18,
+            0.17,
             size
           );
 
-          makeLine(
+          drawLine(
             right,
             top - radius,
             right,
             bottom + radius,
-            0.18,
+            0.17,
             size
           );
 
-          makeLine(
+          drawLine(
             right - radius,
             bottom,
             left + radius,
             bottom,
-            0.18,
+            0.17,
             size
           );
 
-          makeLine(
+          drawLine(
             left,
             bottom + radius,
             left,
             top - radius,
-            0.18,
+            0.17,
             size
           );
 
           const corners = [
-            {
-              cx: right - radius,
-              cy: top - radius,
-              start: 0,
-              end: Math.PI / 2
-            },
-            {
-              cx: left + radius,
-              cy: top - radius,
-              start: Math.PI / 2,
-              end: Math.PI
-            },
-            {
-              cx: left + radius,
-              cy: bottom + radius,
-              start: Math.PI,
-              end: Math.PI * 1.5
-            },
-            {
-              cx: right - radius,
-              cy: bottom + radius,
-              start: Math.PI * 1.5,
-              end: Math.PI * 2
-            }
+            [right - radius, top - radius, 0, Math.PI / 2],
+            [left + radius, top - radius, Math.PI / 2, Math.PI],
+            [left + radius, bottom + radius, Math.PI, Math.PI * 1.5],
+            [right - radius, bottom + radius, Math.PI * 1.5, Math.PI * 2]
           ];
 
-          corners.forEach((corner) => {
-            makeCurve(
-              (t) => {
-                const angle =
-                  corner.start +
-                  (
-                    corner.end -
-                    corner.start
-                  ) *
-                  t;
+          corners.forEach(
+            ([
+              ccx,
+              ccy,
+              a1,
+              a2
+            ]) => {
+              drawCurve(
+                (t) => {
+                  const a =
+                    a1 +
+                    (
+                      a2 -
+                      a1
+                    ) *
+                    t;
 
-                return {
-                  x:
-                    corner.cx +
-                    Math.cos(angle) *
-                    radius,
+                  return {
+                    x:
+                      ccx +
+                      Math.cos(a) *
+                      radius,
 
-                  y:
-                    corner.cy +
-                    Math.sin(angle) *
-                    radius
-                };
-              },
-              6,
-              size
+                    y:
+                      ccy +
+                      Math.sin(a) *
+                      radius
+                  };
+                },
+                6,
+                size
+              );
+            }
+          );
+        }
+
+        function fillGrid(
+          minX,
+          maxX,
+          minY,
+          maxY,
+          spacing,
+          size,
+          color,
+          contains
+        ) {
+          let row = 0;
+
+          for (
+            let y = minY;
+            y <= maxY;
+            y += spacing
+          ) {
+            const stagger =
+              row % 2
+                ? spacing * 0.5
+                : 0;
+
+            for (
+              let x = minX + stagger;
+              x <= maxX;
+              x += spacing
+            ) {
+              if (
+                contains(
+                  x,
+                  y
+                )
+              ) {
+                addFourLayers(
+                  x,
+                  y,
+                  size,
+                  color,
+                  0,
+                  true
+                );
+              }
+            }
+
+            row++;
+          }
+        }
+
+        function fillEllipse(
+          cx,
+          cy,
+          rx,
+          ry,
+          spacing,
+          size,
+          color
+        ) {
+          fillGrid(
+            cx - rx,
+            cx + rx,
+            cy - ry,
+            cy + ry,
+            spacing,
+            size,
+            color,
+            (x, y) => {
+              const nx =
+                (x - cx) / rx;
+
+              const ny =
+                (y - cy) / ry;
+
+              return (
+                nx * nx +
+                ny * ny
+              ) <= 1;
+            }
+          );
+        }
+
+        function pointsOnCatmull(
+          coords,
+          divisions
+        ) {
+          const curve =
+            new THREE.CatmullRomCurve3(
+              coords.map(
+                ([x, y]) =>
+                  new THREE.Vector3(
+                    x,
+                    y,
+                    0
+                  )
+              ),
+              false,
+              'centripetal'
             );
+
+          return curve
+            .getPoints(divisions)
+            .map((p) => ({
+              x: p.x,
+              y: p.y
+            }));
+        }
+
+        function fillStroke(
+          points,
+          radius,
+          spacing,
+          size,
+          color
+        ) {
+          let minX = Infinity;
+          let maxX = -Infinity;
+          let minY = Infinity;
+          let maxY = -Infinity;
+
+          points.forEach((p) => {
+            minX = Math.min(minX, p.x);
+            maxX = Math.max(maxX, p.x);
+            minY = Math.min(minY, p.y);
+            maxY = Math.max(maxY, p.y);
           });
+
+          fillGrid(
+            minX - radius,
+            maxX + radius,
+            minY - radius,
+            maxY + radius,
+            spacing,
+            size,
+            color,
+            (x, y) => {
+              let nearest = Infinity;
+
+              points.forEach((p) => {
+                const dx = x - p.x;
+                const dy = y - p.y;
+
+                nearest =
+                  Math.min(
+                    nearest,
+                    dx * dx +
+                    dy * dy
+                  );
+              });
+
+              return (
+                nearest <=
+                radius * radius
+              );
+            }
+          );
         }
 
         /* =====================================================
-           OUTER + INNER FRAME
+           REFERENCE FRAME
         ===================================================== */
 
-        makeRoundedRectangle(
+        roundedRect(
           0,
           0,
-          10.65,
-          5.72,
-          1.05,
+          10.45,
+          5.55,
+          1.02,
           SMALL_BLOCK_SIZE
         );
 
-        makeRoundedRectangle(
-          -0.08,
+        roundedRect(
+          -0.05,
           -0.01,
-          9.73,
-          4.85,
-          0.88,
+          9.58,
+          4.72,
+          0.84,
           SMALL_BLOCK_SIZE
         );
 
         /* =====================================================
-           CENTRAL DIVIDER
+           CENTER DIVIDER
         ===================================================== */
 
-        makeLine(
-          0.36,
-          2.60,
-          0.36,
-          -2.15,
-          0.15,
+        drawLine(
+          0.30,
+          2.48,
+          0.30,
+          -2.05,
+          0.145,
           SMALL_BLOCK_SIZE
         );
 
-        makeLine(
-          0.99,
-          2.60,
-          0.99,
-          -2.15,
-          0.15,
+        drawLine(
+          0.94,
+          2.48,
+          0.94,
+          -2.05,
+          0.145,
           SMALL_BLOCK_SIZE
         );
 
-        makeCurve(
+        drawCurve(
           (t) => {
-            const angle =
+            const a =
               Math.PI -
               Math.PI * t;
 
             return {
               x:
-                0.675 +
-                Math.cos(angle) *
-                0.315,
+                0.62 +
+                Math.cos(a) *
+                0.32,
 
               y:
-                2.60 +
-                Math.sin(angle) *
-                0.315
+                2.48 +
+                Math.sin(a) *
+                0.32
             };
           },
           7,
@@ -748,80 +901,66 @@ resumeButton.addEventListener('click', async () => {
         );
 
         /* =====================================================
-           BOTTOM OVAL / EYE DETAIL
+           BOTTOM EYE
         ===================================================== */
 
-        makeCurve(
+        drawCurve(
           (t) => {
-            const angle =
+            const a =
               t *
               Math.PI *
               2;
 
             return {
               x:
-                0.675 +
-                Math.cos(angle) *
-                0.66,
+                0.62 +
+                Math.cos(a) *
+                0.64,
 
               y:
-                -2.49 +
-                Math.sin(angle) *
-                0.47
+                -2.38 +
+                Math.sin(a) *
+                0.45
             };
           },
-          22,
+          21,
           SMALL_BLOCK_SIZE
         );
 
-        makeCurve(
-          (t) => {
-            const angle =
-              t *
-              Math.PI *
-              2;
-
-            return {
-              x:
-                0.675 +
-                Math.cos(angle) *
-                0.33,
-
-              y:
-                -2.49 +
-                Math.sin(angle) *
-                0.17
-            };
-          },
-          13,
+        fillEllipse(
+          0.62,
+          -2.38,
+          0.31,
+          0.15,
+          0.14,
           LARGE_BLOCK_SIZE,
           lightColor
         );
 
-        makeLine(
-          0.675,
-          -2.60,
-          0.675,
+        fillEllipse(
+          0.62,
           -2.38,
           0.07,
+          0.115,
+          0.105,
           LARGE_BLOCK_SIZE,
           navyColor
         );
 
         /* =====================================================
-           THREE STACKED FISH
+           THREE LEFT-SIDE FISH
         ===================================================== */
 
-        function buildSmallFish(centerY) {
-          const snoutX = -4.38;
-          const rearX = -0.15;
+        function makeLeftFish(centerY) {
+          const snoutX = -4.25;
+          const backX = -0.10;
 
-          makeCurve(
+          drawCurve(
             (t) => {
               const x =
                 snoutX +
                 (
-                  rearX -
+                  backX -
                   snoutX
                 ) *
                 t;
@@ -837,19 +976,19 @@ resumeButton.addEventListener('click', async () => {
                 y:
                   centerY +
                   arch *
-                  0.76
+                  0.71
               };
             },
-            19,
+            18,
             SMALL_BLOCK_SIZE
           );
 
-          makeCurve(
+          drawCurve(
             (t) => {
               const x =
                 snoutX +
                 (
-                  rearX -
+                  backX -
                   snoutX
                 ) *
                 t;
@@ -865,223 +1004,228 @@ resumeButton.addEventListener('click', async () => {
                 y:
                   centerY -
                   arch *
-                  0.76
+                  0.71
               };
             },
-            19,
+            18,
             SMALL_BLOCK_SIZE
           );
 
-          // Rounded rear edge.
-          makeCurve(
+          drawCurve(
             (t) => {
-              const angle =
+              const a =
                 Math.PI / 2 -
                 t *
                 Math.PI;
 
               return {
                 x:
-                  rearX -
-                  0.27 +
-                  Math.cos(angle) *
-                  0.27,
+                  backX -
+                  0.26 +
+                  Math.cos(a) *
+                  0.26,
 
                 y:
                   centerY +
-                  Math.sin(angle) *
-                  0.63
+                  Math.sin(a) *
+                  0.59
               };
             },
             10,
             SMALL_BLOCK_SIZE
           );
 
-          // Gill / chevron.
-          makeLine(
-            -2.34,
-            centerY + 0.65,
-            -2.07,
-            centerY + 0.38,
-            0.12,
+          // Inner chevron.
+          drawLine(
+            -2.25,
+            centerY + 0.59,
+            -1.98,
+            centerY + 0.34,
+            0.115,
             SMALL_BLOCK_SIZE
           );
 
-          makeLine(
-            -2.07,
-            centerY + 0.38,
-            -1.89,
+          drawLine(
+            -1.98,
+            centerY + 0.34,
+            -1.80,
             centerY,
-            0.12,
+            0.115,
             SMALL_BLOCK_SIZE
           );
 
-          makeLine(
-            -1.89,
+          drawLine(
+            -1.80,
             centerY,
-            -2.07,
-            centerY - 0.38,
-            0.12,
+            -1.98,
+            centerY - 0.34,
+            0.115,
             SMALL_BLOCK_SIZE
           );
 
-          makeLine(
-            -2.07,
-            centerY - 0.38,
-            -2.34,
-            centerY - 0.65,
-            0.12,
+          drawLine(
+            -1.98,
+            centerY - 0.34,
+            -2.25,
+            centerY - 0.59,
+            0.115,
             SMALL_BLOCK_SIZE
           );
 
-          // Eye: larger blocks.
-          makeCurve(
-            (t) => {
-              const angle =
-                t *
-                Math.PI *
-                2;
-
-              return {
-                x:
-                  -3.13 +
-                  Math.cos(angle) *
-                  0.17,
-
-                y:
-                  centerY +
-                  Math.sin(angle) *
-                  0.17
-              };
-            },
-            10,
+          /* Filled blue eye. */
+          fillEllipse(
+            -3.07,
+            centerY,
+            0.20,
+            0.20,
+            0.145,
             LARGE_BLOCK_SIZE,
             navyColor
           );
 
-          // Reference-blue fin/teardrop: larger blocks.
-          makeCurve(
-            (t) => {
-              const angle =
-                t *
-                Math.PI *
-                2;
+          /* Filled blue/teal fin shape. */
+          fillGrid(
+            -1.75,
+            -0.20,
+            centerY - 0.34,
+            centerY + 0.34,
+            0.15,
+            LARGE_BLOCK_SIZE,
+            frontColor,
+            (x, y) => {
+              const cx = -1.02;
+              const cy = centerY;
 
-              const cos =
-                Math.cos(angle);
+              const nx =
+                (x - cx) / 0.76;
 
-              let x =
-                -1.05 +
-                cos *
-                0.72;
+              const ny =
+                (y - cy) / 0.32;
 
-              if (cos > 0) {
-                x +=
-                  cos *
-                  0.17;
+              if (
+                nx * nx +
+                ny * ny >
+                1
+              ) {
+                return false;
               }
 
-              return {
-                x,
-                y:
-                  centerY +
-                  Math.sin(angle) *
-                  0.33
-              };
-            },
-            17,
-            LARGE_BLOCK_SIZE,
-            frontColor
-          );
-        }
+              if (x > -0.68) {
+                const remaining =
+                  Math.max(
+                    0.02,
+                    0.32 *
+                    (
+                      1 -
+                      (
+                        x + 0.68
+                      ) /
+                      0.48
+                    )
+                  );
 
-        buildSmallFish(1.57);
-        buildSmallFish(0);
-        buildSmallFish(-1.57);
+                return (
+                  Math.abs(
+                    y - cy
+                  ) <=
+                  remaining
+                );
+              }
 
-        /* =====================================================
-           ACTUAL J + S TEXT
-           Real DOM letters, not block-built glyphs.
-        ===================================================== */
-
-        function makeAhsingLetter(
-          letter,
-          className,
-          left,
-          top,
-          fontSize
-        ) {
-          const el =
-            document.createElement('div');
-
-          el.className =
-            `fish-ahsing-letter ${className}`;
-
-          el.textContent =
-            letter;
-
-          Object.assign(
-            el.style,
-            {
-              position: 'absolute',
-              zIndex: '20',
-              left,
-              top,
-              transform:
-                'translate(-50%, -50%)',
-              fontFamily:
-                "'Ahsing', 'DM Serif Display', Georgia, serif",
-              fontSize,
-              fontWeight: '400',
-              lineHeight: '0.78',
-              color: '#222222',
-              pointerEvents: 'none',
-              userSelect: 'none',
-              whiteSpace: 'nowrap'
+              return true;
             }
           );
-
-          fishHost.appendChild(el);
-
-          return el;
         }
 
-        const jLetter =
-          makeAhsingLetter(
-            'J',
-            'fish-ahsing-j',
-            '75%',
-            '36%',
-            '128px'
-          );
-
-        const sLetter =
-          makeAhsingLetter(
-            'S',
-            'fish-ahsing-s',
-            '78%',
-            '66%',
-            '142px'
-          );
-
-        // Ask the browser to resolve Ahsing if the site already loads it.
-        if (
-          document.fonts &&
-          document.fonts.load
-        ) {
-          document.fonts
-            .load("128px Ahsing")
-            .catch(() => {});
-        }
+        makeLeftFish(1.49);
+        makeLeftFish(0);
+        makeLeftFish(-1.49);
 
         /* =====================================================
-           LETTER / COLOR REGENERATION
-           Geometry never changes, so the layout remains stable.
+           FILLED J — BUILT FROM LETTER BLOCKS
         ===================================================== */
 
-        function regenerateFishVisual() {
+        const jPoints = [];
+
+        for (
+          let i = 0;
+          i <= 30;
+          i++
+        ) {
+          const t =
+            i / 30;
+
+          jPoints.push({
+            x: 3.12,
+            y:
+              1.95 -
+              t *
+              1.40
+          });
+        }
+
+        const jHook =
+          pointsOnCatmull(
+            [
+              [3.12, 0.60],
+              [3.08, 0.30],
+              [2.82, 0.08],
+              [2.44, 0.05],
+              [2.17, 0.24]
+            ],
+            46
+          );
+
+        fillStroke(
+          [
+            ...jPoints,
+            ...jHook
+          ],
+          0.29,
+          0.135,
+          LARGE_BLOCK_SIZE,
+          darkColor
+        );
+
+        /* =====================================================
+           FILLED S — BUILT FROM LETTER BLOCKS
+        ===================================================== */
+
+        const sPoints =
+          pointsOnCatmull(
+            [
+              [4.18, -0.05],
+              [3.92, 0.12],
+              [3.46, 0.10],
+              [3.00, -0.16],
+              [2.84, -0.48],
+              [3.08, -0.72],
+              [3.65, -0.84],
+              [4.05, -1.06],
+              [4.13, -1.33],
+              [3.86, -1.57],
+              [3.40, -1.62],
+              [3.05, -1.48]
+            ],
+            84
+          );
+
+        fillStroke(
+          sPoints,
+          0.29,
+          0.135,
+          LARGE_BLOCK_SIZE,
+          darkColor
+        );
+
+        /* =====================================================
+           REGENERATE LETTERS ONLY
+           Geometry stays locked to the reference layout.
+        ===================================================== */
+
+        function regenerateFish() {
           textMeshes.forEach((mesh) => {
-            const newLetter =
+            const letter =
               FISH_TEXT[
                 Math.floor(
                   Math.random() *
@@ -1089,36 +1233,30 @@ resumeButton.addEventListener('click', async () => {
                 )
               ];
 
-            const newColor =
-              randomFishColor();
+            const color =
+              mesh.userData.lockColor ||
+              randomColor();
 
-            const nextMaterial =
+            const material =
               mesh.material.clone();
 
-            nextMaterial.map =
+            material.map =
               makeLetterTexture(
-                newLetter,
-                newColor
+                letter,
+                color
               );
 
-            nextMaterial.needsUpdate =
-              true;
-
-            mesh.material =
-              nextMaterial;
+            material.needsUpdate = true;
+            mesh.material = material;
           });
         }
 
-        regenerateFishVisual();
+        regenerateFish();
 
         setInterval(
-          regenerateFishVisual,
+          regenerateFish,
           650
         );
-
-        /* =====================================================
-           RESPONSIVE RESIZE
-        ===================================================== */
 
         function resizeFish() {
           const rect =
@@ -1143,12 +1281,9 @@ resumeButton.addEventListener('click', async () => {
           );
 
           const aspect =
-            width /
-            height;
+            width / height;
 
-          const viewHeight =
-            7.25;
-
+          const viewHeight = 7.6;
           const viewWidth =
             viewHeight *
             aspect;
@@ -1166,27 +1301,6 @@ resumeButton.addEventListener('click', async () => {
             -viewHeight / 2;
 
           camera.updateProjectionMatrix();
-
-          // Scale the real letters with the fish viewport.
-          if (width < 500) {
-            jLetter.style.fontSize =
-              '88px';
-
-            sLetter.style.fontSize =
-              '98px';
-          } else if (width < 650) {
-            jLetter.style.fontSize =
-              '106px';
-
-            sLetter.style.fontSize =
-              '118px';
-          } else {
-            jLetter.style.fontSize =
-              '128px';
-
-            sLetter.style.fontSize =
-              '142px';
-          }
         }
 
         const resizeObserver =
@@ -1199,11 +1313,6 @@ resumeButton.addEventListener('click', async () => {
         );
 
         resizeFish();
-
-        /* =====================================================
-           RENDER
-           No camera/fish rotation: permanent perfect side view.
-        ===================================================== */
 
         function animateFish() {
           requestAnimationFrame(
