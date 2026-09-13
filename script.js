@@ -273,13 +273,13 @@ resumeButton.addEventListener('click', async () => {
           Smaller, less wide, and farther right than the prior version.
         */
         fishGroup.scale.set(
-          1.01,
+          0.95,
           1.15,
           1
         );
 
         fishGroup.position.set(
-          1.05,
+          0.90,
           0.02,
           0
         );
@@ -299,7 +299,7 @@ resumeButton.addEventListener('click', async () => {
           The actual letters are at least 5px larger than before.
           Previous fish used 90px. This uses 105px.
         */
-        const LETTER_FONT_PX = 110;
+        const LETTER_FONT_PX = 115;
 
         /*
           Block geometry itself stays compact.
@@ -861,18 +861,18 @@ resumeButton.addEventListener('click', async () => {
         ===================================================== */
 
         drawLine(
-          0.18,
+          0.06,
           2.48,
-          0.18,
+          0.06,
           -2.05,
           0.145,
           SMALL_BLOCK_SIZE
         );
 
         drawLine(
-          1.06,
+          1.18,
           2.48,
-          1.06,
+          1.18,
           -2.05,
           0.145,
           SMALL_BLOCK_SIZE
@@ -888,7 +888,7 @@ resumeButton.addEventListener('click', async () => {
               x:
                 0.62 +
                 Math.cos(a) *
-                0.44,
+                0.56,
 
               y:
                 2.48 +
@@ -1149,32 +1149,32 @@ resumeButton.addEventListener('click', async () => {
 
         for (
           let i = 0;
-          i <= 34;
+          i <= 31;
           i++
         ) {
           const t =
-            i / 34;
+            i / 31;
 
           jPoints.push({
-            x: 2.82,
+            x: 2.58,
             y:
-              1.70 -
+              1.62 -
               t *
-              1.34
+              1.22
           });
         }
 
         const jHook =
           pointsOnCatmull(
             [
-              [2.82, 0.40],
-              [2.80, 0.13],
-              [2.62, -0.10],
-              [2.28, -0.18],
-              [1.98, -0.04],
-              [1.87, 0.20]
+              [2.58, 0.42],
+              [2.56, 0.18],
+              [2.40, -0.02],
+              [2.10, -0.09],
+              [1.84, 0.03],
+              [1.75, 0.23]
             ],
-            56
+            50
           );
 
         fillStroke(
@@ -1182,7 +1182,7 @@ resumeButton.addEventListener('click', async () => {
             ...jPoints,
             ...jHook
           ],
-          0.31,
+          0.27,
           0.135,
           LARGE_BLOCK_SIZE,
           null
@@ -1195,27 +1195,27 @@ resumeButton.addEventListener('click', async () => {
         const sPoints =
           pointsOnCatmull(
             [
-              [4.48, -0.02],
-              [4.26, 0.16],
-              [3.88, 0.18],
-              [3.55, 0.03],
-              [3.28, -0.22],
-              [3.30, -0.48],
-              [3.56, -0.68],
-              [4.08, -0.82],
-              [4.42, -1.04],
-              [4.48, -1.30],
-              [4.31, -1.51],
-              [3.95, -1.64],
-              [3.58, -1.59],
-              [3.34, -1.41]
+              [4.18, -0.06],
+              [3.98, 0.10],
+              [3.64, 0.12],
+              [3.34, -0.01],
+              [3.10, -0.23],
+              [3.12, -0.46],
+              [3.35, -0.64],
+              [3.82, -0.76],
+              [4.12, -0.97],
+              [4.18, -1.20],
+              [4.03, -1.39],
+              [3.71, -1.49],
+              [3.39, -1.45],
+              [3.18, -1.30]
             ],
-            96
+            86
           );
 
         fillStroke(
           sPoints,
-          0.31,
+          0.27,
           0.135,
           LARGE_BLOCK_SIZE,
           null
