@@ -1484,14 +1484,14 @@ button{
 
 /* V48 — fit fish fully in frame */
 .text-fish-3d-wrap{
-  transform:translateX(-18px) !important;
+  transform:translateX(-68px) !important;
   max-width:1045px !important;
   flex-basis:865px !important;
 }
 
 @media(max-width:900px){
   .text-fish-3d-wrap{
-    transform:translateX(-10px) !important;
+    transform:translateX(-38px) !important;
   }
 }
 
@@ -2042,13 +2042,39 @@ button{
 
 @media(min-width:901px){
   .text-fish-3d-wrap{
-    margin-left:-34px !important;
+    margin-left:-72px !important;
   }
 }
 
 @media(min-width:761px) and (max-width:900px){
   .text-fish-3d-wrap{
-    margin-left:-18px !important;
+    margin-left:-40px !important;
   }
+}
+
+/* =====================================================
+   V23 — MORE HERO OVERLAP + NAME ABOVE FISH
+===================================================== */
+
+.hero-title-row{
+  position:relative !important;
+  overflow:visible !important;
+}
+
+.hero-title-row h1,
+.hero h1.hero-name{
+  position:relative !important;
+  z-index:5 !important;
+}
+
+.text-fish-3d-wrap{
+  position:relative !important;
+  z-index:1 !important;
+}
+
+.text-fish-3d,
+.text-fish-3d canvas{
+  position:relative !important;
+  z-index:1 !important;
 }
 
