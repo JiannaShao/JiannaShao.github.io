@@ -1236,121 +1236,91 @@ resumeButton.addEventListener('click', async () => {
         makeLeftFish(-1.49);
 
         /* =====================================================
-           FILLED J — BUILT FROM LETTER BLOCKS
+           SMILEY FACE — BUILT FROM LETTER BLOCKS
         ===================================================== */
 
-        const jStemPoints = [];
+        const smileCenterX = 3.30;
+        const smileCenterY = -0.34;
+        const smileRadius = 1.44;
 
-        for (
-          let i = 0;
-          i <= 22;
-          i++
-        ) {
-          const t =
-            i / 22;
-
-          jStemPoints.push({
-            x: 2.54,
-            y:
-              1.38 -
+        drawCurve(
+          (t) => {
+            const a =
               t *
-              0.84
-          });
-        }
+              Math.PI *
+              2;
 
-        const jHookPoints =
-          pointsOnCatmull(
-            [
-              [2.54, 0.56],
-              [2.52, 0.34],
-              [2.40, 0.16],
-              [2.20, 0.02],
-              [1.96, 0.01],
-              [1.77, 0.13],
-              [1.70, 0.28]
-            ],
-            50
-          );
+            return {
+              x:
+                smileCenterX +
+                Math.cos(a) *
+                smileRadius,
 
-        fillVariableStroke(
-          jStemPoints,
-          (t) =>
-            0.22 -
-            t * 0.04,
-          0.135,
+              y:
+                smileCenterY +
+                Math.sin(a) *
+                1.14
+            };
+          },
+          34,
+          LARGE_BLOCK_SIZE,
+          null,
+          false
+        );
+
+        fillEllipse(
+          smileCenterX - 0.46,
+          smileCenterY + 0.22,
+          0.17,
+          0.17,
+          0.13,
           LARGE_BLOCK_SIZE,
           null
         );
 
-        fillVariableStroke(
-          jHookPoints,
+        fillEllipse(
+          smileCenterX + 0.46,
+          smileCenterY + 0.22,
+          0.17,
+          0.17,
+          0.13,
+          LARGE_BLOCK_SIZE,
+          null
+        );
+
+        drawCurve(
           (t) => {
-            return (
-              0.13 +
-              Math.sin(
-                t * Math.PI
+            const startA =
+              Math.PI * 0.10;
+
+            const endA =
+              Math.PI * 0.90;
+
+            const a =
+              startA +
+              (
+                endA -
+                startA
               ) *
-              0.09
-            );
+              t;
+
+            return {
+              x:
+                smileCenterX +
+                Math.cos(a) *
+                0.78,
+
+              y:
+                smileCenterY -
+                0.18 -
+                Math.sin(a) *
+                0.48
+            };
           },
-          0.135,
+          20,
           LARGE_BLOCK_SIZE,
-          null
-        );
-
-        /* =====================================================
-           FILLED S — BUILT FROM LETTER BLOCKS
-        ===================================================== */
-
-        const sPoints =
-          pointsOnCatmull(
-            [
-              [3.96, -0.20],
-              [3.80, -0.08],
-              [3.52, -0.06],
-              [3.27, -0.16],
-              [3.09, -0.33],
-              [3.11, -0.48],
-              [3.31, -0.62],
-              [3.66, -0.72],
-              [3.93, -0.87],
-              [4.00, -1.04],
-              [3.89, -1.18],
-              [3.66, -1.25],
-              [3.43, -1.22],
-              [3.27, -1.12]
-            ],
-            82
-          );
-
-        fillVariableStroke(
-          sPoints,
-          (t) => {
-            const upperBulge =
-              Math.exp(
-                -Math.pow(
-                  (t - 0.30) / 0.20,
-                  2
-                )
-              );
-
-            const lowerBulge =
-              Math.exp(
-                -Math.pow(
-                  (t - 0.72) / 0.22,
-                  2
-                )
-              );
-
-            return (
-              0.12 +
-              upperBulge * 0.08 +
-              lowerBulge * 0.10
-            );
-          },
-          0.135,
-          LARGE_BLOCK_SIZE,
-          null
+          null,
+          false
         );
 
         /* =====================================================
