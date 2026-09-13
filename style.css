@@ -1997,3 +1997,42 @@ button{
         transform:translateX(12px) !important;
     }
 }
+
+/* =====================================================
+   V20 — LARGER HERO NAME + EMPHASIZED J / S
+===================================================== */
+
+.hero h1.hero-name{
+  font-size:clamp(82px,11.6vw,156px) !important;
+  line-height:.82 !important;
+  letter-spacing:-.035em !important;
+}
+
+.hero-name-part{
+  display:inline-block;
+}
+
+.hero-name .hero-initial{
+  display:inline-block;
+  font-size:1.18em;
+  line-height:.70;
+  transform:translateY(.025em);
+  transform-origin:center bottom;
+}
+
+@media(max-width:800px){
+  .hero h1.hero-name{
+    font-size:88px !important;
+  }
+}
+
+@media(max-width:480px){
+  .hero h1.hero-name{
+    font-size:72px !important;
+  }
+
+  .hero-name .hero-initial{
+    font-size:1.16em;
+  }
+}
+
