@@ -299,7 +299,7 @@ resumeButton.addEventListener('click', async () => {
           The actual letters are at least 5px larger than before.
           Previous fish used 90px. This uses 105px.
         */
-        const LETTER_FONT_PX = 125;
+        const LETTER_FONT_PX = 140;
 
         /*
           Block geometry itself stays compact.
@@ -450,8 +450,8 @@ resumeButton.addEventListener('click', async () => {
                   LETTER_FONT_PX +
                   (
                     Math.random() *
-                    15 -
-                    5
+                    30 -
+                    10
                   )
                 ),
                 transparent: true,
@@ -1252,7 +1252,7 @@ resumeButton.addEventListener('click', async () => {
           jStemPoints.push({
             x: 2.54,
             y:
-              1.28 -
+              1.38 -
               t *
               0.84
           });
@@ -1261,13 +1261,13 @@ resumeButton.addEventListener('click', async () => {
         const jHookPoints =
           pointsOnCatmull(
             [
-              [2.54, 0.46],
-              [2.52, 0.24],
-              [2.40, 0.06],
-              [2.20, -0.08],
-              [1.96, -0.09],
-              [1.77, 0.03],
-              [1.70, 0.18]
+              [2.54, 0.56],
+              [2.52, 0.34],
+              [2.40, 0.16],
+              [2.20, 0.02],
+              [1.96, 0.01],
+              [1.77, 0.13],
+              [1.70, 0.28]
             ],
             50
           );
@@ -1275,8 +1275,8 @@ resumeButton.addEventListener('click', async () => {
         fillVariableStroke(
           jStemPoints,
           (t) =>
-            0.29 -
-            t * 0.06,
+            0.22 -
+            t * 0.04,
           0.135,
           LARGE_BLOCK_SIZE,
           null
@@ -1286,11 +1286,11 @@ resumeButton.addEventListener('click', async () => {
           jHookPoints,
           (t) => {
             return (
-              0.17 +
+              0.13 +
               Math.sin(
                 t * Math.PI
               ) *
-              0.12
+              0.09
             );
           },
           0.135,
@@ -1343,9 +1343,9 @@ resumeButton.addEventListener('click', async () => {
               );
 
             return (
-              0.16 +
-              upperBulge * 0.11 +
-              lowerBulge * 0.13
+              0.12 +
+              upperBulge * 0.08 +
+              lowerBulge * 0.10
             );
           },
           0.135,
@@ -1382,8 +1382,8 @@ resumeButton.addEventListener('click', async () => {
                 LETTER_FONT_PX +
                 (
                   Math.random() *
-                  15 -
-                  5
+                  30 -
+                  10
                 )
               );
 
