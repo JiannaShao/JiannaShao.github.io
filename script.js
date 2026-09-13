@@ -314,10 +314,10 @@ resumeButton.addEventListener('click', async () => {
           Each layer behind it is about 2px visually lower.
         */
         const TEXT_LAYERS = [
-          { z:  0.18, y:  0.000 },
-          { z:  0.06, y: -0.045 },
-          { z: -0.06, y: -0.090 },
-          { z: -0.18, y: -0.135 }
+          { z:  0.18, x:  0.0000, y:  0.000 },
+          { z:  0.06, x: -0.0225, y: -0.045 },
+          { z: -0.06, x: -0.0450, y: -0.090 },
+          { z: -0.18, x: -0.0675, y: -0.135 }
         ];
 
         let letterIndex = 0;
@@ -479,7 +479,7 @@ resumeButton.addEventListener('click', async () => {
         ) {
           TEXT_LAYERS.forEach((layer) => {
             addBlock(
-              x,
+              x + layer.x,
               y + layer.y,
               size,
               layer.z,
