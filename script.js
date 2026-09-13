@@ -318,14 +318,14 @@ resumeButton.addEventListener('click', async () => {
         const LARGE_BLOCK_SIZE = 0.19;
 
         /*
-          Exactly four text layers.
-          Front layer is highest.
-          Each layer behind it is about 2px visually lower.
+          Exactly three text layers.
+          All layers share the same X/Y position.
+          Depth spacing is increased so the layers separate in Z only.
         */
         const TEXT_LAYERS = [
-          { z:  0.18, x:  0.0000, y:  0.000 },
-          { z:  0.06, x: -0.0225, y: -0.045 },
-          { z: -0.06, x: -0.0450, y: -0.090 }
+          { z:  0.34, x: 0, y: 0 },
+          { z:  0.00, x: 0, y: 0 },
+          { z: -0.34, x: 0, y: 0 }
         ];
 
         let letterIndex = 0;
