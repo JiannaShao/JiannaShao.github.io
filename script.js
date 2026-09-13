@@ -226,24 +226,36 @@ resumeButton.addEventListener('click', async () => {
     renderResume();
   }
   /* =====================================================
-     ROTATABLE 3D TEXT FISH
-     Edit FISH_TEXT below later to change the letters.
+     SIDE-VIEW TEXT FISH — REFERENCE LAYOUT
+     Four text-block depth layers, orthographic side view,
+     smaller letter blocks, real J/S text, no O bubbles.
   ===================================================== */
   const fishHost = document.getElementById('text-fish-3d');
 
   if (fishHost) {
     (async () => {
       try {
-        const THREE = await import('https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js');
+        const THREE = await import(
+          'https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js'
+        );
+
+        fishHost.innerHTML = '';
+        fishHost.style.position = 'relative';
+        fishHost.style.overflow = 'visible';
 
         const scene = new THREE.Scene();
 
-        const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
-        camera.position.set(
-          -3.22,
-          2.52,
-          8.85
+        // Orthographic camera = true side view with no perspective angle.
+        const camera = new THREE.OrthographicCamera(
+          -6.4,
+          6.4,
+          3.75,
+          -3.75,
+          0.1,
+          100
         );
+
+        camera.position.set(0, 0, 12);
         camera.lookAt(0, 0, 0);
 
         const renderer = new THREE.WebGLRenderer({
@@ -251,107 +263,83 @@ resumeButton.addEventListener('click', async () => {
           antialias: true
         });
 
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+        renderer.setPixelRatio(
+          Math.min(window.devicePixelRatio || 1, 2)
+        );
+
         renderer.setClearColor(0x000000, 0);
         fishHost.appendChild(renderer.domElement);
 
         const fishGroup = new THREE.Group();
-        fishGroup.scale.setScalar(1.04);
-        fishGroup.position.set(
-          0.34,
-          0.05,
-          0
-        );
+
+        // Lock the whole construction into a perfect side view.
+        fishGroup.rotation.set(0, 0, 0);
+        fishGroup.position.set(0, 0, 0);
+
         scene.add(fishGroup);
 
-        const FISH_TEXT =
-          'SWIMEAT';
+        const FISH_TEXT = 'SWIMEAT';
 
+        // Existing fish palette retained.
         const frontColor = '#85a4ab';
         const sideColor = '#48666d';
         const darkEdgeColor = '#2f484f';
+        const navyColor = '#14253d';
+        const lightColor = '#e1ebe7';
+
+        // Both sizes are smaller than the previous fish's text blocks.
+        // Outline/reference-red areas use SMALL.
+        // Eye/fin/reference-blue areas use LARGE.
+        const SMALL_BLOCK_SIZE = 0.125;
+        const LARGE_BLOCK_SIZE = 0.175;
+
+        // Exactly four depth layers.
+        const TEXT_LAYERS = [
+          -0.18,
+          -0.06,
+          0.06,
+          0.18
+        ];
+
+        let letterIndex = 0;
+
+        function nextLetter() {
+          const letter =
+            FISH_TEXT[
+              letterIndex %
+              FISH_TEXT.length
+            ];
+
+          letterIndex++;
+          return letter;
+        }
+
+        function rand(min, max) {
+          return min + Math.random() * (max - min);
+        }
 
         const textureCache = new Map();
 
         function makeLetterTexture(letter, color) {
           const key = `${letter}-${color}`;
-          if (textureCache.has(key)) return textureCache.get(key);
-
-          const c = document.createElement('canvas');
-          c.width = 128;
-          c.height = 128;
-
-          const ctx = c.getContext('2d');
-          ctx.clearRect(0, 0, 128, 128);
-          ctx.font = '700 90px Georgia, serif';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillStyle = color;
-          ctx.fillText(letter, 64, 66);
-
-          const tex = new THREE.CanvasTexture(c);
-          tex.colorSpace = THREE.SRGBColorSpace;
-          tex.minFilter = THREE.LinearFilter;
-          tex.magFilter = THREE.LinearFilter;
-          textureCache.set(key, tex);
-          return tex;
-        }
-
-        function makeOutlinedLetterTexture(
-          letter,
-          fillColor,
-          strokeColor,
-          strokeWidth = 5
-        ) {
-          const key =
-            `outline-${letter}-${fillColor}-${strokeColor}-${strokeWidth}`;
 
           if (textureCache.has(key)) {
             return textureCache.get(key);
           }
 
-          const c =
-            document.createElement('canvas');
+          const canvas = document.createElement('canvas');
 
-          c.width = 128;
-          c.height = 128;
+          canvas.width = 128;
+          canvas.height = 128;
 
-          const ctx =
-            c.getContext('2d');
+          const ctx = canvas.getContext('2d');
 
-          ctx.clearRect(
-            0,
-            0,
-            128,
-            128
-          );
+          ctx.clearRect(0, 0, 128, 128);
 
-          ctx.font =
-            '700 90px Georgia, serif';
-
-          ctx.textAlign =
-            'center';
-
-          ctx.textBaseline =
-            'middle';
-
-          ctx.lineJoin =
-            'round';
-
-          ctx.strokeStyle =
-            strokeColor;
-
-          ctx.lineWidth =
-            strokeWidth;
-
-          ctx.strokeText(
-            letter,
-            64,
-            66
-          );
-
-          ctx.fillStyle =
-            fillColor;
+          ctx.font = '700 90px Georgia, serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillStyle = color;
 
           ctx.fillText(
             letter,
@@ -359,772 +347,874 @@ resumeButton.addEventListener('click', async () => {
             66
           );
 
-          const tex =
-            new THREE.CanvasTexture(c);
+          const texture =
+            new THREE.CanvasTexture(canvas);
 
-          tex.colorSpace =
+          texture.colorSpace =
             THREE.SRGBColorSpace;
 
-          tex.minFilter =
+          texture.minFilter =
             THREE.LinearFilter;
 
-          tex.magFilter =
+          texture.magFilter =
             THREE.LinearFilter;
 
           textureCache.set(
             key,
-            tex
+            texture
           );
 
-          return tex;
+          return texture;
         }
-
-        function addLetter(
-          letter,
-          x,
-          y,
-          z,
-          size,
-          color,
-          rotZ = 0,
-          thickness = 0.08,
-          rotX = 0,
-          rotY = 0
-        ) {
-          // V64 — reduce total fish letter blocks by about 10%.
-          if (Math.random() < 0.10) return;
-
-          // Stronger visible accent mix.
-          // 40% navbar light green, 8% white, remainder original fish colors.
-          const accentRoll = Math.random();
-          const resolvedColor =
-            accentRoll < 0.40
-              ? '#e1ebe7'
-              : accentRoll < 0.48
-                ? '#14253d'
-                : color;
-
-          const material = new THREE.MeshBasicMaterial({
-            map: makeLetterTexture(letter, resolvedColor),
-            transparent: true,
-            depthWrite: true,
-            side: THREE.DoubleSide
-          });
-
-          // Slightly thicker geometry: shallow box instead of flat plane.
-          const geo = new THREE.BoxGeometry(size, size, thickness);
-          const mesh = new THREE.Mesh(geo, material);
-
-          mesh.position.set(x, y, z);
-          mesh.rotation.set(
-            rotX + rand(-0.10, 0.10),
-            rotY + rand(-0.10, 0.10),
-            rotZ + rand(-0.08, 0.08)
-          );
-          fishGroup.add(mesh);
-        }
-
-        let letterIndex = 0;
-
-        function nextLetter() {
-          const ch = FISH_TEXT[letterIndex % FISH_TEXT.length];
-          letterIndex++;
-          return ch;
-        }
-
-        function rand(min, max) {
-          return min + Math.random() * (max - min);
-        }
-
-        function clamp(v, min, max) {
-          return Math.max(min, Math.min(max, v));
-        }
-
-        // -------------------------------------------------
-        // BODY SHAPE
-        // Organic fish body using an ellipse with soft
-        // narrowing toward head and tail.
-        // -------------------------------------------------
-        function bodyHalfHeight(x) {
-          // Long torpedo/tuna-like body.
-          // Pointed at the snout, fullest just behind the head,
-          // then gradually narrows into the tail peduncle.
-          const noseX = -4.65;
-          const shoulderX = -2.55;
-          const bellyCenterX = -0.55;
-          const tailBaseX = 3.25;
-
-          if (x < noseX || x > tailBaseX) return 0;
-
-          let h = 0;
-
-          // Sharp triangular-ish snout transitioning into the body.
-          if (x <= shoulderX) {
-            const t = (x - noseX) / (shoulderX - noseX);
-            h = 0.10 + Math.pow(t, 0.72) * 1.36;
-          } else {
-            // Long smooth torso.
-            const bodyT = (x - shoulderX) / (tailBaseX - shoulderX);
-
-            // Fullest around the front/mid body, then taper smoothly.
-            const crown =
-              1.46 -
-              0.12 * Math.pow((x - bellyCenterX) / 2.9, 2);
-
-            const taper =
-              1.0 -
-              Math.pow(Math.max(0, bodyT - 0.46) / 0.54, 1.28) * 0.58;
-
-            h = crown * taper;
-          }
-
-          // Extra narrowing right before tail.
-          if (x > 2.65) {
-            const t = (x - 2.65) / 0.60;
-            h *= 1 - 0.42 * t;
-          }
-
-          return Math.max(0.08, h);
-        }
-
-        // Tangent-like angle based on local silhouette slope.
-        function silhouetteAngle(x, top = true) {
-          const eps = 0.03;
-          const y1 = bodyHalfHeight(x - eps);
-          const y2 = bodyHalfHeight(x + eps);
-
-          const slope = (y2 - y1) / (2 * eps);
-          const angle = Math.atan(slope);
-
-          return top ? angle : -angle;
-        }
-
-        // -------------------------------------------------
-        // EDGE LETTERS
-        // Concentrate text near top and bottom silhouette
-        // rather than filling the center uniformly.
-        // -------------------------------------------------
-        const bodyXStep = 0.24;
-
-        for (let x = -4.58; x <= 3.18; x += bodyXStep) {
-          const hh = bodyHalfHeight(x);
-          if (hh <= 0.12) continue;
-
-          // Top edge
-          for (let layer = 0; layer < 3; layer++) {
-            const inset = layer * 0.15 + rand(-0.04, 0.05);
-
-            const y = hh - inset + rand(-0.07, 0.07);
-            const z = rand(-0.72, 0.72);
-
-            addLetter(
-              nextLetter(),
-              x + rand(-0.06, 0.06),
-              y,
-              z,
-              rand(0.27, 0.39),
-              layer === 0 ? darkEdgeColor : frontColor,
-              silhouetteAngle(x, true) + rand(-0.15, 0.15),
-              rand(0.10, 0.17),
-              rand(-0.08, 0.08),
-              rand(-0.12, 0.12)
-            );
-          }
-
-          // Bottom edge
-          for (let layer = 0; layer < 3; layer++) {
-            const inset = layer * 0.15 + rand(-0.04, 0.05);
-
-            const y = -hh + inset + rand(-0.07, 0.07);
-            const z = rand(-0.72, 0.72);
-
-            addLetter(
-              nextLetter(),
-              x + rand(-0.06, 0.06),
-              y,
-              z,
-              rand(0.27, 0.39),
-              layer === 0 ? darkEdgeColor : frontColor,
-              silhouetteAngle(x, false) + rand(-0.15, 0.15),
-              rand(0.10, 0.17),
-              rand(-0.08, 0.08),
-              rand(-0.12, 0.12)
-            );
-          }
-        }
-
-        // -------------------------------------------------
-        // SPARSE INTERIOR
-        // Keep center much emptier, with only occasional
-        // text pieces for volume.
-        // -------------------------------------------------
-        for (let i = 0; i < 120; i++) {
-          const x = rand(-4.15, 2.85);
-          const hh = bodyHalfHeight(x);
-
-          if (hh <= 0.2) continue;
-
-          const y = rand(-hh * 0.64, hh * 0.64);
-
-          // Create a central empty band.
-          if (Math.abs(y) < hh * 0.34 && Math.random() < 0.78) continue;
-
-          addLetter(
-            nextLetter(),
-            x + rand(-0.08, 0.08),
-            y + rand(-0.08, 0.08),
-            rand(-0.78, 0.78),
-            rand(0.22, 0.34),
-            Math.random() < 0.65 ? frontColor : sideColor,
-            rand(-0.72, 0.72),
-            rand(0.09, 0.15),
-            rand(-0.14, 0.14),
-            rand(-0.16, 0.16)
-          );
-        }
-
-        // -------------------------------------------------
-        // TAIL
-        // Mermaid-tail silhouette:
-        // narrow center stem feeding into two broad curved lobes.
-        // -------------------------------------------------
-        const tailBaseX = 3.02;
-        const tailForkX = 3.55;
-        const tailTipX = 5.35;
-
-        // Narrow stem between body and fork.
-        for (let t = 0; t <= 1; t += 0.11) {
-          const x = tailBaseX + (tailForkX - tailBaseX) * t;
-
-          for (const side of [-1, 1]) {
-            addLetter(
-              nextLetter(),
-              x + rand(-0.035, 0.035),
-              side * rand(0.08, 0.20),
-              rand(-0.58, 0.58),
-              rand(0.24, 0.33),
-              side === 1 ? frontColor : sideColor,
-              side * rand(0.02, 0.14),
-              rand(0.10, 0.16),
-              rand(-0.10, 0.10),
-              rand(-0.12, 0.12)
-            );
-          }
-        }
-
-        // Upper rounded lobe, ending in a point.
-        for (let t = 0; t <= 1; t += 0.045) {
-          const x = tailForkX + (tailTipX - tailForkX) * t;
-
-          // Broad near the middle, narrows sharply toward point.
-          const bulge = Math.sin(t * Math.PI);
-          const y =
-            0.08 +
-            1.56 * Math.pow(bulge, 0.82) +
-            0.12 * t;
-
-          addLetter(
-            nextLetter(),
-            x + rand(-0.04, 0.04),
-            y + rand(-0.045, 0.045),
-            rand(-0.72, 0.72),
-            rand(0.27, 0.39),
-            t > 0.80 ? darkEdgeColor : frontColor,
-            rand(0.26, 0.54),
-            rand(0.10, 0.17),
-            rand(-0.11, 0.11),
-            rand(-0.15, 0.15)
-          );
-
-          if (t > 0.12 && t < 0.88 && Math.random() < 0.68) {
-            addLetter(
-              nextLetter(),
-              x - rand(0.02, 0.12),
-              y - rand(0.18, 0.52),
-              rand(-0.68, 0.68),
-              rand(0.20, 0.30),
-              sideColor,
-              rand(0.10, 0.40),
-              rand(0.09, 0.14),
-              rand(-0.11, 0.11),
-              rand(-0.14, 0.14)
-            );
-          }
-        }
-
-        // Lower rounded lobe, ending in a point.
-        for (let t = 0; t <= 1; t += 0.045) {
-          const x = tailForkX + (tailTipX - tailForkX) * t;
-
-          const bulge = Math.sin(t * Math.PI);
-          const y =
-            -0.08 -
-            1.56 * Math.pow(bulge, 0.82) -
-            0.12 * t;
-
-          addLetter(
-            nextLetter(),
-            x + rand(-0.04, 0.04),
-            y + rand(-0.045, 0.045),
-            rand(-0.72, 0.72),
-            rand(0.27, 0.39),
-            t > 0.80 ? darkEdgeColor : frontColor,
-            rand(-0.54, -0.26),
-            rand(0.10, 0.17),
-            rand(-0.11, 0.11),
-            rand(-0.15, 0.15)
-          );
-
-          if (t > 0.12 && t < 0.88 && Math.random() < 0.68) {
-            addLetter(
-              nextLetter(),
-              x - rand(0.02, 0.12),
-              y + rand(0.18, 0.52),
-              rand(-0.68, 0.68),
-              rand(0.20, 0.30),
-              sideColor,
-              rand(-0.40, -0.10),
-              rand(0.09, 0.14),
-              rand(-0.11, 0.11),
-              rand(-0.14, 0.14)
-            );
-          }
-        }
-
-        // Straighten the very back edge of the two tail lobes.
-        // These vertical rows prevent the trailing silhouette from curling inward.
-        for (const side of [-1, 1]) {
-          const outerY = side * 0.28;
-          const innerY = side * 0.08;
-
-          for (let i = 0; i <= 5; i++) {
-            const u = i / 5;
-            const y = innerY + (outerY - innerY) * u;
-
-            addLetter(
-              nextLetter(),
-              tailTipX + rand(-0.025, 0.025),
-              y,
-              rand(-0.60, 0.60),
-              rand(0.23, 0.31),
-              darkEdgeColor,
-              side * rand(-0.08, 0.08),
-              rand(0.10, 0.15),
-              rand(-0.08, 0.08),
-              rand(-0.10, 0.10)
-            );
-          }
-        }
-
-        // -------------------------------------------------
-        // DORSAL FIN
-        // Tall pointed dorsal fin located behind the head.
-        // -------------------------------------------------
-        for (let t = 0; t <= 1; t += 0.075) {
-          const x = -2.05 + t * 1.65;
-          const base = bodyHalfHeight(x);
-
-          const peak =
-            Math.pow(Math.sin(t * Math.PI), 1.55) * 1.34;
-
-          const y = base + peak;
-
-          addLetter(
-            nextLetter(),
-            x,
-            y,
-            rand(-0.68, 0.68),
-            rand(0.28, 0.39),
-            frontColor,
-            -0.66 + t * 1.18,
-            rand(0.11, 0.18),
-            rand(-0.10, 0.10),
-            rand(-0.14, 0.14)
-          );
-        }
-
-        // -------------------------------------------------
-        // BOTTOM FIN
-        // Smaller pointed ventral fin farther back.
-        // -------------------------------------------------
-        for (let t = 0; t <= 1; t += 0.085) {
-          const x = 0.15 + t * 1.65;
-          const base = -bodyHalfHeight(x);
-
-          const drop =
-            Math.pow(Math.sin(t * Math.PI), 1.15) * 0.82;
-
-          const y = base - drop;
-
-          addLetter(
-            nextLetter(),
-            x,
-            y,
-            rand(-0.66, 0.66),
-            rand(0.27, 0.37),
-            frontColor,
-            0.42 - t * 0.78,
-            rand(0.11, 0.17),
-            rand(-0.10, 0.10),
-            rand(-0.14, 0.14)
-          );
-        }
-
-        // Small mouth / snout accents.
-        for (let i = 0; i < 9; i++) {
-          const t = i / 8;
-
-          addLetter(
-            nextLetter(),
-            -4.56 + t * 0.64,
-            -0.02 + t * 0.04,
-            rand(-0.18, 0.35),
-            rand(0.22, 0.30),
-            darkEdgeColor,
-            rand(-0.18, 0.18),
-            rand(0.08, 0.12)
-          );
-        }
-
-        // -------------------------------------------------
-        // V29 — TWO ADDITIONAL ROUNDED TEXT LAYERS
-        // Only two extra layers: one behind and one in front.
-        // Each clone gets slight letter-by-letter variation so
-        // the layers do not look like exact duplicates.
-        // -------------------------------------------------
-        const volumeSource = fishGroup.children.slice();
-
-        const volumeDepths = [-0.58, 0.58];
-
-        volumeSource.forEach((mesh, i) => {
-          const isLikelyEdge =
-            Math.abs(mesh.position.y) > 0.55 ||
-            mesh.position.x > 2.7 ||
-            mesh.position.x < -3.0;
-
-          // Preserve a little more negative space through the middle.
-          if (!isLikelyEdge && Math.random() > 0.78) return;
-
-          volumeDepths.forEach((depth) => {
-            const clone = mesh.clone();
-
-            clone.position.z += depth + rand(-0.055, 0.055);
-
-            // Small positional differences from layer to layer.
-            clone.position.x += rand(-0.055, 0.055);
-            clone.position.y += rand(-0.055, 0.055);
-
-            // Stronger rounding: pull layers inward more as they move
-            // away from the center, so the fish reads less like stacked slabs.
-            const absDepth = Math.abs(depth);
-
-            if (absDepth > 0.40) {
-              clone.position.y *= rand(0.68, 0.76);
-              clone.position.x =
-                -0.15 +
-                (clone.position.x + 0.15) * rand(0.86, 0.91);
-            } else {
-              clone.position.y *= rand(0.79, 0.85);
-              clone.position.x =
-                -0.15 +
-                (clone.position.x + 0.15) * rand(0.91, 0.95);
-            }
-
-            // Each letter tilts a little differently on every axis.
-            clone.rotation.x += rand(-0.10, 0.10);
-            clone.rotation.y += rand(-0.10, 0.10);
-            clone.rotation.z += rand(-0.09, 0.09);
-
-            // Even stronger rounded falloff:
-            // ±0.28 = 37–43%
-            // ±0.58 = 17–23%
-            const scaleVariance =
-              absDepth > 0.40
-                ? rand(0.17, 0.23)
-                : rand(0.37, 0.43);
-
-            clone.scale.multiplyScalar(scaleVariance);
-
-            fishGroup.add(clone);
-          });
-        });
-
-
-        // -------------------------------------------------
-        // VISUAL REGENERATION
-        // Every 5 seconds, regenerate the visible text composition:
-        // new letters, colors, positions, angles, depth and size.
-        // The underlying silhouette remains stable.
-        // -------------------------------------------------
-        const regenerationStates =
-          fishGroup.children.map((mesh) => ({
-            mesh,
-            x: mesh.position.x,
-            y: mesh.position.y,
-            z: mesh.position.z,
-            rx: mesh.rotation.x,
-            ry: mesh.rotation.y,
-            rz: mesh.rotation.z,
-            sx: mesh.scale.x,
-            sy: mesh.scale.y,
-            sz: mesh.scale.z
-          }));
 
         function randomFishColor() {
           const roll = Math.random();
 
-          if (roll < 0.40) return '#e1ebe7';
-          if (roll < 0.49) return '#14253d';
-          if (roll < 0.72) return frontColor;
-          if (roll < 0.90) return sideColor;
-          return darkEdgeColor;
+          if (roll < 0.34) {
+            return frontColor;
+          }
+
+          if (roll < 0.60) {
+            return sideColor;
+          }
+
+          if (roll < 0.80) {
+            return darkEdgeColor;
+          }
+
+          if (roll < 0.92) {
+            return navyColor;
+          }
+
+          return lightColor;
         }
 
-        function regenerateFishVisual() {
-          regenerationStates.forEach((state) => {
-            const mesh = state.mesh;
+        // Reuse geometry instead of generating a new box for every character.
+        const smallGeometry =
+          new THREE.BoxGeometry(
+            SMALL_BLOCK_SIZE,
+            SMALL_BLOCK_SIZE,
+            0.035
+          );
 
-            // Re-randomize the visible character.
-            const newLetter =
-              FISH_TEXT[
-                Math.floor(Math.random() * FISH_TEXT.length)
-              ];
+        const largeGeometry =
+          new THREE.BoxGeometry(
+            LARGE_BLOCK_SIZE,
+            LARGE_BLOCK_SIZE,
+            0.035
+          );
 
-            const newColor =
-              randomFishColor();
+        const textMeshes = [];
 
-            // Give each mesh its own material so each regeneration
-            // can change independently even when geometry was cloned.
-            if (mesh.material) {
-              const nextMaterial =
-                mesh.material.clone();
+        function addTextBlock(
+          x,
+          y,
+          size,
+          z,
+          color = null,
+          rotation = 0
+        ) {
+          const letter = nextLetter();
 
-              nextMaterial.map =
-                makeLetterTexture(
-                  newLetter,
-                  newColor
-                );
-
-              nextMaterial.needsUpdate = true;
-
-              mesh.material =
-                nextMaterial;
-            }
-
-            // Rebuild the visual arrangement around the original silhouette.
-            mesh.position.set(
-              state.x + rand(-0.075, 0.075),
-              state.y + rand(-0.075, 0.075),
-              state.z + rand(-0.095, 0.095)
-            );
-
-            mesh.rotation.set(
-              state.rx + rand(-0.15, 0.15),
-              state.ry + rand(-0.15, 0.15),
-              state.rz + rand(-0.13, 0.13)
-            );
-
-            const sizeVariation =
-              rand(0.90, 1.10);
-
-            mesh.scale.set(
-              state.sx * sizeVariation,
-              state.sy * sizeVariation,
-              state.sz * sizeVariation
-            );
-          });
-        }
-
-        // Regenerate immediately on load, then twice per second.
-        regenerateFishVisual();
-
-        setInterval(
-          regenerateFishVisual,
-          500
-        );
-
-        // -------------------------------------------------
-        // Initial angle + interaction
-        // -------------------------------------------------
-        fishGroup.rotation.y = THREE.MathUtils.degToRad(5);
-        fishGroup.rotation.x = 0.04;
-
-        renderer.domElement.style.cursor = 'default';
-
-
-
-        // -------------------------------------------------
-        // FLOATING WHITE "O" BUBBLES
-        // -------------------------------------------------
-        const bubbleGroup =
-          new THREE.Group();
-
-        scene.add(bubbleGroup);
-
-        const bubbles = [];
-
-        function spawnTextBubble() {
-          const bubbleSize =
-            rand(0.20, 0.37);
-
-          const geometry =
-            new THREE.PlaneGeometry(
-              bubbleSize,
-              bubbleSize
-            );
+          const resolvedColor =
+            color ||
+            randomFishColor();
 
           const material =
             new THREE.MeshBasicMaterial({
-              map: makeOutlinedLetterTexture('O', '#ffffff', '#14253d', 5),
+              map: makeLetterTexture(
+                letter,
+                resolvedColor
+              ),
               transparent: true,
-              opacity: rand(0.58, 0.90),
-              depthWrite: false,
+              depthWrite: true,
               side: THREE.DoubleSide
             });
 
-          const bubble =
+          const geometry =
+            size === LARGE_BLOCK_SIZE
+              ? largeGeometry
+              : smallGeometry;
+
+          const mesh =
             new THREE.Mesh(
               geometry,
               material
             );
 
-          // Spawn at the mouth in fish-local coordinates,
-          // then convert that point into scene/world coordinates.
-          const bubbleSpawnPoint =
-            new THREE.Vector3(
-              -3.60 + rand(-0.12, 0.16),
-              1.18 + rand(-0.05, 0.14),
-              0.48 + rand(-0.08, 0.12)
+          mesh.position.set(
+            x,
+            y,
+            z
+          );
+
+          // Only Z rotation is used to trace the flat silhouette.
+          // No X/Y tilt is added.
+          mesh.rotation.set(
+            0,
+            0,
+            rotation
+          );
+
+          fishGroup.add(mesh);
+
+          textMeshes.push(mesh);
+        }
+
+        function addLayeredBlock(
+          x,
+          y,
+          size,
+          color = null,
+          rotation = 0
+        ) {
+          TEXT_LAYERS.forEach((z) => {
+            addTextBlock(
+              x,
+              y,
+              size,
+              z,
+              color,
+              rotation
+            );
+          });
+        }
+
+        function makeLine(
+          x1,
+          y1,
+          x2,
+          y2,
+          spacing,
+          size,
+          color = null
+        ) {
+          const dx = x2 - x1;
+          const dy = y2 - y1;
+
+          const distance =
+            Math.hypot(dx, dy);
+
+          const count =
+            Math.max(
+              1,
+              Math.ceil(
+                distance /
+                spacing
+              )
             );
 
-          fishGroup.localToWorld(
-            bubbleSpawnPoint
-          );
+          const angle =
+            Math.atan2(
+              dy,
+              dx
+            );
 
-          bubble.position.copy(
-            bubbleSpawnPoint
-          );
+          for (
+            let i = 0;
+            i <= count;
+            i++
+          ) {
+            const t =
+              i / count;
 
-          bubble.userData = {
-            riseSpeed: rand(0.38, 0.68),
-            driftSpeed: rand(-0.10, 0.10),
-            wobbleSpeed: rand(1.2, 2.3),
-            wobbleAmount: rand(0.035, 0.075),
-            phase: rand(0, Math.PI * 2),
-            life: 0
-          };
-
-          bubbleGroup.add(
-            bubble
-          );
-
-          bubbles.push(
-            bubble
-          );
+            addLayeredBlock(
+              x1 + dx * t,
+              y1 + dy * t,
+              size,
+              color,
+              angle
+            );
+          }
         }
 
-        function spawnBubbleTrail() {
-          // One bubble at a time for a more regular trail.
-          spawnTextBubble();
+        function makeCurve(
+          pointFunction,
+          steps,
+          size,
+          color = null
+        ) {
+          for (
+            let i = 0;
+            i <= steps;
+            i++
+          ) {
+            const t =
+              i / steps;
 
-          setTimeout(
-            spawnBubbleTrail,
-            rand(2200, 2700)
-          );
+            const point =
+              pointFunction(t);
+
+            const next =
+              pointFunction(
+                Math.min(
+                  1,
+                  t + 0.01
+                )
+              );
+
+            const angle =
+              Math.atan2(
+                next.y - point.y,
+                next.x - point.x
+              );
+
+            addLayeredBlock(
+              point.x,
+              point.y,
+              size,
+              color,
+              angle
+            );
+          }
         }
 
-        setTimeout(
-          spawnBubbleTrail,
-          rand(1600, 2100)
+        function makeRoundedRectangle(
+          cx,
+          cy,
+          width,
+          height,
+          radius,
+          size
+        ) {
+          const left =
+            cx - width / 2;
+
+          const right =
+            cx + width / 2;
+
+          const top =
+            cy + height / 2;
+
+          const bottom =
+            cy - height / 2;
+
+          makeLine(
+            left + radius,
+            top,
+            right - radius,
+            top,
+            0.18,
+            size
+          );
+
+          makeLine(
+            right,
+            top - radius,
+            right,
+            bottom + radius,
+            0.18,
+            size
+          );
+
+          makeLine(
+            right - radius,
+            bottom,
+            left + radius,
+            bottom,
+            0.18,
+            size
+          );
+
+          makeLine(
+            left,
+            bottom + radius,
+            left,
+            top - radius,
+            0.18,
+            size
+          );
+
+          const corners = [
+            {
+              cx: right - radius,
+              cy: top - radius,
+              start: 0,
+              end: Math.PI / 2
+            },
+            {
+              cx: left + radius,
+              cy: top - radius,
+              start: Math.PI / 2,
+              end: Math.PI
+            },
+            {
+              cx: left + radius,
+              cy: bottom + radius,
+              start: Math.PI,
+              end: Math.PI * 1.5
+            },
+            {
+              cx: right - radius,
+              cy: bottom + radius,
+              start: Math.PI * 1.5,
+              end: Math.PI * 2
+            }
+          ];
+
+          corners.forEach((corner) => {
+            makeCurve(
+              (t) => {
+                const angle =
+                  corner.start +
+                  (
+                    corner.end -
+                    corner.start
+                  ) *
+                  t;
+
+                return {
+                  x:
+                    corner.cx +
+                    Math.cos(angle) *
+                    radius,
+
+                  y:
+                    corner.cy +
+                    Math.sin(angle) *
+                    radius
+                };
+              },
+              6,
+              size
+            );
+          });
+        }
+
+        /* =====================================================
+           OUTER + INNER FRAME
+        ===================================================== */
+
+        makeRoundedRectangle(
+          0,
+          0,
+          10.65,
+          5.72,
+          1.05,
+          SMALL_BLOCK_SIZE
         );
 
-        function resizeFish() {
-          const rect = fishHost.getBoundingClientRect();
+        makeRoundedRectangle(
+          -0.08,
+          -0.01,
+          9.73,
+          4.85,
+          0.88,
+          SMALL_BLOCK_SIZE
+        );
 
-          const w = Math.max(280, rect.width);
-          const h = Math.max(190, rect.height);
+        /* =====================================================
+           CENTRAL DIVIDER
+        ===================================================== */
 
-          renderer.setSize(w, h, false);
+        makeLine(
+          0.36,
+          2.60,
+          0.36,
+          -2.15,
+          0.15,
+          SMALL_BLOCK_SIZE
+        );
 
-          camera.aspect = w / h;
-          camera.updateProjectionMatrix();
+        makeLine(
+          0.99,
+          2.60,
+          0.99,
+          -2.15,
+          0.15,
+          SMALL_BLOCK_SIZE
+        );
+
+        makeCurve(
+          (t) => {
+            const angle =
+              Math.PI -
+              Math.PI * t;
+
+            return {
+              x:
+                0.675 +
+                Math.cos(angle) *
+                0.315,
+
+              y:
+                2.60 +
+                Math.sin(angle) *
+                0.315
+            };
+          },
+          7,
+          SMALL_BLOCK_SIZE
+        );
+
+        /* =====================================================
+           BOTTOM OVAL / EYE DETAIL
+        ===================================================== */
+
+        makeCurve(
+          (t) => {
+            const angle =
+              t *
+              Math.PI *
+              2;
+
+            return {
+              x:
+                0.675 +
+                Math.cos(angle) *
+                0.66,
+
+              y:
+                -2.49 +
+                Math.sin(angle) *
+                0.47
+            };
+          },
+          22,
+          SMALL_BLOCK_SIZE
+        );
+
+        makeCurve(
+          (t) => {
+            const angle =
+              t *
+              Math.PI *
+              2;
+
+            return {
+              x:
+                0.675 +
+                Math.cos(angle) *
+                0.33,
+
+              y:
+                -2.49 +
+                Math.sin(angle) *
+                0.17
+            };
+          },
+          13,
+          LARGE_BLOCK_SIZE,
+          lightColor
+        );
+
+        makeLine(
+          0.675,
+          -2.60,
+          0.675,
+          -2.38,
+          0.07,
+          LARGE_BLOCK_SIZE,
+          navyColor
+        );
+
+        /* =====================================================
+           THREE STACKED FISH
+        ===================================================== */
+
+        function buildSmallFish(centerY) {
+          const snoutX = -4.38;
+          const rearX = -0.15;
+
+          makeCurve(
+            (t) => {
+              const x =
+                snoutX +
+                (
+                  rearX -
+                  snoutX
+                ) *
+                t;
+
+              const arch =
+                Math.sin(
+                  t *
+                  Math.PI
+                );
+
+              return {
+                x,
+                y:
+                  centerY +
+                  arch *
+                  0.76
+              };
+            },
+            19,
+            SMALL_BLOCK_SIZE
+          );
+
+          makeCurve(
+            (t) => {
+              const x =
+                snoutX +
+                (
+                  rearX -
+                  snoutX
+                ) *
+                t;
+
+              const arch =
+                Math.sin(
+                  t *
+                  Math.PI
+                );
+
+              return {
+                x,
+                y:
+                  centerY -
+                  arch *
+                  0.76
+              };
+            },
+            19,
+            SMALL_BLOCK_SIZE
+          );
+
+          // Rounded rear edge.
+          makeCurve(
+            (t) => {
+              const angle =
+                Math.PI / 2 -
+                t *
+                Math.PI;
+
+              return {
+                x:
+                  rearX -
+                  0.27 +
+                  Math.cos(angle) *
+                  0.27,
+
+                y:
+                  centerY +
+                  Math.sin(angle) *
+                  0.63
+              };
+            },
+            10,
+            SMALL_BLOCK_SIZE
+          );
+
+          // Gill / chevron.
+          makeLine(
+            -2.34,
+            centerY + 0.65,
+            -2.07,
+            centerY + 0.38,
+            0.12,
+            SMALL_BLOCK_SIZE
+          );
+
+          makeLine(
+            -2.07,
+            centerY + 0.38,
+            -1.89,
+            centerY,
+            0.12,
+            SMALL_BLOCK_SIZE
+          );
+
+          makeLine(
+            -1.89,
+            centerY,
+            -2.07,
+            centerY - 0.38,
+            0.12,
+            SMALL_BLOCK_SIZE
+          );
+
+          makeLine(
+            -2.07,
+            centerY - 0.38,
+            -2.34,
+            centerY - 0.65,
+            0.12,
+            SMALL_BLOCK_SIZE
+          );
+
+          // Eye: larger blocks.
+          makeCurve(
+            (t) => {
+              const angle =
+                t *
+                Math.PI *
+                2;
+
+              return {
+                x:
+                  -3.13 +
+                  Math.cos(angle) *
+                  0.17,
+
+                y:
+                  centerY +
+                  Math.sin(angle) *
+                  0.17
+              };
+            },
+            10,
+            LARGE_BLOCK_SIZE,
+            navyColor
+          );
+
+          // Reference-blue fin/teardrop: larger blocks.
+          makeCurve(
+            (t) => {
+              const angle =
+                t *
+                Math.PI *
+                2;
+
+              const cos =
+                Math.cos(angle);
+
+              let x =
+                -1.05 +
+                cos *
+                0.72;
+
+              if (cos > 0) {
+                x +=
+                  cos *
+                  0.17;
+              }
+
+              return {
+                x,
+                y:
+                  centerY +
+                  Math.sin(angle) *
+                  0.33
+              };
+            },
+            17,
+            LARGE_BLOCK_SIZE,
+            frontColor
+          );
         }
 
-        const resizeObserver = new ResizeObserver(resizeFish);
-        resizeObserver.observe(fishHost);
+        buildSmallFish(1.57);
+        buildSmallFish(0);
+        buildSmallFish(-1.57);
+
+        /* =====================================================
+           ACTUAL J + S TEXT
+           Real DOM letters, not block-built glyphs.
+        ===================================================== */
+
+        function makeAhsingLetter(
+          letter,
+          className,
+          left,
+          top,
+          fontSize
+        ) {
+          const el =
+            document.createElement('div');
+
+          el.className =
+            `fish-ahsing-letter ${className}`;
+
+          el.textContent =
+            letter;
+
+          Object.assign(
+            el.style,
+            {
+              position: 'absolute',
+              zIndex: '20',
+              left,
+              top,
+              transform:
+                'translate(-50%, -50%)',
+              fontFamily:
+                "'Ahsing', 'DM Serif Display', Georgia, serif",
+              fontSize,
+              fontWeight: '400',
+              lineHeight: '0.78',
+              color: '#222222',
+              pointerEvents: 'none',
+              userSelect: 'none',
+              whiteSpace: 'nowrap'
+            }
+          );
+
+          fishHost.appendChild(el);
+
+          return el;
+        }
+
+        const jLetter =
+          makeAhsingLetter(
+            'J',
+            'fish-ahsing-j',
+            '75%',
+            '36%',
+            '128px'
+          );
+
+        const sLetter =
+          makeAhsingLetter(
+            'S',
+            'fish-ahsing-s',
+            '78%',
+            '66%',
+            '142px'
+          );
+
+        // Ask the browser to resolve Ahsing if the site already loads it.
+        if (
+          document.fonts &&
+          document.fonts.load
+        ) {
+          document.fonts
+            .load("128px Ahsing")
+            .catch(() => {});
+        }
+
+        /* =====================================================
+           LETTER / COLOR REGENERATION
+           Geometry never changes, so the layout remains stable.
+        ===================================================== */
+
+        function regenerateFishVisual() {
+          textMeshes.forEach((mesh) => {
+            const newLetter =
+              FISH_TEXT[
+                Math.floor(
+                  Math.random() *
+                  FISH_TEXT.length
+                )
+              ];
+
+            const newColor =
+              randomFishColor();
+
+            const nextMaterial =
+              mesh.material.clone();
+
+            nextMaterial.map =
+              makeLetterTexture(
+                newLetter,
+                newColor
+              );
+
+            nextMaterial.needsUpdate =
+              true;
+
+            mesh.material =
+              nextMaterial;
+          });
+        }
+
+        regenerateFishVisual();
+
+        setInterval(
+          regenerateFishVisual,
+          650
+        );
+
+        /* =====================================================
+           RESPONSIVE RESIZE
+        ===================================================== */
+
+        function resizeFish() {
+          const rect =
+            fishHost.getBoundingClientRect();
+
+          const width =
+            Math.max(
+              280,
+              rect.width
+            );
+
+          const height =
+            Math.max(
+              210,
+              rect.height
+            );
+
+          renderer.setSize(
+            width,
+            height,
+            false
+          );
+
+          const aspect =
+            width /
+            height;
+
+          const viewHeight =
+            7.25;
+
+          const viewWidth =
+            viewHeight *
+            aspect;
+
+          camera.left =
+            -viewWidth / 2;
+
+          camera.right =
+            viewWidth / 2;
+
+          camera.top =
+            viewHeight / 2;
+
+          camera.bottom =
+            -viewHeight / 2;
+
+          camera.updateProjectionMatrix();
+
+          // Scale the real letters with the fish viewport.
+          if (width < 500) {
+            jLetter.style.fontSize =
+              '88px';
+
+            sLetter.style.fontSize =
+              '98px';
+          } else if (width < 650) {
+            jLetter.style.fontSize =
+              '106px';
+
+            sLetter.style.fontSize =
+              '118px';
+          } else {
+            jLetter.style.fontSize =
+              '128px';
+
+            sLetter.style.fontSize =
+              '142px';
+          }
+        }
+
+        const resizeObserver =
+          new ResizeObserver(
+            resizeFish
+          );
+
+        resizeObserver.observe(
+          fishHost
+        );
 
         resizeFish();
 
-        let lastFishFrame =
-          performance.now();
+        /* =====================================================
+           RENDER
+           No camera/fish rotation: permanent perfect side view.
+        ===================================================== */
 
-        function animateFish(now = performance.now()) {
-          requestAnimationFrame(animateFish);
+        function animateFish() {
+          requestAnimationFrame(
+            animateFish
+          );
 
-          const delta =
-            Math.min(
-              (now - lastFishFrame) / 1000,
-              0.05
-            );
-
-          lastFishFrame =
-            now;
-
-          const time =
-            now / 1000;
-
-          for (let i = bubbles.length - 1; i >= 0; i--) {
-            const bubble =
-              bubbles[i];
-
-            const data =
-              bubble.userData;
-
-            data.life +=
-              delta;
-
-            bubble.position.y +=
-              data.riseSpeed * delta;
-
-            bubble.position.x +=
-              data.driftSpeed * delta +
-              Math.sin(
-                time * data.wobbleSpeed +
-                data.phase
-              ) *
-              data.wobbleAmount *
-              delta;
-
-            bubble.rotation.z +=
-              0.22 * delta;
-
-            // Fade slightly near the end.
-            if (data.life > 4.2) {
-              bubble.material.opacity =
-                Math.max(
-                  0,
-                  0.90 -
-                  (data.life - 4.2) * 0.75
-                );
-            }
-
-            if (
-              data.life > 5.35 ||
-              bubble.position.y > 4.25
-            ) {
-              bubbleGroup.remove(
-                bubble
-              );
-
-              bubble.geometry.dispose();
-              bubble.material.dispose();
-
-              bubbles.splice(
-                i,
-                1
-              );
-            }
-          }
+          fishGroup.rotation.set(
+            0,
+            0,
+            0
+          );
 
           renderer.render(
             scene,
@@ -1133,9 +1223,15 @@ resumeButton.addEventListener('click', async () => {
         }
 
         animateFish();
+
       } catch (error) {
-        console.error('3D text fish failed to load:', error);
-        fishHost.textContent = '3D fish unavailable';
+        console.error(
+          '3D text fish failed to load:',
+          error
+        );
+
+        fishHost.textContent =
+          '3D fish unavailable';
       }
     })();
   }
