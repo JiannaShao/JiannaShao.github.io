@@ -273,8 +273,8 @@ resumeButton.addEventListener('click', async () => {
           Smaller, less wide, and farther right than the prior version.
         */
         fishGroup.scale.set(
-          0.72,
-          0.82,
+          1.01,
+          1.15,
           1
         );
 
@@ -299,7 +299,7 @@ resumeButton.addEventListener('click', async () => {
           The actual letters are at least 5px larger than before.
           Previous fish used 90px. This uses 105px.
         */
-        const LETTER_FONT_PX = 105;
+        const LETTER_FONT_PX = 110;
 
         /*
           Block geometry itself stays compact.
@@ -717,7 +717,7 @@ resumeButton.addEventListener('click', async () => {
                   size,
                   color,
                   0,
-                  true
+                  false
                 );
               }
             }
@@ -861,18 +861,18 @@ resumeButton.addEventListener('click', async () => {
         ===================================================== */
 
         drawLine(
-          0.30,
+          0.18,
           2.48,
-          0.30,
+          0.18,
           -2.05,
           0.145,
           SMALL_BLOCK_SIZE
         );
 
         drawLine(
-          0.94,
+          1.06,
           2.48,
-          0.94,
+          1.06,
           -2.05,
           0.145,
           SMALL_BLOCK_SIZE
@@ -888,7 +888,7 @@ resumeButton.addEventListener('click', async () => {
               x:
                 0.62 +
                 Math.cos(a) *
-                0.32,
+                0.44,
 
               y:
                 2.48 +
@@ -944,7 +944,7 @@ resumeButton.addEventListener('click', async () => {
           0.115,
           0.105,
           LARGE_BLOCK_SIZE,
-          navyColor
+          null
         );
 
         /* =====================================================
@@ -1080,7 +1080,7 @@ resumeButton.addEventListener('click', async () => {
             0.20,
             0.145,
             LARGE_BLOCK_SIZE,
-            navyColor
+            null
           );
 
           /* Filled blue/teal fin shape. */
@@ -1091,7 +1091,7 @@ resumeButton.addEventListener('click', async () => {
             centerY + 0.34,
             0.15,
             LARGE_BLOCK_SIZE,
-            frontColor,
+            null,
             (x, y) => {
               const cx = -1.02;
               const cy = centerY;
@@ -1149,31 +1149,32 @@ resumeButton.addEventListener('click', async () => {
 
         for (
           let i = 0;
-          i <= 30;
+          i <= 34;
           i++
         ) {
           const t =
-            i / 30;
+            i / 34;
 
           jPoints.push({
-            x: 3.12,
+            x: 2.82,
             y:
-              1.95 -
+              1.70 -
               t *
-              1.40
+              1.34
           });
         }
 
         const jHook =
           pointsOnCatmull(
             [
-              [3.12, 0.60],
-              [3.08, 0.30],
-              [2.82, 0.08],
-              [2.44, 0.05],
-              [2.17, 0.24]
+              [2.82, 0.40],
+              [2.80, 0.13],
+              [2.62, -0.10],
+              [2.28, -0.18],
+              [1.98, -0.04],
+              [1.87, 0.20]
             ],
-            46
+            56
           );
 
         fillStroke(
@@ -1181,10 +1182,10 @@ resumeButton.addEventListener('click', async () => {
             ...jPoints,
             ...jHook
           ],
-          0.29,
+          0.31,
           0.135,
           LARGE_BLOCK_SIZE,
-          darkColor
+          null
         );
 
         /* =====================================================
@@ -1194,28 +1195,30 @@ resumeButton.addEventListener('click', async () => {
         const sPoints =
           pointsOnCatmull(
             [
-              [4.18, -0.05],
-              [3.92, 0.12],
-              [3.46, 0.10],
-              [3.00, -0.16],
-              [2.84, -0.48],
-              [3.08, -0.72],
-              [3.65, -0.84],
-              [4.05, -1.06],
-              [4.13, -1.33],
-              [3.86, -1.57],
-              [3.40, -1.62],
-              [3.05, -1.48]
+              [4.48, -0.02],
+              [4.26, 0.16],
+              [3.88, 0.18],
+              [3.55, 0.03],
+              [3.28, -0.22],
+              [3.30, -0.48],
+              [3.56, -0.68],
+              [4.08, -0.82],
+              [4.42, -1.04],
+              [4.48, -1.30],
+              [4.31, -1.51],
+              [3.95, -1.64],
+              [3.58, -1.59],
+              [3.34, -1.41]
             ],
-            84
+            96
           );
 
         fillStroke(
           sPoints,
-          0.29,
+          0.31,
           0.135,
           LARGE_BLOCK_SIZE,
-          darkColor
+          null
         );
 
         /* =====================================================
