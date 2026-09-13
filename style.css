@@ -1484,14 +1484,14 @@ button{
 
 /* V48 — fit fish fully in frame */
 .text-fish-3d-wrap{
-  transform:translateX(68px) !important;
+  transform:translateX(-18px) !important;
   max-width:1045px !important;
   flex-basis:865px !important;
 }
 
 @media(max-width:900px){
   .text-fish-3d-wrap{
-    transform:translateX(30px) !important;
+    transform:translateX(-10px) !important;
   }
 }
 
@@ -2033,6 +2033,22 @@ button{
 
   .hero-name .hero-initial{
     font-size:1.16em;
+  }
+}
+
+/* =====================================================
+   V22 — HERO FISH SLIGHTLY OVERLAPS NAME
+===================================================== */
+
+@media(min-width:901px){
+  .text-fish-3d-wrap{
+    margin-left:-34px !important;
+  }
+}
+
+@media(min-width:761px) and (max-width:900px){
+  .text-fish-3d-wrap{
+    margin-left:-18px !important;
   }
 }
 
