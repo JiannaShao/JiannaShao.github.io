@@ -3649,3 +3649,179 @@ figcaption{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.5;}
     transform:scale(1.125) !important;
   }
 }
+
+/* =====================================================
+   V21 — PROJECT 3 / MATLAB VECTOR VENTURES
+===================================================== */
+
+.project-three-grid{
+  display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  gap:28px;
+  align-items:stretch;
+}
+
+/* Shared media cards */
+.project-three-media{
+  margin:0;
+  min-width:0;
+  overflow:visible;
+}
+
+.project-three-map-card{
+  grid-column:span 3;
+}
+
+.project-three-wide{
+  grid-column:1 / -1;
+}
+
+.project-three-media img{
+  display:block;
+  width:100%;
+  height:100%;
+  border-radius:18px;
+  object-fit:cover;
+}
+
+/* Maps and terminal screenshots keep their full screenshots visible. */
+.project-three-map-card img,
+.project-three-terminal img{
+  object-fit:contain;
+  background:#111;
+}
+
+/* First two rows follow the reference's balanced card proportions. */
+.project-three-map-card{
+  min-height:330px;
+}
+
+.project-three-map-card img{
+  min-height:330px;
+}
+
+/* Full-width terminal examples. */
+.project-three-terminal{
+  min-height:410px;
+}
+
+.project-three-terminal img{
+  min-height:410px;
+}
+
+/* Every Project 3 image gets the same subtle hover expansion. */
+.project-three-hover{
+  transform:scale(1);
+  transform-origin:center center;
+  transition:
+    transform .22s ease,
+    filter .22s ease,
+    box-shadow .22s ease;
+}
+
+@media(hover:hover) and (pointer:fine){
+  .project-three-hover:hover{
+    transform:scale(1.025);
+    filter:brightness(.975);
+    box-shadow:0 16px 34px rgba(20,37,61,.10);
+  }
+}
+
+/* Only the three maps can open the magnified preview. */
+.project-three-map{
+  cursor:zoom-in;
+}
+
+.project-three-map:focus-visible{
+  outline:3px solid var(--accent);
+  outline-offset:5px;
+}
+
+/* Text panels use exactly the sidebar background variable. */
+.project-three-text-card{
+  grid-column:span 2;
+  min-height:250px;
+  padding:30px;
+  border-radius:18px;
+  background:var(--light-accent);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.project-three-text-large{
+  grid-column:span 3;
+  min-height:330px;
+}
+
+.project-three-text-card .small-label{
+  margin-bottom:12px;
+}
+
+.project-three-text-card h3{
+  margin-bottom:14px;
+}
+
+.project-three-text-card p:last-child{
+  margin:0;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.65;
+}
+
+/* Responsive layout */
+@media(max-width:900px){
+  .project-three-grid{
+    gap:22px;
+  }
+
+  .project-three-map-card,
+  .project-three-text-large{
+    grid-column:1 / -1;
+  }
+
+  .project-three-text-card{
+    grid-column:span 3;
+  }
+
+  .project-three-map-card,
+  .project-three-map-card img{
+    min-height:280px;
+  }
+
+  .project-three-terminal,
+  .project-three-terminal img{
+    min-height:320px;
+  }
+}
+
+@media(max-width:620px){
+  .project-three-grid{
+    grid-template-columns:1fr;
+    gap:18px;
+  }
+
+  .project-three-map-card,
+  .project-three-wide,
+  .project-three-text-card,
+  .project-three-text-large{
+    grid-column:1;
+  }
+
+  .project-three-map-card,
+  .project-three-map-card img{
+    min-height:220px;
+  }
+
+  .project-three-terminal,
+  .project-three-terminal img{
+    min-height:240px;
+  }
+
+  .project-three-text-card,
+  .project-three-text-large{
+    min-height:220px;
+    padding:24px;
+  }
+}
+
