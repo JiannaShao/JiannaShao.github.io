@@ -600,9 +600,9 @@ resumeButton.addEventListener('click', async () => {
 
         function outerBorderFontPx() {
           const amount =
-            2 +
+            5 +
             Math.random() *
-            8;
+            25;
 
           const direction =
             Math.random() < 0.5
@@ -1365,8 +1365,8 @@ resumeButton.addEventListener('click', async () => {
            SMILEY FACE — BUILT FROM LETTER BLOCKS
         ===================================================== */
 
-        const smileCenterX = 3.19;
-        const smileCenterY = -0.115;
+        const smileCenterX = 2.97;
+        const smileCenterY = -0.0025;
         const smileRadius = 1.44;
 
         drawCurve(
