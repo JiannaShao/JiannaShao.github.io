@@ -242,7 +242,7 @@ resumeButton.addEventListener('click', async () => {
 
         const scene = new THREE.Scene();
 
-        /* Orthographic camera tilted 10 degrees left and 20 degrees lower. */
+        /* Orthographic camera tilted 10 degrees left and 25 degrees lower. */
         const camera = new THREE.OrthographicCamera(
           -6.7,
           6.7,
@@ -253,9 +253,9 @@ resumeButton.addEventListener('click', async () => {
         );
 
         camera.position.set(
-          -1.958,
-          -4.104,
-          11.105
+          -1.889,
+          -5.071,
+          10.710
         );
 
         camera.lookAt(
