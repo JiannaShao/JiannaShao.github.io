@@ -242,7 +242,7 @@ resumeButton.addEventListener('click', async () => {
 
         const scene = new THREE.Scene();
 
-        /* Perfect side view: no perspective and no camera angle. */
+        /* Orthographic camera tilted 10 degrees to the right. */
         const camera = new THREE.OrthographicCamera(
           -6.7,
           6.7,
@@ -252,8 +252,17 @@ resumeButton.addEventListener('click', async () => {
           100
         );
 
-        camera.position.set(0, 0, 12);
-        camera.lookAt(0, 0, 0);
+        camera.position.set(
+          2.084,
+          0,
+          11.818
+        );
+
+        camera.lookAt(
+          0,
+          0,
+          0
+        );
 
         const renderer = new THREE.WebGLRenderer({
           alpha: true,
