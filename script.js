@@ -432,7 +432,8 @@ resumeButton.addEventListener('click', async () => {
           z,
           color = null,
           rotation = 0,
-          lockColor = false
+          lockColor = false,
+          fontPxOverride = null
         ) {
           const resolvedColor =
             color || randomColor();
@@ -447,12 +448,16 @@ resumeButton.addEventListener('click', async () => {
                 map: makeLetterTexture(
                   nextLetter(),
                   resolvedColor,
-                  LETTER_FONT_PX +
-                  (
-                    Math.random() *
-                    30 -
-                    10
-                  )
+                  fontPxOverride !== null
+                    ? fontPxOverride
+                    : (
+                        LETTER_FONT_PX +
+                        (
+                          Math.random() *
+                          30 -
+                          10
+                        )
+                      )
                 ),
                 transparent: true,
                 depthWrite: true,
@@ -487,7 +492,8 @@ resumeButton.addEventListener('click', async () => {
           size,
           color = null,
           rotation = 0,
-          lockColor = false
+          lockColor = false,
+          fontPxOverride = null
         ) {
           TEXT_LAYERS.forEach((layer) => {
             addBlock(
@@ -497,7 +503,8 @@ resumeButton.addEventListener('click', async () => {
               layer.z,
               color,
               rotation,
-              lockColor
+              lockColor,
+              fontPxOverride
             );
           });
         }
@@ -591,13 +598,131 @@ resumeButton.addEventListener('click', async () => {
           }
         }
 
+        function outerBorderFontPx() {
+          const amount =
+            2 +
+            Math.random() *
+            8;
+
+          const direction =
+            Math.random() < 0.5
+              ? -1
+              : 1;
+
+          return (
+            LETTER_FONT_PX +
+            direction *
+            amount
+          );
+        }
+
+        function drawOuterLine(
+          x1,
+          y1,
+          x2,
+          y2,
+          spacing,
+          size
+        ) {
+          const dx =
+            x2 - x1;
+
+          const dy =
+            y2 - y1;
+
+          const distance =
+            Math.hypot(
+              dx,
+              dy
+            );
+
+          const steps =
+            Math.max(
+              1,
+              Math.ceil(
+                distance /
+                spacing
+              )
+            );
+
+          const angle =
+            Math.atan2(
+              dy,
+              dx
+            );
+
+          for (
+            let i = 0;
+            i <= steps;
+            i++
+          ) {
+            const t =
+              i /
+              steps;
+
+            addFourLayers(
+              x1 + dx * t,
+              y1 + dy * t,
+              size,
+              null,
+              angle,
+              false,
+              outerBorderFontPx()
+            );
+          }
+        }
+
+        function drawOuterCurve(
+          pointFunction,
+          steps,
+          size
+        ) {
+          for (
+            let i = 0;
+            i <= steps;
+            i++
+          ) {
+            const t =
+              i /
+              steps;
+
+            const p =
+              pointFunction(t);
+
+            const q =
+              pointFunction(
+                Math.min(
+                  1,
+                  t + 0.01
+                )
+              );
+
+            const angle =
+              Math.atan2(
+                q.y - p.y,
+                q.x - p.x
+              );
+
+            addFourLayers(
+              p.x,
+              p.y,
+              size,
+              null,
+              angle,
+              false,
+              outerBorderFontPx()
+            );
+          }
+        }
+
         function roundedRect(
           cx,
           cy,
           width,
           height,
           radius,
-          size
+          size,
+          outerBorder = false
         ) {
           const left =
             cx - width / 2;
@@ -611,7 +736,7 @@ resumeButton.addEventListener('click', async () => {
           const bottom =
             cy - height / 2;
 
-          drawLine(
+          (outerBorder ? drawOuterLine : drawLine)(
             left + radius,
             top,
             right - radius,
@@ -620,7 +745,7 @@ resumeButton.addEventListener('click', async () => {
             size
           );
 
-          drawLine(
+          (outerBorder ? drawOuterLine : drawLine)(
             right,
             top - radius,
             right,
@@ -629,7 +754,7 @@ resumeButton.addEventListener('click', async () => {
             size
           );
 
-          drawLine(
+          (outerBorder ? drawOuterLine : drawLine)(
             right - radius,
             bottom,
             left + radius,
@@ -638,7 +763,7 @@ resumeButton.addEventListener('click', async () => {
             size
           );
 
-          drawLine(
+          (outerBorder ? drawOuterLine : drawLine)(
             left,
             bottom + radius,
             left,
@@ -661,7 +786,7 @@ resumeButton.addEventListener('click', async () => {
               a1,
               a2
             ]) => {
-              drawCurve(
+              (outerBorder ? drawOuterCurve : drawCurve)(
                 (t) => {
                   const a =
                     a1 +
@@ -938,7 +1063,8 @@ resumeButton.addEventListener('click', async () => {
           10.45,
           5.55,
           1.02,
-          SMALL_BLOCK_SIZE
+          SMALL_BLOCK_SIZE,
+          true
         );
 
         roundedRect(
@@ -1239,8 +1365,8 @@ resumeButton.addEventListener('click', async () => {
            SMILEY FACE — BUILT FROM LETTER BLOCKS
         ===================================================== */
 
-        const smileCenterX = 3.30;
-        const smileCenterY = -0.34;
+        const smileCenterX = 3.19;
+        const smileCenterY = -0.115;
         const smileRadius = 1.44;
 
         drawCurve(
