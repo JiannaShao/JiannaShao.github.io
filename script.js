@@ -299,7 +299,7 @@ resumeButton.addEventListener('click', async () => {
           The actual letters are at least 5px larger than before.
           Previous fish used 90px. This uses 105px.
         */
-        const LETTER_FONT_PX = 115;
+        const LETTER_FONT_PX = 125;
 
         /*
           Block geometry itself stays compact.
@@ -316,8 +316,7 @@ resumeButton.addEventListener('click', async () => {
         const TEXT_LAYERS = [
           { z:  0.18, x:  0.0000, y:  0.000 },
           { z:  0.06, x: -0.0225, y: -0.045 },
-          { z: -0.06, x: -0.0450, y: -0.090 },
-          { z: -0.18, x: -0.0675, y: -0.135 }
+          { z: -0.06, x: -0.0450, y: -0.090 }
         ];
 
         let letterIndex = 0;
@@ -1244,40 +1243,40 @@ resumeButton.addEventListener('click', async () => {
 
         for (
           let i = 0;
-          i <= 26;
+          i <= 22;
           i++
         ) {
           const t =
-            i / 26;
+            i / 22;
 
           jStemPoints.push({
             x: 2.54,
             y:
-              1.46 -
+              1.28 -
               t *
-              1.02
+              0.84
           });
         }
 
         const jHookPoints =
           pointsOnCatmull(
             [
-              [2.54, 0.47],
-              [2.53, 0.20],
-              [2.42, -0.02],
-              [2.18, -0.19],
-              [1.89, -0.20],
-              [1.65, -0.05],
-              [1.57, 0.16]
+              [2.54, 0.46],
+              [2.52, 0.24],
+              [2.40, 0.06],
+              [2.20, -0.08],
+              [1.96, -0.09],
+              [1.77, 0.03],
+              [1.70, 0.18]
             ],
-            58
+            50
           );
 
         fillVariableStroke(
           jStemPoints,
           (t) =>
-            0.34 -
-            t * 0.07,
+            0.29 -
+            t * 0.06,
           0.135,
           LARGE_BLOCK_SIZE,
           null
@@ -1286,16 +1285,12 @@ resumeButton.addEventListener('click', async () => {
         fillVariableStroke(
           jHookPoints,
           (t) => {
-            /*
-              Thin near the join, broad through the hook,
-              then taper again toward the left tip.
-            */
             return (
-              0.20 +
+              0.17 +
               Math.sin(
                 t * Math.PI
               ) *
-              0.15
+              0.12
             );
           },
           0.135,
@@ -1310,33 +1305,27 @@ resumeButton.addEventListener('click', async () => {
         const sPoints =
           pointsOnCatmull(
             [
-              [4.06, -0.14],
-              [3.89, 0.00],
-              [3.56, 0.02],
-              [3.25, -0.10],
-              [3.03, -0.30],
-              [3.06, -0.49],
-              [3.30, -0.66],
-              [3.72, -0.77],
-              [4.03, -0.95],
-              [4.11, -1.16],
-              [3.98, -1.33],
-              [3.70, -1.42],
-              [3.42, -1.39],
-              [3.22, -1.26]
+              [3.96, -0.20],
+              [3.80, -0.08],
+              [3.52, -0.06],
+              [3.27, -0.16],
+              [3.09, -0.33],
+              [3.11, -0.48],
+              [3.31, -0.62],
+              [3.66, -0.72],
+              [3.93, -0.87],
+              [4.00, -1.04],
+              [3.89, -1.18],
+              [3.66, -1.25],
+              [3.43, -1.22],
+              [3.27, -1.12]
             ],
-            92
+            82
           );
 
         fillVariableStroke(
           sPoints,
           (t) => {
-            /*
-              Uneven calligraphic thickness:
-              slimmer near the upper left entry,
-              heavier through the bowls,
-              then tapered near the lower exit.
-            */
             const upperBulge =
               Math.exp(
                 -Math.pow(
@@ -1354,9 +1343,9 @@ resumeButton.addEventListener('click', async () => {
               );
 
             return (
-              0.18 +
-              upperBulge * 0.13 +
-              lowerBulge * 0.16
+              0.16 +
+              upperBulge * 0.11 +
+              lowerBulge * 0.13
             );
           },
           0.135,
