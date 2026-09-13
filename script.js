@@ -346,9 +346,16 @@ resumeButton.addEventListener('click', async () => {
 
         const textureCache = new Map();
 
-        function makeLetterTexture(letter, color) {
+        function makeLetterTexture(
+          letter,
+          color,
+          fontPx = LETTER_FONT_PX
+        ) {
+          const roundedFontPx =
+            Math.round(fontPx);
+
           const key =
-            `${letter}-${color}`;
+            `${letter}-${color}-${roundedFontPx}`;
 
           if (textureCache.has(key)) {
             return textureCache.get(key);
@@ -371,7 +378,7 @@ resumeButton.addEventListener('click', async () => {
           );
 
           ctx.font =
-            `700 ${LETTER_FONT_PX}px Georgia, serif`;
+            `700 ${roundedFontPx}px Georgia, serif`;
 
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
@@ -440,7 +447,13 @@ resumeButton.addEventListener('click', async () => {
               new THREE.MeshBasicMaterial({
                 map: makeLetterTexture(
                   nextLetter(),
-                  resolvedColor
+                  resolvedColor,
+                  LETTER_FONT_PX +
+                  (
+                    Math.random() *
+                    15 -
+                    5
+                  )
                 ),
                 transparent: true,
                 depthWrite: true,
@@ -834,6 +847,88 @@ resumeButton.addEventListener('click', async () => {
           );
         }
 
+        function fillVariableStroke(
+          points,
+          radiusFunction,
+          spacing,
+          size,
+          color
+        ) {
+          let minX = Infinity;
+          let maxX = -Infinity;
+          let minY = Infinity;
+          let maxY = -Infinity;
+          let maxRadius = 0;
+
+          points.forEach((p, i) => {
+            const t =
+              points.length > 1
+                ? i / (points.length - 1)
+                : 0;
+
+            const radius =
+              radiusFunction(t);
+
+            maxRadius =
+              Math.max(
+                maxRadius,
+                radius
+              );
+
+            minX = Math.min(minX, p.x);
+            maxX = Math.max(maxX, p.x);
+            minY = Math.min(minY, p.y);
+            maxY = Math.max(maxY, p.y);
+          });
+
+          fillGrid(
+            minX - maxRadius,
+            maxX + maxRadius,
+            minY - maxRadius,
+            maxY + maxRadius,
+            spacing,
+            size,
+            color,
+            (x, y) => {
+              let inside = false;
+
+              for (
+                let i = 0;
+                i < points.length;
+                i++
+              ) {
+                const p =
+                  points[i];
+
+                const t =
+                  points.length > 1
+                    ? i / (points.length - 1)
+                    : 0;
+
+                const radius =
+                  radiusFunction(t);
+
+                const dx =
+                  x - p.x;
+
+                const dy =
+                  y - p.y;
+
+                if (
+                  dx * dx +
+                  dy * dy <=
+                  radius * radius
+                ) {
+                  inside = true;
+                  break;
+                }
+              }
+
+              return inside;
+            }
+          );
+        }
+
         /* =====================================================
            REFERENCE FRAME
         ===================================================== */
@@ -953,7 +1048,7 @@ resumeButton.addEventListener('click', async () => {
 
         function makeLeftFish(centerY) {
           const snoutX = -4.25;
-          const backX = -0.10;
+          const backX = 0.10;
 
           drawCurve(
             (t) => {
@@ -1145,44 +1240,64 @@ resumeButton.addEventListener('click', async () => {
            FILLED J — BUILT FROM LETTER BLOCKS
         ===================================================== */
 
-        const jPoints = [];
+        const jStemPoints = [];
 
         for (
           let i = 0;
-          i <= 31;
+          i <= 26;
           i++
         ) {
           const t =
-            i / 31;
+            i / 26;
 
-          jPoints.push({
-            x: 2.58,
+          jStemPoints.push({
+            x: 2.54,
             y:
-              1.62 -
+              1.46 -
               t *
-              1.22
+              1.02
           });
         }
 
-        const jHook =
+        const jHookPoints =
           pointsOnCatmull(
             [
-              [2.58, 0.42],
-              [2.56, 0.18],
-              [2.40, -0.02],
-              [2.10, -0.09],
-              [1.84, 0.03],
-              [1.75, 0.23]
+              [2.54, 0.47],
+              [2.53, 0.20],
+              [2.42, -0.02],
+              [2.18, -0.19],
+              [1.89, -0.20],
+              [1.65, -0.05],
+              [1.57, 0.16]
             ],
-            50
+            58
           );
 
-        fillStroke(
-          [
-            ...jPoints,
-            ...jHook
-          ],
-          0.27,
+        fillVariableStroke(
+          jStemPoints,
+          (t) =>
+            0.34 -
+            t * 0.07,
+          0.135,
+          LARGE_BLOCK_SIZE,
+          null
+        );
+
+        fillVariableStroke(
+          jHookPoints,
+          (t) => {
+            /*
+              Thin near the join, broad through the hook,
+              then taper again toward the left tip.
+            */
+            return (
+              0.20 +
+              Math.sin(
+                t * Math.PI
+              ) *
+              0.15
+            );
+          },
           0.135,
           LARGE_BLOCK_SIZE,
           null
@@ -1195,27 +1310,55 @@ resumeButton.addEventListener('click', async () => {
         const sPoints =
           pointsOnCatmull(
             [
-              [4.18, -0.06],
-              [3.98, 0.10],
-              [3.64, 0.12],
-              [3.34, -0.01],
-              [3.10, -0.23],
-              [3.12, -0.46],
-              [3.35, -0.64],
-              [3.82, -0.76],
-              [4.12, -0.97],
-              [4.18, -1.20],
-              [4.03, -1.39],
-              [3.71, -1.49],
-              [3.39, -1.45],
-              [3.18, -1.30]
+              [4.06, -0.14],
+              [3.89, 0.00],
+              [3.56, 0.02],
+              [3.25, -0.10],
+              [3.03, -0.30],
+              [3.06, -0.49],
+              [3.30, -0.66],
+              [3.72, -0.77],
+              [4.03, -0.95],
+              [4.11, -1.16],
+              [3.98, -1.33],
+              [3.70, -1.42],
+              [3.42, -1.39],
+              [3.22, -1.26]
             ],
-            86
+            92
           );
 
-        fillStroke(
+        fillVariableStroke(
           sPoints,
-          0.27,
+          (t) => {
+            /*
+              Uneven calligraphic thickness:
+              slimmer near the upper left entry,
+              heavier through the bowls,
+              then tapered near the lower exit.
+            */
+            const upperBulge =
+              Math.exp(
+                -Math.pow(
+                  (t - 0.30) / 0.20,
+                  2
+                )
+              );
+
+            const lowerBulge =
+              Math.exp(
+                -Math.pow(
+                  (t - 0.72) / 0.22,
+                  2
+                )
+              );
+
+            return (
+              0.18 +
+              upperBulge * 0.13 +
+              lowerBulge * 0.16
+            );
+          },
           0.135,
           LARGE_BLOCK_SIZE,
           null
@@ -1246,7 +1389,13 @@ resumeButton.addEventListener('click', async () => {
             material.map =
               makeLetterTexture(
                 letter,
-                color
+                color,
+                LETTER_FONT_PX +
+                (
+                  Math.random() *
+                  15 -
+                  5
+                )
               );
 
             material.needsUpdate = true;
