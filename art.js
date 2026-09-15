@@ -1,10 +1,5 @@
 import * as THREE from "three";
 
-import {
-    CSS3DRenderer,
-    CSS3DObject
-} from "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/renderers/CSS3DRenderer.js";
-
 import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/loaders/GLTFLoader.js";
 
 
@@ -80,41 +75,6 @@ renderer.domElement.style.zIndex =
 
 gallery.appendChild(
     renderer.domElement
-);
-
-
-// =====================================================
-// CSS3D RENDERER
-// =====================================================
-
-const cssRenderer =
-    new CSS3DRenderer();
-
-cssRenderer.domElement.id =
-    "css3d-renderer";
-
-cssRenderer.setSize(
-    window.innerWidth,
-    window.innerHeight
-);
-
-cssRenderer.domElement.style.position =
-    "fixed";
-
-cssRenderer.domElement.style.top =
-    "0";
-
-cssRenderer.domElement.style.left =
-    "0";
-
-cssRenderer.domElement.style.pointerEvents =
-    "none";
-
-cssRenderer.domElement.style.zIndex =
-    "2";
-
-document.body.appendChild(
-    cssRenderer.domElement
 );
 
 
@@ -208,10 +168,6 @@ const CAMERA_HEIGHT = 2;
 // =====================================================
 
 const collidableObjects = [];
-
-// WebGL objects that can block the CSS aquarium from view.
-const cssOccluders = [];
-
 
 /* =====================================================
    3D FURNITURE
@@ -307,8 +263,6 @@ function addFurnitureClone(
     model.position.z = position[1];
 
     scene.add(model);
-
-    cssOccluders.push(model);
 
 
     // -------------------------------------------------
@@ -650,8 +604,6 @@ function createWall(
         wall
     );
 
-    cssOccluders.push(wall);
-
     collidableObjects.push({
         type: "wall",
         object: wall
@@ -920,7 +872,7 @@ const artworks = [
         position: [
             -6.84,
             3.1,
-            -10.0
+            -10.5
         ],
 
         rotation: [
@@ -977,7 +929,7 @@ const artworks = [
         position: [
             -6.84,
             3.1,
-            -6.0
+            -5.5
         ],
 
         rotation: [
@@ -1031,7 +983,7 @@ const artworks = [
         position: [
             6.84,
             3.1,
-            -21.6
+            -21.85
         ],
 
         rotation: [
@@ -1040,8 +992,8 @@ const artworks = [
             0
         ],
 
-        maxWidth: 2.9,
-        maxHeight: 4.2
+        maxWidth: 5.8,
+        maxHeight: 6.2
     },
 
     {
@@ -1055,7 +1007,7 @@ const artworks = [
         position: [
             6.84,
             3.1,
-            -18.4
+            -16.7
         ],
 
         rotation: [
@@ -1077,16 +1029,19 @@ const artworks = [
         image: "ArtFiles/img15.jpeg",
 
         position: [
-            3.9,
-            3.1,
-            -14.20
+            0,
+            3.5,
+            9.84
         ],
 
         rotation: [
             0,
             Math.PI,
             0
-        ]
+        ],
+
+        maxWidth: 12.0,
+        maxHeight: 6.2
     },
 
 
@@ -1114,7 +1069,10 @@ const artworks = [
             0,
             -Math.PI / 2,
             0
-        ]
+        ],
+
+        maxWidth: 8.0,
+        maxHeight: 6.3
     },
 
 
@@ -1171,7 +1129,7 @@ const artworks = [
         ],
 
         largeArtwork: true,
-        sizeScale: 0.9
+        sizeScale: 0.8
     }
 
 ];
@@ -1458,6 +1416,20 @@ function createArtwork(art) {
             }
 
 
+            if (art.maxWidth) {
+
+                maxWidth = art.maxWidth;
+
+            }
+
+
+            if (art.maxHeight) {
+
+                maxHeight = art.maxHeight;
+
+            }
+
+
             const sizeScale =
                 art.sizeScale || 1;
 
@@ -1687,198 +1659,6 @@ artworks.forEach(
 
     }
 );
-
-
-// =====================================================
-// AQUARIUM
-// =====================================================
-// LEFT EXACTLY AS PROVIDED
-// =====================================================
-
-const aquariumWorld =
-    document.getElementById(
-        "aquarium-world"
-    );
-
-let aquariumObject = null;
-
-
-function setupAquarium() {
-
-    if (!aquariumWorld) {
-
-        console.error(
-            "ERROR: #aquarium-world was not found."
-        );
-
-        return;
-    }
-
-
-    aquariumWorld.style.display =
-        "block";
-
-    aquariumWorld.style.position =
-        "absolute";
-
-    aquariumWorld.style.left =
-        "0px";
-
-    aquariumWorld.style.top =
-        "0px";
-
-    aquariumWorld.style.width =
-        "1000px";
-
-    aquariumWorld.style.height =
-        "auto";
-
-    aquariumWorld.style.margin =
-        "0";
-
-    aquariumWorld.style.transform =
-        "none";
-
-    aquariumWorld.style.visibility =
-        "visible";
-
-    aquariumWorld.style.opacity =
-        "1";
-
-
-    aquariumObject =
-        new CSS3DObject(
-            aquariumWorld
-        );
-
-
-    aquariumObject.position.set(
-        0,
-        3.45,
-        9.78
-    );
-
-
-    aquariumObject.scale.set(
-        0.0125,
-        0.0125,
-        0.0125
-    );
-
-
-    aquariumObject.rotation.set(
-        0,
-        Math.PI,
-        0
-    );
-
-
-    scene.add(
-        aquariumObject
-    );
-
-
-    console.log(
-        "Aquarium added to FRONT WALL.",
-        aquariumObject.position
-    );
-}
-
-
-setupAquarium();
-
-
-// =====================================================
-// CSS3D AQUARIUM VISIBILITY
-// =====================================================
-
-const aquariumOcclusionRaycaster =
-    new THREE.Raycaster();
-
-const aquariumDirection =
-    new THREE.Vector3();
-
-const aquariumTarget =
-    new THREE.Vector3();
-
-const aquariumVisibilityOffsets = [
-    [0, 0],
-    [-5.4, -2.0],
-    [0, -2.0],
-    [5.4, -2.0],
-    [-5.4, 0],
-    [5.4, 0],
-    [-5.4, 2.0],
-    [0, 2.0],
-    [5.4, 2.0]
-];
-
-
-function updateCSS3DVisibility() {
-
-    if (!aquariumObject) {
-
-        return;
-    }
-
-    // The aquarium belongs to Room 1. This prevents it
-    // from bleeding through either divider partition.
-    if (camera.position.z <= -1.85) {
-
-        aquariumObject.visible = false;
-
-        return;
-    }
-
-
-    let isOccluded = false;
-
-    for (const offset of aquariumVisibilityOffsets) {
-
-        aquariumTarget.set(
-            aquariumObject.position.x + offset[0],
-            aquariumObject.position.y + offset[1],
-            aquariumObject.position.z
-        );
-
-        aquariumDirection.subVectors(
-            aquariumTarget,
-            camera.position
-        );
-
-        const aquariumDistance =
-            aquariumDirection.length();
-
-        aquariumDirection.normalize();
-
-        aquariumOcclusionRaycaster.set(
-            camera.position,
-            aquariumDirection
-        );
-
-        aquariumOcclusionRaycaster.far =
-            Math.max(
-                aquariumDistance - 0.2,
-                0
-            );
-
-        const obstructions =
-            aquariumOcclusionRaycaster.intersectObjects(
-                cssOccluders,
-                true
-            );
-
-        if (obstructions.length > 0) {
-
-            isOccluded = true;
-
-            break;
-        }
-    }
-
-    aquariumObject.visible =
-        !isOccluded;
-}
 
 
 // =====================================================
@@ -2943,16 +2723,7 @@ function animate() {
 
     updateCameraRotation();
 
-    updateCSS3DVisibility();
-
-
     renderer.render(
-        scene,
-        camera
-    );
-
-
-    cssRenderer.render(
         scene,
         camera
     );
@@ -2980,12 +2751,6 @@ window.addEventListener(
 
 
         renderer.setSize(
-            window.innerWidth,
-            window.innerHeight
-        );
-
-
-        cssRenderer.setSize(
             window.innerWidth,
             window.innerHeight
         );
