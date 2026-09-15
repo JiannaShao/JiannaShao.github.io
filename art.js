@@ -209,6 +209,9 @@ const CAMERA_HEIGHT = 2;
 
 const collidableObjects = [];
 
+// WebGL objects that can block the CSS aquarium from view.
+const cssOccluders = [];
+
 
 /* =====================================================
    3D FURNITURE
@@ -220,7 +223,7 @@ const BAMBOO_PATH = "RoomFurniture/Bamboo.glb";
 const COLUMN_PATH = "RoomFurniture/Column (1).glb";
 
 // Desired heights in gallery units.
-const BAMBOO_HEIGHT = 2.8;   // Slightly larger than before
+const BAMBOO_HEIGHT = 3.5;
 const COLUMN_HEIGHT = WALL_HEIGHT; // Full room height = 7
 
 
@@ -304,6 +307,8 @@ function addFurnitureClone(
     model.position.z = position[1];
 
     scene.add(model);
+
+    cssOccluders.push(model);
 
 
     // -------------------------------------------------
@@ -645,6 +650,8 @@ function createWall(
         wall
     );
 
+    cssOccluders.push(wall);
+
     collidableObjects.push({
         type: "wall",
         object: wall
@@ -785,28 +792,6 @@ const artworks = [
     },
 
 
-    {
-        title: "Quick Breakfast",
-        year: "2024",
-        medium: "Multi-media on paper",
-        description:
-            "As an individual has become increasingly more dependent on caffeine to make it through the day, I felt inspired to create a piece based on it. To me, this piece exemplifies what you're putting into your body every time you drink tea, coffee, or energy drinks, which ultimately can hurt you when overconsumed. When it came to the caffeine molecules at the front, I had to do some research to recall my chemistry understanding of the structure so that I could gather the materials necessary for the project.",
-        image: "ArtFiles/img5.JPG",
-
-        position: [
-            -6.84,
-            3.1,
-            1.5
-        ],
-
-        rotation: [
-            0,
-            Math.PI / 2,
-            0
-        ]
-    },
-
-
     // =================================================
     // ROOM 1 LEFT DIVIDER WALL
     // =================================================
@@ -820,7 +805,7 @@ const artworks = [
         image: "ArtFiles/img3.jpg",
 
         position: [
-            -4.2,
+            -3.6,
             3.1,
             -1.84
         ],
@@ -846,7 +831,7 @@ const artworks = [
         image: "ArtFiles/img2.jpg",
 
         position: [
-            4.2,
+            3.6,
             3.1,
             -1.84
         ],
@@ -874,14 +859,14 @@ const artworks = [
         image: "ArtFiles/img7.JPG",
 
         position: [
-            6.84,
+            -6.84,
             3.1,
-            4.0
+            1.5
         ],
 
         rotation: [
             0,
-            -Math.PI / 2,
+            Math.PI / 2,
             0
         ]
     },
@@ -907,7 +892,7 @@ const artworks = [
         image: "ArtFiles/img4.JPG",
 
         position: [
-            -4.5,
+            -3.9,
             3.1,
             -13.80
         ],
@@ -935,7 +920,7 @@ const artworks = [
         position: [
             -6.84,
             3.1,
-            -9
+            -8.5
         ],
 
         rotation: [
@@ -964,7 +949,7 @@ const artworks = [
         image: "ArtFiles/img9.JPG",
 
         position: [
-            4.5,
+            3.9,
             3.1,
             -13.80
         ],
@@ -992,7 +977,7 @@ const artworks = [
         position: [
             -6.84,
             3.1,
-            -4.5
+            -4.0
         ],
 
         rotation: [
@@ -1030,16 +1015,35 @@ const artworks = [
 
 
     // =================================================
-    // ROOM 3 / ROOM 2 PARTITION
-    // LEFT SIDE
+    // ROOM 3 RIGHT WALL
+    // Three works replace the former book display.
+    // Viewed from inside the room: Quick Breakfast is
+    // left, Lunch is centered, and img15 is right.
     // =================================================
-    // LUNCH
-    //
-    // Moved onto the partition perpendicular to
-    // Salty Soup.
-    //
-    // This is placed on the ROOM 3 side of the wall.
-    // =================================================
+
+    {
+        title: "Quick Breakfast",
+        year: "2024",
+        medium: "Multi-media on paper",
+        description:
+            "As an individual has become increasingly more dependent on caffeine to make it through the day, I felt inspired to create a piece based on it. To me, this piece exemplifies what you're putting into your body every time you drink tea, coffee, or energy drinks, which ultimately can hurt you when overconsumed. When it came to the caffeine molecules at the front, I had to do some research to recall my chemistry understanding of the structure so that I could gather the materials necessary for the project.",
+        image: "ArtFiles/img5.JPG",
+
+        position: [
+            6.84,
+            3.1,
+            -23.0
+        ],
+
+        rotation: [
+            0,
+            -Math.PI / 2,
+            0
+        ],
+
+        maxWidth: 2.9,
+        maxHeight: 4.2
+    },
 
     {
         title: "Lunch",
@@ -1050,16 +1054,43 @@ const artworks = [
         image: "ArtFiles/img8.JPG",
 
         position: [
-            -4.5,
+            6.84,
             3.1,
-            -14.20
+            -20.0
         ],
 
         rotation: [
             0,
-            Math.PI,
+            -Math.PI / 2,
             0
-        ]
+        ],
+
+        maxWidth: 2.9,
+        maxHeight: 4.2
+    },
+
+
+    {
+        title: "Untitled",
+        year: "",
+        medium: "",
+        description: "",
+        image: "ArtFiles/img15.jpeg",
+
+        position: [
+            6.84,
+            3.1,
+            -17.0
+        ],
+
+        rotation: [
+            0,
+            -Math.PI / 2,
+            0
+        ],
+
+        maxWidth: 2.9,
+        maxHeight: 4.2
     },
 
 
@@ -1080,7 +1111,7 @@ const artworks = [
         position: [
             6.84,
             3.1,
-            -19.5
+            4.0
         ],
 
         rotation: [
@@ -1113,9 +1144,7 @@ const artworks = [
             0,
             0,
             0
-        ],
-
-        largeArtwork: true
+        ]
     },
 
 
@@ -1412,9 +1441,11 @@ function createArtwork(art) {
                 imageHeight;
 
 
-            let maxWidth = 4;
+            let maxWidth =
+                art.maxWidth || 4;
 
-            let maxHeight = 4;
+            let maxHeight =
+                art.maxHeight || 4;
 
 
             if (
@@ -1751,304 +1782,54 @@ setupAquarium();
 
 
 // =====================================================
-// BOOK SYSTEM
+// CSS3D AQUARIUM VISIBILITY
 // =====================================================
 
-const bookWorld =
-    document.getElementById(
-        "book-world"
-    );
+const aquariumOcclusionRaycaster =
+    new THREE.Raycaster();
+
+const aquariumDirection =
+    new THREE.Vector3();
 
 
-const bookObjects =
-    bookWorld
-        ? bookWorld.querySelectorAll(
-            ".book-object"
-        )
-        : [];
+function updateCSS3DVisibility() {
 
-
-const bookDescriptions = {
-
-    book1: {
-
-        title:
-            "The Strange Case of Dr Jekyll and Mr Hyde and Other Tales of Terror",
-
-        year:
-            "2026",
-
-        medium:
-            "Book",
-
-        description:
-            "One of Jianna's favorite reads of the year."
-
-    },
-
-
-    book2: {
-
-        title:
-            "Breakneck: China's Quest to Engineer the Future",
-
-        year:
-            "2026",
-
-        medium:
-            "Book",
-
-        description:
-            "A book that became especially interesting after spending three months in Shanghai in 2025 and continuing conversations about China at Wesleyan."
-
-    },
-
-
-    book3: {
-
-        title:
-            "The 5 Types of Wealth",
-
-        year:
-            "2026",
-
-        medium:
-            "Book",
-
-        description:
-            "A book given to Jianna by her mother after reading Atomic Habits and The 7 Habits of Highly Effective People."
-
-    }
-
-};
-
-
-// =====================================================
-// BOOK CSS3D OBJECTS
-// =====================================================
-
-const cssBookObjects = [];
-
-
-function setupBooks() {
-
-    if (!bookWorld) {
+    if (!aquariumObject) {
 
         return;
     }
 
 
-    bookWorld.style.position =
-        "absolute";
-
-    bookWorld.style.left =
-        "0";
-
-    bookWorld.style.top =
-        "0";
-
-    bookWorld.style.width =
-        "0";
-
-    bookWorld.style.height =
-        "0";
-
-    bookWorld.style.margin =
-        "0";
-
-    bookWorld.style.pointerEvents =
-        "none";
-
-
-    bookObjects.forEach(
-        (bookElement, index) => {
-
-            bookElement.style.position =
-                "absolute";
-
-            bookElement.style.left =
-                "0";
-
-            bookElement.style.top =
-                "0";
-
-            bookElement.style.margin =
-                "0";
-
-            bookElement.style.width =
-                "180px";
-
-            bookElement.style.height =
-                "auto";
-
-            bookElement.style.transform =
-                "none";
-
-            bookElement.style.pointerEvents =
-                "auto";
-
-
-            const object =
-                new CSS3DObject(
-                    bookElement
-                );
-
-
-            const x =
-                6.69;
-
-            const z =
-                -22 +
-                index * 2.8;
-
-            const y =
-                4.6 -
-                index * 2.3;
-
-
-            object.position.set(
-                x,
-                y,
-                z
-            );
-
-
-            object.rotation.y =
-                -Math.PI / 2;
-
-
-            object.scale.set(
-                0.009,
-                0.009,
-                0.009
-            );
-
-
-            object.userData.book =
-                bookElement.dataset.book;
-
-            object.userData.room =
-                3;
-
-
-            scene.add(
-                object
-            );
-
-
-            cssBookObjects.push(
-                object
-            );
-
-        }
+    aquariumDirection.subVectors(
+        aquariumObject.position,
+        camera.position
     );
-}
 
+    const aquariumDistance =
+        aquariumDirection.length();
 
-setTimeout(
-    setupBooks,
-    100
-);
+    aquariumDirection.normalize();
 
-
-// =====================================================
-// CSS3D ROOM VISIBILITY
-// =====================================================
-
-function getCameraRoom() {
-
-    const z =
-        camera.position.z;
-
-
-    if (
-        z > -2
-    ) {
-
-        return 1;
-
-    }
-
-
-    if (
-        z > -14
-    ) {
-
-        return 2;
-
-    }
-
-
-    return 3;
-}
-
-
-function updateCSS3DVisibility() {
-
-    const room =
-        getCameraRoom();
-
-
-    if (
-        aquariumObject
-    ) {
-
-        aquariumObject.visible =
-            room === 1;
-
-    }
-
-
-    cssBookObjects.forEach(
-        (object) => {
-
-            object.visible =
-                room === 3;
-
-        }
+    aquariumOcclusionRaycaster.set(
+        camera.position,
+        aquariumDirection
     );
-}
 
-
-// =====================================================
-// BOOK CLICKING
-// =====================================================
-
-bookObjects.forEach(
-    (bookElement) => {
-
-        bookElement.addEventListener(
-            "click",
-            (event) => {
-
-                event.stopPropagation();
-
-
-                const bookID =
-                    bookElement.dataset.book;
-
-
-                const data =
-                    bookDescriptions[
-                        bookID
-                    ];
-
-
-                if (
-                    data
-                ) {
-
-                    showArtworkInfo(
-                        data
-                    );
-
-                }
-
-            }
+    aquariumOcclusionRaycaster.far =
+        Math.max(
+            aquariumDistance - 0.2,
+            0
         );
 
-    }
-);
+    const obstructions =
+        aquariumOcclusionRaycaster.intersectObjects(
+            cssOccluders,
+            true
+        );
+
+    aquariumObject.visible =
+        obstructions.length === 0;
+}
 
 
 // =====================================================
