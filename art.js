@@ -347,7 +347,7 @@ const bambooPositions = [
     // ROOM 2
     // -----------------------------------------
 
-    [-5.0, -10.8],
+    [5.0, -3.2],
 
 
     // -----------------------------------------
@@ -733,7 +733,7 @@ const artworks = [
         position: [
             -6.84,
             3.1,
-            6.5
+            5.8
         ],
 
         rotation: [
@@ -872,7 +872,7 @@ const artworks = [
         position: [
             -6.84,
             3.1,
-            -10.5
+            -10.0
         ],
 
         rotation: [
@@ -992,8 +992,8 @@ const artworks = [
             0
         ],
 
-        maxWidth: 5.8,
-        maxHeight: 6.2
+        maxWidth: 5.22,
+        maxHeight: 5.58
     },
 
     {
@@ -1016,8 +1016,8 @@ const artworks = [
             0
         ],
 
-        maxWidth: 2.9,
-        maxHeight: 4.2
+        maxWidth: 2.61,
+        maxHeight: 3.78
     },
 
 
@@ -1040,8 +1040,8 @@ const artworks = [
             0
         ],
 
-        maxWidth: 12.0,
-        maxHeight: 6.2
+        maxWidth: 10.8,
+        maxHeight: 5.58
     },
 
 
@@ -1071,8 +1071,8 @@ const artworks = [
             0
         ],
 
-        maxWidth: 8.0,
-        maxHeight: 6.3
+        maxWidth: 7.2,
+        maxHeight: 5.67
     },
 
 
@@ -1118,7 +1118,7 @@ const artworks = [
 
         position: [
             -6.84,
-            3.5,
+            3.1,
             -20
         ],
 
