@@ -805,7 +805,7 @@ const artworks = [
         image: "ArtFiles/img3.jpg",
 
         position: [
-            -3.6,
+            -3.9,
             3.1,
             -1.84
         ],
@@ -831,7 +831,7 @@ const artworks = [
         image: "ArtFiles/img2.jpg",
 
         position: [
-            3.6,
+            3.9,
             3.1,
             -1.84
         ],
@@ -920,7 +920,7 @@ const artworks = [
         position: [
             -6.84,
             3.1,
-            -8.5
+            -10.0
         ],
 
         rotation: [
@@ -977,7 +977,7 @@ const artworks = [
         position: [
             -6.84,
             3.1,
-            -4.0
+            -6.0
         ],
 
         rotation: [
@@ -1016,9 +1016,8 @@ const artworks = [
 
     // =================================================
     // ROOM 3 RIGHT WALL
-    // Three works replace the former book display.
-    // Viewed from inside the room: Quick Breakfast is
-    // left, Lunch is centered, and img15 is right.
+    // Quick Breakfast and Lunch are centered together
+    // on the former book-display wall.
     // =================================================
 
     {
@@ -1032,7 +1031,7 @@ const artworks = [
         position: [
             6.84,
             3.1,
-            -23.0
+            -21.6
         ],
 
         rotation: [
@@ -1056,7 +1055,7 @@ const artworks = [
         position: [
             6.84,
             3.1,
-            -20.0
+            -18.4
         ],
 
         rotation: [
@@ -1078,19 +1077,16 @@ const artworks = [
         image: "ArtFiles/img15.jpeg",
 
         position: [
-            6.84,
+            3.9,
             3.1,
-            -17.0
+            -14.20
         ],
 
         rotation: [
             0,
-            -Math.PI / 2,
+            Math.PI,
             0
-        ],
-
-        maxWidth: 2.9,
-        maxHeight: 4.2
+        ]
     },
 
 
@@ -1144,7 +1140,9 @@ const artworks = [
             0,
             0,
             0
-        ]
+        ],
+
+        largeArtwork: true
     },
 
 
@@ -1172,7 +1170,8 @@ const artworks = [
             0
         ],
 
-        largeArtwork: true
+        largeArtwork: true,
+        sizeScale: 0.9
     }
 
 ];
@@ -1457,6 +1456,14 @@ function createArtwork(art) {
                 maxHeight = 6.3;
 
             }
+
+
+            const sizeScale =
+                art.sizeScale || 1;
+
+            maxWidth *= sizeScale;
+
+            maxHeight *= sizeScale;
 
 
             let artworkWidth;
@@ -1791,6 +1798,21 @@ const aquariumOcclusionRaycaster =
 const aquariumDirection =
     new THREE.Vector3();
 
+const aquariumTarget =
+    new THREE.Vector3();
+
+const aquariumVisibilityOffsets = [
+    [0, 0],
+    [-5.4, -2.0],
+    [0, -2.0],
+    [5.4, -2.0],
+    [-5.4, 0],
+    [5.4, 0],
+    [-5.4, 2.0],
+    [0, 2.0],
+    [5.4, 2.0]
+];
+
 
 function updateCSS3DVisibility() {
 
@@ -1799,36 +1821,63 @@ function updateCSS3DVisibility() {
         return;
     }
 
+    // The aquarium belongs to Room 1. This prevents it
+    // from bleeding through either divider partition.
+    if (camera.position.z <= -1.85) {
 
-    aquariumDirection.subVectors(
-        aquariumObject.position,
-        camera.position
-    );
+        aquariumObject.visible = false;
 
-    const aquariumDistance =
-        aquariumDirection.length();
+        return;
+    }
 
-    aquariumDirection.normalize();
 
-    aquariumOcclusionRaycaster.set(
-        camera.position,
-        aquariumDirection
-    );
+    let isOccluded = false;
 
-    aquariumOcclusionRaycaster.far =
-        Math.max(
-            aquariumDistance - 0.2,
-            0
+    for (const offset of aquariumVisibilityOffsets) {
+
+        aquariumTarget.set(
+            aquariumObject.position.x + offset[0],
+            aquariumObject.position.y + offset[1],
+            aquariumObject.position.z
         );
 
-    const obstructions =
-        aquariumOcclusionRaycaster.intersectObjects(
-            cssOccluders,
-            true
+        aquariumDirection.subVectors(
+            aquariumTarget,
+            camera.position
         );
+
+        const aquariumDistance =
+            aquariumDirection.length();
+
+        aquariumDirection.normalize();
+
+        aquariumOcclusionRaycaster.set(
+            camera.position,
+            aquariumDirection
+        );
+
+        aquariumOcclusionRaycaster.far =
+            Math.max(
+                aquariumDistance - 0.2,
+                0
+            );
+
+        const obstructions =
+            aquariumOcclusionRaycaster.intersectObjects(
+                cssOccluders,
+                true
+            );
+
+        if (obstructions.length > 0) {
+
+            isOccluded = true;
+
+            break;
+        }
+    }
 
     aquariumObject.visible =
-        obstructions.length === 0;
+        !isOccluded;
 }
 
 
