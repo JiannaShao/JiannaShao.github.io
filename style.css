@@ -2139,7 +2139,9 @@ html body .hero-postcard-fallback{
   box-shadow:0 18px 40px rgba(20,37,61,.18);
   transform:rotate(-3deg);
 }
-html body .hero-postcard.is-3d .hero-postcard-fallback{ display:none; }
+/* hidden while 3D loads (so it doesn't flash before the envelope); shown only on failure */
+html body .hero-postcard .hero-postcard-fallback{ display:none; }
+html body .hero-postcard.is-failed .hero-postcard-fallback{ display:block; }
 
 /* Phones: postcard sits below the name, full width */
 @media (max-width:800px){
@@ -2158,5 +2160,61 @@ html body .hero-postcard.is-3d .hero-postcard-fallback{ display:none; }
 @media (min-width:1200px){
   html body .hero-postcard-wrap{
     margin-right:-60px;
+  }
+}
+
+/* =====================================================
+   HEADER — name + eyebrow sit higher; envelope hint
+===================================================== */
+html body .hero{
+  padding-top:0 !important;
+  min-height:100vh !important;
+}
+html body .hero-content{
+  padding-top:56px !important;
+  padding-bottom:40px !important;
+}
+html body .hero-title-row{
+  align-items:flex-start !important;
+}
+html body .hero-title-row .hero-name{
+  margin-top:clamp(24px, 6vh, 70px) !important;
+}
+
+/* "Click to open" — sits under the envelope, fades once opened */
+html body .hero-postcard-hint{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:3%;
+  text-align:center;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:#48666d;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .35s ease;
+}
+html body .hero-postcard-wrap.is-sealed .hero-postcard-hint{ opacity:.85; }
+html body .hero-postcard-wrap.is-sealed .hero-postcard{ cursor:pointer; }
+html body .hero-postcard-hint .hint-tap{ display:none; }
+@media (hover:none){
+  html body .hero-postcard-hint .hint-click{ display:none; }
+  html body .hero-postcard-hint .hint-tap{ display:inline; }
+}
+html body .hero-postcard:focus-visible{
+  outline:3px solid #48666d;
+  outline-offset:-3px;
+  border-radius:12px;
+}
+
+@media (max-width:800px){
+  html body .hero-content{
+    padding-top:76px !important;   /* clears the menu button */
+  }
+  html body .hero-title-row .hero-name{
+    margin-top:4px !important;
   }
 }

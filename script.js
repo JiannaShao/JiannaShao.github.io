@@ -84,10 +84,11 @@ resumeButton.addEventListener('click', async () => {
   }
   /* =====================================================
      HERO POSTCARD
-     A thin card (box) with the front painting on one face
-     and the back of the postcard on the other. Spins slowly
-     on its own; drag left/right to turn it, and it coasts
-     back into the slow spin after you let go.
+     Starts sealed in an envelope that gives a small shake
+     every few seconds. Click / tap (or Enter) to open: the
+     flap lifts, the card jumps out, the envelope drops away,
+     and the card spins slowly. Drag left/right to turn it;
+     it coasts back into the slow spin after you let go.
   ===================================================== */
   const postcardHost = document.getElementById('hero-postcard');
 
@@ -98,25 +99,39 @@ resumeButton.addEventListener('click', async () => {
           'https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js'
         );
 
+        const wrap = postcardHost.closest('.hero-postcard-wrap') || postcardHost;
         const FRONT_SRC = 'Postcard/postcard-front.jpg';
         const BACK_SRC = 'Postcard/2.png';
-        const EDGE_COLOR = 0xf8f7f5;          // card-stock colour sampled from the images
-        const CARD_W = 1.6;                   // card is 1650 x 1275 (≈ 1.294 : 1)
-        const CARD_H = CARD_W * (1275 / 1650);
-        const CARD_D = 0.018;                 // very thin
+        const CREAM = 0xf8f7f5;               // card stock, sampled from the images
+        const NAVY = '#14253d';
 
-        const AUTO_SPEED = 0.35;              // radians per second (slow spin)
-        const DRAG_SENS = 0.0105;             // radians per pixel dragged
+        const CARD_W = 1.6;                   // card is 1650 x 1275
+        const CARD_H = CARD_W * (1275 / 1650);
+        const CARD_D = 0.018;
+
+        // Envelope is a little larger than the card so it fits inside.
+        const ENV_W = CARD_W * 1.1;
+        const ENV_H = CARD_H * 1.12;
+        const ENV_D = 0.06;
+        const ENV_SCALE = 0.62;               // envelope + card start smaller...
+        const ENV_Y = -0.2;                   // ...and low, so the card can rise out in frame
+
+        const AUTO_SPEED = 0.35;              // radians per second
+        const DRAG_SENS = 0.0105;
         const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         // ---- scene ----
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(22, 1, 0.1, 80);
-
         const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
         renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
         renderer.setClearColor(0x000000, 0);
         renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+        scene.add(new THREE.AmbientLight(0xffffff, 1.6));
+        const sun = new THREE.DirectionalLight(0xffffff, 1.4);
+        sun.position.set(2, 3, 4);
+        scene.add(sun);
 
         // ---- textures ----
         const loader = new THREE.TextureLoader();
@@ -127,88 +142,204 @@ resumeButton.addEventListener('click', async () => {
             resolve(tex);
           }, undefined, reject);
         });
+        const canvasTex = (w, h, draw) => {
+          const c = document.createElement('canvas');
+          c.width = w; c.height = h;
+          draw(c.getContext('2d'), w, h);
+          const t = new THREE.CanvasTexture(c);
+          t.colorSpace = THREE.SRGBColorSpace;
+          t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+          return t;
+        };
         const [frontTex, backTex] = await Promise.all([loadTex(FRONT_SRC), loadTex(BACK_SRC)]);
 
-        // ---- card ----
-        // Faces show the artwork in true colour; the thin edges are lit so
-        // the card reads as a physical object while it turns.
-        const edgeMat = new THREE.MeshLambertMaterial({ color: EDGE_COLOR });
-        const frontMat = new THREE.MeshBasicMaterial({ map: frontTex });
-        const backMat = new THREE.MeshBasicMaterial({ map: backTex });
-
-        // BoxGeometry face order: +x, -x, +y, -y, +z (front), -z (back)
+        // ---- postcard ----
+        const edgeMat = new THREE.MeshLambertMaterial({ color: CREAM });
         const card = new THREE.Mesh(
           new THREE.BoxGeometry(CARD_W, CARD_H, CARD_D),
-          [edgeMat, edgeMat, edgeMat, edgeMat, frontMat, backMat]
+          [edgeMat, edgeMat, edgeMat, edgeMat,
+           new THREE.MeshBasicMaterial({ map: frontTex }),
+           new THREE.MeshBasicMaterial({ map: backTex })]
         );
-        card.rotation.x = -0.06;             // tiny tilt so the edge catches light
         scene.add(card);
 
-        scene.add(new THREE.AmbientLight(0xffffff, 1.6));
-        const sun = new THREE.DirectionalLight(0xffffff, 1.4);
-        sun.position.set(2, 3, 4);
-        scene.add(sun);
+        // ---- envelope ----
+        const env = new THREE.Group();
+        const fadeMats = [];
+        // Unlit materials keep the paper a true cream instead of greying it.
+        const mat = (opts) => {
+          const m = new THREE.MeshBasicMaterial({ transparent: true, ...opts });
+          fadeMats.push(m);
+          return m;
+        };
+
+        // Flap side faces the viewer: faint fold lines of the side and bottom flaps.
+        const panelTex = canvasTex(1024, Math.round(1024 * ENV_H / ENV_W), (g, w, h) => {
+          g.fillStyle = '#f8f7f5'; g.fillRect(0, 0, w, h);
+          const cx = w / 2, cy = h * 0.56;
+          g.fillStyle = 'rgba(20,37,61,0.035)';          // bottom pocket, slightly shaded
+          g.beginPath(); g.moveTo(0, h); g.lineTo(cx, cy); g.lineTo(w, h); g.closePath(); g.fill();
+          g.strokeStyle = 'rgba(20,37,61,0.16)'; g.lineWidth = 3;
+          g.beginPath(); g.moveTo(0, h); g.lineTo(cx, cy); g.lineTo(w, h); g.stroke();
+          g.beginPath(); g.moveTo(0, 0); g.lineTo(cx * 0.92, cy * 0.98); g.stroke();
+          g.beginPath(); g.moveTo(w, 0); g.lineTo(w - cx * 0.92, cy * 0.98); g.stroke();
+          g.strokeStyle = 'rgba(20,37,61,0.22)'; g.lineWidth = 4;   // crisp outer edge
+          g.strokeRect(2, 2, w - 4, h - 4);
+        });
+        const plainEdge = mat({ color: CREAM });
+        const body = new THREE.Mesh(
+          new THREE.BoxGeometry(ENV_W, ENV_H, ENV_D),
+          [plainEdge, plainEdge, plainEdge, plainEdge,
+           mat({ map: panelTex }), mat({ color: CREAM })]
+        );
+        env.add(body);
+
+        // Flap: triangle hinged on the top edge of the front panel.
+        const FLAP_L = ENV_H * 0.58;
+        const flapShape = new THREE.Shape();
+        flapShape.moveTo(-ENV_W / 2, 0);
+        flapShape.lineTo(ENV_W / 2, 0);
+        flapShape.lineTo(ENV_W * 0.035, -FLAP_L + 0.02);
+        flapShape.quadraticCurveTo(0, -FLAP_L - 0.01, -ENV_W * 0.035, -FLAP_L + 0.02);
+        flapShape.closePath();
+        const flapPivot = new THREE.Group();
+        flapPivot.position.set(0, ENV_H / 2, ENV_D / 2 + 0.002);
+        const flap = new THREE.Mesh(
+          new THREE.ShapeGeometry(flapShape),
+          mat({ color: 0xefece5, side: THREE.DoubleSide })
+        );
+        flapPivot.add(flap);
+
+        // Flap outline so it reads against the panel
+        const outline = new THREE.Line(
+          new THREE.BufferGeometry().setFromPoints(
+            flapShape.getPoints(12).map((p) => new THREE.Vector3(p.x, p.y, 0.001))
+          ),
+          new THREE.LineBasicMaterial({ color: 0x14253d, transparent: true, opacity: 0.3 })
+        );
+        flapPivot.add(outline);
+
+        // Navy seal with initials
+        const sealTex = canvasTex(256, 256, (g, w) => {
+          g.clearRect(0, 0, w, w);
+          g.fillStyle = NAVY;
+          g.beginPath(); g.arc(w / 2, w / 2, w * 0.46, 0, Math.PI * 2); g.fill();
+          g.strokeStyle = 'rgba(248,247,245,0.55)'; g.lineWidth = 5;
+          g.beginPath(); g.arc(w / 2, w / 2, w * 0.36, 0, Math.PI * 2); g.stroke();
+          g.fillStyle = '#f8f7f5';
+          g.font = 'italic 92px Georgia, serif';
+          g.textAlign = 'center'; g.textBaseline = 'middle';
+          g.fillText('JS', w / 2, w / 2 + 4);
+        });
+        const sealMat = new THREE.MeshBasicMaterial({ map: sealTex, transparent: true });
+        fadeMats.push(sealMat);
+        const seal = new THREE.Mesh(new THREE.PlaneGeometry(0.26, 0.26), sealMat);
+        seal.position.set(0, -FLAP_L + 0.13, 0.004);
+        flapPivot.add(seal);
+
+        env.add(flapPivot);
+
+        // Soft drop shadow so the envelope lifts off the page
+        const shadowTex = canvasTex(512, 420, (g, w, h) => {
+          g.clearRect(0, 0, w, h);
+          g.shadowColor = 'rgba(20,37,61,0.28)';
+          g.shadowBlur = 46;
+          g.shadowOffsetX = w * 2;                 // draw off-canvas, keep only the blur
+          g.fillStyle = '#000';
+          g.fillRect(-w * 2 + 70, 70, w - 140, h - 140);
+        });
+        const shadowMat = new THREE.MeshBasicMaterial({ map: shadowTex, transparent: true, depthWrite: false });
+        fadeMats.push(shadowMat);
+        const shadow = new THREE.Mesh(new THREE.PlaneGeometry(ENV_W * 1.35, ENV_H * 1.4), shadowMat);
+        shadow.position.set(0.04, -0.09, -ENV_D / 2 - 0.02);
+        env.add(shadow);
+
+        scene.add(env);
 
         postcardHost.appendChild(renderer.domElement);
         postcardHost.classList.add('is-3d');
 
-        // ---- fit the card to whatever size the header gives us ----
+        // ---- fit to the header box (full-size card with breathing room) ----
         function resizePostcard() {
           const rect = postcardHost.getBoundingClientRect();
           const width = Math.max(1, rect.width);
           const height = Math.max(1, rect.height);
           renderer.setSize(width, height, false);
-
           const aspect = width / height;
           camera.aspect = aspect;
-
-          // Distance at which the card (plus margin for perspective while
-          // turning) fits both the width and the height of the box.
-          const margin = 1.16;
+          const margin = 1.29;                 // ~10% smaller than before
           const halfFov = THREE.MathUtils.degToRad(camera.fov / 2);
-          const distForHeight = (CARD_H * margin / 2) / Math.tan(halfFov);
-          const distForWidth = (CARD_W * margin / 2) / (Math.tan(halfFov) * aspect);
-          camera.position.set(0, 0, Math.max(distForHeight, distForWidth) + CARD_D);
+          const distH = (CARD_H * margin / 2) / Math.tan(halfFov);
+          const distW = (CARD_W * margin / 2) / (Math.tan(halfFov) * aspect);
+          camera.position.set(0, 0, Math.max(distH, distW) + CARD_D);
           camera.lookAt(0, 0, 0);
           camera.updateProjectionMatrix();
         }
         new ResizeObserver(resizePostcard).observe(postcardHost);
         resizePostcard();
 
-        // ---- drag to turn (left/right only) ----
+        // ---- states: sealed -> opening -> spinning ----
+        let state = 'sealed';
+        let openStart = 0;
+        wrap.classList.add('is-sealed');
+        postcardHost.setAttribute('tabindex', '0');
+        postcardHost.setAttribute('role', 'button');
+        postcardHost.setAttribute('aria-label', 'Envelope with a postcard inside. Press to open.');
+
+        const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+        const easeOut = (t) => 1 - Math.pow(1 - t, 3);
+        const easeBack = (t) => { const c = 1.6; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
+        const seg = (t, a, b) => THREE.MathUtils.clamp((t - a) / (b - a), 0, 1);
+        const lerp = THREE.MathUtils.lerp;
+
+        // Card starts tucked inside the envelope
+        const envTop = ENV_Y + (ENV_H / 2) * ENV_SCALE;
+        const peakY = envTop + (CARD_H / 2) * ENV_SCALE * 0.15;   // mostly out of the envelope
+        card.position.set(0, ENV_Y, 0);
+        card.scale.setScalar(ENV_SCALE);
+        env.position.set(0, ENV_Y, 0);
+        env.scale.setScalar(ENV_SCALE);
+
+        function openEnvelope() {
+          if (state !== 'sealed') return;
+          state = 'opening';
+          openStart = performance.now();
+          wrap.classList.remove('is-sealed');
+          postcardHost.removeAttribute('role');
+          postcardHost.removeAttribute('tabindex');
+          postcardHost.setAttribute('aria-label',
+            'Postcard: Family Dinner painting by Jianna Shao on the front, Wesleyan University details on the back. Drag to turn it over.');
+        }
+        postcardHost.addEventListener('click', openEnvelope);
+        postcardHost.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openEnvelope(); }
+        });
+
+        // ---- drag to turn (only once it's out) ----
         let angle = 0;
-        let velocity = reduceMotion ? 0 : AUTO_SPEED;   // radians per second
-        let dragging = false;
-        let lastX = 0;
-        let lastT = 0;
-        let dragVel = 0;
+        let velocity = reduceMotion ? 0 : AUTO_SPEED;
+        let dragging = false, lastX = 0, lastT = 0, dragVel = 0;
 
         postcardHost.addEventListener('pointerdown', (e) => {
+          if (state !== 'spinning') return;
           dragging = true;
-          lastX = e.clientX;
-          lastT = performance.now();
-          dragVel = 0;
+          lastX = e.clientX; lastT = performance.now(); dragVel = 0;
           postcardHost.classList.add('is-dragging');
           postcardHost.setPointerCapture(e.pointerId);
         });
-
         postcardHost.addEventListener('pointermove', (e) => {
           if (!dragging) return;
           const now = performance.now();
           const dx = e.clientX - lastX;
           const dt = Math.max(1, now - lastT) / 1000;
           angle += dx * DRAG_SENS;
-          // smoothed drag speed, used for the coast after release
           dragVel = dragVel * 0.6 + (dx * DRAG_SENS / dt) * 0.4;
-          lastX = e.clientX;
-          lastT = now;
+          lastX = e.clientX; lastT = now;
         });
-
         const endDrag = () => {
           if (!dragging) return;
           dragging = false;
           postcardHost.classList.remove('is-dragging');
-          // ignore stale speed if the pointer paused before letting go
           const idle = (performance.now() - lastT) / 1000;
           velocity = idle > 0.12 ? 0 : THREE.MathUtils.clamp(dragVel, -9, 9);
         };
@@ -218,28 +349,74 @@ resumeButton.addEventListener('click', async () => {
 
         // ---- animate ----
         let visible = true;
-        new IntersectionObserver((entries) => {
-          visible = entries[0].isIntersecting;
-        }).observe(postcardHost);
+        new IntersectionObserver((entries) => { visible = entries[0].isIntersecting; })
+          .observe(postcardHost);
 
         const clock = new THREE.Clock();
         const target = reduceMotion ? 0 : AUTO_SPEED;
+        const SHAKE_EVERY = 2.6;   // seconds between shakes
+        const SHAKE_LEN = 0.7;     // seconds of shaking
 
         function animatePostcard() {
           requestAnimationFrame(animatePostcard);
           const dt = Math.min(clock.getDelta(), 0.05);
           if (!visible) return;
+          const time = clock.elapsedTime;
 
-          if (!dragging) {
-            // coast: ease the release speed back to the slow auto-spin
-            // (keeps the direction the person flicked it)
-            const dir = Math.sign(velocity) || 1;
-            const goal = target * dir;
-            velocity += (goal - velocity) * (1 - Math.exp(-dt * 1.6));
-            angle += velocity * dt;
+          if (state === 'sealed') {
+            // a little shake, then rest, repeated
+            let rz = 0, by = 0;
+            if (!reduceMotion) {
+              const p = (time % SHAKE_EVERY) - (SHAKE_EVERY - SHAKE_LEN);
+              if (p > 0) {
+                const amp = Math.sin(Math.PI * (p / SHAKE_LEN));   // swell in and out
+                rz = 0.07 * amp * Math.sin(p * 34);
+                by = 0.03 * amp * Math.abs(Math.sin(p * 17));
+              }
+            }
+            env.rotation.z = rz;
+            env.position.y = ENV_Y + by;
+            card.rotation.z = rz;
+            card.position.y = ENV_Y + by;
+          } else if (state === 'opening') {
+            const t = (performance.now() - openStart) / 1000;
+            env.rotation.z = lerp(env.rotation.z, 0, 0.25);
+            card.rotation.z = env.rotation.z;
+
+            // 1) flap lifts and folds back
+            flapPivot.rotation.x = lerp(0, -Math.PI - 0.45, easeOut(seg(t, 0, 0.42)));
+
+            // 2) card slides up out of the envelope
+            const rise = ease(seg(t, 0.3, 0.8));
+            // 3) card jumps forward to the centre at full size
+            const pop = seg(t, 0.8, 1.45);
+            card.position.y = lerp(lerp(ENV_Y, peakY, rise), 0, ease(pop));
+            card.position.z = Math.sin(Math.PI * pop) * 0.35;
+            card.scale.setScalar(lerp(ENV_SCALE, 1, easeBack(pop)));
+
+            // 4) envelope drops away and fades
+            const drop = seg(t, 0.85, 1.5);
+            env.position.y = lerp(ENV_Y, ENV_Y - 0.55, ease(drop));
+            fadeMats.forEach((m) => { m.opacity = 1 - drop; });
+            outline.material.opacity = 0.3 * (1 - drop);
+
+            if (t >= 1.5) {
+              scene.remove(env);
+              card.position.set(0, 0, 0);
+              card.scale.setScalar(1);
+              card.rotation.z = 0;
+              state = 'spinning';
+              velocity = target;
+            }
+          } else {
+            if (!dragging) {
+              const dir = Math.sign(velocity) || 1;
+              velocity += (target * dir - velocity) * (1 - Math.exp(-dt * 1.6));
+              angle += velocity * dt;
+            }
+            card.rotation.y = angle;
           }
 
-          card.rotation.y = angle;
           renderer.render(scene, camera);
         }
         animatePostcard();
@@ -247,6 +424,7 @@ resumeButton.addEventListener('click', async () => {
       } catch (error) {
         // The plain image stays visible if 3D can't load.
         console.error('Postcard 3D failed to load:', error);
+        postcardHost.classList.add('is-failed');
       }
     })();
   }
