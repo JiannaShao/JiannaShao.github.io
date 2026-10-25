@@ -2232,5 +2232,6 @@ html body .hero h1.hero-name{
   font-family:'Fraunces', 'DM Serif Display', Georgia, serif !important;
   font-weight:900 !important;
   font-variation-settings:'SOFT' 100, 'WONK' 0, 'opsz' 144;
-  letter-spacing:-.025em !important;
+  letter-spacing:.005em !important;   /* a little more room between letters */
+  line-height:.94 !important;          /* and between Jianna / Shao */
 }

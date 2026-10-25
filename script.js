@@ -208,13 +208,19 @@ resumeButton.addEventListener('click', async () => {
         flapShape.lineTo(ENV_W * 0.035, -FLAP_L + 0.02);
         flapShape.quadraticCurveTo(0, -FLAP_L - 0.01, -ENV_W * 0.035, -FLAP_L + 0.02);
         flapShape.closePath();
+        // Like a real envelope, the flap is attached to the FAR panel and folds
+        // over the top edge onto the near side. Opening swings it up and back,
+        // so the card slides out in front of it.
         const flapPivot = new THREE.Group();
-        flapPivot.position.set(0, ENV_H / 2, ENV_D / 2 + 0.002);
+        flapPivot.position.set(0, ENV_H / 2, -ENV_D / 2);
+        const flapLeaf = new THREE.Group();
+        flapLeaf.position.z = ENV_D + 0.003;     // closed: lies on the near panel
+        flapPivot.add(flapLeaf);
         const flap = new THREE.Mesh(
           new THREE.ShapeGeometry(flapShape),
           mat({ color: 0xf2f0ea, side: THREE.DoubleSide })
         );
-        flapPivot.add(flap);
+        flapLeaf.add(flap);
 
         // Flap outline so it reads against the panel
         const outline = new THREE.Line(
@@ -223,7 +229,7 @@ resumeButton.addEventListener('click', async () => {
           ),
           new THREE.LineBasicMaterial({ color: 0x14253d, transparent: true, opacity: 0.3 })
         );
-        flapPivot.add(outline);
+        flapLeaf.add(outline);
 
         // Navy seal with initials
         const sealTex = canvasTex(512, 512, (g, w) => {
@@ -241,7 +247,7 @@ resumeButton.addEventListener('click', async () => {
         fadeMats.push(sealMat);
         const seal = new THREE.Mesh(new THREE.PlaneGeometry(0.36, 0.36), sealMat);
         seal.position.set(0, -FLAP_L + 0.15, 0.004);
-        flapPivot.add(seal);
+        flapLeaf.add(seal);
 
         env.add(flapPivot);
 
@@ -315,7 +321,7 @@ resumeButton.addEventListener('click', async () => {
 
         // Card starts tucked inside the envelope
         const envTop = ENV_Y + (ENV_H / 2) * ENV_SCALE;
-        const peakY = envTop + (CARD_H / 2) * ENV_SCALE * 0.15;   // mostly out of the envelope
+        const peakY = envTop + (CARD_H / 2) * ENV_SCALE + 0.04;   // fully clear of the opening
         card.position.set(0, ENV_Y, 0);
         card.scale.setScalar(ENV_SCALE);
         env.position.set(0, ENV_Y, 0);
@@ -407,24 +413,24 @@ resumeButton.addEventListener('click', async () => {
             env.rotation.z = lerp(env.rotation.z, 0, 0.25);
             card.rotation.z = env.rotation.z;
 
-            // 1) flap lifts and folds back
-            flapPivot.rotation.x = lerp(0, -Math.PI - 0.45, easeOut(seg(t, 0, 0.42)));
+            // 1) flap lifts and folds back behind the envelope
+            flapPivot.rotation.x = lerp(0, -Math.PI - 0.25, easeOut(seg(t, 0, 0.4)));
 
-            // 2) card slides up out of the envelope
-            const rise = ease(seg(t, 0.3, 0.8));
-            // 3) card jumps forward to the centre at full size
-            const pop = seg(t, 0.8, 1.45);
+            // 2) card slides straight up and fully out of the opening
+            const rise = ease(seg(t, 0.32, 1.0));
+            // 3) once clear, it comes forward to the centre at full size
+            const pop = seg(t, 1.0, 1.65);
             card.position.y = lerp(lerp(ENV_Y, peakY, rise), 0, ease(pop));
-            card.position.z = Math.sin(Math.PI * pop) * 0.35;
+            card.position.z = Math.sin(Math.PI * pop) * 0.4;
             card.scale.setScalar(lerp(ENV_SCALE, 1, easeBack(pop)));
 
             // 4) envelope drops away and fades
-            const drop = seg(t, 0.85, 1.5);
+            const drop = seg(t, 1.0, 1.7);
             env.position.y = lerp(ENV_Y, ENV_Y - 0.55, ease(drop));
             fadeMats.forEach((m) => { m.opacity = 1 - drop; });
             outline.material.opacity = 0.3 * (1 - drop);
 
-            if (t >= 1.5) {
+            if (t >= 1.75) {
               scene.remove(env);
               card.position.set(0, 0, 0);
               card.scale.setScalar(1);
