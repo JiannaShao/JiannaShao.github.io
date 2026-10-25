@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="design.css?v=3">
+    <link rel="stylesheet" href="design.css?v=4">
 
   <link rel="stylesheet" href="site-chrome.css?v=1">
 </head>
@@ -356,6 +356,66 @@
     });
 
     /* Scroll snake lives in site-chrome.js */
+
+    /* Final photos: click either to shuffle — it comes to the front
+       (bottom-right) and the other goes to the back (top-left). */
+    const finals = [...document.querySelectorAll('.final-image-grid .final-image')];
+
+    if (finals.length === 2) {
+        finals[0].classList.add('is-back');
+        finals[1].classList.add('is-front');
+
+        const BACK  = { left: '5%',  top: '8%',  rot: -4 };
+        const FRONT = { left: '37%', top: '22%', rot: 4 };
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        let busy = false;
+
+        const swap = () => {
+            if (busy) return;
+            const front = finals.find((el) => el.classList.contains('is-front'));
+            const back  = finals.find((el) => el.classList.contains('is-back'));
+
+            // Final state (what the page settles on after the animation)
+            front.classList.replace('is-front', 'is-back');
+            back.classList.replace('is-back', 'is-front');
+            finals.forEach((el) => el.setAttribute('aria-pressed', String(el.classList.contains('is-front'))));
+
+            if (reduceMotion || !back.animate) return;
+            busy = true;
+
+            const opts = { duration: 820, easing: 'cubic-bezier(.45,.05,.25,1)', fill: 'none' };
+
+            // Rising photo: slides out up-left, jumps on top, then lands in front.
+            const up = back.animate([
+                { left: BACK.left,  top: BACK.top,  transform: `rotate(${BACK.rot}deg)`,           zIndex: 1, offset: 0 },
+                { left: '-1%',      top: '2%',      transform: 'rotate(-10deg) scale(1.03)',     zIndex: 1, offset: 0.42 },
+                { left: '-1%',      top: '2%',      transform: 'rotate(-10deg) scale(1.03)',     zIndex: 3, offset: 0.43 },
+                { left: FRONT.left, top: FRONT.top, transform: `rotate(${FRONT.rot}deg)`,          zIndex: 3, offset: 1 }
+            ], opts);
+
+            // Sinking photo: nudges down-right, then settles into the back spot.
+            back.style.zIndex = '';
+            front.animate([
+                { left: FRONT.left, top: FRONT.top, transform: `rotate(${FRONT.rot}deg)`,          zIndex: 2, offset: 0 },
+                { left: '43%',      top: '27%',     transform: 'rotate(8deg) scale(.97)',        zIndex: 2, offset: 0.42 },
+                { left: '43%',      top: '27%',     transform: 'rotate(8deg) scale(.97)',        zIndex: 1, offset: 0.43 },
+                { left: BACK.left,  top: BACK.top,  transform: `rotate(${BACK.rot}deg)`,           zIndex: 1, offset: 1 }
+            ], opts);
+
+            up.onfinish = up.oncancel = () => { busy = false; };
+        };
+
+        finals.forEach((el) => {
+            el.setAttribute('role', 'button');
+            el.setAttribute('tabindex', '0');
+            el.setAttribute('aria-label', 'Bring this photo to the front');
+            el.setAttribute('aria-pressed', String(el.classList.contains('is-front')));
+            el.addEventListener('click', swap);
+            el.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); swap(); }
+            });
+        });
+    }
 })();
 </script>
 

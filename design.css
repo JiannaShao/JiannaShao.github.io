@@ -1317,3 +1317,61 @@ h2{
     object-fit:contain !important;
   }
 }
+
+/* =====================================================
+   NO HOVER ZOOM — orthographic drawing + sketch-model collage
+===================================================== */
+html body .intro-image:hover img,
+html body .design-large-image:hover img{
+    transform:none !important;
+}
+
+/* =====================================================
+   FINAL PHOTOS — click to shuffle front/back
+   Back = top-left spot, front = bottom-right spot.
+   Positions use left/top so the swap can animate.
+===================================================== */
+html body .final-image{
+    width:58% !important;
+    height:70% !important;
+    right:auto !important;
+    bottom:auto !important;
+    cursor:pointer;
+    transition:box-shadow .2s ease, translate .2s ease !important;
+    -webkit-tap-highlight-color:transparent;
+}
+html body .final-image.is-back{
+    left:5%;
+    top:8%;
+    transform:rotate(-4deg);
+    z-index:1;
+}
+html body .final-image.is-front{
+    left:37%;
+    top:22%;
+    transform:rotate(4deg);
+    z-index:2;
+}
+html body .final-image img{
+    transform:none !important;
+    pointer-events:none;
+}
+@media (hover:hover) and (pointer:fine){
+    html body .final-image:hover{
+        translate:0 -6px;
+        box-shadow:0 30px 60px rgba(38,55,70,.28) !important;
+    }
+    html body .final-image:hover img{
+        transform:none !important;
+    }
+}
+html body .final-image:focus-visible{
+    outline:3px solid #48666d;
+    outline-offset:4px;
+}
+
+@media (max-width:700px){
+    html body .final-project{
+        height:480px !important;
+    }
+}
