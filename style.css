@@ -1647,21 +1647,21 @@ button{
 
 /* Featured Projects */
 .image-design{
-  background-image:url("DesignImages/Final2.JPG") !important;
+  background-image:url("DesignImages/Final2-web.jpg") !important;
   background-size:cover !important;
   background-position:center center !important;
   background-repeat:no-repeat !important;
 }
 
 .image-art{
-  background-image:url("ArtFiles/img1.jpg") !important;
+  background-image:url("ArtFiles/img1-web.jpg") !important;
   background-size:cover !important;
   background-position:center center !important;
   background-repeat:no-repeat !important;
 }
 
 .image-research{
-  background-image:url("ResarchImages/Welding.png") !important;
+  background-image:url("ResarchImages/Welding-web.jpg") !important;
   background-size:cover !important;
   background-position:center center !important;
   background-repeat:no-repeat !important;
@@ -1671,7 +1671,7 @@ button{
 .art-card.gallery:before{
   background-image:
     linear-gradient(135deg,rgba(20,37,61,.04),rgba(20,37,61,.16)),
-    url("ArtFiles/img14.jpg") !important;
+    url("ArtFiles/img14-web.jpg") !important;
   background-size:cover !important;
   background-position:center center !important;
   background-repeat:no-repeat !important;
@@ -2118,14 +2118,18 @@ html body .hero-postcard{
   height:100%;
   cursor:grab;
   touch-action:pan-y;           /* vertical swipes still scroll the page */
+  -webkit-tap-highlight-color:transparent;
   -webkit-user-select:none;
   user-select:none;
 }
 html body .hero-postcard.is-dragging{ cursor:grabbing; }
+/* The canvas is larger than its box (set in script.js) so the envelope and
+   card can move past the box edges without being cut off; the box itself,
+   and so the page layout, stays the same size. */
 html body .hero-postcard canvas{
   display:block;
-  width:100% !important;
-  height:100% !important;
+  position:absolute;
+  pointer-events:none;
 }
 /* Shown only if 3D can't load */
 html body .hero-postcard-fallback{
@@ -2217,4 +2221,16 @@ html body .hero-postcard:focus-visible{
   html body .hero-title-row .hero-name{
     margin-top:4px !important;
   }
+}
+
+/* Let the 3D scene draw past the header box without adding sideways scroll */
+html body .hero-inner{ overflow:visible !important; }
+html body .hero{ overflow-x:clip; }
+
+/* Name in Fraunces Black (soft) — free look-alike for Ahsing */
+html body .hero h1.hero-name{
+  font-family:'Fraunces', 'DM Serif Display', Georgia, serif !important;
+  font-weight:900 !important;
+  font-variation-settings:'SOFT' 100, 'WONK' 0, 'opsz' 144;
+  letter-spacing:-.025em !important;
 }

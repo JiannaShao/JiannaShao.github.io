@@ -122,7 +122,8 @@ resumeButton.addEventListener('click', async () => {
 
         // ---- scene ----
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(22, 1, 0.1, 80);
+        const BASE_FOV = 22;
+        const camera = new THREE.PerspectiveCamera(BASE_FOV, 1, 0.1, 80);
         const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
         renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
         renderer.setClearColor(0x000000, 0);
@@ -174,17 +175,22 @@ resumeButton.addEventListener('click', async () => {
         };
 
         // Flap side faces the viewer: faint fold lines of the side and bottom flaps.
-        const panelTex = canvasTex(1024, Math.round(1024 * ENV_H / ENV_W), (g, w, h) => {
+        const panelTex = canvasTex(2048, Math.round(2048 * ENV_H / ENV_W), (g, w, h) => {
           g.fillStyle = '#f8f7f5'; g.fillRect(0, 0, w, h);
           const cx = w / 2, cy = h * 0.56;
-          g.fillStyle = 'rgba(20,37,61,0.035)';          // bottom pocket, slightly shaded
+          // bottom pocket: a soft gradient instead of a flat tint
+          const pocket = g.createLinearGradient(0, cy, 0, h);
+          pocket.addColorStop(0, 'rgba(20,37,61,0.012)');
+          pocket.addColorStop(1, 'rgba(20,37,61,0.03)');
+          g.fillStyle = pocket;
           g.beginPath(); g.moveTo(0, h); g.lineTo(cx, cy); g.lineTo(w, h); g.closePath(); g.fill();
-          g.strokeStyle = 'rgba(20,37,61,0.16)'; g.lineWidth = 3;
+          g.lineJoin = 'round'; g.lineCap = 'round';
+          g.strokeStyle = 'rgba(20,37,61,0.12)'; g.lineWidth = 5;
           g.beginPath(); g.moveTo(0, h); g.lineTo(cx, cy); g.lineTo(w, h); g.stroke();
           g.beginPath(); g.moveTo(0, 0); g.lineTo(cx * 0.92, cy * 0.98); g.stroke();
           g.beginPath(); g.moveTo(w, 0); g.lineTo(w - cx * 0.92, cy * 0.98); g.stroke();
-          g.strokeStyle = 'rgba(20,37,61,0.22)'; g.lineWidth = 4;   // crisp outer edge
-          g.strokeRect(2, 2, w - 4, h - 4);
+          g.strokeStyle = 'rgba(20,37,61,0.2)'; g.lineWidth = 6;    // crisp outer edge
+          g.strokeRect(3, 3, w - 6, h - 6);
         });
         const plainEdge = mat({ color: CREAM });
         const body = new THREE.Mesh(
@@ -206,7 +212,7 @@ resumeButton.addEventListener('click', async () => {
         flapPivot.position.set(0, ENV_H / 2, ENV_D / 2 + 0.002);
         const flap = new THREE.Mesh(
           new THREE.ShapeGeometry(flapShape),
-          mat({ color: 0xefece5, side: THREE.DoubleSide })
+          mat({ color: 0xf2f0ea, side: THREE.DoubleSide })
         );
         flapPivot.add(flap);
 
@@ -220,16 +226,16 @@ resumeButton.addEventListener('click', async () => {
         flapPivot.add(outline);
 
         // Navy seal with initials
-        const sealTex = canvasTex(256, 256, (g, w) => {
+        const sealTex = canvasTex(512, 512, (g, w) => {
           g.clearRect(0, 0, w, w);
           g.fillStyle = NAVY;
           g.beginPath(); g.arc(w / 2, w / 2, w * 0.46, 0, Math.PI * 2); g.fill();
-          g.strokeStyle = 'rgba(248,247,245,0.55)'; g.lineWidth = 5;
+          g.strokeStyle = 'rgba(248,247,245,0.55)'; g.lineWidth = 10;
           g.beginPath(); g.arc(w / 2, w / 2, w * 0.36, 0, Math.PI * 2); g.stroke();
           g.fillStyle = '#f8f7f5';
-          g.font = 'italic 92px Georgia, serif';
+          g.font = 'italic 184px Georgia, serif';
           g.textAlign = 'center'; g.textBaseline = 'middle';
-          g.fillText('JS', w / 2, w / 2 + 4);
+          g.fillText('JS', w / 2, w / 2 + 8);
         });
         const sealMat = new THREE.MeshBasicMaterial({ map: sealTex, transparent: true });
         fadeMats.push(sealMat);
@@ -240,13 +246,13 @@ resumeButton.addEventListener('click', async () => {
         env.add(flapPivot);
 
         // Soft drop shadow so the envelope lifts off the page
-        const shadowTex = canvasTex(512, 420, (g, w, h) => {
+        const shadowTex = canvasTex(1024, 840, (g, w, h) => {
           g.clearRect(0, 0, w, h);
-          g.shadowColor = 'rgba(20,37,61,0.28)';
-          g.shadowBlur = 46;
+          g.shadowColor = 'rgba(20,37,61,0.24)';
+          g.shadowBlur = 90;
           g.shadowOffsetX = w * 2;                 // draw off-canvas, keep only the blur
           g.fillStyle = '#000';
-          g.fillRect(-w * 2 + 70, 70, w - 140, h - 140);
+          g.fillRect(-w * 2 + 140, 140, w - 280, h - 280);
         });
         const shadowMat = new THREE.MeshBasicMaterial({ map: shadowTex, transparent: true, depthWrite: false });
         fadeMats.push(shadowMat);
@@ -260,20 +266,35 @@ resumeButton.addEventListener('click', async () => {
         postcardHost.classList.add('is-3d');
 
         // ---- fit to the header box (full-size card with breathing room) ----
+        // The canvas extends past the header box on every side (more above and
+        // below) so the card and envelope are never cut off mid-animation.
+        // The framing is still computed from the box itself, so the resting
+        // card sits exactly where it did; the box (and page layout) is unchanged.
+        let stillDrawn = false;   // skip redraws while the sealed envelope is at rest
+        const MOBILE = window.matchMedia('(max-width: 800px)');
         function resizePostcard() {
           const rect = postcardHost.getBoundingClientRect();
           const width = Math.max(1, rect.width);
           const height = Math.max(1, rect.height);
-          renderer.setSize(width, height, false);
-          const aspect = width / height;
-          camera.aspect = aspect;
-          const margin = 1.29;                 // ~10% smaller than before
-          const halfFov = THREE.MathUtils.degToRad(camera.fov / 2);
-          const distH = (CARD_H * margin / 2) / Math.tan(halfFov);
-          const distW = (CARD_W * margin / 2) / (Math.tan(halfFov) * aspect);
+          const padX = MOBILE.matches ? 0 : Math.round(width * 0.06);  // phones: no sideways overflow
+          const padY = Math.round(height * 0.24);
+          const cw = width + padX * 2;
+          const ch = height + padY * 2;
+          renderer.setSize(cw, ch, true);
+          renderer.domElement.style.left = `${-padX}px`;
+          renderer.domElement.style.top = `${-padY}px`;
+
+          const margin = 1.29;
+          const tanBase = Math.tan(THREE.MathUtils.degToRad(BASE_FOV / 2));
+          const boxAspect = width / height;
+          const distH = (CARD_H * margin / 2) / tanBase;
+          const distW = (CARD_W * margin / 2) / (tanBase * boxAspect);
           camera.position.set(0, 0, Math.max(distH, distW) + CARD_D);
+          camera.fov = THREE.MathUtils.radToDeg(2 * Math.atan(tanBase * ch / height));
+          camera.aspect = cw / ch;
           camera.lookAt(0, 0, 0);
           camera.updateProjectionMatrix();
+          stillDrawn = false;
         }
         new ResizeObserver(resizePostcard).observe(postcardHost);
         resizePostcard();
@@ -374,6 +395,9 @@ resumeButton.addEventListener('click', async () => {
                 by = 0.03 * amp * Math.abs(Math.sin(p * 17));
               }
             }
+            const still = rz === 0 && by === 0;
+            if (still && stillDrawn) return;      // nothing moved: don't redraw
+            stillDrawn = still;
             env.rotation.z = rz;
             env.position.y = ENV_Y + by;
             card.rotation.z = rz;
