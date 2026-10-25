@@ -2241,3 +2241,17 @@ html body .hero-name .hero-name-part{ white-space:nowrap; }
     font-size:min(72px, 19vw) !important;   /* Yeseva runs wide; keep "Jianna" on one line */
   }
 }
+
+/* Envelope shake effect (motion lines + "!"), drawn over the 3D canvas */
+html body .hero-postcard .postcard-fx{
+  position:absolute;
+  pointer-events:none;
+  overflow:visible;
+  transition:opacity .2s ease;
+}
+html body .hero-postcard .postcard-fx svg{
+  position:absolute;
+  inset:0;
+  overflow:visible;
+}
+html body .hero-postcard .postcard-fx.is-done{ opacity:0; }

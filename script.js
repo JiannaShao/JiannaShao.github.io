@@ -102,7 +102,8 @@ resumeButton.addEventListener('click', async () => {
         const wrap = postcardHost.closest('.hero-postcard-wrap') || postcardHost;
         const FRONT_SRC = 'Postcard/postcard-front.jpg';
         const BACK_SRC = 'Postcard/2.png';
-        const CREAM = 0xf8f7f5;               // card stock, sampled from the images
+        const CREAM = 0xf8f7f5;               // envelope paper
+        const CARD_EDGE = 0xeae8e2;           // postcard stock, sampled from the new card images
         const NAVY = '#14253d';
 
         const CARD_W = 1.6;                   // card is 1650 x 1275
@@ -152,10 +153,12 @@ resumeButton.addEventListener('click', async () => {
           t.anisotropy = renderer.capabilities.getMaxAnisotropy();
           return t;
         };
-        const [frontTex, backTex] = await Promise.all([loadTex(FRONT_SRC), loadTex(BACK_SRC)]);
+        const [frontTex, backTex, stampTex] = await Promise.all([
+          loadTex(FRONT_SRC), loadTex(BACK_SRC), loadTex('Postcard/EnvelopeStamp.png')
+        ]);
 
         // ---- postcard ----
-        const edgeMat = new THREE.MeshLambertMaterial({ color: CREAM });
+        const edgeMat = new THREE.MeshLambertMaterial({ color: CARD_EDGE });
         const card = new THREE.Mesh(
           new THREE.BoxGeometry(CARD_W, CARD_H, CARD_D),
           [edgeMat, edgeMat, edgeMat, edgeMat,
@@ -231,23 +234,25 @@ resumeButton.addEventListener('click', async () => {
         );
         flapLeaf.add(outline);
 
-        // Navy seal with initials
-        const sealTex = canvasTex(512, 512, (g, w) => {
-          g.clearRect(0, 0, w, w);
-          g.fillStyle = NAVY;
-          g.beginPath(); g.arc(w / 2, w / 2, w * 0.46, 0, Math.PI * 2); g.fill();
-          g.strokeStyle = 'rgba(248,247,245,0.55)'; g.lineWidth = 10;
-          g.beginPath(); g.arc(w / 2, w / 2, w * 0.36, 0, Math.PI * 2); g.stroke();
-          g.fillStyle = '#f8f7f5';
-          g.font = 'italic 184px Georgia, serif';
-          g.textAlign = 'center'; g.textBaseline = 'middle';
-          g.fillText('JS', w / 2, w / 2 + 8);
+        // Photo stamp on the flap's point (2x the old seal), with a soft shadow
+        const STAMP = 0.72;
+        const stampShadowTex = canvasTex(256, 256, (g, w) => {
+          const r = g.createRadialGradient(w / 2, w / 2, w * 0.3, w / 2, w / 2, w / 2);
+          r.addColorStop(0, 'rgba(20,37,61,0.3)');
+          r.addColorStop(1, 'rgba(20,37,61,0)');
+          g.fillStyle = r; g.fillRect(0, 0, w, w);
         });
-        const sealMat = new THREE.MeshBasicMaterial({ map: sealTex, transparent: true });
-        fadeMats.push(sealMat);
-        const seal = new THREE.Mesh(new THREE.PlaneGeometry(0.36, 0.36), sealMat);
-        seal.position.set(0, -FLAP_L + 0.15, 0.004);
-        flapLeaf.add(seal);
+        const stampShadowMat = new THREE.MeshBasicMaterial({ map: stampShadowTex, transparent: true, depthWrite: false });
+        fadeMats.push(stampShadowMat);
+        const stampShadow = new THREE.Mesh(new THREE.PlaneGeometry(STAMP * 1.2, STAMP * 1.2), stampShadowMat);
+        stampShadow.position.set(0.015, -FLAP_L + 0.3 - 0.03, 0.003);
+        flapLeaf.add(stampShadow);
+
+        const stampMat = new THREE.MeshBasicMaterial({ map: stampTex, transparent: true });
+        fadeMats.push(stampMat);
+        const stamp = new THREE.Mesh(new THREE.PlaneGeometry(STAMP, STAMP), stampMat);
+        stamp.position.set(0, -FLAP_L + 0.3, 0.006);
+        flapLeaf.add(stamp);
 
         env.add(flapPivot);
 
@@ -271,6 +276,78 @@ resumeButton.addEventListener('click', async () => {
         postcardHost.appendChild(renderer.domElement);
         postcardHost.classList.add('is-3d');
 
+        // ---- shake effect: cartoon motion lines + a "!" (2D layer over the canvas) ----
+        const fxLayer = document.createElement('div');
+        fxLayer.className = 'postcard-fx';
+        fxLayer.setAttribute('aria-hidden', 'true');
+        postcardHost.appendChild(fxLayer);
+        const SVG_NS = 'http://www.w3.org/2000/svg';
+        let fxW = 1, fxH = 1;
+        const tmpV = new THREE.Vector3();
+        const toScreen = (x, y) => {
+          tmpV.set(x, y, ENV_D / 2).applyMatrix4(env.matrixWorld).project(camera);
+          return { x: (tmpV.x + 1) / 2 * fxW, y: (1 - tmpV.y) / 2 * fxH };
+        };
+        const svgEl = (tag, attrs) => {
+          const el = document.createElementNS(SVG_NS, tag);
+          Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
+          return el;
+        };
+
+        function spawnShakeFx() {
+          env.updateMatrixWorld(true);
+          const tl = toScreen(-ENV_W / 2, ENV_H / 2);
+          const tr = toScreen(ENV_W / 2, ENV_H / 2);
+          const unit = Math.hypot(tr.x - tl.x, tr.y - tl.y) / 18;   // scales with envelope size
+          const svg = svgEl('svg', { width: fxW, height: fxH, viewBox: `0 0 ${fxW} ${fxH}` });
+          fxLayer.appendChild(svg);
+          const anims = [];
+
+          // three strokes fanning up and out from each top corner
+          [[tl, -1], [tr, 1]].forEach(([c, side]) => {
+            [-72, -42, -14].forEach((deg, i) => {
+              const a = deg * Math.PI / 180;
+              const dx = Math.cos(a) * side;
+              const dy = Math.sin(a);                       // negative = up
+              const start = unit * 0.9;
+              const len = unit * (1.6 - i * 0.2);
+              const line = svgEl('line', {
+                x1: c.x + dx * start, y1: c.y + dy * start,
+                x2: c.x + dx * (start + len), y2: c.y + dy * (start + len),
+                stroke: NAVY, 'stroke-width': Math.max(2, unit * 0.32), 'stroke-linecap': 'round'
+              });
+              svg.appendChild(line);
+              anims.push(line.animate([
+                { opacity: 0, transform: 'translate(0px, 0px)' },
+                { opacity: 1, offset: 0.2 },
+                { opacity: 0, offset: 0.75 },
+                { opacity: 0, transform: `translate(${dx * unit * 1.3}px, ${dy * unit * 1.3 - unit * 0.9}px)` }
+              ], { duration: 520, delay: i * 40, easing: 'cubic-bezier(.2,.7,.3,1)', fill: 'both' }));
+            });
+          });
+
+          // a single "!" that pops up above the middle and floats away
+          const top = toScreen(0, ENV_H / 2);
+          const u = unit;
+          const bang = svgEl('g', {});
+          bang.appendChild(svgEl('path', {
+            d: `M ${-0.34 * u} ${-3.1 * u} L ${0.34 * u} ${-3.1 * u} L ${0.2 * u} ${-1.15 * u} L ${-0.2 * u} ${-1.15 * u} Z`,
+            fill: NAVY, stroke: NAVY, 'stroke-width': Math.max(1.5, u * 0.18), 'stroke-linejoin': 'round'
+          }));
+          bang.appendChild(svgEl('circle', { cx: 0, cy: -0.45 * u, r: 0.32 * u, fill: NAVY }));
+          svg.appendChild(bang);
+          const bx = top.x + u * 0.4;
+          const by = top.y - u * 0.8;
+          anims.push(bang.animate([
+            { opacity: 0, transform: `translate(${bx}px, ${by + u}px) rotate(-10deg) scale(.5)` },
+            { opacity: 1, transform: `translate(${bx}px, ${by - u * 0.5}px) rotate(6deg) scale(1.12)`, offset: 0.3 },
+            { opacity: 1, transform: `translate(${bx}px, ${by - u * 1.0}px) rotate(8deg) scale(1.05)`, offset: 0.5 },
+            { opacity: 0, transform: `translate(${bx}px, ${by - u * 2.0}px) rotate(10deg) scale(1)` }
+          ], { duration: 640, easing: 'ease-out', fill: 'both' }));
+
+          Promise.all(anims.map((an) => an.finished)).then(() => svg.remove(), () => svg.remove());
+        }
+
         // ---- fit to the header box (full-size card with breathing room) ----
         // The canvas extends past the header box on every side (more above and
         // below) so the card and envelope are never cut off mid-animation.
@@ -289,6 +366,8 @@ resumeButton.addEventListener('click', async () => {
           renderer.setSize(cw, ch, true);
           renderer.domElement.style.left = `${-padX}px`;
           renderer.domElement.style.top = `${-padY}px`;
+          fxW = cw; fxH = ch;
+          Object.assign(fxLayer.style, { left: `${-padX}px`, top: `${-padY}px`, width: `${cw}px`, height: `${ch}px` });
 
           const margin = 1.29;
           const tanBase = Math.tan(THREE.MathUtils.degToRad(BASE_FOV / 2));
@@ -332,6 +411,7 @@ resumeButton.addEventListener('click', async () => {
           state = 'opening';
           openStart = performance.now();
           wrap.classList.remove('is-sealed');
+          fxLayer.classList.add('is-done');
           postcardHost.removeAttribute('role');
           postcardHost.removeAttribute('tabindex');
           postcardHost.setAttribute('aria-label',
@@ -383,6 +463,7 @@ resumeButton.addEventListener('click', async () => {
         const target = reduceMotion ? 0 : AUTO_SPEED;
         const SHAKE_EVERY = 2.0;   // seconds between shakes
         const SHAKE_LEN = 0.7;     // seconds of shaking
+        let lastFxCycle = -1;
 
         function animatePostcard() {
           requestAnimationFrame(animatePostcard);
@@ -399,6 +480,13 @@ resumeButton.addEventListener('click', async () => {
                 const amp = Math.sin(Math.PI * (p / SHAKE_LEN));   // swell in and out
                 rz = 0.07 * amp * Math.sin(p * 34);
                 by = 0.03 * amp * Math.abs(Math.sin(p * 17));
+              }
+            }
+            if (!reduceMotion) {
+              const cycle = Math.floor(time / SHAKE_EVERY);
+              if ((time % SHAKE_EVERY) > SHAKE_EVERY - SHAKE_LEN && cycle !== lastFxCycle) {
+                lastFxCycle = cycle;
+                spawnShakeFx();
               }
             }
             const still = rz === 0 && by === 0;
