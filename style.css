@@ -2403,3 +2403,38 @@ html body .resume-section .resume-peek .resume-open-label{
 @media (prefers-reduced-motion: reduce){
   .resume-peek-sheet{ transition:none; }
 }
+
+/* Résumé folder v2: wider and shorter, no labels; only the top of the page shows */
+html body .resume-section .resume-heading-row{
+  gap:96px !important;                 /* a little further from the heading */
+}
+@media(max-width:600px){
+  html body .resume-section .resume-heading-row{ gap:28px !important; }
+}
+html body .resume-peek-stage{
+  width:250px;
+  height:150px;
+}
+html body .resume-peek-sheet{
+  width:200px;
+  margin-left:-100px;
+  height:142px;                        /* just the top of the page */
+  aspect-ratio:auto;
+  bottom:16px;
+  border-radius:3px 3px 0 0;
+}
+html body .resume-peek-pocket{
+  height:54px;
+  border-radius:4px 4px 8px 8px;
+  clip-path:none;
+}
+@media (hover:hover) and (pointer:fine){
+  html body .resume-peek:hover .resume-peek-sheet{
+    transform:translateY(-18px) rotate(0deg);
+  }
+}
+@media(max-width:420px){
+  html body .resume-peek-stage{ width:210px; height:130px; }
+  html body .resume-peek-sheet{ width:168px; margin-left:-84px; height:120px; }
+  html body .resume-peek-pocket{ height:46px; }
+}
