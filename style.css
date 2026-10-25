@@ -2227,11 +2227,17 @@ html body .hero-postcard:focus-visible{
 html body .hero-inner{ overflow:visible !important; }
 html body .hero{ overflow-x:clip; }
 
-/* Name in Fraunces Regular (soft) — free look-alike for Ahsing */
+/* Name in Yeseva One (its only weight, already a heavy display cut) */
 html body .hero h1.hero-name{
-  font-family:'Fraunces', 'DM Serif Display', Georgia, serif !important;
+  font-family:'Yeseva One', 'DM Serif Display', Georgia, serif !important;
   font-weight:400 !important;
-  font-variation-settings:'SOFT' 100, 'WONK' 0, 'opsz' 144;
-  letter-spacing:.005em !important;   /* a little more room between letters */
-  line-height:.94 !important;          /* and between Jianna / Shao */
+  font-synthesis:style;                /* slant "Shao" as before, but never fake a bold */
+  letter-spacing:.005em !important;
+  line-height:.94 !important;
+}
+html body .hero-name .hero-name-part{ white-space:nowrap; }
+@media (max-width:480px){
+  html body .hero h1.hero-name{
+    font-size:min(72px, 19vw) !important;   /* Yeseva runs wide; keep "Jianna" on one line */
+  }
 }
