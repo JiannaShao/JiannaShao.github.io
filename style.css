@@ -2276,3 +2276,130 @@ html body .hero-name.name-intro-pending .hero-name-part{ visibility:hidden; }
 
 /* "Click to open" sits a little lower */
 html body .hero-postcard-hint{ transform:translateY(16px); }
+
+/* =====================================================
+   RESUME — a page of the résumé peeking out of a folder pocket.
+   Hover: the sheet slides up and straightens. Click: opens the viewer.
+===================================================== */
+html body .resume-section .resume-heading-row{
+  align-items:center !important;
+  margin-top:36px !important;          /* room for the sheet to rise on hover */
+}
+html body .resume-section .resume-peek{
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  gap:12px !important;
+  padding:0 !important;
+  margin:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:none !important;
+  box-shadow:none !important;
+  cursor:pointer;
+  transform:none !important;
+  -webkit-tap-highlight-color:transparent;
+}
+html body .resume-section .resume-peek:hover{ transform:none !important; }
+
+.resume-peek-stage{
+  position:relative;
+  display:block;
+  width:176px;
+  height:178px;
+}
+/* the résumé page */
+.resume-peek-sheet{
+  position:absolute;
+  left:50%;
+  bottom:30px;
+  width:138px;
+  margin-left:-69px;
+  aspect-ratio:520 / 673;
+  background:#fff;
+  border-radius:3px;
+  overflow:hidden;
+  box-shadow:0 1px 2px rgba(20,37,61,.12), 0 8px 20px rgba(20,37,61,.14);
+  transform:translateY(0) rotate(-5deg);
+  transform-origin:50% 100%;
+  transition:transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .45s ease;
+}
+.resume-peek-sheet img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:top center;
+}
+/* the folder pocket in front of it */
+.resume-peek-pocket{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:92px;
+  background:#e8ebea;
+  border:1px solid rgba(66,82,77,.16);
+  border-radius:4px 4px 8px 8px;
+  box-shadow:0 10px 22px rgba(20,37,61,.10);
+  clip-path:polygon(0 14px, 34% 14px, 40% 0, 100% 0, 100% 100%, 0 100%);
+}
+.resume-peek-pocket::before{                 /* a soft lip along the pocket's top edge */
+  content:"";
+  position:absolute;
+  left:0; right:0; top:0;
+  height:18px;
+  background:linear-gradient(rgba(255,255,255,.55), rgba(255,255,255,0));
+}
+.resume-peek-tab{
+  position:absolute;
+  left:14px;
+  bottom:12px;
+  font-family:'Work Sans', Arial, sans-serif;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:#48666d;
+}
+/* While the PDF renders, show the preview image in the viewer */
+.resume-lightbox-inner .resume-lightbox-placeholder{
+  display:block;
+  width:min(88vw, 1100px);
+  height:auto;
+  background:#fff;
+}
+
+html body .resume-section .resume-peek .resume-open-label{
+  font-size:13px !important;
+  font-weight:600 !important;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:#14253d;
+  border-bottom:1px solid rgba(20,37,61,.3);
+  padding-bottom:3px;
+  transition:border-color .2s ease, color .2s ease;
+}
+
+@media (hover:hover) and (pointer:fine){
+  .resume-peek:hover .resume-peek-sheet{
+    transform:translateY(-22px) rotate(0deg);
+    box-shadow:0 1px 2px rgba(20,37,61,.12), 0 16px 30px rgba(20,37,61,.18);
+  }
+  html body .resume-section .resume-peek:hover .resume-open-label{
+    border-color:#14253d;
+  }
+}
+.resume-peek:focus-visible{ outline:none; }
+.resume-peek:focus-visible .resume-peek-stage{
+  outline:3px solid #48666d;
+  outline-offset:6px;
+  border-radius:8px;
+}
+.resume-peek:active .resume-peek-sheet{
+  transform:translateY(-14px) rotate(0deg) scale(.98);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .resume-peek-sheet{ transition:none; }
+}

@@ -18,12 +18,53 @@
   const resumeClose = document.getElementById('resume-lightbox-close');
 
   if (resumeCanvasZoom && resumeButton && resumeLightbox && resumeClose) {
-    async function renderResume() {
+    // The viewer opens right away on click; the sharp PDF render replaces a
+    // preview image as soon as the PDF library is ready. If the library can't
+    // load at all, the click opens the PDF itself instead.
+    let drawResume = null;          // set once pdf.js has loaded the PDF
+    let resumeFailed = false;
+    let placeholder = null;
+
+    function openResume() {
+      if (resumeFailed) {
+        window.open('Resume.pdf', '_blank', 'noopener');
+        return;
+      }
+      resumeLightbox.classList.add('open');
+      resumeLightbox.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('resume-zoom-open');
+      if (drawResume) {
+        drawResume();
+      } else if (!placeholder) {
+        placeholder = document.createElement('img');
+        placeholder.className = 'resume-lightbox-placeholder';
+        placeholder.src = 'Resume-preview.jpg';
+        placeholder.alt = 'Résumé (loading full quality)';
+        resumeCanvasZoom.style.display = 'none';
+        resumeCanvasZoom.parentNode.insertBefore(placeholder, resumeCanvasZoom);
+      }
+    }
+
+    function closeResume() {
+      resumeLightbox.classList.remove('open');
+      resumeLightbox.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('resume-zoom-open');
+    }
+
+    resumeButton.addEventListener('click', openResume);
+    resumeClose.addEventListener('click', closeResume);
+    resumeLightbox.addEventListener('click', (e) => {
+      if (e.target === resumeLightbox) closeResume();
+    });
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeResume();
+    });
+
+    (async () => {
       try {
         const pdfjsLib = await import(
           'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs'
         );
-
         pdfjsLib.GlobalWorkerOptions.workerSrc =
           'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs';
 
@@ -44,43 +85,20 @@
           const ctx = canvas.getContext('2d');
           ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 
-          await page.render({
-            canvasContext: ctx,
-            viewport
-          }).promise;
-        }
-resumeButton.addEventListener('click', async () => {
-          resumeLightbox.classList.add('open');
-          resumeLightbox.setAttribute('aria-hidden', 'false');
-          document.body.classList.add('resume-zoom-open');
-
-          await draw(
-            resumeCanvasZoom,
-            Math.min(window.innerWidth * 0.88, 1100)
-          );
-        });
-
-        function closeResume() {
-          resumeLightbox.classList.remove('open');
-          resumeLightbox.setAttribute('aria-hidden', 'true');
-          document.body.classList.remove('resume-zoom-open');
+          await page.render({ canvasContext: ctx, viewport }).promise;
         }
 
-        resumeClose.addEventListener('click', closeResume);
-
-        resumeLightbox.addEventListener('click', (e) => {
-          if (e.target === resumeLightbox) closeResume();
-        });
-
-        window.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape') closeResume();
-        });
+        drawResume = async () => {
+          await draw(resumeCanvasZoom, Math.min(window.innerWidth * 0.88, 1100));
+          resumeCanvasZoom.style.display = '';
+          if (placeholder) { placeholder.remove(); placeholder = null; }
+        };
+        if (resumeLightbox.classList.contains('open')) drawResume();
       } catch (error) {
         console.error('Resume.pdf preview failed:', error);
+        resumeFailed = true;
       }
-    }
-
-    renderResume();
+    })();
   }
   /* =====================================================
      HERO POSTCARD

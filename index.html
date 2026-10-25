@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Yeseva+One&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=85">
+  <link rel="stylesheet" href="style.css?v=87">
   <link rel="stylesheet" href="site-chrome.css?v=1">
   <link rel="stylesheet" href="site-loader.css?v=1">
   <script src="site-loader.js?v=1"></script>
@@ -142,8 +142,12 @@
           <p class="eyebrow">Experience</p>
           <h2>Resume</h2>
         </div>
-        <button class="resume-preview-button resume-inline-open" id="resume-preview-button" type="button" aria-label="Open resume preview">
-          <span class="resume-open-label">Click to open</span>
+        <button class="resume-preview-button resume-inline-open resume-peek" id="resume-preview-button" type="button" aria-label="Open my résumé">
+          <span class="resume-peek-stage" aria-hidden="true">
+            <span class="resume-peek-sheet"><img src="Resume-preview.jpg" alt="" width="520" height="673" decoding="async"></span>
+            <span class="resume-peek-pocket"><span class="resume-peek-tab">Résumé</span></span>
+          </span>
+          <span class="resume-open-label">View résumé <span aria-hidden="true">→</span></span>
         </button>
       </div>
 
@@ -161,7 +165,7 @@
   </main>
 
   <footer><div class="content"><span>Jianna Shao</span><span>© 2026</span></div></footer>
-  <script src="script.js?v=99"></script>
+  <script src="script.js?v=100"></script>
   <script src="site-chrome.js?v=1"></script>
 </body>
 </html>
