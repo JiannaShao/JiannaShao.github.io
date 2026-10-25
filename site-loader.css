@@ -1,0 +1,73 @@
+/* =========================================================
+   SITE LOADER — full-screen cover shown until the page's
+   images, fonts and 3D scenes are ready (see site-loader.js).
+   ========================================================= */
+html.site-loading,
+html.site-loading body{
+  overflow:hidden !important;
+}
+
+.site-loader{
+  position:fixed;
+  inset:0;
+  z-index:100000;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:28px;
+  background:#fafafa;
+  transition:opacity .45s ease, visibility 0s linear .45s;
+}
+.site-loader.is-done{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+
+/* The sidebar's JS logo, drawing itself in */
+.site-loader-logo{
+  width:76px;
+  height:76px;
+  fill:none;
+  stroke:#42524d;
+  stroke-width:2.6;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  overflow:visible;
+}
+.site-loader-logo circle,
+.site-loader-logo path{
+  stroke-dasharray:1;
+  stroke-dashoffset:1;
+  animation:site-loader-draw .9s cubic-bezier(.6,.05,.3,1) forwards;
+}
+.site-loader-logo path:nth-of-type(1){ animation-delay:.2s; }
+.site-loader-logo path:nth-of-type(2){ animation-delay:.38s; }
+@keyframes site-loader-draw{ to{ stroke-dashoffset:0; } }
+
+/* Thin navy progress line */
+.site-loader-bar{
+  width:min(180px, 46vw);
+  height:2px;
+  border-radius:2px;
+  background:rgba(20,37,61,.12);
+  overflow:hidden;
+}
+.site-loader-bar span{
+  display:block;
+  height:100%;
+  width:100%;
+  background:#14253d;
+  transform:scaleX(0);
+  transform-origin:left center;
+  transition:transform .3s ease;
+}
+
+@media (prefers-reduced-motion: reduce){
+  .site-loader-logo circle,
+  .site-loader-logo path{
+    animation:none;
+    stroke-dashoffset:0;
+  }
+}

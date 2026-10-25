@@ -2,6 +2,17 @@ import * as THREE from "three";
 
 import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/loaders/GLTFLoader.js";
 
+// Keep the site loading screen up until the gallery's models and artwork have loaded.
+// Phones get a "best on a computer" notice instead, so they don't wait for the 3D.
+if (window.siteLoader && !window.matchMedia("(max-width: 800px), (hover: none) and (pointer: coarse)").matches) {
+    window.siteLoader.wait("gallery");
+    THREE.DefaultLoadingManager.onProgress = (url, loaded, total) => {
+        window.siteLoader.progress("gallery", total ? loaded / total : 0);
+    };
+    THREE.DefaultLoadingManager.onLoad = () => window.siteLoader.done("gallery");
+    THREE.DefaultLoadingManager.onError = () => {};
+}
+
 
 // =====================================================
 // BASIC SETUP

@@ -92,7 +92,20 @@ resumeButton.addEventListener('click', async () => {
   ===================================================== */
   const postcardHost = document.getElementById('hero-postcard');
 
+  // The name waits (hidden) for its slide-out intro; the loader waits for the 3D.
+  const heroName = document.querySelector('.hero-name');
+  const showNamePlain = () => heroName && heroName.classList.remove('name-intro-pending');
+  if (postcardHost && heroName) {
+    heroName.classList.add('name-intro-pending');
+    setTimeout(showNamePlain, 20000);            // safety net
+  }
+  const whenRevealed = (fn) => {
+    if (window.__siteRevealed || !window.siteLoader) fn();
+    else window.addEventListener('site:revealed', fn, { once: true });
+  };
+
   if (postcardHost) {
+    if (window.siteLoader) window.siteLoader.wait('postcard');
     (async () => {
       try {
         const THREE = await import(
@@ -498,6 +511,7 @@ resumeButton.addEventListener('click', async () => {
         const SHAKE_EVERY = 2.0;   // seconds between shakes
         const SHAKE_LEN = 0.7;     // seconds of shaking
         let lastFxCycle = -1;
+        let shakeT0 = Infinity;   // set when the page is revealed
         const INTRO_TURN = Math.PI;       // a quick half-turn to show the back
         const INTRO_MS = 700;
         let introStart = 0;
@@ -513,7 +527,8 @@ resumeButton.addEventListener('click', async () => {
             // a little shake, then rest, repeated
             let rz = 0, by = 0;
             if (!reduceMotion) {
-              const p = (time % SHAKE_EVERY) - (SHAKE_EVERY - SHAKE_LEN);
+              const st = time - shakeT0;         // shakes start once the page is revealed
+              const p = st < 0 ? -1 : (st % SHAKE_EVERY) - (SHAKE_EVERY - SHAKE_LEN);
               if (p > 0) {
                 const amp = Math.sin(Math.PI * (p / SHAKE_LEN));   // swell in and out
                 rz = 0.07 * amp * Math.sin(p * 34);
@@ -521,8 +536,9 @@ resumeButton.addEventListener('click', async () => {
               }
             }
             if (!reduceMotion) {
-              const cycle = Math.floor(time / SHAKE_EVERY);
-              if ((time % SHAKE_EVERY) > SHAKE_EVERY - SHAKE_LEN && cycle !== lastFxCycle) {
+              const st = time - shakeT0;
+              const cycle = Math.floor(st / SHAKE_EVERY);
+              if (st >= 0 && (st % SHAKE_EVERY) > SHAKE_EVERY - SHAKE_LEN && cycle !== lastFxCycle) {
                 lastFxCycle = cycle;
                 spawnShakeFx();
               }
@@ -590,11 +606,53 @@ resumeButton.addEventListener('click', async () => {
           renderer.render(scene, camera);
         }
         animatePostcard();
+        renderer.render(scene, camera);
+        if (window.siteLoader) window.siteLoader.done('postcard');
+
+        // ---- intro: "Jianna" and "Shao" slide out from behind the envelope ----
+        function playNameIntro() {
+          if (!heroName || reduceMotion) { showNamePlain(); shakeT0 = clock.elapsedTime; return; }
+          env.updateMatrixWorld(true);
+          const cRect = renderer.domElement.getBoundingClientRect();
+          const corners = [[-ENV_W / 2, ENV_H / 2], [ENV_W / 2, ENV_H / 2], [-ENV_W / 2, -ENV_H / 2], [ENV_W / 2, -ENV_H / 2]]
+            .map(([x, y]) => { const q = toScreen(x, y); return { x: q.x + cRect.left, y: q.y + cRect.top }; });
+          const envL = Math.min(...corners.map((c) => c.x));
+          const envR = Math.max(...corners.map((c) => c.x));
+          const envT = Math.min(...corners.map((c) => c.y));
+          const envB = Math.max(...corners.map((c) => c.y));
+          const nRect = heroName.getBoundingClientRect();
+          const stacked = envT >= nRect.bottom - 4;   // phones: envelope sits below the name
+
+          // Only show the part of the name that has come out past the envelope's edge.
+          heroName.style.clipPath = stacked
+            ? `inset(-40% -40% ${nRect.bottom - envT}px -40%)`
+            : `inset(-40% ${nRect.right - envL}px -40% -40%)`;
+          heroName.classList.remove('name-intro-pending');
+
+          const parts = [...heroName.querySelectorAll('.hero-name-part')];
+          const anims = parts.map((part, i) => {
+            const r = part.getBoundingClientRect();
+            const from = stacked
+              ? `0px ${Math.round((envT + envB) / 2 - r.top)}px`
+              : `${Math.round((envL + envR) / 2 - r.left)}px 0px`;
+            return part.animate(
+              [{ translate: from }, { translate: '0px 0px' }],
+              { duration: 1000, delay: 120 + i * 160, easing: 'cubic-bezier(.22,.8,.2,1)', fill: 'backwards' }
+            );
+          });
+          Promise.all(anims.map((a) => a.finished)).then(() => {
+            heroName.style.clipPath = '';
+          }, () => { heroName.style.clipPath = ''; });
+          shakeT0 = clock.elapsedTime + 0.9;        // first shake once the name has landed
+        }
+        whenRevealed(() => requestAnimationFrame(playNameIntro));
 
       } catch (error) {
         // The plain image stays visible if 3D can't load.
         console.error('Postcard 3D failed to load:', error);
         postcardHost.classList.add('is-failed');
+        showNamePlain();
+        if (window.siteLoader) window.siteLoader.done('postcard');
       }
     })();
   }

@@ -2264,9 +2264,15 @@ html body .hero-postcard .postcard-fx.is-done{ opacity:0; }
 /* Wider screens: smaller name so the postcard gets about half the header */
 @media (min-width:801px){
   html body .hero h1.hero-name{
-    font-size:clamp(60px, 8.4vw, 122px) !important;
+    font-size:clamp(68px, 9.6vw, 139px) !important;   /* 14% up from the reduced size */
   }
   html body .hero-postcard-wrap{
     flex:1 1 52%;
   }
 }
+
+/* Name waits hidden for its slide-out intro (script.js), then shows */
+html body .hero-name.name-intro-pending .hero-name-part{ visibility:hidden; }
+
+/* "Click to open" sits a little lower */
+html body .hero-postcard-hint{ transform:translateY(16px); }

@@ -17,10 +17,21 @@
         href="art.css?v=2"
     >
 
+  <link rel="stylesheet" href="site-loader.css?v=1">
+  <script src="site-loader.js?v=1"></script>
 </head>
 
 
 <body>
+<div id="site-loader" class="site-loader" role="status" aria-label="Loading">
+  <svg class="site-loader-logo" viewBox="0 0 64 64" aria-hidden="true">
+    <circle cx="32" cy="32" r="29" pathLength="1"></circle>
+    <path d="M20 20v17c0 7 4 11 11 11" pathLength="1"></path>
+    <path d="M44 21c-2-2-5-3-8-3-5 0-8 3-8 7 0 4 3 6 8 8 5 2 8 4 8 8 0 5-4 8-10 8-4 0-8-1-11-4" pathLength="1"></path>
+  </svg>
+  <div class="site-loader-bar"><span></span></div>
+</div>
+
 
 
     <!-- =====================================================
@@ -269,7 +280,7 @@
 
     <script
         type="module"
-        src="art.js"
+        src="art.js?v=2"
     ></script>
 
 
