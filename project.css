@@ -3825,3 +3825,57 @@ figcaption{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.5;}
   }
 }
 
+
+/* =====================================================
+   MOBILE FIXES — phones (≤700px)
+   The desktop collage grids use fixed placements; on a
+   phone they reflow into a simple two-column stack.
+===================================================== */
+@media (max-width:700px){
+  html body .subsection-heading,
+  html body .garden-subsection .subsection-heading{
+    display:block !important;
+    grid-template-columns:none !important;
+  }
+  html body .subsection-heading > *{
+    max-width:100% !important;
+    width:auto !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+  }
+  html body .subsection-heading .subsection-description{
+    margin-top:12px !important;
+  }
+
+  html body .sunpuddle-reference-grid{
+    display:grid !important;
+    grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+    grid-template-rows:none !important;
+    grid-auto-rows:auto !important;
+    grid-auto-flow:row dense !important;
+    gap:12px !important;
+    height:auto !important;
+  }
+  html body .sunpuddle-reference-grid > *{
+    grid-column:auto !important;
+    grid-row:auto !important;
+    width:auto !important;
+    height:auto !important;
+    min-height:0 !important;
+    max-width:none !important;
+    margin:0 !important;
+  }
+  html body .sunpuddle-reference-grid > figure{
+    aspect-ratio:1 / 1;
+  }
+  html body .sunpuddle-reference-grid > figure img{
+    width:100% !important;
+    height:100% !important;
+    max-height:none !important;
+    object-fit:contain !important;
+  }
+  html body .sunpuddle-reference-grid .reference-text-card{
+    grid-column:1 / -1 !important;
+    aspect-ratio:auto;
+  }
+}

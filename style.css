@@ -2078,3 +2078,15 @@ button{
   z-index:1 !important;
 }
 
+
+/* MOBILE FIXES — project cards: number above the category label */
+@media (max-width:700px){
+  html body .project-type{
+    align-self:flex-start !important;
+    margin-top:6px !important;
+    font-size:13px !important;
+  }
+  html body .project-box h3{
+    margin-top:28px !important;
+  }
+}

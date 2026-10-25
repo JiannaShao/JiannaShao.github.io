@@ -492,3 +492,104 @@ body {
         width: auto;
     }
 }
+
+
+/* =========================
+   PHONE NOTICE
+   Shown on phones / touch-only devices; the 3D room
+   needs a keyboard and mouse.
+========================= */
+
+.mobile-notice {
+    display: none;
+}
+
+@media (max-width: 800px), (hover: none) and (pointer: coarse) {
+    .mobile-notice {
+        display: flex;
+        position: fixed;
+        inset: 0;
+        z-index: 10000;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        background: rgba(20, 37, 61, 0.55);
+        -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(6px);
+    }
+
+    .mobile-notice.dismissed {
+        display: none;
+    }
+}
+
+.mobile-notice-card {
+    width: 100%;
+    max-width: 380px;
+    padding: 30px 26px 22px;
+    border-radius: 16px;
+    background: #f7f6f2;
+    color: #14253d;
+    text-align: center;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.mobile-notice-eyebrow {
+    margin: 0 0 10px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: #48666d;
+}
+
+.mobile-notice-card h2 {
+    margin: 0 0 14px;
+    font-family: Georgia, serif;
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.15;
+}
+
+.mobile-notice-text {
+    margin: 0 0 24px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #4b5a66;
+}
+
+.mobile-notice-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.mobile-notice-primary,
+.mobile-notice-secondary {
+    display: block;
+    padding: 14px 18px;
+    border-radius: 999px;
+    font-size: 15px;
+    text-decoration: none;
+}
+
+.mobile-notice-primary {
+    background: #14253d;
+    color: #ffffff;
+}
+
+.mobile-notice-secondary {
+    border: 1px solid rgba(20, 37, 61, 0.25);
+    color: #14253d;
+}
+
+.mobile-notice-link {
+    margin-top: 16px;
+    padding: 6px;
+    border: 0;
+    background: none;
+    color: #6b7782;
+    font-size: 13px;
+    text-decoration: underline;
+    cursor: pointer;
+}

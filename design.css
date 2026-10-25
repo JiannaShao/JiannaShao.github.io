@@ -1302,3 +1302,18 @@ h2{
         font-size:64px !important;
     }
 }
+
+/* MOBILE FIXES — show the whole sketch-model collage on phones */
+@media (max-width:700px){
+  html body .design-large-image{
+    height:auto !important;
+    min-height:0 !important;
+    aspect-ratio:auto !important;
+  }
+  html body .design-large-image img{
+    width:100% !important;
+    height:auto !important;
+    max-height:none !important;
+    object-fit:contain !important;
+  }
+}

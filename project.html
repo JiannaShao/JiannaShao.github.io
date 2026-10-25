@@ -7,7 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="project.css?v=21">
+  <link rel="stylesheet" href="project.css?v=22">
+  <link rel="stylesheet" href="site-chrome.css?v=1">
 </head>
 <body>
 
@@ -455,49 +456,7 @@
 
   <script>
     (() => {
-      /* =====================================================
-         SIDEBAR
-      ====================================================== */
-      const sideNav = document.getElementById('side-nav');
-
-      if (sideNav) {
-        sideNav.addEventListener('mouseenter', () => {
-          sideNav.classList.add('hover-open');
-        });
-
-        sideNav.addEventListener('mouseleave', () => {
-          sideNav.classList.remove('hover-open');
-        });
-
-        const sideBrand = document.querySelector('.side-brand');
-
-        if (sideBrand) {
-          sideBrand.addEventListener('click', (event) => {
-            if (window.matchMedia('(hover:none)').matches) {
-              event.preventDefault();
-              sideNav.classList.toggle('hover-open');
-            }
-          });
-        }
-
-        document.querySelectorAll('.side-links a').forEach((link) => {
-          link.addEventListener('click', () => {
-            if (window.matchMedia('(hover:none)').matches) {
-              sideNav.classList.remove('hover-open');
-            }
-          });
-        });
-      }
-
-      document.querySelectorAll('.side-dropdown-toggle').forEach((toggle) => {
-        toggle.addEventListener('click', () => {
-          const dropdown = toggle.closest('.side-dropdown');
-          const willOpen = !dropdown.classList.contains('is-open');
-
-          dropdown.classList.toggle('is-open', willOpen);
-          toggle.setAttribute('aria-expanded', String(willOpen));
-        });
-      });
+      /* Sidebar behaviour lives in site-chrome.js */
 
       /* =====================================================
          PROJECT 1 — SUNPUDDLE ANIMATIONS
@@ -805,84 +764,7 @@
 
       buildSketchyAnimations();
 
-      /* =====================================================
-         SCROLLING SNAKE — same build method as index
-      ====================================================== */
-      const snakeSvg = document.getElementById('snake-svg');
-      const snakeGhost = document.getElementById('snake-ghost');
-      const snakePath = document.getElementById('snake-path');
-
-      let snakeLength = 0;
-
-      function buildSnake() {
-        if (!snakeSvg || !snakeGhost || !snakePath) return;
-
-        const rect = snakeSvg.getBoundingClientRect();
-        const W = Math.max(36, rect.width || 48);
-        const H = Math.max(300, rect.height || window.innerHeight);
-
-        snakeSvg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-        snakeSvg.setAttribute('preserveAspectRatio', 'none');
-
-        const stroke = 4.5;
-        const edge = stroke / 2 + 3;
-        const radius = Math.min(8, Math.max(6, (W - edge * 2) / 4));
-
-        const leftX = edge + radius;
-        const rightX = W - edge - radius;
-
-        let y = edge + 2;
-        let d = `M ${rightX} ${y} L ${leftX} ${y}`;
-        let turnRight = true;
-
-        while (y + radius * 2 <= H - edge - 2) {
-          const nextY = y + radius * 2;
-
-          if (turnRight) {
-            d += ` A ${radius} ${radius} 0 0 1 ${rightX} ${nextY}`;
-            d += ` L ${leftX} ${nextY}`;
-          } else {
-            d += ` A ${radius} ${radius} 0 0 0 ${leftX} ${nextY}`;
-            d += ` L ${rightX} ${nextY}`;
-          }
-
-          y = nextY;
-          turnRight = !turnRight;
-        }
-
-        snakeGhost.setAttribute('d', d);
-        snakePath.setAttribute('d', d);
-
-        snakeLength = snakePath.getTotalLength();
-        snakePath.style.strokeDasharray = `${snakeLength} ${snakeLength}`;
-
-        updateSnake();
-      }
-
-      function updateSnake() {
-        if (!snakePath || !snakeLength) return;
-
-        const maxScroll = Math.max(
-          0,
-          document.documentElement.scrollHeight - window.innerHeight
-        );
-
-        let progress = maxScroll > 0 ? window.scrollY / maxScroll : 0;
-        progress = Math.max(0, Math.min(1, progress));
-
-        if (window.scrollY <= 1) progress = 0;
-        if (window.scrollY >= maxScroll - 1) progress = 1;
-
-        snakePath.style.strokeDashoffset = `${snakeLength * (1 - progress)}`;
-      }
-
-      if (snakeSvg && snakeGhost && snakePath) {
-        buildSnake();
-        requestAnimationFrame(buildSnake);
-        window.addEventListener('load', buildSnake, { once: true });
-        window.addEventListener('resize', buildSnake, { passive: true });
-        window.addEventListener('scroll', updateSnake, { passive: true });
-      }
+      /* Scroll snake lives in site-chrome.js */
 
       /* =====================================================
          SHARED IMAGE MAGNIFIER — PROJECT 2 + PROJECT 3 MAPS
@@ -956,5 +838,6 @@
       });
     })();
   </script>
+  <script src="site-chrome.js?v=1"></script>
 </body>
 </html>

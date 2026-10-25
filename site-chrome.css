@@ -1,0 +1,360 @@
+/* =========================================================
+   SITE CHROME — shared sidebar + scroll snake for every page
+   Loaded LAST on each page so it wins over older page rules.
+   (`html body` prefix raises specificity above page overrides.)
+   ========================================================= */
+
+:root{
+  --chrome-rail: 58px;
+  --chrome-open: 200px;
+  --chrome-bg: #e8ebea;
+  --chrome-ink: #42524d;
+  --chrome-snake-w: 43px;   /* 10% narrower than the old 48px */
+  --chrome-snake-inset: 12px;
+}
+
+/* ---------- Uniform scrolling ---------- */
+html{
+  scroll-behavior: smooth;
+  scrollbar-width: none;          /* the snake is the scroller */
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar{
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+/* ---------- Sidebar (desktop: rail that opens on hover) ---------- */
+html body .side-nav{
+  position: fixed !important;
+  left: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: var(--chrome-rail) !important;
+  height: auto !important;
+  background: var(--chrome-bg) !important;
+  border-right: 1px solid rgba(66,82,77,.12) !important;
+  box-shadow: none !important;
+  z-index: 6000 !important;
+  overflow: hidden !important;
+  transform: none !important;
+  transition: width .24s ease !important;
+}
+html body .side-nav.hover-open{
+  width: var(--chrome-open) !important;
+}
+
+/* thin white stripe on the sidebar's right edge */
+html body .side-nav::after{
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: auto !important;
+  width: 2px !important;
+  background: #ffffff !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+html body .side-nav > *{
+  position: relative;
+  z-index: 1;
+}
+
+html body .side-nav-inner{
+  height: 100% !important;
+  width: var(--chrome-open) !important;
+  padding: 24px 8px 28px !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  display: block !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+html body .side-brand{
+  display: block !important;
+  width: 42px !important;
+  height: 42px !important;
+  margin: 0 0 64px 0 !important;
+  padding: 0 !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform-origin: center !important;
+  transition: transform .18s ease !important;
+}
+@media (hover:hover) and (pointer:fine){
+  html body .side-brand:hover{ transform: scale(1.1) !important; }
+}
+html body .side-logo{
+  display: block !important;
+  width: 42px !important;
+  height: 42px !important;
+  fill: none !important;
+  stroke: var(--chrome-ink) !important;
+  stroke-width: 2.6 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+}
+
+html body .side-links{
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+  width: 170px !important;
+  margin: 0 !important;
+  padding: 0 0 0 14px !important;
+  opacity: 0 !important;
+  visibility: visible !important;
+  pointer-events: none !important;
+  transform: translateX(-8px) !important;
+  transition: opacity .16s ease .04s, transform .2s ease !important;
+}
+html body .side-nav.hover-open .side-links{
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: none !important;
+}
+
+html body .side-nav-item{
+  width: 100% !important;
+  margin: 0 0 30px 0 !important;
+  padding: 0 !important;
+}
+html body .side-nav-item:last-child{ margin-bottom: 0 !important; }
+
+html body .side-main-link,
+html body .side-dropdown-toggle{
+  display: block !important;
+  width: 100% !important;
+  min-height: 24px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--chrome-ink) !important;
+  font-family: 'Work Sans', Arial, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  letter-spacing: .01em !important;
+  line-height: 24px !important;
+  text-align: left !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+  opacity: 1 !important;
+  cursor: pointer;
+  transition: color .16s ease, transform .18s ease !important;
+}
+html body .side-dropdown-toggle{
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding-right: 15px !important;
+}
+html body .side-main-link:hover,
+html body .side-dropdown-toggle:hover{
+  color: #ffffff !important;
+  transform: translateX(4px) !important;
+}
+html body .side-dropdown-arrow{
+  display: inline-block !important;
+  font-size: 18px !important;
+  line-height: 1 !important;
+  transition: transform .22s ease !important;
+}
+html body .side-dropdown.is-open .side-dropdown-arrow{ transform: rotate(180deg) !important; }
+
+html body .side-submenu-wrap{
+  display: grid !important;
+  grid-template-rows: 0fr !important;
+  opacity: 0 !important;
+  margin-top: 0 !important;
+  transition: grid-template-rows .26s ease, opacity .18s ease, margin-top .26s ease !important;
+}
+html body .side-dropdown.is-open .side-submenu-wrap{
+  grid-template-rows: 1fr !important;
+  opacity: 1 !important;
+  margin-top: 13px !important;
+}
+html body .side-submenu{
+  min-height: 0 !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 11px !important;
+  padding: 0 0 0 12px !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+html body .side-submenu a{
+  display: block !important;
+  color: var(--chrome-ink) !important;
+  font-family: 'Work Sans', Arial, sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1.3 !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+  opacity: .82 !important;
+  transition: color .16s ease, transform .18s ease, opacity .16s ease !important;
+}
+html body .side-submenu a:hover{
+  color: #ffffff !important;
+  opacity: 1 !important;
+  transform: translateX(4px) !important;
+}
+html body .side-nav-toggle{ display: none !important; }
+
+/* Mobile-only pieces are hidden on desktop */
+.chrome-menu-btn,
+.chrome-scrim{ display: none; }
+
+/* ---------- Scroll snake ---------- */
+html body .scroll-snake{
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: fixed !important;
+  top: 8px !important;
+  bottom: 8px !important;
+  right: var(--chrome-snake-inset) !important;
+  left: auto !important;
+  width: var(--chrome-snake-w) !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: none !important;
+  z-index: 5500 !important;
+  pointer-events: none !important;
+  overflow: visible !important;
+}
+html body .scroll-snake svg{
+  display: block !important;
+  position: static !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: visible !important;
+  transform: none !important;
+}
+html body #snake-ghost,
+html body #snake-path{
+  fill: none !important;
+  stroke-width: 4.5 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  vector-effect: non-scaling-stroke !important;
+}
+html body #snake-ghost{
+  stroke: #d5dfdc !important;
+  opacity: 1 !important;
+}
+html body #snake-path{
+  stroke: var(--chrome-ink) !important;
+  transition: none !important;
+}
+
+/* =========================================================
+   PHONES & SMALL TABLETS
+   Sidebar becomes a slide-in menu behind a button; snake hidden.
+   ========================================================= */
+@media (max-width: 800px){
+  html body .scroll-snake{ display: none !important; }
+
+  /* content no longer needs to clear the rail or the snake */
+  html body,
+  html body.sidebar-open,
+  html body.sidebar-collapsed{
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  html body .side-nav,
+  html body .side-nav.hover-open{
+    width: 240px !important;
+    transform: translateX(-102%) !important;
+    transition: transform .28s ease !important;
+    box-shadow: none !important;
+    z-index: 7000 !important;
+  }
+  html body .side-nav.mobile-open{
+    transform: translateX(0) !important;
+    box-shadow: 0 0 40px rgba(20,37,61,.22) !important;
+  }
+  html body .side-nav-inner{
+    width: 240px !important;
+    padding: 76px 18px 28px !important;
+    overflow-y: auto !important;
+  }
+  html body .side-brand{ margin-bottom: 40px !important; }
+  html body .side-links,
+  html body .side-nav.hover-open .side-links{
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    padding-left: 4px !important;
+  }
+  html body .side-nav-item{ margin-bottom: 26px !important; }
+  html body .side-main-link,
+  html body .side-dropdown-toggle{
+    font-size: 18px !important;
+    min-height: 32px !important;
+    line-height: 32px !important;
+  }
+  html body .side-submenu a{
+    font-size: 16px !important;
+    padding: 4px 0 !important;
+  }
+
+  .chrome-menu-btn{
+    display: flex;
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 7100;
+    width: 46px;
+    height: 46px;
+    padding: 0;
+    border: 1px solid rgba(66,82,77,.14);
+    border-radius: 50%;
+    background: var(--chrome-bg);
+    box-shadow: 0 4px 14px rgba(20,37,61,.12);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .chrome-menu-btn span{
+    display: block;
+    width: 20px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--chrome-ink);
+    transition: transform .25s ease, opacity .2s ease;
+  }
+  .chrome-menu-btn[aria-expanded="true"] span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
+  .chrome-menu-btn[aria-expanded="true"] span:nth-child(2){ opacity: 0; }
+  .chrome-menu-btn[aria-expanded="true"] span:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
+
+  .chrome-scrim{
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 6900;
+    background: rgba(20,37,61,.28);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s ease;
+  }
+  .chrome-scrim.is-visible{
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  body.chrome-menu-locked{ overflow: hidden !important; }
+}
