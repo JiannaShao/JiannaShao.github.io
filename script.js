@@ -235,7 +235,8 @@ resumeButton.addEventListener('click', async () => {
         flapLeaf.add(outline);
 
         // Photo stamp on the flap's point (2x the old seal), with a soft shadow
-        const STAMP = 0.72;
+        const STAMP = 0.648;                   // 10% smaller than before
+        const STAMP_Y = -FLAP_L + 0.17;        // a little lower, over the flap's point
         const stampShadowTex = canvasTex(256, 256, (g, w) => {
           const r = g.createRadialGradient(w / 2, w / 2, w * 0.3, w / 2, w / 2, w / 2);
           r.addColorStop(0, 'rgba(20,37,61,0.3)');
@@ -245,13 +246,13 @@ resumeButton.addEventListener('click', async () => {
         const stampShadowMat = new THREE.MeshBasicMaterial({ map: stampShadowTex, transparent: true, depthWrite: false });
         fadeMats.push(stampShadowMat);
         const stampShadow = new THREE.Mesh(new THREE.PlaneGeometry(STAMP * 1.2, STAMP * 1.2), stampShadowMat);
-        stampShadow.position.set(0.015, -FLAP_L + 0.3 - 0.03, 0.003);
+        stampShadow.position.set(0.015, STAMP_Y - 0.03, 0.003);
         flapLeaf.add(stampShadow);
 
         const stampMat = new THREE.MeshBasicMaterial({ map: stampTex, transparent: true });
         fadeMats.push(stampMat);
         const stamp = new THREE.Mesh(new THREE.PlaneGeometry(STAMP, STAMP), stampMat);
-        stamp.position.set(0, -FLAP_L + 0.3, 0.006);
+        stamp.position.set(0, STAMP_Y, 0.006);
         flapLeaf.add(stamp);
 
         env.add(flapPivot);
@@ -294,6 +295,19 @@ resumeButton.addEventListener('click', async () => {
           return el;
         };
 
+        // Spots around the top of the envelope (local x, y) with the direction the
+        // lines flick (screen degrees; negative = up). Each shake uses the next pair.
+        const FX_SPOTS = {
+          tl:   { x: -ENV_W / 2,    y: ENV_H / 2,        dir: -135 },
+          tr:   { x:  ENV_W / 2,    y: ENV_H / 2,        dir: -45 },
+          topL: { x: -ENV_W * 0.28, y: ENV_H / 2,        dir: -100 },
+          topR: { x:  ENV_W * 0.02, y: ENV_H / 2,        dir: -80 },
+          sideL:{ x: -ENV_W / 2,    y: ENV_H * 0.22,     dir: -165 },
+          sideR:{ x:  ENV_W / 2,    y: ENV_H * 0.22,     dir: -15 }
+        };
+        const FX_PAIRS = [['tl', 'tr'], ['topL', 'sideR'], ['sideL', 'tr'], ['tl', 'topR'], ['topL', 'sideR'], ['sideL', 'topR']];
+        let fxTurn = 0;
+
         function spawnShakeFx() {
           env.updateMatrixWorld(true);
           const tl = toScreen(-ENV_W / 2, ENV_H / 2);
@@ -303,31 +317,34 @@ resumeButton.addEventListener('click', async () => {
           fxLayer.appendChild(svg);
           const anims = [];
 
-          // three strokes fanning up and out from each top corner
-          [[tl, -1], [tr, 1]].forEach(([c, side]) => {
-            [-72, -42, -14].forEach((deg, i) => {
-              const a = deg * Math.PI / 180;
-              const dx = Math.cos(a) * side;
-              const dy = Math.sin(a);                       // negative = up
-              const start = unit * 0.9;
-              const len = unit * (1.6 - i * 0.2);
+          // short strokes fanning out from this shake's two spots
+          const pair = FX_PAIRS[fxTurn++ % FX_PAIRS.length];
+          pair.forEach((key) => {
+            const spot = FX_SPOTS[key];
+            const c = toScreen(spot.x, spot.y);
+            [-26, 0, 26].forEach((spread, i) => {
+              const a = (spot.dir + spread) * Math.PI / 180;
+              const dx = Math.cos(a);
+              const dy = Math.sin(a);
+              const start = unit * 0.7;
+              const len = unit * (i === 1 ? 1.05 : 0.8);      // middle stroke a touch longer
               const line = svgEl('line', {
                 x1: c.x + dx * start, y1: c.y + dy * start,
                 x2: c.x + dx * (start + len), y2: c.y + dy * (start + len),
-                stroke: NAVY, 'stroke-width': Math.max(2, unit * 0.32), 'stroke-linecap': 'round'
+                stroke: NAVY, 'stroke-width': Math.max(2, unit * 0.3), 'stroke-linecap': 'round'
               });
               svg.appendChild(line);
               anims.push(line.animate([
                 { opacity: 0, transform: 'translate(0px, 0px)' },
                 { opacity: 1, offset: 0.2 },
                 { opacity: 0, offset: 0.75 },
-                { opacity: 0, transform: `translate(${dx * unit * 1.3}px, ${dy * unit * 1.3 - unit * 0.9}px)` }
+                { opacity: 0, transform: `translate(${dx * unit * 1.1}px, ${dy * unit * 1.1 - unit * 0.5}px)` }
               ], { duration: 520, delay: i * 40, easing: 'cubic-bezier(.2,.7,.3,1)', fill: 'both' }));
             });
           });
 
-          // a single "!" that pops up above the middle and floats away
-          const top = toScreen(0, ENV_H / 2);
+          // a "!" a little right of centre, tilted to the right
+          const top = toScreen(ENV_W * 0.2, ENV_H / 2);
           const u = unit;
           const bang = svgEl('g', {});
           bang.appendChild(svgEl('path', {
@@ -336,13 +353,13 @@ resumeButton.addEventListener('click', async () => {
           }));
           bang.appendChild(svgEl('circle', { cx: 0, cy: -0.45 * u, r: 0.32 * u, fill: NAVY }));
           svg.appendChild(bang);
-          const bx = top.x + u * 0.4;
-          const by = top.y - u * 0.8;
+          const bx = top.x;
+          const by = top.y - u * 0.6;
           anims.push(bang.animate([
-            { opacity: 0, transform: `translate(${bx}px, ${by + u}px) rotate(-10deg) scale(.5)` },
-            { opacity: 1, transform: `translate(${bx}px, ${by - u * 0.5}px) rotate(6deg) scale(1.12)`, offset: 0.3 },
-            { opacity: 1, transform: `translate(${bx}px, ${by - u * 1.0}px) rotate(8deg) scale(1.05)`, offset: 0.5 },
-            { opacity: 0, transform: `translate(${bx}px, ${by - u * 2.0}px) rotate(10deg) scale(1)` }
+            { opacity: 0, transform: `translate(${bx}px, ${by + u}px) rotate(4deg) scale(.5)` },
+            { opacity: 1, transform: `translate(${bx}px, ${by - u * 0.5}px) rotate(16deg) scale(1.12)`, offset: 0.3 },
+            { opacity: 1, transform: `translate(${bx}px, ${by - u * 1.0}px) rotate(14deg) scale(1.05)`, offset: 0.5 },
+            { opacity: 0, transform: `translate(${bx}px, ${by - u * 2.0}px) rotate(14deg) scale(1)` }
           ], { duration: 640, easing: 'ease-out', fill: 'both' }));
 
           Promise.all(anims.map((an) => an.finished)).then(() => svg.remove(), () => svg.remove());
@@ -429,6 +446,7 @@ resumeButton.addEventListener('click', async () => {
 
         postcardHost.addEventListener('pointerdown', (e) => {
           if (state !== 'spinning') return;
+          introStart = 0;
           dragging = true;
           lastX = e.clientX; lastT = performance.now(); dragVel = 0;
           postcardHost.classList.add('is-dragging');
@@ -464,6 +482,10 @@ resumeButton.addEventListener('click', async () => {
         const SHAKE_EVERY = 2.0;   // seconds between shakes
         const SHAKE_LEN = 0.7;     // seconds of shaking
         let lastFxCycle = -1;
+        const INTRO_TURN = Math.PI * 3;   // one and a half turns, ending on the back
+        const INTRO_MS = 1100;
+        let introStart = 0;
+        let introFrom = 0;
 
         function animatePostcard() {
           requestAnimationFrame(animatePostcard);
@@ -524,10 +546,21 @@ resumeButton.addEventListener('click', async () => {
               card.scale.setScalar(1);
               card.rotation.z = 0;
               state = 'spinning';
-              velocity = target;
+              // whip round fast to show the back, then ease into the slow spin
+              if (!reduceMotion) {
+                introStart = performance.now();
+                introFrom = angle;
+                velocity = 0;
+              } else {
+                velocity = target;
+              }
             }
           } else {
-            if (!dragging) {
+            if (introStart && !dragging) {
+              const k = Math.min(1, (performance.now() - introStart) / INTRO_MS);
+              angle = introFrom + INTRO_TURN * (1 - Math.pow(1 - k, 3));   // fast, then slows
+              if (k >= 1) introStart = 0;          // hand over to the normal spin below
+            } else if (!dragging) {
               const dir = Math.sign(velocity) || 1;
               velocity += (target * dir - velocity) * (1 - Math.exp(-dt * 1.6));
               angle += velocity * dt;
