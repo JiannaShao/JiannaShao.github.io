@@ -2260,3 +2260,13 @@ html body .hero-postcard .postcard-fx.is-done{ opacity:0; }
 @media (max-width:800px){
   html body .hero-postcard-hint{ bottom:-22px; }
 }
+
+/* Wider screens: smaller name so the postcard gets about half the header */
+@media (min-width:801px){
+  html body .hero h1.hero-name{
+    font-size:clamp(60px, 8.4vw, 122px) !important;
+  }
+  html body .hero-postcard-wrap{
+    flex:1 1 52%;
+  }
+}
