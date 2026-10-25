@@ -2171,14 +2171,14 @@ html body .hero{
   min-height:100vh !important;
 }
 html body .hero-content{
-  padding-top:56px !important;
+  padding-top:max(56px, calc(136px - 5vh)) !important;   /* ~5% higher than the original spot */
   padding-bottom:40px !important;
 }
 html body .hero-title-row{
   align-items:flex-start !important;
 }
 html body .hero-title-row .hero-name{
-  margin-top:clamp(24px, 6vh, 70px) !important;
+  margin-top:clamp(40px, 20vh, 220px) !important;
 }
 
 /* "Click to open" — sits under the envelope, fades once opened */

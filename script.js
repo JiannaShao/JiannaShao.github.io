@@ -110,11 +110,11 @@ resumeButton.addEventListener('click', async () => {
         const CARD_D = 0.018;
 
         // Envelope is a little larger than the card so it fits inside.
-        const ENV_W = CARD_W * 1.1;
+        const ENV_W = CARD_W * 1.24;           // wider envelope
         const ENV_H = CARD_H * 1.12;
         const ENV_D = 0.06;
         const ENV_SCALE = 0.62;               // envelope + card start smaller...
-        const ENV_Y = -0.2;                   // ...and low, so the card can rise out in frame
+        const ENV_Y = -0.27;                  // ...and low, so the card can rise out in frame
 
         const AUTO_SPEED = 0.35;              // radians per second
         const DRAG_SENS = 0.0105;
@@ -195,7 +195,7 @@ resumeButton.addEventListener('click', async () => {
         env.add(body);
 
         // Flap: triangle hinged on the top edge of the front panel.
-        const FLAP_L = ENV_H * 0.58;
+        const FLAP_L = ENV_H * 0.64;
         const flapShape = new THREE.Shape();
         flapShape.moveTo(-ENV_W / 2, 0);
         flapShape.lineTo(ENV_W / 2, 0);
@@ -233,8 +233,8 @@ resumeButton.addEventListener('click', async () => {
         });
         const sealMat = new THREE.MeshBasicMaterial({ map: sealTex, transparent: true });
         fadeMats.push(sealMat);
-        const seal = new THREE.Mesh(new THREE.PlaneGeometry(0.26, 0.26), sealMat);
-        seal.position.set(0, -FLAP_L + 0.13, 0.004);
+        const seal = new THREE.Mesh(new THREE.PlaneGeometry(0.36, 0.36), sealMat);
+        seal.position.set(0, -FLAP_L + 0.15, 0.004);
         flapPivot.add(seal);
 
         env.add(flapPivot);
@@ -354,7 +354,7 @@ resumeButton.addEventListener('click', async () => {
 
         const clock = new THREE.Clock();
         const target = reduceMotion ? 0 : AUTO_SPEED;
-        const SHAKE_EVERY = 2.6;   // seconds between shakes
+        const SHAKE_EVERY = 2.0;   // seconds between shakes
         const SHAKE_LEN = 0.7;     // seconds of shaking
 
         function animatePostcard() {
