@@ -2090,3 +2090,67 @@ button{
     margin-top:28px !important;
   }
 }
+
+/* =====================================================
+   HERO POSTCARD — replaces the text sardine can.
+   The box stretches with the screen; the 3D card is
+   always scaled to fit inside it.
+===================================================== */
+html body .hero-title-row{
+  display:flex !important;
+  align-items:center !important;
+  gap:clamp(16px, 3vw, 48px) !important;
+}
+html body .hero-title-row .hero-name{
+  flex:0 0 auto !important;
+}
+html body .hero-postcard-wrap{
+  position:relative;
+  z-index:1;
+  flex:1 1 auto;
+  min-width:0;
+  height:clamp(280px, 54vh, 500px);
+  margin:0;
+}
+html body .hero-postcard{
+  position:relative;
+  width:100%;
+  height:100%;
+  cursor:grab;
+  touch-action:pan-y;           /* vertical swipes still scroll the page */
+  -webkit-user-select:none;
+  user-select:none;
+}
+html body .hero-postcard.is-dragging{ cursor:grabbing; }
+html body .hero-postcard canvas{
+  display:block;
+  width:100% !important;
+  height:100% !important;
+}
+/* Shown only if 3D can't load */
+html body .hero-postcard-fallback{
+  position:absolute;
+  inset:0;
+  margin:auto;
+  max-width:88%;
+  max-height:88%;
+  object-fit:contain;
+  border-radius:4px;
+  box-shadow:0 18px 40px rgba(20,37,61,.18);
+  transform:rotate(-3deg);
+}
+html body .hero-postcard.is-3d .hero-postcard-fallback{ display:none; }
+
+/* Phones: postcard sits below the name, full width */
+@media (max-width:800px){
+  html body .hero-title-row{
+    display:block !important;
+  }
+  html body .hero-postcard-wrap{
+    width:100%;
+    height:auto;
+    aspect-ratio:5 / 4;
+    max-height:58vh;
+    margin:18px 0 26px;
+  }
+}

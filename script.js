@@ -83,1367 +83,170 @@ resumeButton.addEventListener('click', async () => {
     renderResume();
   }
   /* =====================================================
-     SIDE-VIEW TEXT FISH — REFERENCE LAYOUT V3
-     This fully replaces the old fish generator.
+     HERO POSTCARD
+     A thin card (box) with the front painting on one face
+     and the back of the postcard on the other. Spins slowly
+     on its own; drag left/right to turn it, and it coasts
+     back into the slow spin after you let go.
   ===================================================== */
-  const fishHost = document.getElementById('text-fish-3d');
+  const postcardHost = document.getElementById('hero-postcard');
 
-  if (fishHost) {
+  if (postcardHost) {
     (async () => {
       try {
         const THREE = await import(
           'https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js'
         );
 
-        fishHost.innerHTML = '';
+        const FRONT_SRC = 'Postcard/postcard-front.jpg';
+        const BACK_SRC = 'Postcard/2.png';
+        const EDGE_COLOR = 0xf8f7f5;          // card-stock colour sampled from the images
+        const CARD_W = 1.6;                   // card is 1650 x 1275 (≈ 1.294 : 1)
+        const CARD_H = CARD_W * (1275 / 1650);
+        const CARD_D = 0.018;                 // very thin
 
+        const AUTO_SPEED = 0.35;              // radians per second (slow spin)
+        const DRAG_SENS = 0.0105;             // radians per pixel dragged
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // ---- scene ----
         const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(28, 1, 0.1, 50);
 
-        /* Orthographic camera tilted 10 degrees left and 15 degrees lower. */
-        const camera = new THREE.OrthographicCamera(
-          -6.7,
-          6.7,
-          3.8,
-          -3.8,
-          0.1,
-          100
-        );
-
-        camera.position.set(
-          -2.013,
-          -3.106,
-          11.415
-        );
-
-        camera.lookAt(
-          0,
-          0,
-          0
-        );
-
-        const renderer = new THREE.WebGLRenderer({
-          alpha: true,
-          antialias: true
-        });
-
-        renderer.setPixelRatio(
-          Math.min(window.devicePixelRatio || 1, 2)
-        );
-
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
         renderer.setClearColor(0x000000, 0);
-        fishHost.appendChild(renderer.domElement);
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
 
-        const fishGroup = new THREE.Group();
+        // ---- textures ----
+        const loader = new THREE.TextureLoader();
+        const loadTex = (src) => new Promise((resolve, reject) => {
+          loader.load(src, (tex) => {
+            tex.colorSpace = THREE.SRGBColorSpace;
+            tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+            resolve(tex);
+          }, undefined, reject);
+        });
+        const [frontTex, backTex] = await Promise.all([loadTex(FRONT_SRC), loadTex(BACK_SRC)]);
 
-        /*
-          Smaller, less wide, and farther right than the prior version.
-        */
-        fishGroup.scale.set(
-          0.95,
-          1.15,
-          1
+        // ---- card ----
+        // Faces show the artwork in true colour; the thin edges are lit so
+        // the card reads as a physical object while it turns.
+        const edgeMat = new THREE.MeshLambertMaterial({ color: EDGE_COLOR });
+        const frontMat = new THREE.MeshBasicMaterial({ map: frontTex });
+        const backMat = new THREE.MeshBasicMaterial({ map: backTex });
+
+        // BoxGeometry face order: +x, -x, +y, -y, +z (front), -z (back)
+        const card = new THREE.Mesh(
+          new THREE.BoxGeometry(CARD_W, CARD_H, CARD_D),
+          [edgeMat, edgeMat, edgeMat, edgeMat, frontMat, backMat]
         );
-
-        fishGroup.position.set(
-          0.90,
-          0.02,
-          0
-        );
-
-        fishGroup.rotation.set(0, 0, 0);
-        scene.add(fishGroup);
-
-        const FISH_TEXT = 'SWIMEAT';
-
-        const frontColor = '#85a4ab';
-        const sideColor = '#48666d';
-        const darkColor = '#2f484f';
-        const navyColor = '#14253d';
-        const lightColor = '#e1ebe7';
-
-        /*
-          The actual letters are at least 5px larger than before.
-          Previous fish used 90px. This uses 105px.
-        */
-        const LETTER_FONT_PX = 140;
-
-        /*
-          Block geometry itself stays compact.
-          Blue/J/S areas use slightly larger blocks.
-        */
-        const SMALL_BLOCK_SIZE = 0.14;
-        const LARGE_BLOCK_SIZE = 0.19;
-
-        /*
-          Exactly three text layers.
-          All layers share the same X/Y position.
-          Depth spacing is increased so the layers separate in Z only.
-        */
-        const TEXT_LAYERS = [
-          { z:  0.34, x: 0, y: 0 },
-          { z:  0.00, x: 0, y: 0 },
-          { z: -0.34, x: 0, y: 0 }
-        ];
-
-        let letterIndex = 0;
-
-        function nextLetter() {
-          const ch =
-            FISH_TEXT[
-              letterIndex %
-              FISH_TEXT.length
-            ];
-
-          letterIndex++;
-          return ch;
-        }
-
-        function randomColor() {
-          const r = Math.random();
-
-          if (r < 0.34) return frontColor;
-          if (r < 0.60) return sideColor;
-          if (r < 0.80) return darkColor;
-          if (r < 0.92) return navyColor;
-
-          return lightColor;
-        }
-
-        const textureCache = new Map();
-
-        function makeLetterTexture(
-          letter,
-          color,
-          fontPx = LETTER_FONT_PX
-        ) {
-          const roundedFontPx =
-            Math.round(fontPx);
-
-          const key =
-            `${letter}-${color}-${roundedFontPx}`;
-
-          if (textureCache.has(key)) {
-            return textureCache.get(key);
-          }
-
-          const canvas =
-            document.createElement('canvas');
-
-          canvas.width = 128;
-          canvas.height = 128;
-
-          const ctx =
-            canvas.getContext('2d');
-
-          ctx.clearRect(
-            0,
-            0,
-            128,
-            128
-          );
-
-          ctx.font =
-            `700 ${roundedFontPx}px Georgia, serif`;
-
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillStyle = color;
-
-          ctx.fillText(
-            letter,
-            64,
-            66
-          );
-
-          const texture =
-            new THREE.CanvasTexture(canvas);
-
-          texture.colorSpace =
-            THREE.SRGBColorSpace;
-
-          texture.minFilter =
-            THREE.LinearFilter;
-
-          texture.magFilter =
-            THREE.LinearFilter;
-
-          textureCache.set(
-            key,
-            texture
-          );
-
-          return texture;
-        }
-
-        const smallGeometry =
-          new THREE.BoxGeometry(
-            SMALL_BLOCK_SIZE,
-            SMALL_BLOCK_SIZE,
-            0.035
-          );
-
-        const largeGeometry =
-          new THREE.BoxGeometry(
-            LARGE_BLOCK_SIZE,
-            LARGE_BLOCK_SIZE,
-            0.035
-          );
-
-        const textMeshes = [];
-
-        function addBlock(
-          x,
-          y,
-          size,
-          z,
-          color = null,
-          rotation = 0,
-          lockColor = false,
-          fontPxOverride = null
-        ) {
-          const resolvedColor =
-            color || randomColor();
-
-          const mesh =
-            new THREE.Mesh(
-              size === LARGE_BLOCK_SIZE
-                ? largeGeometry
-                : smallGeometry,
-
-              new THREE.MeshBasicMaterial({
-                map: makeLetterTexture(
-                  nextLetter(),
-                  resolvedColor,
-                  fontPxOverride !== null
-                    ? fontPxOverride
-                    : (
-                        LETTER_FONT_PX +
-                        (
-                          Math.random() *
-                          30 -
-                          10
-                        )
-                      )
-                ),
-                transparent: true,
-                depthWrite: true,
-                side: THREE.DoubleSide
-              })
-            );
-
-          mesh.position.set(
-            x,
-            y,
-            z
-          );
-
-          mesh.rotation.set(
-            0,
-            0,
-            rotation
-          );
-
-          mesh.userData.lockColor =
-            lockColor
-              ? resolvedColor
-              : null;
-
-          fishGroup.add(mesh);
-          textMeshes.push(mesh);
-        }
-
-        function addFourLayers(
-          x,
-          y,
-          size,
-          color = null,
-          rotation = 0,
-          lockColor = false,
-          fontPxOverride = null
-        ) {
-          TEXT_LAYERS.forEach((layer) => {
-            addBlock(
-              x + layer.x,
-              y + layer.y,
-              size,
-              layer.z,
-              color,
-              rotation,
-              lockColor,
-              fontPxOverride
-            );
-          });
-        }
-
-        function drawLine(
-          x1,
-          y1,
-          x2,
-          y2,
-          spacing,
-          size,
-          color = null,
-          lockColor = false
-        ) {
-          const dx = x2 - x1;
-          const dy = y2 - y1;
-
-          const distance =
-            Math.hypot(dx, dy);
-
-          const steps =
-            Math.max(
-              1,
-              Math.ceil(
-                distance / spacing
-              )
-            );
-
-          const angle =
-            Math.atan2(dy, dx);
-
-          for (
-            let i = 0;
-            i <= steps;
-            i++
-          ) {
-            const t =
-              i / steps;
-
-            addFourLayers(
-              x1 + dx * t,
-              y1 + dy * t,
-              size,
-              color,
-              angle,
-              lockColor
-            );
-          }
-        }
-
-        function drawCurve(
-          pointFunction,
-          steps,
-          size,
-          color = null,
-          lockColor = false
-        ) {
-          for (
-            let i = 0;
-            i <= steps;
-            i++
-          ) {
-            const t =
-              i / steps;
-
-            const p =
-              pointFunction(t);
-
-            const q =
-              pointFunction(
-                Math.min(
-                  1,
-                  t + 0.01
-                )
-              );
-
-            const angle =
-              Math.atan2(
-                q.y - p.y,
-                q.x - p.x
-              );
-
-            addFourLayers(
-              p.x,
-              p.y,
-              size,
-              color,
-              angle,
-              lockColor
-            );
-          }
-        }
-
-        function outerBorderFontPx() {
-          const amount =
-            5 +
-            Math.random() *
-            25;
-
-          const direction =
-            Math.random() < 0.5
-              ? -1
-              : 1;
-
-          return (
-            LETTER_FONT_PX +
-            direction *
-            amount
-          );
-        }
-
-        function drawOuterLine(
-          x1,
-          y1,
-          x2,
-          y2,
-          spacing,
-          size
-        ) {
-          const dx =
-            x2 - x1;
-
-          const dy =
-            y2 - y1;
-
-          const distance =
-            Math.hypot(
-              dx,
-              dy
-            );
-
-          const steps =
-            Math.max(
-              1,
-              Math.ceil(
-                distance /
-                spacing
-              )
-            );
-
-          const angle =
-            Math.atan2(
-              dy,
-              dx
-            );
-
-          for (
-            let i = 0;
-            i <= steps;
-            i++
-          ) {
-            const t =
-              i /
-              steps;
-
-            addFourLayers(
-              x1 + dx * t,
-              y1 + dy * t,
-              size,
-              null,
-              angle,
-              false,
-              outerBorderFontPx()
-            );
-          }
-        }
-
-        function drawOuterCurve(
-          pointFunction,
-          steps,
-          size
-        ) {
-          for (
-            let i = 0;
-            i <= steps;
-            i++
-          ) {
-            const t =
-              i /
-              steps;
-
-            const p =
-              pointFunction(t);
-
-            const q =
-              pointFunction(
-                Math.min(
-                  1,
-                  t + 0.01
-                )
-              );
-
-            const angle =
-              Math.atan2(
-                q.y - p.y,
-                q.x - p.x
-              );
-
-            addFourLayers(
-              p.x,
-              p.y,
-              size,
-              null,
-              angle,
-              false,
-              outerBorderFontPx()
-            );
-          }
-        }
-
-        function roundedRect(
-          cx,
-          cy,
-          width,
-          height,
-          radius,
-          size,
-          outerBorder = false
-        ) {
-          const left =
-            cx - width / 2;
-
-          const right =
-            cx + width / 2;
-
-          const top =
-            cy + height / 2;
-
-          const bottom =
-            cy - height / 2;
-
-          (outerBorder ? drawOuterLine : drawLine)(
-            left + radius,
-            top,
-            right - radius,
-            top,
-            0.17,
-            size
-          );
-
-          (outerBorder ? drawOuterLine : drawLine)(
-            right,
-            top - radius,
-            right,
-            bottom + radius,
-            0.17,
-            size
-          );
-
-          (outerBorder ? drawOuterLine : drawLine)(
-            right - radius,
-            bottom,
-            left + radius,
-            bottom,
-            0.17,
-            size
-          );
-
-          (outerBorder ? drawOuterLine : drawLine)(
-            left,
-            bottom + radius,
-            left,
-            top - radius,
-            0.17,
-            size
-          );
-
-          const corners = [
-            [right - radius, top - radius, 0, Math.PI / 2],
-            [left + radius, top - radius, Math.PI / 2, Math.PI],
-            [left + radius, bottom + radius, Math.PI, Math.PI * 1.5],
-            [right - radius, bottom + radius, Math.PI * 1.5, Math.PI * 2]
-          ];
-
-          corners.forEach(
-            ([
-              ccx,
-              ccy,
-              a1,
-              a2
-            ]) => {
-              (outerBorder ? drawOuterCurve : drawCurve)(
-                (t) => {
-                  const a =
-                    a1 +
-                    (
-                      a2 -
-                      a1
-                    ) *
-                    t;
-
-                  return {
-                    x:
-                      ccx +
-                      Math.cos(a) *
-                      radius,
-
-                    y:
-                      ccy +
-                      Math.sin(a) *
-                      radius
-                  };
-                },
-                6,
-                size
-              );
-            }
-          );
-        }
-
-        function fillGrid(
-          minX,
-          maxX,
-          minY,
-          maxY,
-          spacing,
-          size,
-          color,
-          contains
-        ) {
-          let row = 0;
-
-          for (
-            let y = minY;
-            y <= maxY;
-            y += spacing
-          ) {
-            const stagger =
-              row % 2
-                ? spacing * 0.5
-                : 0;
-
-            for (
-              let x = minX + stagger;
-              x <= maxX;
-              x += spacing
-            ) {
-              if (
-                contains(
-                  x,
-                  y
-                )
-              ) {
-                addFourLayers(
-                  x,
-                  y,
-                  size,
-                  color,
-                  0,
-                  false
-                );
-              }
-            }
-
-            row++;
-          }
-        }
-
-        function fillEllipse(
-          cx,
-          cy,
-          rx,
-          ry,
-          spacing,
-          size,
-          color
-        ) {
-          fillGrid(
-            cx - rx,
-            cx + rx,
-            cy - ry,
-            cy + ry,
-            spacing,
-            size,
-            color,
-            (x, y) => {
-              const nx =
-                (x - cx) / rx;
-
-              const ny =
-                (y - cy) / ry;
-
-              return (
-                nx * nx +
-                ny * ny
-              ) <= 1;
-            }
-          );
-        }
-
-        function pointsOnCatmull(
-          coords,
-          divisions
-        ) {
-          const curve =
-            new THREE.CatmullRomCurve3(
-              coords.map(
-                ([x, y]) =>
-                  new THREE.Vector3(
-                    x,
-                    y,
-                    0
-                  )
-              ),
-              false,
-              'centripetal'
-            );
-
-          return curve
-            .getPoints(divisions)
-            .map((p) => ({
-              x: p.x,
-              y: p.y
-            }));
-        }
-
-        function fillStroke(
-          points,
-          radius,
-          spacing,
-          size,
-          color
-        ) {
-          let minX = Infinity;
-          let maxX = -Infinity;
-          let minY = Infinity;
-          let maxY = -Infinity;
-
-          points.forEach((p) => {
-            minX = Math.min(minX, p.x);
-            maxX = Math.max(maxX, p.x);
-            minY = Math.min(minY, p.y);
-            maxY = Math.max(maxY, p.y);
-          });
-
-          fillGrid(
-            minX - radius,
-            maxX + radius,
-            minY - radius,
-            maxY + radius,
-            spacing,
-            size,
-            color,
-            (x, y) => {
-              let nearest = Infinity;
-
-              points.forEach((p) => {
-                const dx = x - p.x;
-                const dy = y - p.y;
-
-                nearest =
-                  Math.min(
-                    nearest,
-                    dx * dx +
-                    dy * dy
-                  );
-              });
-
-              return (
-                nearest <=
-                radius * radius
-              );
-            }
-          );
-        }
-
-        function fillVariableStroke(
-          points,
-          radiusFunction,
-          spacing,
-          size,
-          color
-        ) {
-          let minX = Infinity;
-          let maxX = -Infinity;
-          let minY = Infinity;
-          let maxY = -Infinity;
-          let maxRadius = 0;
-
-          points.forEach((p, i) => {
-            const t =
-              points.length > 1
-                ? i / (points.length - 1)
-                : 0;
-
-            const radius =
-              radiusFunction(t);
-
-            maxRadius =
-              Math.max(
-                maxRadius,
-                radius
-              );
-
-            minX = Math.min(minX, p.x);
-            maxX = Math.max(maxX, p.x);
-            minY = Math.min(minY, p.y);
-            maxY = Math.max(maxY, p.y);
-          });
-
-          fillGrid(
-            minX - maxRadius,
-            maxX + maxRadius,
-            minY - maxRadius,
-            maxY + maxRadius,
-            spacing,
-            size,
-            color,
-            (x, y) => {
-              let inside = false;
-
-              for (
-                let i = 0;
-                i < points.length;
-                i++
-              ) {
-                const p =
-                  points[i];
-
-                const t =
-                  points.length > 1
-                    ? i / (points.length - 1)
-                    : 0;
-
-                const radius =
-                  radiusFunction(t);
-
-                const dx =
-                  x - p.x;
-
-                const dy =
-                  y - p.y;
-
-                if (
-                  dx * dx +
-                  dy * dy <=
-                  radius * radius
-                ) {
-                  inside = true;
-                  break;
-                }
-              }
-
-              return inside;
-            }
-          );
-        }
-
-        /* =====================================================
-           REFERENCE FRAME
-        ===================================================== */
-
-        roundedRect(
-          0,
-          0,
-          10.45,
-          5.55,
-          1.02,
-          SMALL_BLOCK_SIZE,
-          true
-        );
-
-        roundedRect(
-          -0.05,
-          -0.01,
-          9.58,
-          4.72,
-          0.84,
-          SMALL_BLOCK_SIZE
-        );
-
-        /* =====================================================
-           CENTER DIVIDER
-        ===================================================== */
-
-        drawLine(
-          0.06,
-          2.48,
-          0.06,
-          -2.05,
-          0.145,
-          SMALL_BLOCK_SIZE
-        );
-
-        drawLine(
-          1.18,
-          2.48,
-          1.18,
-          -2.05,
-          0.145,
-          SMALL_BLOCK_SIZE
-        );
-
-        drawCurve(
-          (t) => {
-            const a =
-              Math.PI -
-              Math.PI * t;
-
-            return {
-              x:
-                0.62 +
-                Math.cos(a) *
-                0.56,
-
-              y:
-                2.48 +
-                Math.sin(a) *
-                0.32
-            };
-          },
-          7,
-          SMALL_BLOCK_SIZE
-        );
-
-        /* =====================================================
-           BOTTOM EYE
-        ===================================================== */
-
-        drawCurve(
-          (t) => {
-            const a =
-              t *
-              Math.PI *
-              2;
-
-            return {
-              x:
-                0.62 +
-                Math.cos(a) *
-                0.64,
-
-              y:
-                -2.38 +
-                Math.sin(a) *
-                0.45
-            };
-          },
-          21,
-          SMALL_BLOCK_SIZE
-        );
-
-        fillEllipse(
-          0.62,
-          -2.38,
-          0.31,
-          0.15,
-          0.14,
-          LARGE_BLOCK_SIZE,
-          lightColor
-        );
-
-        fillEllipse(
-          0.62,
-          -2.38,
-          0.07,
-          0.115,
-          0.105,
-          LARGE_BLOCK_SIZE,
-          null
-        );
-
-        /* =====================================================
-           THREE LEFT-SIDE FISH
-        ===================================================== */
-
-        function makeLeftFish(centerY) {
-          const snoutX = -4.25;
-          const backX = 0.10;
-
-          drawCurve(
-            (t) => {
-              const x =
-                snoutX +
-                (
-                  backX -
-                  snoutX
-                ) *
-                t;
-
-              const arch =
-                Math.sin(
-                  t *
-                  Math.PI
-                );
-
-              return {
-                x,
-                y:
-                  centerY +
-                  arch *
-                  0.71
-              };
-            },
-            18,
-            SMALL_BLOCK_SIZE
-          );
-
-          drawCurve(
-            (t) => {
-              const x =
-                snoutX +
-                (
-                  backX -
-                  snoutX
-                ) *
-                t;
-
-              const arch =
-                Math.sin(
-                  t *
-                  Math.PI
-                );
-
-              return {
-                x,
-                y:
-                  centerY -
-                  arch *
-                  0.71
-              };
-            },
-            18,
-            SMALL_BLOCK_SIZE
-          );
-
-          drawCurve(
-            (t) => {
-              const a =
-                Math.PI / 2 -
-                t *
-                Math.PI;
-
-              return {
-                x:
-                  backX -
-                  0.26 +
-                  Math.cos(a) *
-                  0.26,
-
-                y:
-                  centerY +
-                  Math.sin(a) *
-                  0.59
-              };
-            },
-            10,
-            SMALL_BLOCK_SIZE
-          );
-
-          // Inner chevron.
-          drawLine(
-            -2.25,
-            centerY + 0.59,
-            -1.98,
-            centerY + 0.34,
-            0.115,
-            SMALL_BLOCK_SIZE
-          );
-
-          drawLine(
-            -1.98,
-            centerY + 0.34,
-            -1.80,
-            centerY,
-            0.115,
-            SMALL_BLOCK_SIZE
-          );
-
-          drawLine(
-            -1.80,
-            centerY,
-            -1.98,
-            centerY - 0.34,
-            0.115,
-            SMALL_BLOCK_SIZE
-          );
-
-          drawLine(
-            -1.98,
-            centerY - 0.34,
-            -2.25,
-            centerY - 0.59,
-            0.115,
-            SMALL_BLOCK_SIZE
-          );
-
-          /* Filled blue eye. */
-          fillEllipse(
-            -3.07,
-            centerY,
-            0.20,
-            0.20,
-            0.145,
-            LARGE_BLOCK_SIZE,
-            null
-          );
-
-          /* Filled blue/teal fin shape. */
-          fillGrid(
-            -1.75,
-            -0.20,
-            centerY - 0.34,
-            centerY + 0.34,
-            0.15,
-            LARGE_BLOCK_SIZE,
-            null,
-            (x, y) => {
-              const cx = -1.02;
-              const cy = centerY;
-
-              const nx =
-                (x - cx) / 0.76;
-
-              const ny =
-                (y - cy) / 0.32;
-
-              if (
-                nx * nx +
-                ny * ny >
-                1
-              ) {
-                return false;
-              }
-
-              if (x > -0.68) {
-                const remaining =
-                  Math.max(
-                    0.02,
-                    0.32 *
-                    (
-                      1 -
-                      (
-                        x + 0.68
-                      ) /
-                      0.48
-                    )
-                  );
-
-                return (
-                  Math.abs(
-                    y - cy
-                  ) <=
-                  remaining
-                );
-              }
-
-              return true;
-            }
-          );
-        }
-
-        makeLeftFish(1.49);
-        makeLeftFish(0);
-        makeLeftFish(-1.49);
-
-        /* =====================================================
-           SMILEY FACE — BUILT FROM LETTER BLOCKS
-        ===================================================== */
-
-        const smileCenterX = 2.97;
-        const smileCenterY = -0.0025;
-        const smileRadius = 1.44;
-
-        drawCurve(
-          (t) => {
-            const a =
-              t *
-              Math.PI *
-              2;
-
-            return {
-              x:
-                smileCenterX +
-                Math.cos(a) *
-                smileRadius,
-
-              y:
-                smileCenterY +
-                Math.sin(a) *
-                1.14
-            };
-          },
-          34,
-          LARGE_BLOCK_SIZE,
-          null,
-          false
-        );
-
-        fillEllipse(
-          smileCenterX - 0.46,
-          smileCenterY + 0.22,
-          0.17,
-          0.17,
-          0.13,
-          LARGE_BLOCK_SIZE,
-          null
-        );
-
-        fillEllipse(
-          smileCenterX + 0.46,
-          smileCenterY + 0.22,
-          0.17,
-          0.17,
-          0.13,
-          LARGE_BLOCK_SIZE,
-          null
-        );
-
-        drawCurve(
-          (t) => {
-            const startA =
-              Math.PI * 0.10;
-
-            const endA =
-              Math.PI * 0.90;
-
-            const a =
-              startA +
-              (
-                endA -
-                startA
-              ) *
-              t;
-
-            return {
-              x:
-                smileCenterX +
-                Math.cos(a) *
-                0.78,
-
-              y:
-                smileCenterY -
-                0.18 -
-                Math.sin(a) *
-                0.48
-            };
-          },
-          20,
-          LARGE_BLOCK_SIZE,
-          null,
-          false
-        );
-
-        /* =====================================================
-           REGENERATE LETTERS ONLY
-           Geometry stays locked to the reference layout.
-        ===================================================== */
-
-        function regenerateFish() {
-          textMeshes.forEach((mesh) => {
-            const letter =
-              FISH_TEXT[
-                Math.floor(
-                  Math.random() *
-                  FISH_TEXT.length
-                )
-              ];
-
-            const color =
-              mesh.userData.lockColor ||
-              randomColor();
-
-            const material =
-              mesh.material.clone();
-
-            material.map =
-              makeLetterTexture(
-                letter,
-                color,
-                LETTER_FONT_PX +
-                (
-                  Math.random() *
-                  30 -
-                  10
-                )
-              );
-
-            material.needsUpdate = true;
-            mesh.material = material;
-          });
-        }
-
-        regenerateFish();
-
-        setInterval(
-          regenerateFish,
-          650
-        );
-
-        function resizeFish() {
-          const rect =
-            fishHost.getBoundingClientRect();
-
-          const width =
-            Math.max(
-              280,
-              rect.width
-            );
-
-          const height =
-            Math.max(
-              210,
-              rect.height
-            );
-
-          renderer.setSize(
-            width,
-            height,
-            false
-          );
-
-          const aspect =
-            width / height;
-
-          const viewHeight = 7.6;
-          const viewWidth =
-            viewHeight *
-            aspect;
-
-          camera.left =
-            -viewWidth / 2;
-
-          camera.right =
-            viewWidth / 2;
-
-          camera.top =
-            viewHeight / 2;
-
-          camera.bottom =
-            -viewHeight / 2;
-
+        card.rotation.x = -0.06;             // tiny tilt so the edge catches light
+        scene.add(card);
+
+        scene.add(new THREE.AmbientLight(0xffffff, 1.6));
+        const sun = new THREE.DirectionalLight(0xffffff, 1.4);
+        sun.position.set(2, 3, 4);
+        scene.add(sun);
+
+        postcardHost.appendChild(renderer.domElement);
+        postcardHost.classList.add('is-3d');
+
+        // ---- fit the card to whatever size the header gives us ----
+        function resizePostcard() {
+          const rect = postcardHost.getBoundingClientRect();
+          const width = Math.max(1, rect.width);
+          const height = Math.max(1, rect.height);
+          renderer.setSize(width, height, false);
+
+          const aspect = width / height;
+          camera.aspect = aspect;
+
+          // Distance at which the card (plus margin for perspective while
+          // turning) fits both the width and the height of the box.
+          const margin = 1.28;
+          const halfFov = THREE.MathUtils.degToRad(camera.fov / 2);
+          const distForHeight = (CARD_H * margin / 2) / Math.tan(halfFov);
+          const distForWidth = (CARD_W * margin / 2) / (Math.tan(halfFov) * aspect);
+          camera.position.set(0, 0, Math.max(distForHeight, distForWidth) + CARD_D);
+          camera.lookAt(0, 0, 0);
           camera.updateProjectionMatrix();
         }
+        new ResizeObserver(resizePostcard).observe(postcardHost);
+        resizePostcard();
 
-        const resizeObserver =
-          new ResizeObserver(
-            resizeFish
-          );
+        // ---- drag to turn (left/right only) ----
+        let angle = 0;
+        let velocity = reduceMotion ? 0 : AUTO_SPEED;   // radians per second
+        let dragging = false;
+        let lastX = 0;
+        let lastT = 0;
+        let dragVel = 0;
 
-        resizeObserver.observe(
-          fishHost
-        );
+        postcardHost.addEventListener('pointerdown', (e) => {
+          dragging = true;
+          lastX = e.clientX;
+          lastT = performance.now();
+          dragVel = 0;
+          postcardHost.classList.add('is-dragging');
+          postcardHost.setPointerCapture(e.pointerId);
+        });
 
-        resizeFish();
+        postcardHost.addEventListener('pointermove', (e) => {
+          if (!dragging) return;
+          const now = performance.now();
+          const dx = e.clientX - lastX;
+          const dt = Math.max(1, now - lastT) / 1000;
+          angle += dx * DRAG_SENS;
+          // smoothed drag speed, used for the coast after release
+          dragVel = dragVel * 0.6 + (dx * DRAG_SENS / dt) * 0.4;
+          lastX = e.clientX;
+          lastT = now;
+        });
 
-        function animateFish() {
-          requestAnimationFrame(
-            animateFish
-          );
+        const endDrag = () => {
+          if (!dragging) return;
+          dragging = false;
+          postcardHost.classList.remove('is-dragging');
+          // ignore stale speed if the pointer paused before letting go
+          const idle = (performance.now() - lastT) / 1000;
+          velocity = idle > 0.12 ? 0 : THREE.MathUtils.clamp(dragVel, -9, 9);
+        };
+        postcardHost.addEventListener('pointerup', endDrag);
+        postcardHost.addEventListener('pointercancel', endDrag);
+        postcardHost.addEventListener('lostpointercapture', endDrag);
 
-          fishGroup.rotation.set(
-            0,
-            0,
-            0
-          );
+        // ---- animate ----
+        let visible = true;
+        new IntersectionObserver((entries) => {
+          visible = entries[0].isIntersecting;
+        }).observe(postcardHost);
 
-          renderer.render(
-            scene,
-            camera
-          );
+        const clock = new THREE.Clock();
+        const target = reduceMotion ? 0 : AUTO_SPEED;
+
+        function animatePostcard() {
+          requestAnimationFrame(animatePostcard);
+          const dt = Math.min(clock.getDelta(), 0.05);
+          if (!visible) return;
+
+          if (!dragging) {
+            // coast: ease the release speed back to the slow auto-spin
+            // (keeps the direction the person flicked it)
+            const dir = Math.sign(velocity) || 1;
+            const goal = target * dir;
+            velocity += (goal - velocity) * (1 - Math.exp(-dt * 1.6));
+            angle += velocity * dt;
+          }
+
+          card.rotation.y = angle;
+          renderer.render(scene, camera);
         }
-
-        animateFish();
+        animatePostcard();
 
       } catch (error) {
-        console.error(
-          '3D text fish failed to load:',
-          error
-        );
-
-        fishHost.textContent =
-          '3D fish unavailable';
+        // The plain image stays visible if 3D can't load.
+        console.error('Postcard 3D failed to load:', error);
       }
     })();
   }
