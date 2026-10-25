@@ -1223,22 +1223,25 @@ function createGalleryLightForArtwork(
         art.position[2];
 
 
+    // Move the light off the wall, into the room (same as left/right below)
     if (
         wall === "front"
     ) {
-    
-        artwork.position.z -=
-            0.08;
-    
+
+        lightZ =
+            art.position[2] -
+            0.25;
+
     }
-    
+
     else if (
         wall === "back"
     ) {
-    
-        artwork.position.z +=
-            0.08;
-    
+
+        lightZ =
+            art.position[2] +
+            0.25;
+
     }
 
     else if (

@@ -637,13 +637,13 @@ resumeButton.addEventListener('click', async () => {
               : `${Math.round((envL + envR) / 2 - r.left)}px 0px`;
             return part.animate(
               [{ translate: from }, { translate: '0px 0px' }],
-              { duration: 1000, delay: 120 + i * 160, easing: 'cubic-bezier(.22,.8,.2,1)', fill: 'backwards' }
+              { duration: 1600, delay: 150 + i * 240, easing: 'cubic-bezier(.22,.8,.2,1)', fill: 'backwards' }
             );
           });
           Promise.all(anims.map((a) => a.finished)).then(() => {
             heroName.style.clipPath = '';
           }, () => { heroName.style.clipPath = ''; });
-          shakeT0 = clock.elapsedTime + 0.9;        // first shake once the name has landed
+          shakeT0 = clock.elapsedTime + 1.4;        // first shake once the name has landed
         }
         whenRevealed(() => requestAnimationFrame(playNameIntro));
 
