@@ -2227,10 +2227,10 @@ html body .hero-postcard:focus-visible{
 html body .hero-inner{ overflow:visible !important; }
 html body .hero{ overflow-x:clip; }
 
-/* Name in Fraunces Black (soft) — free look-alike for Ahsing */
+/* Name in Fraunces Regular (soft) — free look-alike for Ahsing */
 html body .hero h1.hero-name{
   font-family:'Fraunces', 'DM Serif Display', Georgia, serif !important;
-  font-weight:900 !important;
+  font-weight:400 !important;
   font-variation-settings:'SOFT' 100, 'WONK' 0, 'opsz' 144;
   letter-spacing:.005em !important;   /* a little more room between letters */
   line-height:.94 !important;          /* and between Jianna / Shao */
