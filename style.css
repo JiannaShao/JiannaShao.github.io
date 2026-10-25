@@ -2511,3 +2511,10 @@ html body .resume-peek-sheet{ height:132px; }
   html body .resume-peek-sheet{ height:112px; }
   .resume-peek-back{ height:156px; }
 }
+
+/* Home header ~5% shorter so the sections below move up */
+html body .hero{ min-height:95vh !important; }
+html body .hero-postcard-wrap{ height:clamp(342px, 70vh, 684px); }
+@media (max-width:800px){
+  html body .hero-postcard-wrap{ height:auto; }
+}
