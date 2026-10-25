@@ -238,15 +238,15 @@ resumeButton.addEventListener('click', async () => {
         const STAMP = 0.648;                   // 10% smaller than before
         const STAMP_Y = -FLAP_L + 0.17;        // a little lower, over the flap's point
         const stampShadowTex = canvasTex(256, 256, (g, w) => {
-          const r = g.createRadialGradient(w / 2, w / 2, w * 0.3, w / 2, w / 2, w / 2);
+          const r = g.createRadialGradient(w / 2, w / 2, w * 0.4, w / 2, w / 2, w / 2);
           r.addColorStop(0, 'rgba(20,37,61,0.3)');
           r.addColorStop(1, 'rgba(20,37,61,0)');
           g.fillStyle = r; g.fillRect(0, 0, w, w);
         });
         const stampShadowMat = new THREE.MeshBasicMaterial({ map: stampShadowTex, transparent: true, depthWrite: false });
         fadeMats.push(stampShadowMat);
-        const stampShadow = new THREE.Mesh(new THREE.PlaneGeometry(STAMP * 1.2, STAMP * 1.2), stampShadowMat);
-        stampShadow.position.set(0.015, STAMP_Y - 0.03, 0.003);
+        const stampShadow = new THREE.Mesh(new THREE.PlaneGeometry(STAMP * 1.07, STAMP * 1.07), stampShadowMat);
+        stampShadow.position.set(0.008, STAMP_Y - 0.014, 0.003);
         flapLeaf.add(stampShadow);
 
         const stampMat = new THREE.MeshBasicMaterial({ map: stampTex, transparent: true });
@@ -306,6 +306,16 @@ resumeButton.addEventListener('click', async () => {
           sideR:{ x:  ENV_W / 2,    y: ENV_H * 0.22,     dir: -15 }
         };
         const FX_PAIRS = [['tl', 'tr'], ['topL', 'sideR'], ['sideL', 'tr'], ['tl', 'topR'], ['topL', 'sideR'], ['sideL', 'topR']];
+        // "!" spot and tilt for each pair above, chosen to stay clear of its lines
+        // (x is a fraction of the envelope width from centre; tilt in degrees, + = right)
+        const BANG_SPOTS = [
+          { x: 0.08, tilt: 10 },
+          { x: 0.22, tilt: 18 },
+          { x: -0.06, tilt: 6 },
+          { x: 0.28, tilt: 14 },
+          { x: 0.12, tilt: 20 },
+          { x: -0.18, tilt: 8 }
+        ];
         let fxTurn = 0;
 
         function spawnShakeFx() {
@@ -318,7 +328,9 @@ resumeButton.addEventListener('click', async () => {
           const anims = [];
 
           // short strokes fanning out from this shake's two spots
-          const pair = FX_PAIRS[fxTurn++ % FX_PAIRS.length];
+          const turn = fxTurn++ % FX_PAIRS.length;
+          const pair = FX_PAIRS[turn];
+          const bangSpot = BANG_SPOTS[turn];
           pair.forEach((key) => {
             const spot = FX_SPOTS[key];
             const c = toScreen(spot.x, spot.y);
@@ -344,7 +356,8 @@ resumeButton.addEventListener('click', async () => {
           });
 
           // a "!" a little right of centre, tilted to the right
-          const top = toScreen(ENV_W * 0.2, ENV_H / 2);
+          const top = toScreen(ENV_W * bangSpot.x, ENV_H / 2);
+          const tilt = bangSpot.tilt;
           const u = unit;
           const bang = svgEl('g', {});
           bang.appendChild(svgEl('path', {
@@ -356,10 +369,10 @@ resumeButton.addEventListener('click', async () => {
           const bx = top.x;
           const by = top.y - u * 0.6;
           anims.push(bang.animate([
-            { opacity: 0, transform: `translate(${bx}px, ${by + u}px) rotate(4deg) scale(.5)` },
-            { opacity: 1, transform: `translate(${bx}px, ${by - u * 0.5}px) rotate(16deg) scale(1.12)`, offset: 0.3 },
-            { opacity: 1, transform: `translate(${bx}px, ${by - u * 1.0}px) rotate(14deg) scale(1.05)`, offset: 0.5 },
-            { opacity: 0, transform: `translate(${bx}px, ${by - u * 2.0}px) rotate(14deg) scale(1)` }
+            { opacity: 0, transform: `translate(${bx}px, ${by + u}px) rotate(${tilt - 10}deg) scale(.5)` },
+            { opacity: 1, transform: `translate(${bx}px, ${by - u * 0.5}px) rotate(${tilt + 2}deg) scale(1.12)`, offset: 0.3 },
+            { opacity: 1, transform: `translate(${bx}px, ${by - u * 1.0}px) rotate(${tilt}deg) scale(1.05)`, offset: 0.5 },
+            { opacity: 0, transform: `translate(${bx}px, ${by - u * 2.0}px) rotate(${tilt}deg) scale(1)` }
           ], { duration: 640, easing: 'ease-out', fill: 'both' }));
 
           Promise.all(anims.map((an) => an.finished)).then(() => svg.remove(), () => svg.remove());
