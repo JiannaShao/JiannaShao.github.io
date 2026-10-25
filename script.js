@@ -110,11 +110,11 @@ resumeButton.addEventListener('click', async () => {
         const CARD_D = 0.018;
 
         // Envelope is a little larger than the card so it fits inside.
-        const ENV_W = CARD_W * 1.24;           // wider envelope
+        const ENV_W = CARD_W * 1.36;           // wider envelope
         const ENV_H = CARD_H * 1.12;
         const ENV_D = 0.06;
-        const ENV_SCALE = 0.62;               // envelope + card start smaller...
-        const ENV_Y = -0.27;                  // ...and low, so the card can rise out in frame
+        const ENV_SCALE = 0.7;                // envelope + card start smaller...
+        const ENV_Y = -0.18;                  // ...and low, so the card can rise out in frame
 
         const AUTO_SPEED = 0.35;              // radians per second
         const DRAG_SENS = 0.0105;
