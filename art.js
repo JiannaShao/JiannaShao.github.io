@@ -739,7 +739,7 @@ const artworks = [
         medium: "Acrylic painting on canvas",
         description:
             "My father is a proud plant dad. The Tan Hua flower, famously known as the Queen of the Night, is a cactus bloom that opens only for a single evening a year starting at sunset and wilting by sunrise. Having never before seen him so excited about a plant, I painted it for him to preserve that moment forever.",
-        image: "ArtFiles/img1.jpg",
+        image: "web/ArtFiles/img1.jpg",
 
         position: [
             -6.84,
@@ -765,7 +765,7 @@ const artworks = [
         medium: "Acrylic painting on canvas",
         description:
             "Sweet eternal silence.",
-        image: "ArtFiles/img3.jpg",
+        image: "web/ArtFiles/img3.jpg",
 
         position: [
             -3.9,
@@ -791,7 +791,7 @@ const artworks = [
         medium: "Acrylic painting on canvas",
         description:
             "I was lucky enough to visit the original statue this painting is depicting which is The Little Mermaid, located in Copenhagen, Denmark. Unfortunately, my brother managed to slip on a rock and fall into the ocean right next to the statue in front of all the tourists.",
-        image: "ArtFiles/img2.jpg",
+        image: "web/ArtFiles/img2.jpg",
 
         position: [
             3.9,
@@ -819,7 +819,7 @@ const artworks = [
         medium: "Pastel and acrylic paint on paper",
         description:
             "I like the texture and colors I used here.",
-        image: "ArtFiles/img7.JPG",
+        image: "web/ArtFiles/img7.jpg",
 
         position: [
             -6.84,
@@ -852,7 +852,7 @@ const artworks = [
         medium: "Acrylic marker and paint on canvas",
         description:
             "I created this piece as an exploration of my mental health, as I was in a creative slump at the time.",
-        image: "ArtFiles/img4.JPG",
+        image: "web/ArtFiles/img4.jpg",
 
         position: [
             -3.9,
@@ -878,7 +878,7 @@ const artworks = [
         medium: "Acrylic paint on canvas",
         description:
             "I created this piece to explore the textures and ideas of separating an individual from a part of themselves. In this case, it was the beauty standard that I had familiarized myself with online. Luscious, curly hair, a small nose, big lips and big eyes were all traits I found myself lacking and frustrated that I couldn't change. This piece demonstrates the acknowledgment that I don't have to fit into that beauty standard and separating myself from it, while still recognizing the grasp it has on me and my life.",
-        image: "ArtFiles/img10.JPG",
+        image: "web/ArtFiles/img10.jpg",
 
         position: [
             -6.84,
@@ -909,7 +909,7 @@ const artworks = [
         medium: "Charcoal on paper",
         description:
             "A palimpsest is defined by the Oxford Language Library as 'a manuscript or piece of writing material on which the original writing has been effaced to make room for later writing but of which traces remain'. This piece to me is both literally and metaphorically a palimpsest since the paper used in its creation was originally blueprints for a house, before then becoming a protective layer for a table from paint and markers until it finally reached my easel. Although much of the color is covered in the more busy patches of the piece, there are still traces of its original writing in the corners and empty parts. Metaphorically, big industrial infrastructure and factories are the later writings that have been written over the effaced, original writing, the nature and land that had existed there before it.",
-        image: "ArtFiles/img9.JPG",
+        image: "web/ArtFiles/img9.jpg",
 
         position: [
             3.9,
@@ -935,7 +935,7 @@ const artworks = [
         medium: "Ink and paper on canvas",
         description:
             "A meal flavored by my own tears.",
-        image: "ArtFiles/img12.JPG",
+        image: "web/ArtFiles/img12.jpg",
 
         position: [
             -6.84,
@@ -961,7 +961,7 @@ const artworks = [
         medium: "Ink, alcohol marker and gel pen on paper",
         description:
             "I created this piece to explore the difference in mood created by different line weights, as well as to create an environment through art that conveyed abandonment. Although I initially had not planned on drawing a dog into the scene or the ray of light that it steps into, I like that it is not the first subject you notice with the building and the clutter of broken objects overwhelmingly standing out. But once you look closer, the lone dog seems like the main character of the entire piece; it is the only thing with a semblance of movement or being alive.",
-        image: "ArtFiles/img11.JPG",
+        image: "web/ArtFiles/img11.jpg",
 
         position: [
             6.84,
@@ -989,7 +989,7 @@ const artworks = [
         medium: "Multi-media on paper",
         description:
             "As an individual has become increasingly more dependent on caffeine to make it through the day, I felt inspired to create a piece based on it. To me, this piece exemplifies what you're putting into your body every time you drink tea, coffee, or energy drinks, which ultimately can hurt you when overconsumed. When it came to the caffeine molecules at the front, I had to do some research to recall my chemistry understanding of the structure so that I could gather the materials necessary for the project.",
-        image: "ArtFiles/img5.JPG",
+        image: "web/ArtFiles/img5.jpg",
 
         position: [
             6.84,
@@ -1013,7 +1013,7 @@ const artworks = [
         medium: "Multimedia",
         description:
             "Probably my favorite piece I've created so far. Pretty self-explanatory. The chicken nuggets are from Chick-Fil-A.",
-        image: "ArtFiles/img8.JPG",
+        image: "web/ArtFiles/img8.jpg",
 
         position: [
             6.84,
@@ -1037,7 +1037,7 @@ const artworks = [
         year: "",
         medium: "",
         description: "",
-        image: "ArtFiles/img15.jpeg",
+        image: "web/ArtFiles/img15.jpg",
 
         position: [
             0,
@@ -1068,7 +1068,7 @@ const artworks = [
         medium: "Acrylic paint on canvas",
         description:
             "At the time of painting this artwork I was 19 years old. 20 wasn't too far off; I was getting older than I thought. A distant dream was the ignorant joy of my youth or something like that.",
-        image: "ArtFiles/img13.jpg",
+        image: "web/ArtFiles/img13.jpg",
 
         position: [
             6.84,
@@ -1097,7 +1097,7 @@ const artworks = [
         medium: "Acrylic painting on canvas",
         description:
             "Just a little reminder to go outside. I often passed this tree stump on my way to my high school tutoring job and I was almost fascinated by the life within and around it.",
-        image: "ArtFiles/img14.jpg",
+        image: "web/ArtFiles/img14.jpg",
 
         position: [
             0,
@@ -1125,7 +1125,7 @@ const artworks = [
         medium: "Ink, alcohol marker and gel pen on paper",
         description:
             "Even though fish are born in, raised in, and spend their whole life swimming and living in the water, they can 'drown' as well when not enough air gets through their gills. Although we're the creators, the consumers, and the discarders of trash, that does not mean it will not somehow bite us back. Ending up in landfills, the ocean, and in our air and food is effectively our form of 'drowning', as something we are so familiar with can be dangerous to us.",
-        image: "ArtFiles/img6.JPG",
+        image: "web/ArtFiles/img6.jpg",
 
         position: [
             -6.84,

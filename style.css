@@ -2518,3 +2518,152 @@ html body .hero-postcard-wrap{ height:clamp(342px, 70vh, 684px); }
 @media (max-width:800px){
   html body .hero-postcard-wrap{ height:auto; }
 }
+
+/* =====================================================
+   PROJECT CARDS — thumbnail, role/tools line, result line
+===================================================== */
+html body .project-box{
+  overflow:hidden;
+  position:relative;
+}
+.project-thumb{
+  display:block;
+  margin:-30px -30px 22px;
+  aspect-ratio:16 / 9;
+  overflow:hidden;
+  background:#e8ebea;
+  border-bottom:1px solid rgba(20,37,61,.08);
+}
+.project-thumb img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform .4s ease;
+}
+@media (hover:hover) and (pointer:fine){
+  html body .project-box:hover .project-thumb img{ transform:scale(1.04); }
+}
+.project-thumb-empty{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    repeating-linear-gradient(-45deg, rgba(20,37,61,.035) 0 10px, transparent 10px 20px),
+    #eef0ef;
+}
+.project-thumb-empty span{
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:#7a8a90;
+}
+html body .project-box h3{ margin:22px 0 6px !important; }
+.project-meta{
+  display:block;
+  margin:0 0 10px;
+  font-size:13px;
+  letter-spacing:.03em;
+  color:#5f6b74;
+}
+.project-result,
+.work-result{
+  display:flex;
+  align-items:baseline;
+  gap:9px;
+  margin:6px 0 0;
+  font-size:14px;
+  font-weight:500;
+  line-height:1.5;
+  color:#14253d;
+}
+.project-result::before,
+.work-result::before{          /* small open circle, like the scroll marker */
+  content:"";
+  flex:0 0 auto;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  border:1.6px solid #14253d;
+  transform:translateY(-1px);
+}
+html body .work-card .work-result{ max-width:560px; margin:4px 0 14px; }
+
+/* =====================================================
+   FEATURED PORTFOLIOS — hover shows a few more images
+===================================================== */
+.work-image .work-preview{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  opacity:0;
+  transition:opacity .55s ease;
+  z-index:0;
+}
+.work-image .work-preview.is-on{ opacity:1; }
+html body .work-image::before{ z-index:1; }
+html body .work-image > span{ z-index:2; }
+.work-dots{
+  position:absolute;
+  right:18px;
+  bottom:18px;
+  z-index:2;
+  display:flex;
+  gap:6px;
+  opacity:0;
+  transition:opacity .3s ease;
+}
+.work-image:hover .work-dots{ opacity:1; }
+.work-dots i{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  border:1.5px solid #fafafa;
+  background:transparent;
+  transition:background .3s ease;
+}
+.work-dots i.is-on{ background:#fafafa; }
+
+/* =====================================================
+   CONTACT — copy email + résumé download
+===================================================== */
+.contact-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:26px;
+}
+html body .contact-action{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:11px 18px;
+  border:1.5px solid rgba(66,82,77,.3);
+  border-radius:10px;
+  background:#ffffff;
+  color:#14253d;
+  font-family:'Work Sans', Arial, sans-serif;
+  font-size:15px;
+  font-weight:500;
+  text-decoration:none;
+  cursor:pointer;
+  transition:background .2s ease, color .2s ease, border-color .2s ease;
+}
+@media (hover:hover) and (pointer:fine){
+  html body .contact-action:hover{
+    background:#14253d;
+    border-color:#14253d;
+    color:#ffffff;
+  }
+}
+html body .contact-action.is-copied{
+  background:#14253d;
+  border-color:#14253d;
+  color:#ffffff;
+}
+html body .contact-action:focus-visible{
+  outline:3px solid #48666d;
+  outline-offset:3px;
+}

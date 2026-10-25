@@ -11,6 +11,76 @@
 
   /* Scroll snake lives in site-chrome.js */
 
+  /* FEATURED PORTFOLIOS: hovering a card fades through a few more images */
+  const reduceMotionPrefs = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.work-image[data-previews]').forEach((card) => {
+    const srcs = card.dataset.previews.split(/\s+/).filter(Boolean);
+    if (!srcs.length) return;
+    const layers = srcs.map((src) => {
+      const layer = document.createElement('div');
+      layer.className = 'work-preview';
+      layer.dataset.src = src;
+      card.appendChild(layer);
+      return layer;
+    });
+    const dots = document.createElement('div');
+    dots.className = 'work-dots';
+    dots.setAttribute('aria-hidden', 'true');
+    dots.innerHTML = '<i class="is-on"></i>' + srcs.map(() => '<i></i>').join('');
+    card.appendChild(dots);
+    const dotEls = [...dots.children];
+
+    const load = () => layers.forEach((l) => {
+      if (!l.style.backgroundImage) l.style.backgroundImage = `url("${l.dataset.src}")`;
+    });
+    let timer = null;
+    let step = 0;
+    const show = (i) => {
+      layers.forEach((l, k) => l.classList.toggle('is-on', k === i - 1));
+      dotEls.forEach((d, k) => d.classList.toggle('is-on', k === i));
+    };
+    card.addEventListener('mouseenter', () => {
+      load();
+      if (reduceMotionPrefs) return;
+      step = 0;
+      timer = setInterval(() => { step = (step + 1) % (srcs.length + 1); show(step); }, 1100);
+    });
+    card.addEventListener('mouseleave', () => {
+      clearInterval(timer);
+      timer = null;
+      show(0);
+    });
+    // fetch the extra images quietly once the page is idle, so hovering is instant
+    const warm = () => setTimeout(load, 2500);
+    if (window.__siteRevealed || !window.siteLoader) warm();
+    else window.addEventListener('site:revealed', warm, { once: true });
+  });
+
+  /* CONTACT: copy email */
+  const copyBtn = document.getElementById('copy-email');
+  if (copyBtn) {
+    const label = copyBtn.querySelector('.contact-action-label');
+    const email = copyBtn.dataset.email;
+    const flash = (text) => {
+      label.textContent = text;
+      copyBtn.classList.add('is-copied');
+      clearTimeout(copyBtn._t);
+      copyBtn._t = setTimeout(() => {
+        label.textContent = 'Copy email';
+        copyBtn.classList.remove('is-copied');
+      }, 1800);
+    };
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(email);
+        flash('Copied!');
+      } catch (e) {
+        // clipboard blocked: fall back to the email app
+        window.location.href = `mailto:${email}`;
+      }
+    });
+  }
+
   /* RESUME PREVIEW / LIGHTBOX */
   const resumeCanvasZoom = document.getElementById('resume-canvas-zoom');
   const resumeButton = document.getElementById('resume-preview-button');

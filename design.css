@@ -108,7 +108,7 @@ p {
             rgba(247, 244, 236, 0.75) 92%,
             rgba(247, 244, 236, 1) 100%
         ),
-        url("DesignImages/Final3.JPG");
+        url("web/DesignImages/Final3.jpg");
 
     background-size: cover;
     background-position: center;
