@@ -2109,7 +2109,7 @@ html body .hero-postcard-wrap{
   z-index:1;
   flex:1 1 auto;
   min-width:0;
-  height:clamp(280px, 54vh, 500px);
+  height:clamp(360px, 74vh, 720px);
   margin:0;
 }
 html body .hero-postcard{
@@ -2147,10 +2147,16 @@ html body .hero-postcard.is-3d .hero-postcard-fallback{ display:none; }
     display:block !important;
   }
   html body .hero-postcard-wrap{
-    width:100%;
+    width:calc(100% + 32px);
     height:auto;
-    aspect-ratio:5 / 4;
-    max-height:58vh;
-    margin:18px 0 26px;
+    aspect-ratio:1.18 / 1;
+    max-height:64vh;
+    margin:22px -16px 10px;
+  }
+}
+/* Wide screens: let the postcard use the spare space beside the snake */
+@media (min-width:1200px){
+  html body .hero-postcard-wrap{
+    margin-right:-60px;
   }
 }

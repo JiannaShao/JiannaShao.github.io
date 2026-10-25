@@ -111,7 +111,7 @@ resumeButton.addEventListener('click', async () => {
 
         // ---- scene ----
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(28, 1, 0.1, 50);
+        const camera = new THREE.PerspectiveCamera(22, 1, 0.1, 80);
 
         const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
         renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -164,7 +164,7 @@ resumeButton.addEventListener('click', async () => {
 
           // Distance at which the card (plus margin for perspective while
           // turning) fits both the width and the height of the box.
-          const margin = 1.28;
+          const margin = 1.16;
           const halfFov = THREE.MathUtils.degToRad(camera.fov / 2);
           const distForHeight = (CARD_H * margin / 2) / Math.tan(halfFov);
           const distForWidth = (CARD_W * margin / 2) / (Math.tan(halfFov) * aspect);
