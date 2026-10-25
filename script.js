@@ -112,10 +112,13 @@ resumeButton.addEventListener('click', async () => {
 
         // Envelope is a little larger than the card so it fits inside.
         const ENV_W = CARD_W * 1.36;           // wider envelope
-        const ENV_H = CARD_H * 1.12;
+        const ENV_H = ENV_W * (1275 / 1650);   // same proportions as the postcard
         const ENV_D = 0.06;
-        const ENV_SCALE = 0.7;                // envelope + card start smaller...
-        const ENV_Y = -0.18;                  // ...and low, so the card can rise out in frame
+        // Phones have less room above the box (the name sits right on top), so the
+        // envelope starts a little smaller and lower there; the card still rises fully out.
+        const PHONE = window.matchMedia('(max-width: 800px)').matches;
+        const ENV_SCALE = PHONE ? 0.6 : 0.7;   // envelope + card start smaller...
+        const ENV_Y = PHONE ? -0.36 : -0.12;   // ...and low, so the card can rise out in frame
 
         const AUTO_SPEED = 0.35;              // radians per second
         const DRAG_SENS = 0.0105;
@@ -235,7 +238,7 @@ resumeButton.addEventListener('click', async () => {
         flapLeaf.add(outline);
 
         // Photo stamp on the flap's point (2x the old seal), with a soft shadow
-        const STAMP = 0.648;                   // 10% smaller than before
+        const STAMP = 0.74;
         const STAMP_Y = -FLAP_L + 0.17;        // a little lower, over the flap's point
         const stampShadowTex = canvasTex(256, 256, (g, w) => {
           const r = g.createRadialGradient(w / 2, w / 2, w * 0.4, w / 2, w / 2, w / 2);
@@ -390,7 +393,7 @@ resumeButton.addEventListener('click', async () => {
           const width = Math.max(1, rect.width);
           const height = Math.max(1, rect.height);
           const padX = MOBILE.matches ? 0 : Math.round(width * 0.06);  // phones: no sideways overflow
-          const padY = Math.round(height * 0.24);
+          const padY = Math.round(height * 0.34);
           const cw = width + padX * 2;
           const ch = height + padY * 2;
           renderer.setSize(cw, ch, true);
@@ -495,8 +498,8 @@ resumeButton.addEventListener('click', async () => {
         const SHAKE_EVERY = 2.0;   // seconds between shakes
         const SHAKE_LEN = 0.7;     // seconds of shaking
         let lastFxCycle = -1;
-        const INTRO_TURN = Math.PI * 3;   // one and a half turns, ending on the back
-        const INTRO_MS = 1100;
+        const INTRO_TURN = Math.PI;       // a quick half-turn to show the back
+        const INTRO_MS = 700;
         let introStart = 0;
         let introFrom = 0;
 
@@ -544,8 +547,11 @@ resumeButton.addEventListener('click', async () => {
             // 3) once clear, it comes forward to the centre at full size
             const pop = seg(t, 1.0, 1.65);
             card.position.y = lerp(lerp(ENV_Y, peakY, rise), 0, ease(pop));
-            card.position.z = Math.sin(Math.PI * pop) * 0.4;
             card.scale.setScalar(lerp(ENV_SCALE, 1, easeBack(pop)));
+            // while it grows, keep its top edge from rising above where it peaked
+            const maxTop = Math.max(peakY + (CARD_H / 2) * ENV_SCALE, CARD_H / 2);
+            card.position.y = Math.min(card.position.y, maxTop - (CARD_H / 2) * card.scale.y);
+            card.position.z = Math.sin(Math.PI * pop) * 0.4;
 
             // 4) envelope drops away and fades
             const drop = seg(t, 1.0, 1.7);
