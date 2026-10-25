@@ -46,6 +46,7 @@ html body .side-nav.hover-open{
 }
 
 /* thin white stripe on the sidebar's right edge */
+/* airmail edge: thin navy / sage diagonal stripes */
 html body .side-nav::after{
   content: "" !important;
   position: absolute !important;
@@ -53,8 +54,11 @@ html body .side-nav::after{
   right: 0 !important;
   bottom: 0 !important;
   left: auto !important;
-  width: 2px !important;
-  background: #ffffff !important;
+  width: 6px !important;
+  background:
+    repeating-linear-gradient(-45deg,
+      #14253d 0 5px, #fafafa 5px 9px, #86a4ab 9px 14px, #fafafa 14px 18px) !important;
+  opacity: .55;
   pointer-events: none !important;
   z-index: 0 !important;
 }
@@ -364,4 +368,90 @@ html body #snake-head{
   }
 
   body.chrome-menu-locked{ overflow: hidden !important; }
+}
+
+/* ---------- Rail icons, labels, "you are here" marker, logo redraw ---------- */
+html body .side-main-link,
+html body .side-dropdown-toggle{
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+}
+html body .side-dropdown-toggle .side-dropdown-arrow{ margin-left: auto; }
+.side-icon{
+  flex: 0 0 auto;
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+}
+.side-icon svg{
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.side-label{
+  transition: opacity .16s ease .04s;
+  white-space: nowrap;
+}
+html body .side-links{ position: relative !important; }
+.side-marker{
+  position: absolute;
+  left: -2px;
+  top: -3.5px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1.6px solid var(--chrome-ink);
+  background: var(--chrome-bg);
+  opacity: 0;
+  transition: transform .35s cubic-bezier(.3,.7,.2,1), opacity .2s ease;
+  pointer-events: none;
+}
+html body .side-submenu a.is-current{ opacity: 1 !important; font-weight: 600 !important; }
+
+@media (min-width: 801px){
+  /* closed rail: icons stay, words hide */
+  html body .side-links{
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: none !important;
+    padding-left: 11px !important;   /* centres the 20px icons on the 58px rail */
+  }
+  html body .side-nav:not(.hover-open) .side-label,
+  html body .side-nav:not(.hover-open) .side-dropdown-arrow{
+    opacity: 0;
+    transition: opacity .1s ease;
+  }
+  html body .side-nav:not(.hover-open) .side-submenu-wrap{
+    grid-template-rows: 0fr !important;
+    opacity: 0 !important;
+    margin-top: 0 !important;
+  }
+  html body .side-nav:not(.hover-open) .side-main-link:hover,
+  html body .side-nav:not(.hover-open) .side-dropdown-toggle:hover{
+    transform: none !important;
+  }
+}
+
+@media (max-width: 800px){
+  .side-marker{ left: -12px; }
+}
+
+/* logo redraws itself on hover, like the loading screen */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference){
+  html body .side-brand:hover .side-logo circle,
+  html body .side-brand:hover .side-logo path{
+    stroke-dasharray: 1;
+    animation: side-logo-draw .8s cubic-bezier(.6,.05,.3,1) both;
+  }
+  html body .side-brand:hover .side-logo path:nth-of-type(1){ animation-delay: .15s; }
+  html body .side-brand:hover .side-logo path:nth-of-type(2){ animation-delay: .3s; }
+}
+@keyframes side-logo-draw{
+  from{ stroke-dashoffset: 1; }
+  to{ stroke-dashoffset: 0; }
 }

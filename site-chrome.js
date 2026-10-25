@@ -41,6 +41,116 @@
       });
     });
 
+    // ---- Icons on the rail (same line style as the logo) ----
+    const ICONS = {
+      about: '<circle cx="12" cy="8" r="3.6"/><path d="M4.8 20.2c.6-3.8 3.6-6.4 7.2-6.4s6.6 2.6 7.2 6.4"/>',
+      portfolios: '<path d="M3 7.6c0-.9.7-1.6 1.6-1.6h4.2l2 2.2h8.6c.9 0 1.6.7 1.6 1.6v7.6c0 .9-.7 1.6-1.6 1.6H4.6c-.9 0-1.6-.7-1.6-1.6z"/><path d="M3 10.6h18"/>',
+      projects: '<rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/>',
+      gallery: '<path d="M12 3.2l8 4.4v8.8L12 20.8l-8-4.4V7.6z"/><path d="M4 7.6l8 4.4 8-4.4M12 12v8.8"/>',
+      contact: '<rect x="3" y="5.5" width="18" height="13" rx="1.8"/><path d="M3.6 6.6l8.4 6.4 8.4-6.4"/>'
+    };
+    const iconFor = (el) => {
+      const href = (el.getAttribute('href') || '').toLowerCase();
+      const text = el.textContent.trim().toLowerCase();
+      if (el.classList.contains('side-dropdown-toggle')) return 'portfolios';
+      if (href.includes('#about')) return 'about';
+      if (href.includes('#contact')) return 'contact';
+      if (href.includes('project.html')) return 'projects';
+      if (href.includes('art.html') || text.includes('gallery')) return 'gallery';
+      return null;
+    };
+    const makeIcon = (key) => {
+      const span = document.createElement('span');
+      span.className = 'side-icon';
+      span.setAttribute('aria-hidden', 'true');
+      span.innerHTML = `<svg viewBox="0 0 24 24">${ICONS[key]}</svg>`;
+      return span;
+    };
+    sideNav.querySelectorAll('.side-main-link, .side-dropdown-toggle').forEach((el) => {
+      const key = iconFor(el);
+      if (!key || el.querySelector('.side-icon')) return;
+      el.dataset.section = key;
+      if (el.classList.contains('side-dropdown-toggle')) {
+        const first = el.querySelector('span:not(.side-dropdown-arrow)');
+        if (first) first.classList.add('side-label');
+      } else {
+        const label = document.createElement('span');
+        label.className = 'side-label';
+        while (el.firstChild) label.appendChild(el.firstChild);
+        el.appendChild(label);
+      }
+      el.prepend(makeIcon(key));
+    });
+
+    // ---- Logo redraws itself on hover ----
+    sideNav.querySelectorAll('.side-logo circle, .side-logo path').forEach((el) => {
+      el.setAttribute('pathLength', '1');
+    });
+
+    // ---- "You are here" marker ----
+    const links = sideNav.querySelector('.side-links');
+    const items = {};
+    sideNav.querySelectorAll('[data-section]').forEach((el) => { items[el.dataset.section] = el; });
+    let marker = null;
+    let current = null;
+    if (links) {
+      marker = document.createElement('span');
+      marker.className = 'side-marker';
+      marker.setAttribute('aria-hidden', 'true');
+      links.prepend(marker);
+    }
+    const placeMarker = () => {
+      if (!marker || !current || !items[current]) { if (marker) marker.style.opacity = '0'; return; }
+      const el = items[current];
+      const top = el.offsetTop + el.offsetHeight / 2;
+      marker.style.transform = `translateY(${top}px)`;
+      marker.style.opacity = '1';
+      Object.entries(items).forEach(([k, a]) => {
+        if (k === current) a.setAttribute('aria-current', a.tagName === 'A' ? 'location' : 'true');
+        else a.removeAttribute('aria-current');
+      });
+    };
+    const setCurrent = (key) => {
+      if (key === current) return;
+      current = key;
+      placeMarker();
+    };
+
+    const page = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    const PAGE_SECTION = {
+      'design.html': 'portfolios', 'art-portfolio.html': 'portfolios', 'research.html': 'portfolios',
+      'project.html': 'projects', 'art.html': 'gallery'
+    };
+    if (PAGE_SECTION[page]) {
+      setCurrent(PAGE_SECTION[page]);
+      // also mark the matching portfolio in the dropdown
+      sideNav.querySelectorAll('.side-submenu a').forEach((a) => {
+        if ((a.getAttribute('href') || '').toLowerCase() === page) a.classList.add('is-current');
+      });
+    } else {
+      // Home: follow the section in view
+      const HOME = [['about', 'about'], ['work', 'portfolios'], ['projects', 'projects'],
+                    ['art', 'gallery'], ['resume', 'about'], ['contact', 'contact']];
+      const sections = HOME.map(([id, key]) => [document.getElementById(id), key]).filter(([el]) => el);
+      const pickSection = () => {
+        const line = window.innerHeight * 0.4;
+        let key = sections.length ? sections[0][1] : null;
+        sections.forEach(([el, k]) => { if (el.getBoundingClientRect().top <= line) key = k; });
+        const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+        if (atBottom && sections.length) key = sections[sections.length - 1][1];
+        setCurrent(key);
+      };
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => { ticking = false; pickSection(); });
+      }, { passive: true });
+      pickSection();
+    }
+    if (links && 'ResizeObserver' in window) new ResizeObserver(placeMarker).observe(links);
+    window.addEventListener('resize', placeMarker);
+
     // Phones: menu button + backdrop
     const btn = document.createElement('button');
     btn.type = 'button';
