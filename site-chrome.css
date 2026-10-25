@@ -9,7 +9,7 @@
   --chrome-open: 200px;
   --chrome-bg: #e8ebea;
   --chrome-ink: #42524d;
-  --chrome-snake-w: 43px;   /* 10% narrower than the old 48px */
+  --chrome-snake-w: 39px;   /* ~10% narrower again (was 43px) */
   --chrome-snake-inset: 12px;
 }
 
@@ -254,6 +254,13 @@ html body #snake-ghost{
 html body #snake-path{
   stroke: var(--chrome-ink) !important;
   transition: none !important;
+}
+/* small open circle that marks where you are on the snake */
+html body #snake-head{
+  fill: #fafafa !important;
+  stroke: var(--chrome-ink) !important;
+  stroke-width: 2 !important;
+  vector-effect: non-scaling-stroke;
 }
 
 /* =========================================================

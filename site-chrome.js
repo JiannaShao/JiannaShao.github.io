@@ -91,6 +91,14 @@
   const snakeSvg = document.getElementById('snake-svg');
   const snakeGhost = document.getElementById('snake-ghost');
   const snakePath = document.getElementById('snake-path');
+  // Open circle that rides along the snake at the current scroll position
+  let snakeHead = null;
+  if (snakeSvg && snakePath) {
+    snakeHead = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    snakeHead.setAttribute('id', 'snake-head');
+    snakeHead.setAttribute('r', '4');
+    snakeSvg.appendChild(snakeHead);
+  }
   let snakeLength = 0;
 
   function buildSnake() {
@@ -143,6 +151,11 @@
     if (window.scrollY >= maxScroll - 1) progress = maxScroll > 0 ? 1 : 0;
     progress = Math.max(0, Math.min(1, progress));
     snakePath.style.strokeDashoffset = `${snakeLength * (1 - progress)}`;
+    if (snakeHead) {
+      const pt = snakePath.getPointAtLength(snakeLength * progress);
+      snakeHead.setAttribute('cx', pt.x.toFixed(2));
+      snakeHead.setAttribute('cy', pt.y.toFixed(2));
+    }
   }
 
   if (snakeSvg && snakeGhost && snakePath) {
