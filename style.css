@@ -2232,7 +2232,7 @@ html body .hero h1.hero-name{
   font-family:'Yeseva One', 'DM Serif Display', Georgia, serif !important;
   font-weight:400 !important;
   font-synthesis:style;                /* slant "Shao" as before, but never fake a bold */
-  letter-spacing:-.015em !important;
+  letter-spacing:-.045em !important;
   line-height:1.02 !important;
 }
 html body .hero-name .hero-name-part{ white-space:nowrap; }
