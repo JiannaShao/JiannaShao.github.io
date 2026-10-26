@@ -102,19 +102,18 @@
           t += 160;
         });
 
-        // glyph outlines, overlapping one after another
-        var STEP = 55, TRACE = 600, startG = 420;
+        // letters unfold like folded paper, one after another (overlapping)
+        var STEP = 45, FOLD = 760, startG = 520;
         chars.forEach(function (c, i) {
-          var r = c.span.getBoundingClientRect();
-          var base = c.line.querySelector('.dx-baseline').getBoundingClientRect().top - tr.top + PAD;
-          var size = parseFloat(getComputedStyle(c.span).fontSize);
-          var d = font.getPath(c.ch, r.left - tr.left + PAD, base, size).toPathData(2);
-          var p = el('path', { d: d, 'class': 'bp-glyph bp-fade' }, svg);
-          p.style.strokeWidth = Math.max(1, size * 0.008) + 'px';
-          trace(p, startG + i * STEP, TRACE);
-          c.inkAt = startG + i * STEP + TRACE * 0.85;
+          ['top', 'bot'].forEach(function (k) {
+            var h = document.createElement('span');
+            h.className = 'dx-half dx-half-' + k;
+            h.textContent = c.ch;
+            c.span.appendChild(h);
+          });
+          c.inkAt = startG + i * STEP;
         });
-        var total = startG + (chars.length - 1) * STEP + TRACE;
+        var total = startG + (chars.length - 1) * STEP + FOLD;
 
         var t0 = performance.now();
         var inked = 0;
@@ -127,12 +126,15 @@
             else node.style.strokeDashoffset = len * (1 - (1 - Math.pow(1 - k, 3)));
           });
           chars.forEach(function (c) {
-            if (!c.done && now >= c.inkAt) { c.done = true; inked++; c.span.classList.add('is-inked'); }
+            if (!c.done && now >= c.inkAt) { c.done = true; inked++; c.span.classList.add('is-folding'); }
           });
           if (now < total + 120) requestAnimationFrame(loop);
           else {
             title.classList.remove('is-drafting');
-            chars.forEach(function (c) { c.span.classList.add('is-inked'); });
+            chars.forEach(function (c) {
+              c.span.classList.remove('is-folding');
+              c.span.querySelectorAll('.dx-half').forEach(function (h) { h.remove(); });
+            });
             setTimeout(function () { svg.classList.add('is-done'); }, 700);
             setTimeout(function () { if (svg.parentNode) svg.parentNode.removeChild(svg); }, 1500);
           }
@@ -155,7 +157,7 @@
       window.addEventListener('resize', function () {
         if (title.classList.contains('is-drafting') || svg.parentNode) {
           title.classList.remove('is-drafting');
-          chars.forEach(function (c) { c.span.classList.add('is-inked'); });
+          document.querySelectorAll('#dx-title .dx-half').forEach(function (h) { h.remove(); });
           if (svg.parentNode) svg.parentNode.removeChild(svg);
         }
       });

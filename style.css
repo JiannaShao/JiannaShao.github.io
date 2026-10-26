@@ -2794,3 +2794,20 @@ html body .resume-section .resume-peek{ gap:40px !important; }
     margin-top:0 !important;
   }
 }
+
+/* 3D gallery card on phones: show just the right-hand door, not the
+   whole painting squeezed into a narrow card */
+@media (max-width:800px){
+  .gallery-doors .door-left{ display:none; }
+  .gallery-doors .door-right{
+    left:0;
+    width:100%;
+    background-size:cover;
+    background-position:right center;
+    transform:rotateY(-9deg);
+    transform-origin:right center;
+  }
+  .gallery-doors .door-inside{ inset:0; }
+  .gallery-doors .door-right::after{ left:20px; }
+  .gallery-doors .door-right::before{ left:16px; }
+}

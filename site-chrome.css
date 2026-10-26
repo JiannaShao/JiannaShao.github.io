@@ -452,3 +452,78 @@ html body .side-submenu a.is-current{ opacity: 1 !important; font-weight: 600 !i
   from{ stroke-dashoffset: 1; }
   to{ stroke-dashoffset: 0; }
 }
+
+/* =========================================================
+   TOUCH SCREENS — phones keep the last-tapped item "hovered",
+   which turned it white (invisible) and shifted it. Keep the
+   normal ink colour on touch and give feedback on press only.
+   ========================================================= */
+@media (hover:none), (max-width:800px){
+  html body .side-main-link:hover,
+  html body .side-dropdown-toggle:hover,
+  html body .side-submenu a:hover{
+    color: var(--chrome-ink) !important;
+    transform: none !important;
+  }
+  html body .side-submenu a:hover{ opacity: .82 !important; }
+  html body .side-submenu a.is-current:hover{ opacity: 1 !important; }
+  html body .side-main-link:active,
+  html body .side-dropdown-toggle:active,
+  html body .side-submenu a:active{
+    background: rgba(66,82,77,.08) !important;
+    border-radius: 8px;
+  }
+  html body .side-brand:hover{ transform: none !important; }
+}
+@media (max-width:800px){
+  html body .side-nav,
+  html body .side-nav.hover-open{
+    height: 100dvh !important;          /* full height under mobile browser bars */
+    bottom: auto !important;
+  }
+  html body .side-nav-inner{
+    height: 100% !important;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: max(28px, env(safe-area-inset-bottom, 0px)) !important;
+  }
+  /* bigger, evenly spaced tap rows */
+  html body .side-nav-item{ margin-bottom: 14px !important; }
+  html body .side-main-link,
+  html body .side-dropdown-toggle{
+    min-height: 44px !important;
+    line-height: 44px !important;
+    padding: 0 8px !important;
+    margin-left: -8px !important;
+    width: calc(100% + 8px) !important;
+  }
+  html body .side-dropdown.is-open .side-submenu-wrap{ margin-top: 4px !important; }
+  html body .side-submenu{ gap: 2px !important; padding-left: 34px !important; }
+  html body .side-submenu a{
+    display: flex !important;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 8px !important;
+    margin-left: -8px;
+  }
+  .side-marker{ left: -14px; }
+  .chrome-scrim{ touch-action: none; }
+}
+
+/* =========================================================
+   More breathing room between sidebar items (all sizes)
+   ========================================================= */
+html body .side-nav-item{ margin-bottom: 38px !important; }
+html body .side-dropdown.is-open .side-submenu-wrap{ margin-top: 18px !important; }
+html body .side-submenu{ gap: 16px !important; }
+
+@media (max-width:800px){
+  html body .side-nav,
+  html body .side-nav.hover-open{ width: 272px !important; }
+  html body .side-nav-inner{ width: 272px !important; padding: 76px 22px 28px !important; }
+  html body .side-nav-item{ margin-bottom: 18px !important; }
+  html body .side-dropdown.is-open .side-submenu-wrap{ margin-top: 8px !important; }
+  html body .side-submenu{ gap: 8px !important; padding-left: 34px !important; }
+  html body .side-dropdown-toggle{ padding-right: 12px !important; }
+  html body .side-dropdown-arrow{ color: var(--chrome-ink) !important; opacity: 1 !important; }
+}

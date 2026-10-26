@@ -551,3 +551,40 @@ html body .dx .dx-row .dx-text:first-of-type{ margin-top:0; }
 @media (max-width:560px){
   .dx-pair{ flex-direction:column; }
 }
+
+/* ---------- paper-fold title (replaces the outline drafting) ---------- */
+.dx-title .dx-ch{ position:relative; perspective:700px; }
+.dx-title.is-drafting .dx-ch{ color:transparent !important; }
+.dx-half{
+  position:absolute;
+  inset:0;
+  color:var(--dx-navy);
+  opacity:0;
+  backface-visibility:hidden;
+  transform-origin:50% 50%;          /* the crease runs across the middle */
+}
+.dx-half-top{ clip-path:inset(-20% -10% 50% -10%); }
+.dx-half-bot{ clip-path:inset(50% -10% -20% -10%); }
+.dx-ch.is-folding .dx-half-top{ animation:dx-fold-top .42s cubic-bezier(.2,.7,.25,1) forwards; }
+.dx-ch.is-folding .dx-half-bot{ animation:dx-fold-bot .5s cubic-bezier(.3,.6,.2,1) .28s forwards; }
+@keyframes dx-fold-top{
+  0%  { opacity:1; transform:rotateX(-88deg); color:#c3ccd4; }
+  70% { color:#5f7184; }
+  100%{ opacity:1; transform:rotateX(0); color:var(--dx-navy); }
+}
+@keyframes dx-fold-bot{
+  0%  { opacity:1; transform:rotateX(178deg); color:#9fb0bf; }
+  55% { color:#3e5268; }
+  100%{ opacity:1; transform:rotateX(0); color:var(--dx-navy); }
+}
+
+/* roomier Coursework / Tools facts in the header */
+.dx-hero-row .dx-facts > div{
+  grid-template-columns:130px minmax(0, 1fr);
+  gap:28px;
+  padding:18px 0;
+}
+html body .dx .dx-hero-row .dx-facts dd{ line-height:1.7 !important; letter-spacing:.01em; word-spacing:.12em; }
+@media (max-width:560px){
+  .dx-hero-row .dx-facts > div{ grid-template-columns:minmax(0, 1fr); gap:6px; padding:14px 0; }
+}
