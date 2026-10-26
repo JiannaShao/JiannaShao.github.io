@@ -339,7 +339,7 @@ html body main.rx{
 /* more breathing room around the title */
 .rx .rx-eyebrow{ margin-bottom:clamp(26px, 4vh, 40px); }
 .rx .rx-title{
-  line-height:1.04 !important;
+  line-height:1.2 !important;
   margin-bottom:clamp(40px, 6vh, 64px) !important;
 }
 
