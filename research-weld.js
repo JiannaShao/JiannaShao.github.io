@@ -62,46 +62,54 @@
   }
 
   var sparks = [];
-  var COLORS = ['#ffffff', '#e9fdff', '#b5f6fc', '#3fd8e8', '#1fb7d6'];
+  // saturated azure / turquoise so sparks read against the light page
+  var COLORS = ['#00b4d8', '#0096c7', '#13c4e0', '#2ad3ea', '#48cae4', '#0077b6'];
   function emit(x, y, n, power) {
     for (var i = 0; i < n; i++) {
       var a = Math.random() * Math.PI * 2;
-      var v = (1.2 + Math.random() * 3.6) * power;
+      var v = (2.2 + Math.random() * 5.2) * power;
       sparks.push({
         x: x, y: y, px: x, py: y,
         vx: Math.cos(a) * v,
-        vy: Math.sin(a) * v - 1.6 * power,
+        vy: Math.sin(a) * v - 2.2 * power,
         life: 0,
-        max: 14 + Math.random() * 20,
+        max: 18 + Math.random() * 26,
         c: COLORS[(Math.random() * COLORS.length) | 0]
       });
     }
   }
   function drawSparks(heads) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.globalCompositeOperation = 'lighter';
+    ctx.lineCap = 'round';
     for (var i = sparks.length - 1; i >= 0; i--) {
       var s = sparks[i];
-      s.px = s.x; s.py = s.y;
-      s.vy += 0.24;
+      s.vy += 0.26;
       s.vx *= 0.98;
       s.x += s.vx; s.y += s.vy;
       var k = 1 - (++s.life) / s.max;
       if (k <= 0) { sparks.splice(i, 1); continue; }
-      ctx.globalAlpha = k;
+      // streak drawn behind the spark along its motion, like a long-exposure spark
+      var tx = s.x - s.vx * 2.6, ty = s.y - s.vy * 2.6;
+      ctx.globalAlpha = Math.min(1, k * 1.3);
       ctx.strokeStyle = s.c;
-      ctx.lineWidth = 1.5 * k + 0.4;
+      ctx.lineWidth = 2.2 * k + 0.8;
       ctx.beginPath();
-      ctx.moveTo(s.px, s.py);
+      ctx.moveTo(tx, ty);
       ctx.lineTo(s.x, s.y);
       ctx.stroke();
+      // hot white core at the tip
+      ctx.globalAlpha = k;
+      ctx.fillStyle = '#e9fdff';
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, 0.9 * k + 0.5, 0, Math.PI * 2);
+      ctx.fill();
     }
     // bright arc point at each torch
     heads.forEach(function (h) {
       var g = ctx.createRadialGradient(h.x, h.y, 0, h.x, h.y, h.r);
       g.addColorStop(0, 'rgba(255,255,255,1)');
-      g.addColorStop(0.35, 'rgba(160,245,252,.85)');
-      g.addColorStop(1, 'rgba(63,216,232,0)');
+      g.addColorStop(0.3, 'rgba(42,211,234,.95)');
+      g.addColorStop(1, 'rgba(0,150,199,0)');
       ctx.globalAlpha = 1;
       ctx.fillStyle = g;
       ctx.beginPath();
@@ -187,7 +195,7 @@
           it.halo.style.strokeDashoffset = off;
           var pt = it.pts[Math.min(it.pts.length - 1, Math.round(e * (it.pts.length - 1)))];
           heads.push({ x: pt[0], y: pt[1], r: Math.max(6, it.size * 0.07) });
-          emit(pt[0], pt[1], 2, Math.max(0.7, it.size / 120));
+          emit(pt[0], pt[1], 4, Math.max(0.8, it.size / 110));
         } else if (!it.filled) {
           it.filled = true;
           it.el.style.strokeDashoffset = 0;
@@ -195,6 +203,8 @@
           it.halo.style.strokeDashoffset = 0;
           it.halo.classList.add('is-done');
           it.span.classList.add('is-hot');         // letter fills hot, then cools
+          var last = it.pts[it.pts.length - 1];
+          emit(last[0], last[1], 14, Math.max(0.9, it.size / 100));   // finishing burst
         }
       });
       drawSparks(heads);
