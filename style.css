@@ -2786,3 +2786,11 @@ html body .art-card.gallery-doors > div{ z-index:3; }
 /* More space between the résumé folder and its button */
 html body .resume-section .resume-peek{ gap:40px !important; }
 @media(max-width:420px){ html body .resume-section .resume-peek{ gap:18px !important; } }
+
+/* Bigger tap area for "Explore →" on touch screens (looks the same) */
+@media (hover:none), (max-width:800px){
+  html body .under-link{
+    padding-top:12px;
+    margin-top:0 !important;
+  }
+}
