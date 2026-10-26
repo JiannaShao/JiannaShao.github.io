@@ -231,45 +231,59 @@
     ctx.clearRect(0, 0, w, h);
     let seed = 7;                                    // same pattern every visit
     const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
-    const shades = ['#14253d', '#14253d', '#14253d', '#0e1c30', '#1c3150', '#24395a', '#102038'];
+    const shades = ['#14253d', '#14253d', '#12223a', '#0f1d31', '#1a2e4a', '#223858', '#2b4262', '#16294a'];
     const unit = Math.max(.55, h / 520);
-    const topEdge = (u) => .05 + .007 * Math.sin(u * 13 + 1) + .005 * Math.sin(u * 41) + .004 * Math.sin(u * 97 + 2);
-    const botEdge = (u) => .95 + .007 * Math.sin(u * 11 + 3) + .005 * Math.sin(u * 37 + 1) + .004 * Math.sin(u * 89);
-    const rowEnd = (v) => { const r = Math.floor(v * 46); return .86 + (((r * 9301 + 49297) % 233280) / 233280) * .09; };
-    // base in the brush's own shape (ragged edges, short dry end), under the digits
+    // acrylic brush stroke, drawn bristle by bristle so it stays sharp
+    const k = h / 560;
+    // soft core so the lettering has an even ground
     ctx.beginPath();
-    for (let k = 0; k <= 80; k++) { const u = k / 80 * .86; ctx.lineTo(u * w, (topEdge(u) + .035) * h); }
-    for (let k = 80; k >= 0; k--) { const u = k / 80 * .86; ctx.lineTo(u * w, (botEdge(u) - .035) * h); }
+    for (let i = 0; i <= 60; i++) { const x = i / 60 * w * .84; ctx.lineTo(x, h * .1 + 5 * k * Math.sin(x * .004)); }
+    for (let i = 60; i >= 0; i--) { const x = i / 60 * w * .84; ctx.lineTo(x, h * .9 + 5 * k * Math.sin(x * .0035 + 2)); }
     ctx.closePath();
     const g = ctx.createLinearGradient(0, 0, w, 0);
-    g.addColorStop(0, 'rgba(20,37,61,.6)'); g.addColorStop(.74, 'rgba(20,37,61,.55)'); g.addColorStop(.86, 'rgba(20,37,61,0)');
+    g.addColorStop(0, 'rgba(20,37,61,.85)'); g.addColorStop(.74, 'rgba(20,37,61,.85)'); g.addColorStop(.86, 'rgba(20,37,61,0)');
     ctx.fillStyle = g;
-    ctx.filter = `blur(${Math.round(6 * unit)}px)`;
+    ctx.filter = `blur(${Math.round(12 * k)}px)`;
     ctx.fill();
     ctx.filter = 'none';
-    // digits, densely packed, mostly small
-    const N = Math.round(w * h / (26 * unit * unit));
-    ctx.textBaseline = 'middle';
-    ctx.textAlign = 'center';
-    for (let i = 0; i < N; i++) {
-      const u = rnd(), v = rnd();
-      const big = rnd();
-      const size = (big > .97 ? 30 + rnd() * 18 : big > .8 ? 16 + rnd() * 12 : 7 + rnd() * 9) * unit;
-      const half = size * .4 / h;
-      const top = topEdge(u), bot = botEdge(u);
-      if (v - half < top || v + half > bot) continue;
-      const edge = Math.min(v - top, bot - v);
-      let p = Math.min(1, .35 + edge / .06);
-      if (u > .8) {
-        const end = rowEnd(v);
-        if (u > end) continue;
-        p *= 1 - (u - .8) / (end - .8) * .6;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    const n = Math.round(380 * Math.min(1, h / 420) + 60);
+    for (let i = 0; i < n; i++) {
+      const t = i / (n - 1);
+      const y0 = h * (.04 + .92 * t) + (rnd() - .5) * 4 * k;
+      const edge = Math.min(1, Math.min(t, 1 - t) * 4);
+      const thick = k * (2.2 + rnd() * 3.3) * (.55 + .9 * edge);
+      const alpha = (.72 + rnd() * .28) * (.55 + .45 * Math.min(1, edge * 1.25));
+      const end = w * (.86 + rnd() * .12) * (.93 + .07 * edge);
+      const amp = k * (1 + rnd() * 2), f = .0012 + rnd() * .0018, ph = rnd() * 6.28;
+      ctx.strokeStyle = shades[Math.floor(rnd() * shades.length)];
+      const yy = (xx) => y0 + amp * Math.sin(xx * f + ph) + h * .012 * Math.sin(xx * .0009 + 1.3);
+      ctx.globalAlpha = alpha;
+      // one continuous line per unbroken run; runs break up near the dry end
+      let x = rnd() * 18 + (1 - edge) * rnd() * 40;
+      let runStart = x;
+      const flush = (from, to) => {
+        if (to - from < 2) return;
+        ctx.lineWidth = thick * (1 - .45 * Math.max(0, (to / end) - .8) / .2);
+        ctx.beginPath();
+        ctx.moveTo(from, yy(from));
+        for (let xx = from + 24; xx < to; xx += 24) ctx.lineTo(xx, yy(xx));
+        ctx.lineTo(to, yy(to));
+        ctx.stroke();
+      };
+      while (x < end) {
+        const step = 18 + rnd() * 28;
+        const frac = x / end;
+        if (frac > .8 && rnd() < (frac - .8) * 2.2) {
+          flush(runStart, x);
+          x += step * (.6 + rnd() * 1.6);
+          runStart = x;
+          continue;
+        }
+        x = Math.min(end, x + step);
       }
-      if (rnd() > p) continue;
-      ctx.font = `${size}px Gulax, 'Work Sans', Arial, sans-serif`;
-      ctx.fillStyle = shades[Math.floor(rnd() * shades.length)];
-      ctx.globalAlpha = .55 + rnd() * .45;
-      ctx.fillText(String(Math.floor(rnd() * 10)), u * w, v * h);
+      flush(runStart, Math.min(x, end));
     }
     ctx.globalAlpha = 1;
   };
