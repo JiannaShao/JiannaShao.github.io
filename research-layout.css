@@ -286,45 +286,61 @@ html body main.rx{
 }
 
 /* ---------- welding title animation ---------- */
-.rx-title.is-welding .rx-ch{
-  display:inline-block;
+.rx-title .rx-ch{
+  display:inline-block;            /* kept after the animation so nothing shifts */
   white-space:pre;
-  opacity:0;
 }
+.rx-baseline{
+  display:inline-block;
+  width:0;
+  height:0;
+  vertical-align:baseline;
+}
+.rx-title.is-welding .rx-ch{ opacity:0; }
 .rx-title .rx-ch.is-hot{
   opacity:1;
-  color:var(--rx-arc-hot);
-  text-shadow:
-    0 0 6px var(--rx-arc),
-    0 0 18px var(--rx-arc),
-    0 0 42px rgba(63,216,232,.65);
-  animation:rx-cool 1.6s ease-out forwards;
+  animation:rx-cool 1s ease-out forwards;
 }
 @keyframes rx-cool{
   0%{
     color:var(--rx-arc-hot);
-    text-shadow:0 0 6px var(--rx-arc), 0 0 18px var(--rx-arc), 0 0 42px rgba(63,216,232,.65);
-    transform:translateY(1px) scale(1.04);
+    text-shadow:0 0 6px var(--rx-arc), 0 0 18px var(--rx-arc), 0 0 40px rgba(63,216,232,.6);
   }
-  25%{
+  30%{
     color:#7fe9f3;
-    text-shadow:0 0 4px var(--rx-arc), 0 0 14px rgba(63,216,232,.6), 0 0 28px rgba(63,216,232,.35);
-    transform:none;
+    text-shadow:0 0 4px var(--rx-arc), 0 0 14px rgba(63,216,232,.5);
   }
-  60%{
+  65%{
     color:#2b6f8a;
-    text-shadow:0 0 6px rgba(63,216,232,.25);
+    text-shadow:0 0 6px rgba(63,216,232,.2);
   }
   100%{
     color:var(--rx-navy);
     text-shadow:none;
-    transform:none;
   }
 }
-.rx-sparks{
+.rx-sparks,
+.rx-arc{
   position:absolute;
   pointer-events:none;
   z-index:2;
+  overflow:visible;
+}
+.rx-arc path{
+  fill:none;
+  stroke:#7feef8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  transition:opacity .45s ease;
+}
+.rx-arc path.is-done{ opacity:0; }
+.rx-arc path.rx-halo{ stroke:rgba(63,216,232,.35); }   /* soft glow under the bright line */
+
+/* more breathing room around the title */
+.rx .rx-eyebrow{ margin-bottom:clamp(26px, 4vh, 40px); }
+.rx .rx-title{
+  line-height:1.04 !important;
+  margin-bottom:clamp(40px, 6vh, 64px) !important;
 }
 
 /* ---------- smaller screens ---------- */
@@ -349,5 +365,5 @@ html body main.rx{
   .rx-list li{ flex-direction:column; align-items:flex-start; gap:8px; }
 }
 @media (prefers-reduced-motion: reduce){
-  .rx-title .rx-ch.is-hot{ animation:none; color:var(--rx-navy) !important; text-shadow:none; }
+  .rx-title .rx-ch.is-hot{ animation:none; }
 }
