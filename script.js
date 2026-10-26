@@ -187,15 +187,26 @@
   const heroStroke = document.querySelector('.hero-stroke');
   const placeStroke = () => {
     if (!heroStroke || !heroName) return;
+    const row = heroStroke.offsetParent || heroName.parentElement;
+    const rowRect = row.getBoundingClientRect();
     const nameRect = heroName.getBoundingClientRect();
     const nav = document.getElementById('side-nav');
     const navRight = nav && getComputedStyle(nav).transform === 'none' && window.innerWidth > 800
       ? nav.getBoundingClientRect().right : 0;
+    // widest line of the name, measured without any animation offset
     let right = nameRect.left;
-    heroName.querySelectorAll('.hero-name-part').forEach((p) => { right = Math.max(right, p.getBoundingClientRect().right); });
-    const left = navRight - nameRect.left;
-    heroStroke.style.setProperty('--stroke-left', `${left}px`);
-    heroStroke.style.setProperty('--stroke-width', `${(right - nameRect.left) - left + nameRect.width * 0.06}px`);
+    heroName.querySelectorAll('.hero-name-part').forEach((p) => {
+      const r = p.getBoundingClientRect();
+      const tx = new DOMMatrix(getComputedStyle(p).transform).m41 || 0;
+      const tr = (getComputedStyle(p).translate || '').split(' ')[0];
+      right = Math.max(right, r.right - tx - (parseFloat(tr) || 0));
+    });
+    const pad = nameRect.height * (window.innerWidth <= 800 ? 0.07 : 0.14);
+    const left = navRight - rowRect.left;
+    heroStroke.style.left = `${left}px`;
+    heroStroke.style.top = `${nameRect.top - rowRect.top - pad}px`;
+    heroStroke.style.height = `${nameRect.height + pad * 2}px`;
+    heroStroke.style.width = `${(right - rowRect.left) - left + nameRect.width * 0.08}px`;
   };
   const paintStroke = () => {
     if (!heroStroke) return;
@@ -742,6 +753,7 @@
           heroName.classList.remove('name-intro-pending');
 
           const parts = [...heroName.querySelectorAll('.hero-name-part')];
+          paintStroke();                              // stroke sweeps in with the name
           const anims = parts.map((part, i) => {
             const r = part.getBoundingClientRect();
             const from = stacked
@@ -754,7 +766,7 @@
           });
           Promise.all(anims.map((a) => a.finished)).then(() => {
             heroName.style.clipPath = '';
-            paintStroke();
+            placeStroke();
           }, () => { heroName.style.clipPath = ''; });
           shakeT0 = clock.elapsedTime + 1.4;        // first shake once the name has landed
         }

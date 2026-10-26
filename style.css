@@ -2898,3 +2898,46 @@ html body .hero h1.hero-name{ position:relative !important; }
 /* stroke: a little bolder and tucked closer under the name */
 .hero-stroke{ bottom:-.2em; height:.36em; min-height:20px; }
 .hero-stroke .bs-main{ opacity:.9; }
+
+/* =====================================================
+   Name on a navy paint stroke (stroke sits behind the name)
+===================================================== */
+html body .hero-title-row{ position:relative !important; }
+html body .hero h1.hero-name{ position:relative !important; z-index:2 !important; }
+html body .hero-title-row > .hero-stroke{
+  position:absolute;
+  left:-60px;
+  top:0;
+  width:100%;
+  height:100%;
+  bottom:auto;
+  min-height:0;
+  z-index:1;
+  clip-path:inset(0 100% 0 0);
+}
+html body .hero-title-row > .hero-stroke .bs-main{ fill:#14253d; opacity:1; }
+html body .hero-title-row > .hero-stroke .bs-dry{ stroke:#fafafa; opacity:.18; stroke-width:3; }
+html body .hero-title-row > .hero-stroke .bs-dry2{ opacity:.12; }
+html body .hero-title-row > .hero-stroke.is-painted{
+  animation:hero-stroke-in 1.25s cubic-bezier(.45,.05,.25,1) forwards;
+}
+/* JIANNA in the light page colour on the navy stroke */
+html body .hero-name .hero-name-jianna{ color:#fafafa !important; }
+
+/* Name sits further left on wide screens so the postcard gets more room */
+@media (min-width:1100px){
+  html body .hero .hero-content{
+    --hl:max(28px, calc((100% - 1152px) / 2 - 80px));
+    --hr:max(28px, calc((100% - 1152px) / 2));
+    margin-left:var(--hl) !important;
+    margin-right:var(--hr) !important;
+    width:calc(100% - var(--hl) - var(--hr)) !important;
+    max-width:none !important;
+  }
+}
+
+html body .hero-title-row > .hero-stroke .bs-dry{ stroke:#fafafa; opacity:.07; fill:none; }
+
+@media (max-width:800px){
+  html body .hero-title-row .hero-name{ margin-top:22px !important; }
+}
