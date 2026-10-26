@@ -4,7 +4,7 @@
    the torch point, then the letter fills in hot and cools to
    navy. Letters overlap so the whole title finishes quickly.
    Outlines come from the bundled DM Serif Display font
-   (fonts/DMSerifDisplay-Regular.ttf) read with opentype.js.
+   (fonts/Gulax.otf) read with opentype.js.
    ========================================================= */
 (function () {
   var title = document.getElementById('rx-title');
@@ -238,11 +238,11 @@
 
   var fontPromise = (window.opentype
     ? new Promise(function (res, rej) {
-        window.opentype.load('fonts/DMSerifDisplay-Regular.ttf', function (err, f) { err ? rej(err) : res(f); });
+        window.opentype.load('fonts/Gulax.otf', function (err, f) { err ? rej(err) : res(f); });
       })
     : Promise.reject(new Error('opentype.js missing')));
   var webFontReady = document.fonts && document.fonts.load
-    ? document.fonts.load('400 100px "DM Serif Display"').catch(function () {})
+    ? document.fonts.load('400 100px "Gulax"').catch(function () {})
     : Promise.resolve();
 
   function go() {

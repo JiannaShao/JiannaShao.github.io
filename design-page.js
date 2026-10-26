@@ -144,9 +144,9 @@
       var go = function () {
         Promise.all([
           new Promise(function (res, rej) {
-            window.opentype.load('fonts/DMSerifDisplay-Regular.ttf', function (err, f) { err ? rej(err) : res(f); });
+            window.opentype.load('fonts/Gulax.otf', function (err, f) { err ? rej(err) : res(f); });
           }),
-          document.fonts && document.fonts.load ? document.fonts.load('400 100px "DM Serif Display"').catch(function () {}) : null
+          document.fonts && document.fonts.load ? document.fonts.load('400 100px "Gulax"').catch(function () {}) : null
         ]).then(function (r) { draw(r[0]); }, function () {
           title.classList.remove('is-drafting');
         });

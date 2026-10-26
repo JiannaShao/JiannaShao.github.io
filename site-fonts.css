@@ -1,0 +1,35 @@
+/* =========================================================
+   SITE FONTS — Gulax (VTF Gulax by Morgan Gilbert, SIL OFL,
+   see fonts/Gulax-OFL.txt) for the big headings on every page.
+   Loaded last; the :not(#gx) bump outranks the page stylesheets.
+   Characters Gulax lacks (— – · ’) fall back to DM Serif Display.
+   ========================================================= */
+@font-face{
+  font-family:'Gulax';
+  src:url('fonts/Gulax.otf') format('opentype');   /* the original file: same shapes the title animations trace */
+  font-weight:400;
+  font-style:normal;
+  font-display:swap;
+}
+
+html body h1:not(#gx),
+html body h2:not(#gx){
+  font-family:'Gulax', 'DM Serif Display', Georgia, serif !important;
+  font-weight:400 !important;
+  letter-spacing:.01em !important;
+}
+html body h1:not(#gx){ line-height:1.02 !important; }
+html body h2:not(#gx){ line-height:1.08 !important; }
+
+/* home: the name */
+html body .hero h1.hero-name:not(#gx){
+  letter-spacing:.02em !important;
+  line-height:1.04 !important;
+}
+/* the J is stretched a little wider */
+html body .hero-name .hero-initial-j{
+  display:inline-block;
+  transform:scaleX(1.32) translateY(.025em);
+  transform-origin:left bottom;
+  margin-right:.21em;
+}
