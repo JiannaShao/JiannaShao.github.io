@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="research.css?v=5">
+    <link rel="stylesheet" href="research-layout.css?v=1">
   <link rel="stylesheet" href="site-chrome.css?v=4">
   <link rel="stylesheet" href="site-loader.css?v=1">
   <script src="site-loader.js?v=1"></script>
@@ -86,221 +87,121 @@
 </div>
 
 
-    <main class="page">
+    <main class="rx">
 
-        <!-- =========================
-             HERO
-        ========================= -->
-
-        <section class="hero">
-
-            <div class="hero-text">
-
-                <p class="eyebrow">WESLEYAN UNIVERSITY · Jianna Shao · 2026</p>
-
-                <h1>Curves in 3D Printing Steel</h1>
-
-                <p class="subtitle">
-                    Predictive modeling how robotic toolpath curvature influences
-                    metal deposition and bead geometry in Wire Arc Additive Manufacturing (WAAM)
+        <!-- HERO -->
+        <header class="rx-hero">
+            <p class="rx-eyebrow">Wesleyan University · Jianna Shao · 2026</p>
+            <h1 class="rx-title" id="rx-title" aria-label="Curves in 3D Printing Steel">
+                <span class="rx-line">Curves in 3D</span>
+                <span class="rx-line">Printing Steel</span>
+            </h1>
+            <div class="rx-hero-row">
+                <p class="rx-subtitle">
+                    Predictive modeling of how robotic toolpath curvature influences
+                    metal deposition and bead geometry in Wire Arc Additive Manufacturing (WAAM).
                 </p>
-
+                <dl class="rx-facts">
+                    <div><dt>Lab</dt><dd>Chang-Davidson Lab, Wesleyan</dd></div>
+                    <div><dt>Process</dt><dd>WAAM · robotic MIG welding</dd></div>
+                    <div><dt>Status</dt><dd><span class="rx-dot" aria-hidden="true"></span>Paper in preparation</dd></div>
+                </dl>
             </div>
+        </header>
 
-        </section>
-
-
-        <!-- =========================
-             THE QUESTION
-        ========================= -->
-
-        <section class="section">
-
-            <p class="section-label">01 — THE QUESTION</p>
-
-            <h2>How does the shape of a robot's path change what it produces?</h2>
-
-            <p class="body-text">
-                My research is done at Wesleyan University's Chang-Davidson Lab, which focuses on steel additive manufacturing using a MIG welding setup.
-
-            </p>
-
-            <p class="body-text">
-                This project explored the relationship between programmed toolpaths and physical results, examining how changes in curvature and process parameters influence the final bead; 
-                a critical manufacturing consideration when translating design into physical objects.
-            </p>
-
-        </section>
-
-
-        <!-- =========================
-             THE EXPERIMENT
-        ========================= -->
-
-        <section class="section">
-
-            <p class="section-label">02 — THE EXPERIMENT</p>
-
-            <div class="two-column">
-
-                <div>
-
-                    <h2>Programming the path and welding the samples.</h2>
-
-                    <p class="body-text">
-                        I designed and tested curved robotic deposition paths
-                        across multiple combinations of curvature, wire feed
-                        rate, and travel speed.
-                    </p>
-
-                    <p class="body-text">
-                        The resulting deposits were measured and analyzed to
-                        understand how toolpath geometry affected bead width
-                        and height.
-                    </p>
-
-                </div>
-
-                <div class="image-box">
-                    <img src="web/ResarchImages/Setup.jpg"
-                         alt="Robotic welding setup">
-                </div>
-
+        <!-- 01 THE QUESTION -->
+        <section class="rx-section rx-split">
+            <div class="rx-head">
+                <p class="rx-label">01 — The question</p>
+                <h2>How does the shape of a robot's path change what it produces?</h2>
             </div>
-
+            <div class="rx-body">
+                <p>My research is done at Wesleyan University's Chang-Davidson Lab, which focuses on steel additive manufacturing using a MIG welding setup.</p>
+                <p>This project explored the relationship between programmed toolpaths and physical results, examining how changes in curvature and process parameters influence the final bead: a critical manufacturing consideration when translating design into physical objects.</p>
+            </div>
         </section>
 
-
-        <!-- =========================
-             EXPERIMENTAL PHOTOS
-        ========================= -->
-
-        <section class="section">
-
-            <p class="section-label">03 — THE WORK</p>
-
-            <div class="photo-grid">
-
-                <figure>
-                    <img src="web/ResarchImages/Welding.jpg"
-                         alt="Photograph of welding">
-                    <figcaption>
-                        A screenshot from a video of the robotic arm at work welding the shapes onto a steel plate.
-                    </figcaption>
+        <!-- 02 THE EXPERIMENT -->
+        <section class="rx-section">
+            <div class="rx-head rx-head-wide">
+                <p class="rx-label">02 — The experiment</p>
+                <h2>Programming the path and welding the samples.</h2>
+            </div>
+            <div class="rx-setup">
+                <figure class="rx-figure rx-figure-diagram">
+                    <img src="web/ResarchImages/Setup.jpg" alt="Labelled diagram of the robotic welding cell" width="2000" height="1500" loading="lazy" decoding="async">
                 </figure>
+                <div class="rx-setup-text">
+                    <p>I designed and tested curved robotic deposition paths across multiple combinations of curvature, wire feed rate, and travel speed.</p>
+                    <p>The resulting deposits were measured and analyzed to understand how toolpath geometry affected bead width and height.</p>
+                    <ol class="rx-key" aria-label="Parts of the welding cell">
+                        <li>Robotic arm</li>
+                        <li>Positioner and build plate</li>
+                        <li>Welding torch</li>
+                        <li>Wire feeder</li>
+                        <li>Welding power source</li>
+                        <li>Shielding gas</li>
+                        <li>Robot controller</li>
+                        <li>Programming computer</li>
+                        <li>Fume extraction</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
 
-                <figure>
-                    <img src="web/ResarchImages/PlateDiagram.jpg"
-                         alt="Example of plate">
-                    <figcaption>
-                        One of the many samples that were welded and then measured. 346 curves were measured in total.
-                    </figcaption>
+        <!-- 03 THE WORK -->
+        <section class="rx-section">
+            <div class="rx-head rx-head-wide">
+                <p class="rx-label">03 — The work</p>
+            </div>
+            <div class="rx-photos">
+                <figure class="rx-figure">
+                    <img src="web/ResarchImages/Welding.jpg" alt="Robotic arm welding a curved path onto a steel plate" width="2000" height="1500" loading="lazy" decoding="async">
+                    <figcaption>A still from video of the robotic arm welding the curves onto a steel plate.</figcaption>
+                </figure>
+                <figure class="rx-figure">
+                    <img src="web/ResarchImages/PlateDiagram.jpg" alt="A welded sample plate with six numbered curves" width="2000" height="1993" loading="lazy" decoding="async">
+                    <figcaption>One of the many samples that were welded and then measured. 346 curves were measured in total.</figcaption>
                 </figure>
             </div>
-
         </section>
 
-
-        <!-- =========================
-             FINDINGS
-        ========================= -->
-
-        <section class="section findings">
-
-            <p class="section-label">04 — WHAT I FOUND</p>
-
-            <h2>Curvature matters.</h2>
-
-            <p class="body-text">
-                The study showed that toolpath curvature can substantially
-                influence deposited bead geometry, particularly as curvature
-                becomes smaller relative to the characteristic bead width.
-            </p>
-
-            <p class="note">
-                Quantitative results are complete but being prepared
-                for publication and are not included here.
-            </p>
-
+        <!-- 04 WHAT I FOUND -->
+        <section class="rx-section rx-findings">
+            <div class="rx-findings-card">
+                <div class="rx-head">
+                    <p class="rx-label">04 — What I found</p>
+                    <h2>Curvature matters.</h2>
+                </div>
+                <div class="rx-body">
+                    <p>The study showed that toolpath curvature can substantially influence deposited bead geometry, particularly as curvature becomes smaller relative to the characteristic bead width.</p>
+                    <p class="rx-status"><span class="rx-dot" aria-hidden="true"></span>Quantitative results are complete and being prepared for publication.</p>
+                </div>
+            </div>
         </section>
 
-
-
-        <!-- =========================
-             PRESENTATION
-        ========================= -->
-
-        <section class="section presentation">
-
-            <div class="two-column">
-
-                <div>
-
-                    <p class="section-label">05 — SUMMER SCIENCE SYMPOSIUM</p>
-
-                    <h2>Sharing the Research</h2>
-
-                    <p class="body-text">
-                        I presented this research at the Wesleyan University
-                        Summer Symposium where my oral presentation received third
-                        place in the Spark Prize competition.
-                    </p>
-
-                </div>
-
-                <div class="image-box">
-                    <img src="ResarchImages/MeNRonnie.jpg"
-                         alt="Presenting research at a symposium">
-                </div>
-
+        <!-- 05 SYMPOSIUM -->
+        <section class="rx-section rx-split rx-present">
+            <figure class="rx-figure rx-figure-photo">
+                <img src="ResarchImages/MeNRonnie.jpg" alt="Presenting the research poster at the Wesleyan Summer Symposium" width="585" height="345" loading="lazy" decoding="async">
+            </figure>
+            <div class="rx-body">
+                <p class="rx-label">05 — Summer Science Symposium</p>
+                <h2>Sharing the research</h2>
+                <p>I presented this research at the Wesleyan University Summer Symposium, where my oral presentation received third place in the Spark Prize competition.</p>
             </div>
-
         </section>
 
-
-        <!-- =========================
-             RESEARCH OUTPUTS
-        ========================= -->
-
-        <section class="section outputs">
-
-            <p class="section-label">RESEARCH & RECOGNITION</p>
-
-            <div class="output">
-
-                <div>
-                    <h3>Wesleyan Research in Science 2026 Summer Fellowship</h3>
-                    <p>Wesleyan University · 2026</p>
-                </div>
-
-                <span>$5000 research Fellowship</span>
-
-            </div>
-
-            <div class="output">
-
-                <div>
-                    <h3>Spark Prize — 3rd Place</h3>
-                    <p>Wesleyan University Summer Symposium · 2026</p>
-                </div>
-
-                <span>Award</span>
-
-            </div>
-
-            <div class="output">
-
-                <div>
-                    <h3>Research Paper</h3>
-                    <p>Currently in preparation</p>
-                </div>
-
-                <span>Coming Soon</span>
-
-            </div>
-
+        <!-- RECOGNITION -->
+        <section class="rx-section rx-outputs">
+            <p class="rx-label">Research &amp; recognition</p>
+            <ul class="rx-list">
+                <li><div><h3>Wesleyan Research in Science 2026 Summer Fellowship</h3><p>Wesleyan University · 2026</p></div><span>$5,000 fellowship</span></li>
+                <li><div><h3>Spark Prize — 3rd Place</h3><p>Wesleyan University Summer Symposium · 2026</p></div><span>Award</span></li>
+                <li><div><h3>Research Paper</h3><p>Currently in preparation</p></div><span>Coming soon</span></li>
+            </ul>
         </section>
-</main>
+    </main>
 
 
     <script>
@@ -317,6 +218,7 @@
     </script>
 
   <script src="site-chrome.js?v=3"></script>
+  <script src="research-weld.js?v=1"></script>
 </body>
 
 </html>
