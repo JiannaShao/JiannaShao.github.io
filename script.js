@@ -182,7 +182,31 @@
 
   // The name waits (hidden) for its slide-out intro; the loader waits for the 3D.
   const heroName = document.querySelector('.hero-name');
-  const showNamePlain = () => heroName && heroName.classList.remove('name-intro-pending');
+  /* Paint stroke under the name: starts at the sidebar's edge (screen edge on
+     phones) and runs to just past the end of the name. */
+  const heroStroke = document.querySelector('.hero-stroke');
+  const placeStroke = () => {
+    if (!heroStroke || !heroName) return;
+    const nameRect = heroName.getBoundingClientRect();
+    const nav = document.getElementById('side-nav');
+    const navRight = nav && getComputedStyle(nav).transform === 'none' && window.innerWidth > 800
+      ? nav.getBoundingClientRect().right : 0;
+    let right = nameRect.left;
+    heroName.querySelectorAll('.hero-name-part').forEach((p) => { right = Math.max(right, p.getBoundingClientRect().right); });
+    const left = navRight - nameRect.left;
+    heroStroke.style.setProperty('--stroke-left', `${left}px`);
+    heroStroke.style.setProperty('--stroke-width', `${(right - nameRect.left) - left + nameRect.width * 0.06}px`);
+  };
+  const paintStroke = () => {
+    if (!heroStroke) return;
+    placeStroke();
+    heroStroke.classList.add('is-painted');
+  };
+  window.addEventListener('resize', placeStroke);
+  const showNamePlain = () => {
+    if (heroName) heroName.classList.remove('name-intro-pending');
+    paintStroke();
+  };
   if (postcardHost && heroName) {
     heroName.classList.add('name-intro-pending');
     setTimeout(showNamePlain, 20000);            // safety net
@@ -730,6 +754,7 @@
           });
           Promise.all(anims.map((a) => a.finished)).then(() => {
             heroName.style.clipPath = '';
+            paintStroke();
           }, () => { heroName.style.clipPath = ''; });
           shakeT0 = clock.elapsedTime + 1.4;        // first shake once the name has landed
         }

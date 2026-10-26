@@ -2867,3 +2867,34 @@ html body .work-card .explore-btn:focus-visible{ outline:3px solid #48666d; outl
   html body .hero-name:has(.hero-name-jianna:hover) .hero-name-shao{ transform:translate(12px, 8px) !important; }
   html body .hero-name:has(.hero-name-shao:hover) .hero-name-jianna{ transform:translate(-12px, -8px) !important; }
 }
+
+/* Name in capitals */
+html body .hero h1.hero-name{ text-transform:uppercase; }
+html body .hero-name .hero-initial{ font-size:1em !important; }
+
+/* Paint stroke under the name, swept out from the sidebar */
+html body .hero h1.hero-name{ position:relative !important; }
+.hero-stroke{
+  position:absolute;
+  left:var(--stroke-left, -60px);
+  width:var(--stroke-width, 120%);
+  bottom:-.34em;
+  height:.3em;
+  min-height:16px;
+  pointer-events:none;
+  z-index:-1;
+  clip-path:inset(0 100% 0 0);
+}
+.hero-stroke svg{ display:block; width:100%; height:100%; overflow:visible; }
+.hero-stroke .bs-main{ fill:#86a4ab; opacity:.85; }
+.hero-stroke .bs-dry{ fill:none; stroke:#fafafa; stroke-width:2.2; opacity:.55; }
+.hero-stroke .bs-dry2{ stroke-width:1.4; opacity:.4; }
+.hero-stroke.is-painted{ animation:hero-stroke-in 1s cubic-bezier(.5,.05,.2,1) forwards; }
+@keyframes hero-stroke-in{ to{ clip-path:inset(0 0 0 0); } }
+@media (prefers-reduced-motion: reduce){
+  .hero-stroke{ clip-path:none; }
+  .hero-stroke.is-painted{ animation:none; }
+}
+/* stroke: a little bolder and tucked closer under the name */
+.hero-stroke{ bottom:-.2em; height:.36em; min-height:20px; }
+.hero-stroke .bs-main{ opacity:.9; }
