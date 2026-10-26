@@ -1,0 +1,254 @@
+/* =========================================================
+   FINE ART — masonry grid + lightbox
+   Works sit side by side at their natural proportions with a
+   short caption; clicking one opens it large with the full text.
+   ========================================================= */
+:root{
+  --ag-navy:#14253d;
+  --ag-muted:#5f6b74;
+  --ag-line:rgba(20,37,61,.12);
+  --ag-label:#48666d;
+  --ag-serif:'DM Serif Display', Georgia, serif;
+  --ag-sans:'Work Sans', Arial, sans-serif;
+  --ag-backdrop:rgba(12,18,28,.975);
+}
+
+/* ---------- header ---------- */
+html body .portfolio-header{
+  padding-top:clamp(56px, 9vh, 90px) !important;
+  padding-bottom:clamp(36px, 6vh, 56px) !important;
+}
+html body .portfolio-header .ag-count{
+  margin:14px 0 0;
+  font-family:var(--ag-sans);
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--ag-label);
+}
+
+/* ---------- masonry grid ---------- */
+html body main.portfolio{
+  column-count:3;
+  column-gap:clamp(18px, 2.4vw, 32px);
+  padding-bottom:110px !important;
+}
+html body main.portfolio > .artwork{
+  break-inside:avoid;
+  -webkit-column-break-inside:avoid;
+  display:block;
+  margin:0 0 clamp(26px, 3.4vw, 44px) !important;
+  cursor:zoom-in;
+  outline:none;
+}
+html body main.portfolio .artwork-image{
+  display:block !important;
+  margin:0 0 12px !important;
+  pointer-events:auto !important;     /* clickable now */
+  overflow:hidden;
+  border-radius:10px !important;
+  background:#eef0ef;
+}
+html body main.portfolio .artwork-image img{
+  display:block;
+  width:100% !important;
+  max-width:100% !important;
+  max-height:none !important;
+  height:auto !important;
+  border-radius:10px !important;
+  transition:transform .5s cubic-bezier(.2,.7,.2,1), filter .3s ease !important;
+  -webkit-user-drag:none;
+}
+html body main.portfolio .artwork-image::after{
+  font-size:clamp(16px, 2vw, 26px);
+  letter-spacing:3px;
+}
+@media (hover:hover) and (pointer:fine){
+  html body main.portfolio .artwork:hover .artwork-image img{
+    transform:scale(1.035) !important;
+  }
+}
+html body main.portfolio .artwork:focus-visible .artwork-image{
+  outline:3px solid var(--ag-label);
+  outline-offset:3px;
+}
+
+/* captions: title, then year · medium; description lives in the viewer */
+html body main.portfolio .artwork-info{
+  max-width:none !important;
+  display:grid;
+  gap:3px;
+}
+html body main.portfolio .artwork-info h2{
+  margin:0 !important;
+  font-family:var(--ag-serif) !important;
+  font-size:19px !important;
+  line-height:1.25 !important;
+  color:var(--ag-navy) !important;
+}
+html body main.portfolio .artwork-subtitle{
+  margin:0 !important;
+  font-family:var(--ag-sans);
+  font-size:13px !important;
+  letter-spacing:.02em !important;
+  font-weight:400 !important;
+  color:var(--ag-muted) !important;
+}
+html body main.portfolio .artwork-description{ display:none !important; }
+
+@media (max-width:1050px){ html body main.portfolio{ column-count:2; } }
+@media (max-width:800px){
+  html body .portfolio-header{ padding-top:84px !important; }
+}
+@media (max-width:480px){
+  html body main.portfolio{ column-count:1; }
+}
+
+/* ---------- lightbox ---------- */
+.ag-lightbox{
+  position:fixed;
+  inset:0;
+  z-index:9000;
+  display:grid;
+  grid-template-columns:minmax(0, 1fr) minmax(260px, 340px);
+  gap:clamp(20px, 3vw, 44px);
+  align-items:center;
+  padding:clamp(20px, 4vh, 48px) clamp(64px, 6vw, 96px);
+  background:var(--ag-backdrop);
+  color:#eef2f4;
+  opacity:0;
+  visibility:hidden;
+  transition:opacity .25s ease, visibility 0s linear .25s;
+}
+.ag-lightbox.is-open{
+  opacity:1;
+  visibility:visible;
+  transition:opacity .25s ease;
+}
+body.ag-locked{ overflow:hidden !important; }
+
+.ag-stage{
+  position:relative;
+  height:min(86vh, 100%);
+  min-height:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  border-radius:8px;
+  cursor:zoom-in;
+}
+.ag-stage.is-zoomed{ cursor:zoom-out; }
+.ag-stage img{
+  display:block;
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+  border-radius:6px;
+  user-select:none;
+  -webkit-user-drag:none;
+  transform-origin:50% 50%;
+  transition:transform .35s cubic-bezier(.2,.7,.2,1), opacity .2s ease;
+}
+.ag-stage.is-zoomed img{ transition:transform .12s linear; }
+.ag-stage::after{                       /* same watermark as the grid */
+  content:"JIANNA SHAO";
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) rotate(-25deg);
+  font:bold clamp(28px, 5vw, 70px) Helvetica, Arial, sans-serif;
+  letter-spacing:4px;
+  color:rgba(255,255,255,.18);
+  pointer-events:none;
+  white-space:nowrap;
+}
+
+.ag-info{
+  align-self:center;
+  max-height:86vh;
+  overflow:auto;
+  padding-right:6px;
+}
+.ag-info .ag-index{
+  margin:0 0 18px;
+  font-family:var(--ag-sans);
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:#9fb6bc;
+  font-variant-numeric:tabular-nums;
+}
+.ag-lightbox .ag-info h2{
+  margin:0 0 8px !important;
+  font-family:var(--ag-serif) !important;
+  font-weight:400 !important;
+  font-size:clamp(26px, 2.4vw, 34px) !important;
+  line-height:1.15 !important;
+  color:#ffffff !important;
+}
+.ag-info .ag-sub{
+  margin:0 0 20px;
+  font-family:var(--ag-sans);
+  font-size:14px;
+  color:#b9c6cb;
+}
+.ag-info .ag-desc{
+  margin:0;
+  font-family:var(--ag-sans);
+  font-size:15px;
+  line-height:1.75;
+  color:#dde4e7;
+}
+.ag-info .ag-hint{
+  margin:26px 0 0;
+  font-family:var(--ag-sans);
+  font-size:12px;
+  color:#8396a0;
+}
+
+.ag-btn{
+  position:absolute;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:46px;
+  height:46px;
+  padding:0;
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:50%;
+  background:rgba(255,255,255,.06);
+  color:#ffffff;
+  cursor:pointer;
+  transition:background .2s ease, border-color .2s ease;
+}
+.ag-btn:hover{ background:rgba(255,255,255,.16); border-color:rgba(255,255,255,.45); }
+.ag-btn:focus-visible{ outline:2px solid #9fe7f0; outline-offset:3px; }
+.ag-btn svg{ width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.ag-close{ top:max(18px, env(safe-area-inset-top, 0px)); right:max(18px, env(safe-area-inset-right, 0px)); }
+.ag-prev{ left:max(14px, env(safe-area-inset-left, 0px)); top:50%; margin-top:-23px; }
+.ag-next{ right:max(14px, env(safe-area-inset-right, 0px)); top:50%; margin-top:-23px; }
+
+@media (max-width:900px){
+  .ag-lightbox{
+    grid-template-columns:minmax(0, 1fr);
+    grid-template-rows:minmax(0, 1fr) auto;
+    align-items:stretch;
+    padding:64px 16px 18px;
+    gap:14px;
+  }
+  .ag-stage{ height:auto; }
+  .ag-info{ max-height:32vh; }
+  .ag-info .ag-index{ margin-bottom:8px; }
+  .ag-info .ag-sub{ margin-bottom:10px; }
+  .ag-info .ag-hint{ display:none; }
+  .ag-prev, .ag-next{ top:auto; bottom:auto; margin-top:0; }
+  .ag-prev{ top:max(14px, env(safe-area-inset-top, 0px)); left:16px; }
+  .ag-next{ top:max(14px, env(safe-area-inset-top, 0px)); left:72px; right:auto; }
+  .ag-close{ top:max(14px, env(safe-area-inset-top, 0px)); right:16px; }
+}
+@media (prefers-reduced-motion: reduce){
+  .ag-lightbox, .ag-stage img, html body main.portfolio .artwork-image img{ transition:none !important; }
+}
