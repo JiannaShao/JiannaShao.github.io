@@ -67,13 +67,15 @@
   function emit(x, y, n, power) {
     for (var i = 0; i < n; i++) {
       var a = Math.random() * Math.PI * 2;
-      var v = (2.2 + Math.random() * 5.2) * power;
+      var hot = Math.random() < 0.22;              // a few bright ones, most dimmer
+      var v = (1.4 + Math.random() * 3.6) * power * (hot ? 1.25 : 1);
       sparks.push({
         x: x, y: y, px: x, py: y,
         vx: Math.cos(a) * v,
-        vy: Math.sin(a) * v - 2.2 * power,
+        vy: Math.sin(a) * v - 1.4 * power,
         life: 0,
-        max: 18 + Math.random() * 26,
+        hot: hot,
+        max: (hot ? 12 : 7) + Math.random() * (hot ? 12 : 9),
         c: COLORS[(Math.random() * COLORS.length) | 0]
       });
     }
@@ -89,20 +91,27 @@
       var k = 1 - (++s.life) / s.max;
       if (k <= 0) { sparks.splice(i, 1); continue; }
       // streak drawn behind the spark along its motion, like a long-exposure spark
-      var tx = s.x - s.vx * 2.6, ty = s.y - s.vy * 2.6;
-      ctx.globalAlpha = Math.min(1, k * 1.3);
+      var tx = s.x - s.vx * 1.4, ty = s.y - s.vy * 1.4;
+      ctx.globalAlpha = s.hot ? Math.min(1, k * 1.4) : k * 0.75;
       ctx.strokeStyle = s.c;
-      ctx.lineWidth = 2.2 * k + 0.8;
+      ctx.lineWidth = (s.hot ? 2 : 1.3) * k + 0.6;
       ctx.beginPath();
       ctx.moveTo(tx, ty);
       ctx.lineTo(s.x, s.y);
       ctx.stroke();
-      // hot white core at the tip
-      ctx.globalAlpha = k;
-      ctx.fillStyle = '#e9fdff';
-      ctx.beginPath();
-      ctx.arc(s.x, s.y, 0.9 * k + 0.5, 0, Math.PI * 2);
-      ctx.fill();
+      if (s.hot) {
+        // bright point with a small glow
+        var gr = 5 * k + 2;
+        var g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, gr);
+        g.addColorStop(0, 'rgba(255,255,255,1)');
+        g.addColorStop(0.4, 'rgba(42,211,234,.9)');
+        g.addColorStop(1, 'rgba(0,150,199,0)');
+        ctx.globalAlpha = k;
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, gr, 0, Math.PI * 2);
+        ctx.fill();
+      }
     }
     // bright arc point at each torch
     heads.forEach(function (h) {
@@ -195,7 +204,11 @@
           it.halo.style.strokeDashoffset = off;
           var pt = it.pts[Math.min(it.pts.length - 1, Math.round(e * (it.pts.length - 1)))];
           heads.push({ x: pt[0], y: pt[1], r: Math.max(6, it.size * 0.07) });
-          emit(pt[0], pt[1], 4, Math.max(0.8, it.size / 110));
+          // irregular: most frames nothing, sometimes a spark or two, now and then a spurt
+          var roll = Math.random();
+          var pw = Math.max(0.8, it.size / 110);
+          if (roll < 0.04) emit(pt[0], pt[1], 4 + ((Math.random() * 4) | 0), pw);
+          else if (roll < 0.3) emit(pt[0], pt[1], 1 + ((Math.random() * 2) | 0), pw);
         } else if (!it.filled) {
           it.filled = true;
           it.el.style.strokeDashoffset = 0;
@@ -204,7 +217,7 @@
           it.halo.classList.add('is-done');
           it.span.classList.add('is-hot');         // letter fills hot, then cools
           var last = it.pts[it.pts.length - 1];
-          emit(last[0], last[1], 14, Math.max(0.9, it.size / 100));   // finishing burst
+          if (Math.random() < 0.5) emit(last[0], last[1], 2 + ((Math.random() * 4) | 0), Math.max(0.9, it.size / 100));
         }
       });
       drawSparks(heads);
