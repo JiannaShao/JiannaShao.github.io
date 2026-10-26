@@ -2758,8 +2758,8 @@ html body .art-card.gallery-doors > div{ z-index:3; }
   height:62px;
   margin-top:-31px;
   border-radius:6px;
-  background:linear-gradient(90deg,#8a6a32 0%,#e9cf8e 40%,#c7a45a 60%,#7a5a26 100%);
-  box-shadow:0 2px 4px rgba(0,0,0,.45), 0 0 0 1px rgba(60,40,10,.35);
+  background:linear-gradient(90deg,#d9dddd 0%,#ffffff 40%,#f4f5f5 60%,#c9cecf 100%);
+  box-shadow:0 2px 4px rgba(0,0,0,.45), 0 0 0 1px rgba(20,37,61,.25);
 }
 .gallery-doors .door-left::after{ right:22px; }
 .gallery-doors .door-right::after{ left:22px; }
@@ -2782,3 +2782,7 @@ html body .art-card.gallery-doors > div{ z-index:3; }
   .gallery-doors .door-left::after{ right:14px; } .gallery-doors .door-left::before{ right:11px; }
   .gallery-doors .door-right::after{ left:14px; } .gallery-doors .door-right::before{ left:11px; }
 }
+
+/* More space between the résumé folder and its button */
+html body .resume-section .resume-peek{ gap:40px !important; }
+@media(max-width:420px){ html body .resume-section .resume-peek{ gap:18px !important; } }
