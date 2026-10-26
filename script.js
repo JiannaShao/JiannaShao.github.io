@@ -202,13 +202,13 @@
       right = Math.max(right, r.right - tx - (parseFloat(tr) || 0));
     });
     const phone = window.innerWidth <= 800;
-    const padTop = nameRect.height * (phone ? 0.16 : 0.3);     // extra room above JIANNA
-    const padBot = nameRect.height * (phone ? 0.1 : 0.18);
+    const padTop = nameRect.height * (phone ? 0.26 : 0.44);     // extra room above JIANNA
+    const padBot = nameRect.height * (phone ? 0.18 : 0.3);
     const left = navRight - rowRect.left;
     heroStroke.style.left = `${left}px`;
     heroStroke.style.top = `${nameRect.top - rowRect.top - padTop}px`;
     heroStroke.style.height = `${nameRect.height + padTop + padBot}px`;
-    heroStroke.style.width = `${(right - rowRect.left) - left + nameRect.width * (window.innerWidth <= 800 ? 0.2 : 0.1)}px`;
+    heroStroke.style.width = `${(right - rowRect.left) - left + nameRect.width * (window.innerWidth <= 800 ? 0.3 : 0.3)}px`;
   };
   const paintStroke = () => {
     if (!heroStroke) return;
