@@ -2941,3 +2941,11 @@ html body .hero-title-row > .hero-stroke .bs-dry{ stroke:#fafafa; opacity:.07; f
 @media (max-width:800px){
   html body .hero-title-row .hero-name{ margin-top:22px !important; }
 }
+
+/* acrylic brush-stroke image (bristle texture, dry-brush end) */
+html body .hero-title-row > .hero-stroke{
+  background:url("web/brush-stroke.png") left center / 100% 100% no-repeat;
+}
+@media (max-width:800px){
+  html body .hero-title-row .hero-name{ margin-top:34px !important; }
+}

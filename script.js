@@ -201,12 +201,14 @@
       const tr = (getComputedStyle(p).translate || '').split(' ')[0];
       right = Math.max(right, r.right - tx - (parseFloat(tr) || 0));
     });
-    const pad = nameRect.height * (window.innerWidth <= 800 ? 0.07 : 0.14);
+    const phone = window.innerWidth <= 800;
+    const padTop = nameRect.height * (phone ? 0.16 : 0.3);     // extra room above JIANNA
+    const padBot = nameRect.height * (phone ? 0.1 : 0.18);
     const left = navRight - rowRect.left;
     heroStroke.style.left = `${left}px`;
-    heroStroke.style.top = `${nameRect.top - rowRect.top - pad}px`;
-    heroStroke.style.height = `${nameRect.height + pad * 2}px`;
-    heroStroke.style.width = `${(right - rowRect.left) - left + nameRect.width * 0.08}px`;
+    heroStroke.style.top = `${nameRect.top - rowRect.top - padTop}px`;
+    heroStroke.style.height = `${nameRect.height + padTop + padBot}px`;
+    heroStroke.style.width = `${(right - rowRect.left) - left + nameRect.width * (window.innerWidth <= 800 ? 0.2 : 0.1)}px`;
   };
   const paintStroke = () => {
     if (!heroStroke) return;
