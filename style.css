@@ -2745,3 +2745,40 @@ html body .art-card.gallery-doors > div{ z-index:3; }
 @media (prefers-reduced-motion: reduce){
   .gallery-doors .door{ transition:none; }
 }
+
+/* Project previews shorter still */
+.project-thumb{ aspect-ratio:16 / 5; }
+
+/* Door handles: brass pulls near the middle seam of each door */
+.gallery-doors .door::after{
+  content:"";
+  position:absolute;
+  top:50%;
+  width:9px;
+  height:62px;
+  margin-top:-31px;
+  border-radius:6px;
+  background:linear-gradient(90deg,#8a6a32 0%,#e9cf8e 40%,#c7a45a 60%,#7a5a26 100%);
+  box-shadow:0 2px 4px rgba(0,0,0,.45), 0 0 0 1px rgba(60,40,10,.35);
+}
+.gallery-doors .door-left::after{ right:22px; }
+.gallery-doors .door-right::after{ left:22px; }
+.gallery-doors .door::before{            /* small backplate behind each pull */
+  content:"";
+  position:absolute;
+  top:50%;
+  width:17px;
+  height:84px;
+  margin-top:-42px;
+  border-radius:9px;
+  background:rgba(20,37,61,.35);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);
+}
+.gallery-doors .door-left::before{ right:18px; }
+.gallery-doors .door-right::before{ left:18px; }
+@media (max-width:600px){
+  .gallery-doors .door::after{ height:44px; margin-top:-22px; width:7px; }
+  .gallery-doors .door::before{ height:60px; margin-top:-30px; width:13px; }
+  .gallery-doors .door-left::after{ right:14px; } .gallery-doors .door-left::before{ right:11px; }
+  .gallery-doors .door-right::after{ left:14px; } .gallery-doors .door-right::before{ left:11px; }
+}
