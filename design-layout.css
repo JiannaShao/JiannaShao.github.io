@@ -511,3 +511,43 @@ html body .dx .dx-ex-labels li{
 @media (prefers-reduced-motion: reduce){
   .dx-ex-stick, .dx-ex-body, .dx-ex-lines line{ transition:none; }
 }
+
+/* ---------- v3 adjustments ---------- */
+.dx-row{
+  display:grid;
+  grid-template-columns:minmax(0, 1fr) minmax(0, 1.15fr);
+  gap:clamp(28px, 4vw, 64px);
+  align-items:center;
+}
+.dx-row-statement{ align-items:start; }
+.dx-row-compare{ grid-template-columns:minmax(0, 1fr) minmax(0, 1fr); }
+.dx-row-compare .dx-compare{ max-width:none; }
+html body .dx .dx-text-wide{ max-width:none; margin-top:22px; }
+html body .dx .dx-row .dx-text:first-of-type{ margin-top:0; }
+
+/* Production: both images the same height (the Blender shot's) */
+.dx-pair{
+  display:flex;
+  gap:clamp(18px, 2.4vw, 32px);
+  align-items:flex-start;
+}
+.dx-pair > .dx-figure{ flex:1.58 1 0; }            /* 2000 x 1266 */
+.dx-pair > .dx-fit{ flex:1.40 1 0; }
+.dx-pair > .dx-fit img{
+  aspect-ratio:2000 / 1266;                        /* same shape, so same height */
+  width:100%;
+  height:auto;
+  object-fit:contain;
+  padding:0;
+  border:1px solid var(--dx-line);
+  background:#fff;
+}
+.dx-pair > .dx-fit,
+.dx-pair > .dx-figure:not(.dx-fit){ flex:1 1 0; }
+
+@media (max-width:900px){
+  .dx-row, .dx-row-compare{ grid-template-columns:minmax(0, 1fr); }
+}
+@media (max-width:560px){
+  .dx-pair{ flex-direction:column; }
+}

@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="design.css?v=5">
-    <link rel="stylesheet" href="design-layout.css?v=2">
+    <link rel="stylesheet" href="design-layout.css?v=3">
 
   <link rel="stylesheet" href="site-chrome.css?v=4">
   <link rel="stylesheet" href="site-loader.css?v=1">
@@ -136,30 +136,34 @@
             </div>
         </header>
 
-        <section class="dx-step">
-            <p class="dx-step-label"><span>1</span>Design statement</p>
-            <blockquote class="dx-quote">Expressing fluidity through solid form by reimagining waves with a strong yet dynamic material.</blockquote>
+        <section class="dx-step dx-row dx-row-statement">
+            <div>
+                <p class="dx-step-label"><span>1</span>Design statement</p>
+                <blockquote class="dx-quote">Expressing fluidity through solid form by reimagining waves with a strong yet dynamic material.</blockquote>
+            </div>
+            <div>
+                <p class="dx-step-label"><span>2</span>Sketch models</p>
+                <figure class="dx-figure">
+                    <img src="web/DesignImages/sketches.jpg" alt="Five paper sketch models" width="2000" height="1128" loading="lazy" decoding="async">
+                </figure>
+            </div>
         </section>
+        <p class="dx-text dx-text-wide">The five images above were all sketch models that used different techniques to mimic a liquid motion. Ultimately the bottom right sketch model was chosen as the basis of our development, as its boundaries mimicked a shell and its internal forms embodied the movement of the ocean the most.</p>
 
-        <section class="dx-step">
-            <p class="dx-step-label"><span>2</span>Sketch models</p>
-            <figure class="dx-figure">
-                <img src="web/DesignImages/sketches.jpg" alt="Five paper sketch models" width="2000" height="1128" loading="lazy" decoding="async">
-            </figure>
-            <p class="dx-text">The five images above were all sketch models that used different techniques to mimic a liquid motion. Ultimately the bottom right sketch model was chosen as the basis of our development, as its boundaries mimicked a shell and its internal forms embodied the movement of the ocean the most.</p>
-        </section>
-
-        <section class="dx-step">
-            <p class="dx-step-label"><span>3</span>Final model</p>
+        <section class="dx-step dx-row dx-row-compare">
             <div class="dx-compare" data-compare>
                 <img src="web/DesignImages/compare-final.jpg" alt="Final paper model" width="1400" height="1050" loading="lazy" decoding="async">
                 <div class="dx-compare-top"><img src="web/DesignImages/compare-sketch.jpg" alt="The chosen sketch model" width="1400" height="1050" loading="lazy" decoding="async"></div>
-                <span class="dx-compare-tag dx-tag-left">Chosen sketch model</span>
-                <span class="dx-compare-tag dx-tag-right">Final model</span>
+                <span class="dx-compare-tag dx-tag-left">Sketch model</span>
+                <span class="dx-compare-tag dx-tag-right">Final</span>
                 <div class="dx-compare-handle" aria-hidden="true"><span></span></div>
                 <input class="dx-compare-range" type="range" min="0" max="100" value="50" aria-label="Compare the chosen sketch model with the final model">
             </div>
-            <p class="dx-text">The final shape is a complex axis, containing twisted and curved planes. The curve of the main shape and the folds of the strips are designed to crash downward, mimicking the collapse of real waves inwards on top of themselves in the ocean. <span class="dx-hint">Drag the slider to compare.</span></p>
+            <div>
+                <p class="dx-step-label"><span>3</span>Final model</p>
+                <p class="dx-text">The final shape is a complex axis, containing twisted and curved planes. The curve of the main shape and the folds of the strips are designed to crash downward, mimicking the collapse of real waves inwards on top of themselves in the ocean.</p>
+                <p class="dx-text"><span class="dx-hint">Drag the slider to compare the chosen sketch model with the final.</span></p>
+            </div>
         </section>
     </article>
 
@@ -203,7 +207,7 @@
             <p class="dx-step-label"><span>3</span>Development</p>
             <h3>Production</h3>
             <div class="dx-pair">
-                <figure class="dx-figure dx-figure-white">
+                <figure class="dx-figure dx-figure-white dx-fit">
                     <img src="DesignImages/FinalSketches.png" alt="Plastilina sketch model, CAD model and line drawings of the whistle" width="886" height="473" loading="lazy" decoding="async">
                     <figcaption>Plastilina sketch model, sculpted digital model and drawings.</figcaption>
                 </figure>
@@ -313,7 +317,7 @@
 
   <script src="site-chrome.js?v=3"></script>
   <script src="vendor/opentype-1.3.4.min.js"></script>
-  <script src="design-page.js?v=2"></script>
+  <script src="design-page.js?v=3"></script>
 </body>
 
 </html>

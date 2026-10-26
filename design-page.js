@@ -176,7 +176,7 @@
     // anchor = point on the model (image px, 1201 x 762); label = where the tag sits
     var PARTS = [
       // anchors are where each part sits once the view has opened
-      { name: 'Striker',            anchor: [101, 358], label: [110, 50] },
+      { name: 'Striker',            anchor: [129, 516], label: [125, 730] },
       { name: 'Strings',            anchor: [506, 300], label: [450, 40] },
       { name: 'Textured ridges',    anchor: [741, 395], label: [880, 120] },
       { name: 'Resonating chamber', anchor: [676, 600], label: [940, 730] }
