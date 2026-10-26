@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="design.css?v=5">
+    <link rel="stylesheet" href="design-layout.css?v=2">
 
   <link rel="stylesheet" href="site-chrome.css?v=4">
   <link rel="stylesheet" href="site-loader.css?v=1">
@@ -85,263 +86,141 @@
     </svg>
 </div>
 
+<main class="dx">
 
-    <!-- =========================
-         HERO / PROJECT INTRO
-    ========================= -->
-
-    <section class="project-hero">
-
-        <div class="hero-image"></div>
-
-        <div class="hero-content">
-
-            <p class="eyebrow">PRODUCT DESIGN</p>
-
-            <h1>Design Portfolio - Jianna Shao</h1>
-
-            <p class="hero-subtitle">
-                Relevant Coursework: Fundamentals of Design 1, Mechanical Design and Engineering
-            </p>
-
+    <!-- HERO -->
+    <header class="dx-hero">
+        <p class="dx-eyebrow">Product Design · Jianna Shao</p>
+        <h1 class="dx-title" id="dx-title" aria-label="Product Design"><span class="dx-line">Product Design</span></h1>
+        <div class="dx-hero-row">
+            <p class="dx-lede">Integrative design for meaningful and intentional experiences, from research and sketch models to CAD and finished, fabricated products.</p>
+            <dl class="dx-facts">
+                <div><dt>Coursework</dt><dd>Fundamentals of Design 1 · Mechanical Design and Engineering</dd></div>
+                <div><dt>Tools</dt><dd>Rhino8 · Onshape · Blender · Bambu Studio</dd></div>
+            </dl>
         </div>
+        <nav class="dx-index" aria-label="Projects on this page">
+            <a href="#planar"><span>01</span>Planar Construction</a>
+            <a href="#sound-vessel"><span>02</span>Sound Vessel</a>
+        </nav>
+    </header>
 
+    <!-- SKILLS + DRAWING -->
+    <section class="dx-section dx-skills">
+        <p class="dx-label">Skills</p>
+        <ul class="dx-chips">
+            <li>Research and user observation</li>
+            <li>Concept designing and sketching</li>
+            <li>CAD modeling and prototyping</li>
+            <li>Final product development</li>
+            <li>Product showcasing</li>
+        </ul>
+        <figure class="dx-figure dx-drawing">
+            <img src="web/DesignImages/Unit Inches.jpg" alt="Orthographic drawing with perspective, front, top and right views, dimensioned in inches" width="2000" height="750" loading="lazy" decoding="async">
+            <figcaption>Orthographic drawing: perspective, front, top and right views. Units in inches.</figcaption>
+        </figure>
     </section>
 
-
-
-    <!-- =========================
-         PROJECT DESCRIPTION
-    ========================= -->
-
-    <section class="project-intro">
-
-        <div class="description-box">
-
-            <div class="description-text">
-
-                <p class="eyebrow">OVERVIEW</p>
-
-                <h2>Integrative Design for Meaningful and Intentional Experiences</h2>
-
-                <p>
-                    Skills I've developed for projects include:
-                </p>
-
-                <ul>
-
-                    <li>Research and user observation</li>
-
-                    <li>Concept designing and sketching</li>
-
-                    <li>CAD modeling and prototyping (Rhino8, Onshape) </li>
-
-                    <li>Final product development</li>
-
-                    <li>Product showcasing</li>
-
-                </ul>
-
+    <!-- CASE STUDY 01 -->
+    <article class="dx-case" id="planar">
+        <header class="dx-case-head">
+            <div class="dx-case-cover"><img src="DesignImages/sketchmodel.jpg" alt="Paper model inside a wooden display frame" width="1536" height="1041" loading="lazy" decoding="async"></div>
+            <div class="dx-case-intro">
+                <p class="dx-num">01 — Form</p>
+                <h2>Planar Construction</h2>
+                <p class="dx-summary">Exploring form, structure, and space through paper.</p>
+                <dl class="dx-facts dx-facts-tight">
+                    <div><dt>Medium</dt><dd>Paper</dd></div>
+                    <div><dt>Focus</dt><dd>Fluid motion through solid form</dd></div>
+                </dl>
             </div>
+        </header>
 
-        </div>
+        <section class="dx-step">
+            <p class="dx-step-label"><span>1</span>Design statement</p>
+            <blockquote class="dx-quote">Expressing fluidity through solid form by reimagining waves with a strong yet dynamic material.</blockquote>
+        </section>
 
+        <section class="dx-step">
+            <p class="dx-step-label"><span>2</span>Sketch models</p>
+            <figure class="dx-figure">
+                <img src="web/DesignImages/sketches.jpg" alt="Five paper sketch models" width="2000" height="1128" loading="lazy" decoding="async">
+            </figure>
+            <p class="dx-text">The five images above were all sketch models that used different techniques to mimic a liquid motion. Ultimately the bottom right sketch model was chosen as the basis of our development, as its boundaries mimicked a shell and its internal forms embodied the movement of the ocean the most.</p>
+        </section>
 
-        <div class="intro-image">
-
-            <img
-                src="web/DesignImages/Unit Inches.jpg"
-                alt="CAD"
-            >
-        
-        </div>
-
-    </section>
-
-
-
-    <!-- =========================
-         SECTION 1
-    ========================= -->
-
-    <section class="feature-section">
-
-        <div class="feature-image image-one"></div>
-
-        <div class="feature-box">
-
-            <p class="eyebrow">01 — FORM</p>
-
-            <h2>Planar Construction</h2>
-
-            <p>
-                Exploring form, structure, and space through paper
-            </p>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-     DESIGN STATEMENTS
-    ========================= -->
-    
-    <section class="design-section">
-    
-        <div class="section-heading">
-    
-            <p class="eyebrow">PROCESS</p>
-    
-            <h2>Design Statement</h2>
-    
-            <p class="section-subtitle">
-                "Expressing fluidity through solid form by reimagining waves with a strong yet dynamic material."
-            </p>
-    
-        </div>
-    
-    
-        <!-- LARGE IMAGE -->
-    
-        <div class="design-large-image">
-            <img src="web/DesignImages/sketches.jpg" alt="Design process">
-        </div>
-    
-    
-        <!-- BODY TEXT BOX -->
-    
-        <div class="design-text-box">
-
-            <p>
-                The five images above were all sketch models that used different techniques to mimic a liquid motion. 
-                Ultimately the bottom right sketch model was chosen as the basis of our development as its boundaries mimiced a shell and its internal forms embodied the movement of the ocean the most.
-            </p>
-            <p>
-                The final shape is a complex axis, containing twisted and curved planes. 
-                The curve of the main shape and the folds of the strips are designed crash downward, mimicking the collapse of real waves inwards on top of themselves in the ocean. 
-            </p>
-
-    
-        </div>
-    
-    
-        <!-- TWO IMAGES -->
-    
-        <div class="design-image-grid">
-    
-            <div class="design-small-image">
-                <img src="DesignImages/sketchfinal.jpg" alt="Final design">
+        <section class="dx-step">
+            <p class="dx-step-label"><span>3</span>Final model</p>
+            <div class="dx-compare" data-compare>
+                <img src="web/DesignImages/compare-final.jpg" alt="Final paper model" width="1400" height="1050" loading="lazy" decoding="async">
+                <div class="dx-compare-top"><img src="web/DesignImages/compare-sketch.jpg" alt="The chosen sketch model" width="1400" height="1050" loading="lazy" decoding="async"></div>
+                <span class="dx-compare-tag dx-tag-left">Chosen sketch model</span>
+                <span class="dx-compare-tag dx-tag-right">Final model</span>
+                <div class="dx-compare-handle" aria-hidden="true"><span></span></div>
+                <input class="dx-compare-range" type="range" min="0" max="100" value="50" aria-label="Compare the chosen sketch model with the final model">
             </div>
-    
-        </div>
-    
-    </section>
+            <p class="dx-text">The final shape is a complex axis, containing twisted and curved planes. The curve of the main shape and the folds of the strips are designed to crash downward, mimicking the collapse of real waves inwards on top of themselves in the ocean. <span class="dx-hint">Drag the slider to compare.</span></p>
+        </section>
+    </article>
 
-
-    <!-- =========================
-         SECTION 2
-    ========================= -->
-
-    <section class="feature-section">
-
-        <div class="feature-image image-two"></div>
-
-        <div class="feature-box">
-
-            <p class="eyebrow">02 — Application</p>
-
-            <h2>Sound Vessel</h2>
-
-            <p>
-                Exploring the full range of designing, developing and producing a product.
-            </p>
-
-        </div>
-
-    </section>
-    
-
-    <!-- =========================
-         IMAGE + TEXT
-    ========================= -->
-
-    <section class="project-details">
-
-        <div class="section-heading">
-    
-            <p class="eyebrow">PROCESS</p>
-    
-            <h2>Design Statement</h2>
-    
-            <p class="section-subtitle">
-                “The exploration of resonating sound inspired by natural processes culminating in a piece with a mind of its own.”
-            </p>
-    
-        </div>
-        
-        <div class="detail-row">
-
-            <div class="detail-image">
-
-                <img
-                    src="DesignImages/FinalProSketch.png"
-                    alt="Design detail"
-                >
-            
+    <!-- CASE STUDY 02 -->
+    <article class="dx-case" id="sound-vessel">
+        <header class="dx-case-head">
+            <div class="dx-case-cover"><img src="web/DesignImages/Final3.jpg" alt="The finished 3D-printed sound vessel, lit from the side" width="1776" height="2000" loading="lazy" decoding="async"></div>
+            <div class="dx-case-intro">
+                <p class="dx-num">02 — Application</p>
+                <h2>Sound Vessel</h2>
+                <p class="dx-summary">Exploring the full range of designing, developing and producing a product.</p>
+                <dl class="dx-facts dx-facts-tight">
+                    <div><dt>Tools</dt><dd>Onshape · Blender · Bambu Studio</dd></div>
+                    <div><dt>Materials</dt><dd>Plastilina · PLA</dd></div>
+                </dl>
             </div>
+        </header>
 
-            <div class="detail-text">
+        <section class="dx-step">
+            <p class="dx-step-label"><span>1</span>Design statement</p>
+            <blockquote class="dx-quote">The exploration of resonating sound inspired by natural processes, culminating in a piece with a mind of its own.</blockquote>
+        </section>
 
-                <p class="eyebrow">SKETCH MODELS</p>
-
-                <h2>Designing Various Sound Vessels</h2>
-
-                <p>
-                    This is a CAD model I created in Onshape for a percussion instrument inspired by the cello and frog guiros that was not ultimately picked to be developed.
-                    The chamber-like shape allows for the sound to project, while the interaction between the stick and the textures in the instrument create different sounds.
-                </p>
-
+        <section class="dx-step dx-step-split">
+            <div>
+                <p class="dx-step-label"><span>2</span>Concepts</p>
+                <h3>Designing various sound vessels</h3>
+                <p class="dx-text">This is a CAD model I created in Onshape for a percussion instrument inspired by the cello and frog guiros that was not ultimately picked to be developed. The chamber-like shape allows for the sound to project, while the interaction between the stick and the textures in the instrument creates different sounds. <span class="dx-hint dx-hint-hover">Hover the model to take it apart.</span><span class="dx-hint dx-hint-touch">Tap the model to take it apart.</span></p>
             </div>
+            <figure class="dx-explode" tabindex="0" aria-label="Guiro concept model; hover or tap to show its parts">
+                <div class="dx-explode-stage">
+                    <img class="dx-ex-body" src="web/DesignImages/guiro-body.jpg" alt="Onshape CAD model of a guiro-inspired percussion instrument" width="1201" height="762" loading="lazy" decoding="async">
+                    <img class="dx-ex-stick" src="web/DesignImages/guiro-stick.png" alt="" width="1201" height="762" loading="lazy" decoding="async">
+                    <svg class="dx-ex-lines" viewBox="0 0 1201 762" preserveAspectRatio="none" aria-hidden="true"></svg>
+                    <ul class="dx-ex-labels" aria-label="Parts"></ul>
+                </div>
+            </figure>
+        </section>
 
-        </div>
-
-
-        <div class="detail-row reverse">
-
-            <div class="detail-image">
-
-                <img
-                    src="web/DesignImages/blender.jpg"
-                    alt="Design detail"
-                >
-            
+        <section class="dx-step">
+            <p class="dx-step-label"><span>3</span>Development</p>
+            <h3>Production</h3>
+            <div class="dx-pair">
+                <figure class="dx-figure dx-figure-white">
+                    <img src="DesignImages/FinalSketches.png" alt="Plastilina sketch model, CAD model and line drawings of the whistle" width="886" height="473" loading="lazy" decoding="async">
+                    <figcaption>Plastilina sketch model, sculpted digital model and drawings.</figcaption>
+                </figure>
+                <figure class="dx-figure">
+                    <img src="web/DesignImages/blender.jpg" alt="The whistle modeled in Blender" width="2000" height="1266" loading="lazy" decoding="async">
+                    <figcaption>Sculpting the final form in Blender.</figcaption>
+                </figure>
             </div>
+            <p class="dx-text">The design ultimately chosen was a modern, slightly neo-gothic version of the ancient Aztec death whistle. The original sketch model was made with plastilina, with the concavity in its side serving as the chamber for sound to resonate. Ultimately the modeling was done in Blender in order to achieve the "sculpted" texture desired in the product, and Bambu Studio was the slicing software used for 3D printing in PLA.</p>
+        </section>
 
-            <div class="detail-text">
+        <section class="dx-step dx-step-final">
+            <p class="dx-step-label"><span>4</span>Final product</p>
+            <p class="dx-text"><span class="dx-hint dx-hint-hover">Click a photo to bring it to the front.</span><span class="dx-hint dx-hint-touch">Tap a photo to bring it to the front.</span></p>
+        </section>
+    </article>
 
-                <p class="eyebrow">FINAL DEVELOPMENT</p>
-
-                <h2>Productiont</h2>
-
-                <p>
-                    The design ultimately chosen was a modern, slightly neo-gothic version of the ancient Aztec death whistle.
-                    The original sketch model was made with plastilina, with the concavity in its side serving as the chamber for sound to resonate.
-                    Ultimately the modeling was done in Blender in order to achieve the "sculpted" texture desired in the product, and Bambu Studio was the slicing software used for 3D printing in PLA.
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =========================
-         FINAL PROJECT
-    ========================= -->
-    
     <section class="final-project">
 
         <div class="final-image-grid">
@@ -357,6 +236,8 @@
         </div>
     
     </section>
+
+</main>
 
 <script>
 (() => {
@@ -431,6 +312,8 @@
 </script>
 
   <script src="site-chrome.js?v=3"></script>
+  <script src="vendor/opentype-1.3.4.min.js"></script>
+  <script src="design-page.js?v=2"></script>
 </body>
 
 </html>

@@ -17,13 +17,23 @@
     var text = line.textContent.trim();
     line.textContent = '';
     line.setAttribute('aria-hidden', 'true');
-    for (var i = 0; i < text.length; i++) {
-      var span = document.createElement('span');
-      span.className = 'rx-ch';
-      span.textContent = text[i];
-      line.appendChild(span);
-      if (text[i] !== ' ') chars.push({ span: span, ch: text[i], line: line });
-    }
+    // letters grouped per word so a word never breaks across lines
+    text.split(/(\s+)/).forEach(function (part) {
+      if (!part) return;
+      if (/^\s+$/.test(part)) { line.appendChild(document.createTextNode(' ')); return; }
+      var word = document.createElement('span');
+      word.className = 'rx-word';
+      word.style.whiteSpace = 'nowrap';
+      word.style.display = 'inline-block';
+      for (var i = 0; i < part.length; i++) {
+        var span = document.createElement('span');
+        span.className = 'rx-ch';
+        span.textContent = part[i];
+        word.appendChild(span);
+        chars.push({ span: span, ch: part[i], line: line });
+      }
+      line.appendChild(word);
+    });
     // zero-size marker sitting on the baseline, used to place the outlines
     var probe = document.createElement('span');
     probe.className = 'rx-baseline';
