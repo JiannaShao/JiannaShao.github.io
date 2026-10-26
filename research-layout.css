@@ -337,10 +337,10 @@ html body main.rx{
 .rx-arc path.rx-halo{ stroke:rgba(63,216,232,.35); }   /* soft glow under the bright line */
 
 /* more breathing room around the title */
-.rx .rx-eyebrow{ margin-bottom:clamp(26px, 4vh, 40px); }
+.rx .rx-eyebrow{ margin-bottom:clamp(40px, 6.5vh, 64px); }
 .rx .rx-title{
-  line-height:1.2 !important;
-  margin-bottom:clamp(40px, 6vh, 64px) !important;
+  line-height:1.04 !important;
+  margin-bottom:clamp(56px, 9vh, 92px) !important;
 }
 
 /* ---------- smaller screens ---------- */
