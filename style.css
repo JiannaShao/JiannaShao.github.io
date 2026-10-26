@@ -2944,10 +2944,18 @@ html body .hero-title-row > .hero-stroke .bs-dry{ stroke:#fafafa; opacity:.07; f
 
 /* acrylic brush-stroke image (bristle texture, dry-brush end) */
 html body .hero-title-row > .hero-stroke{
-  background:url("web/brush-stroke.webp") left center / 100% 100% no-repeat;
+  background:none;
 }
 @media (max-width:800px){
   html body .hero-title-row .hero-name{ margin-top:34px !important; }
 }
 
 @media (max-width:800px){ html body .hero-title-row .hero-name{ margin-top:50px !important; } }
+
+.hero-stroke-canvas{ display:block; position:absolute; inset:0; }
+
+/* 3D gallery card: shorter, lighter shade at the bottom */
+html body .art-card.gallery-doors::after{
+  inset:58% 0 0 !important;
+  background:linear-gradient(transparent, rgba(20,37,61,.6)) !important;
+}

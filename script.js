@@ -202,13 +202,76 @@
       right = Math.max(right, r.right - tx - (parseFloat(tr) || 0));
     });
     const phone = window.innerWidth <= 800;
-    const padTop = nameRect.height * (phone ? 0.26 : 0.44);     // extra room above JIANNA
-    const padBot = nameRect.height * (phone ? 0.18 : 0.3);
+    const padTop = nameRect.height * (phone ? 0.22 : 0.39);     // extra room above JIANNA
+    const padBot = nameRect.height * (phone ? 0.15 : 0.27);
     const left = navRight - rowRect.left;
     heroStroke.style.left = `${left}px`;
     heroStroke.style.top = `${nameRect.top - rowRect.top - padTop}px`;
     heroStroke.style.height = `${nameRect.height + padTop + padBot}px`;
-    heroStroke.style.width = `${(right - rowRect.left) - left + nameRect.width * (window.innerWidth <= 800 ? 0.3 : 0.3)}px`;
+    heroStroke.style.width = `${(right - rowRect.left) - left + nameRect.width * (window.innerWidth <= 800 ? 0.16 : 0.1)}px`;
+    drawDigitStroke();
+  };
+  /* The stroke is drawn from randomized digits of various sizes: dense in the
+     body, thinning into a short, fairly abrupt dry-brush end on the right. */
+  let digitCanvas = null;
+  const drawDigitStroke = () => {
+    if (!heroStroke) return;
+    const w = Math.round(heroStroke.offsetWidth), h = Math.round(heroStroke.offsetHeight);
+    if (!w || !h) return;
+    if (!digitCanvas) {
+      digitCanvas = document.createElement('canvas');
+      digitCanvas.className = 'hero-stroke-canvas';
+      heroStroke.appendChild(digitCanvas);
+    }
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    digitCanvas.width = w * dpr; digitCanvas.height = h * dpr;
+    digitCanvas.style.width = w + 'px'; digitCanvas.style.height = h + 'px';
+    const ctx = digitCanvas.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+    let seed = 7;                                    // same pattern every visit
+    const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+    const shades = ['#14253d', '#14253d', '#14253d', '#0e1c30', '#1c3150', '#24395a', '#102038'];
+    const unit = Math.max(.55, h / 520);
+    const topEdge = (u) => .05 + .007 * Math.sin(u * 13 + 1) + .005 * Math.sin(u * 41) + .004 * Math.sin(u * 97 + 2);
+    const botEdge = (u) => .95 + .007 * Math.sin(u * 11 + 3) + .005 * Math.sin(u * 37 + 1) + .004 * Math.sin(u * 89);
+    const rowEnd = (v) => { const r = Math.floor(v * 46); return .86 + (((r * 9301 + 49297) % 233280) / 233280) * .09; };
+    // base in the brush's own shape (ragged edges, short dry end), under the digits
+    ctx.beginPath();
+    for (let k = 0; k <= 80; k++) { const u = k / 80 * .86; ctx.lineTo(u * w, (topEdge(u) + .035) * h); }
+    for (let k = 80; k >= 0; k--) { const u = k / 80 * .86; ctx.lineTo(u * w, (botEdge(u) - .035) * h); }
+    ctx.closePath();
+    const g = ctx.createLinearGradient(0, 0, w, 0);
+    g.addColorStop(0, 'rgba(20,37,61,.6)'); g.addColorStop(.74, 'rgba(20,37,61,.55)'); g.addColorStop(.86, 'rgba(20,37,61,0)');
+    ctx.fillStyle = g;
+    ctx.filter = `blur(${Math.round(6 * unit)}px)`;
+    ctx.fill();
+    ctx.filter = 'none';
+    // digits, densely packed, mostly small
+    const N = Math.round(w * h / (26 * unit * unit));
+    ctx.textBaseline = 'middle';
+    ctx.textAlign = 'center';
+    for (let i = 0; i < N; i++) {
+      const u = rnd(), v = rnd();
+      const big = rnd();
+      const size = (big > .97 ? 30 + rnd() * 18 : big > .8 ? 16 + rnd() * 12 : 7 + rnd() * 9) * unit;
+      const half = size * .4 / h;
+      const top = topEdge(u), bot = botEdge(u);
+      if (v - half < top || v + half > bot) continue;
+      const edge = Math.min(v - top, bot - v);
+      let p = Math.min(1, .35 + edge / .06);
+      if (u > .8) {
+        const end = rowEnd(v);
+        if (u > end) continue;
+        p *= 1 - (u - .8) / (end - .8) * .6;
+      }
+      if (rnd() > p) continue;
+      ctx.font = `${size}px Gulax, 'Work Sans', Arial, sans-serif`;
+      ctx.fillStyle = shades[Math.floor(rnd() * shades.length)];
+      ctx.globalAlpha = .55 + rnd() * .45;
+      ctx.fillText(String(Math.floor(rnd() * 10)), u * w, v * h);
+    }
+    ctx.globalAlpha = 1;
   };
   const paintStroke = () => {
     if (!heroStroke) return;
