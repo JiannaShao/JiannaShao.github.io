@@ -401,3 +401,20 @@ html body .rx .rx-skills-label{
 
 /* question section: the problem photo spans both columns */
 .rx-problem{ grid-column:1 / -1; margin-top:clamp(12px, 2vh, 24px); }
+
+/* question: heading beside a smaller problem photo, text full width below */
+.rx-question-top{
+  display:grid;
+  grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);
+  gap:clamp(28px, 5vw, 80px);
+  align-items:center;
+}
+html body .rx .rx-problem{ grid-column:auto; margin-top:0; }
+.rx-body-wide{ margin-top:clamp(28px, 4vh, 44px); }
+html body .rx .rx-body-wide p{ max-width:none; }
+@media (max-width:900px){
+  .rx-question-top{ grid-template-columns:minmax(0, 1fr); }
+}
+
+/* symposium photo: keep the top of the picture when cropped */
+.rx-figure-photo img{ object-position:center top; }

@@ -2853,3 +2853,17 @@ html body .work-card .explore-btn:focus-visible{ outline:3px solid #48666d; outl
   html body .work-card .explore-btn{ padding:14px 22px !important; }
   html body .work-card .explore-btn:active{ background:#14253d; color:#fff !important; }
 }
+
+/* Home name: a bit bigger, gentler hover growth */
+@media (min-width:801px){
+  html body .hero h1.hero-name{ font-size:clamp(76px, 10.8vw, 156px) !important; }
+}
+@media (max-width:800px){
+  html body .hero h1.hero-name{ font-size:clamp(64px, 21vw, 96px) !important; }
+}
+@media (hover:hover) and (pointer:fine){
+  html body .hero-name-jianna:hover,
+  html body .hero-name-shao:hover{ transform:scale(1.15) !important; }
+  html body .hero-name:has(.hero-name-jianna:hover) .hero-name-shao{ transform:translate(12px, 8px) !important; }
+  html body .hero-name:has(.hero-name-shao:hover) .hero-name-jianna{ transform:translate(-12px, -8px) !important; }
+}
