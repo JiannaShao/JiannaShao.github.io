@@ -2811,3 +2811,45 @@ html body .resume-section .resume-peek{ gap:40px !important; }
   .gallery-doors .door-right::after{ left:20px; }
   .gallery-doors .door-right::before{ left:16px; }
 }
+
+/* Featured Portfolios: Explore as a real button */
+html body .work-card .explore-btn{
+  display:inline-flex !important;
+  align-items:center;
+  gap:12px;
+  margin-top:10px !important;
+  padding:14px 22px !important;
+  border:1.5px solid #14253d !important;
+  border-radius:12px;
+  background:#ffffff;
+  color:#14253d !important;
+  font-size:14px !important;
+  font-weight:600 !important;
+  letter-spacing:.16em !important;
+  text-transform:uppercase;
+  text-decoration:none;
+  transform:none !important;
+  transition:background .22s ease, color .22s ease, box-shadow .22s ease, transform .22s ease !important;
+}
+html body .work-card .explore-btn .explore-arrow{
+  display:inline-block;
+  font-size:18px;
+  letter-spacing:0;
+  transition:transform .25s cubic-bezier(.3,.7,.2,1);
+}
+@media (hover:hover) and (pointer:fine){
+  html body .work-card .explore-btn:hover{
+    background:#14253d;
+    color:#ffffff !important;
+    border-color:#14253d !important;
+    box-shadow:0 10px 22px rgba(20,37,61,.18);
+    transform:translateY(-2px) !important;
+  }
+  html body .work-card .explore-btn:hover .explore-arrow{ transform:translateX(6px); }
+}
+html body .work-card .explore-btn:active{ transform:translateY(0) scale(.98) !important; }
+html body .work-card .explore-btn:focus-visible{ outline:3px solid #48666d; outline-offset:3px; }
+@media (hover:none), (max-width:800px){
+  html body .work-card .explore-btn{ padding:14px 22px !important; }
+  html body .work-card .explore-btn:active{ background:#14253d; color:#fff !important; }
+}

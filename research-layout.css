@@ -367,3 +367,34 @@ html body main.rx{
 @media (prefers-reduced-motion: reduce){
   .rx-title .rx-ch.is-hot{ animation:none; }
 }
+
+/* skills list beside the setup diagram */
+.rx-skills{
+  margin-top:26px;
+  padding-top:18px;
+  border-top:1px solid var(--rx-line);
+}
+html body .rx .rx-skills-label{
+  margin:0 0 14px;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:#48666d;
+}
+.rx-skills ul{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.rx-skills li{
+  padding:7px 12px;
+  border-radius:999px;
+  background:var(--rx-soft);
+  font-family:var(--rx-sans);
+  font-size:14px;
+  color:var(--rx-navy);
+}
