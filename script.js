@@ -208,91 +208,159 @@
     heroStroke.style.left = `${left}px`;
     heroStroke.style.top = `${nameRect.top - rowRect.top - padTop}px`;
     heroStroke.style.height = `${nameRect.height + padTop + padBot}px`;
-    heroStroke.style.width = `${(right - rowRect.left) - left + nameRect.width * (window.innerWidth <= 800 ? 0.16 : 0.1)}px`;
-    drawDigitStroke();
+    heroStroke.style.width = `${(right - rowRect.left) - left + nameRect.width * (window.innerWidth <= 800 ? 0.2 : 0.2)}px`;
   };
-  /* The stroke is drawn from randomized digits of various sizes: dense in the
-     body, thinning into a short, fairly abrupt dry-brush end on the right. */
-  let digitCanvas = null;
-  const drawDigitStroke = () => {
+  /* Background behind the name: several wide dry-brush strokes (curved
+     sweeps with bristle texture and dry streaks), painted one after another
+     along their paths on a canvas at screen resolution. */
+  let brushCanvas = null;
+  let brushAnim = 0;
+  const reduceMotionBrush = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // centre line (cubic Bézier in 0..1 box units), width as a share of the box height
+  const BRUSH_STROKES = [
+    { p: [[-.02, .22], [.3, .12], [.62, .14], [.9, .22]],   wd: .46, dur: 560 },
+    { p: [[-.02, .55], [.28, .49], [.6, .58], [.88, .5]],   wd: .46, dur: 560 },
+    { p: [[-.02, .82], [.32, .9], [.62, .8], [.84, .84]],  wd: .40, dur: 520 },
+    { p: [[.08, .05], [.32, -.01], [.58, .02], [.78, .07]], wd: .16, dur: 420 }
+  ];
+  const bez = (P, t) => {
+    const m = 1 - t;
+    return [
+      m * m * m * P[0][0] + 3 * m * m * t * P[1][0] + 3 * m * t * t * P[2][0] + t * t * t * P[3][0],
+      m * m * m * P[0][1] + 3 * m * m * t * P[1][1] + 3 * m * t * t * P[2][1] + t * t * t * P[3][1]
+    ];
+  };
+  const buildBrush = (w, h) => {
+    let seed = 7;
+    const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+    const shades = ['#14253d', '#14253d', '#12223a', '#0f1d31', '#172a45', '#1b3050', '#16294a', '#203655'];
+    const k = h / 520;
+    return BRUSH_STROKES.map((S) => {
+      const N = 140;
+      // centre line points with unit normals (in px)
+      const pts = [];
+      for (let i = 0; i <= N; i++) {
+        const [x, y] = bez(S.p, i / N);
+        pts.push([x * w, y * h]);
+      }
+      const nrm = pts.map((pt, i) => {
+        const a = pts[Math.max(0, i - 1)], b = pts[Math.min(N, i + 1)];
+        const dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy) || 1;
+        return [-dy / L, dx / L];
+      });
+      const width = S.wd * h;
+      const B = Math.round(width / (1.15 * k));
+      // smooth 2D value noise so dry gaps clump across neighbouring bristles
+      const sd = rnd() * 1000;
+      const hsh = (x, y) => { const v = Math.sin(x * 127.1 + y * 311.7 + sd) * 43758.5453; return v - Math.floor(v); };
+      const noise = (x, y) => {
+        const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi;
+        const u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf);
+        const a1 = hsh(xi, yi), b1 = hsh(xi + 1, yi), c1 = hsh(xi, yi + 1), d1 = hsh(xi + 1, yi + 1);
+        return a1 + (b1 - a1) * u + (c1 - a1) * v + (a1 - b1 - c1 + d1) * u * v;
+      };
+      const bristles = [];
+      for (let j = 0; j < B; j++) {
+        const o = (j / (B - 1) - .5) + (rnd() - .5) * .01;
+        const edge = Math.min(1, (.5 - Math.abs(o)) * 6);
+        const tEnd = .9 + rnd() * .1 * (.5 + .5 * edge);
+        const tStart = rnd() * .02 + (1 - edge) * rnd() * .06;
+        const runs = [];
+        let on = false, start = 0;
+        for (let t = tStart; t <= tEnd; t += .006) {
+          // clumped streaks (long along the stroke, narrow across it) + fine grain
+          const n1 = noise(o * 26, t * 5);
+          const n2 = noise(o * 90 + 7, t * 22);
+          // solid where the lettering sits; dry at the rims and toward the end
+          const dry = .02 + (1 - edge) * .42 + Math.max(0, t - .86) * 2.6;
+          const paint = n1 * .75 + n2 * .25 > dry;
+          if (paint && !on) { on = true; start = t; }
+          if (!paint && on) { on = false; if (t - start > .004) runs.push([start, t]); }
+        }
+        if (on && tEnd - start > .004) runs.push([start, tEnd]);
+        bristles.push({
+          o, runs,
+          lw: k * (1.6 + rnd() * 1.6),
+          col: shades[Math.floor(rnd() * shades.length)],
+          a: 1
+        });
+      }
+      return { pts, nrm, width, bristles, dur: S.dur };
+    });
+  };
+  // draw the part of one stroke between progress t0 and t1
+  const paintSegment = (ctx, st, t0, t1) => {
+    const N = st.pts.length - 1;
+    const at = (t, o) => {
+      const f = t * N, i = Math.min(N - 1, Math.floor(f)), r = f - i;
+      const x = st.pts[i][0] + (st.pts[i + 1][0] - st.pts[i][0]) * r;
+      const y = st.pts[i][1] + (st.pts[i + 1][1] - st.pts[i][1]) * r;
+      // slight pressure change along the stroke
+      const wid = st.width * (.92 + .08 * Math.sin(t * 5.3 + 1));
+      return [x + st.nrm[i][0] * o * wid, y + st.nrm[i][1] * o * wid];
+    };
+    st.bristles.forEach((b) => {
+      ctx.strokeStyle = b.col;
+      ctx.globalAlpha = b.a;
+      ctx.lineWidth = b.lw;
+      b.runs.forEach(([ra, rb]) => {
+        const a = Math.max(ra, t0), z = Math.min(rb, t1);
+        if (z <= a) return;
+        ctx.beginPath();
+        const steps = Math.max(1, Math.ceil((z - a) * 60));
+        for (let s2 = 0; s2 <= steps; s2++) {
+          const [x, y] = at(a + (z - a) * s2 / steps, b.o);
+          s2 ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+        }
+        ctx.stroke();
+      });
+    });
+    ctx.globalAlpha = 1;
+  };
+  const drawBrush = (animate) => {
     if (!heroStroke) return;
     const w = Math.round(heroStroke.offsetWidth), h = Math.round(heroStroke.offsetHeight);
     if (!w || !h) return;
-    if (!digitCanvas) {
-      digitCanvas = document.createElement('canvas');
-      digitCanvas.className = 'hero-stroke-canvas';
-      heroStroke.appendChild(digitCanvas);
+    if (!brushCanvas) {
+      brushCanvas = document.createElement('canvas');
+      brushCanvas.className = 'hero-stroke-canvas';
+      heroStroke.appendChild(brushCanvas);
     }
+    cancelAnimationFrame(brushAnim);
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    digitCanvas.width = w * dpr; digitCanvas.height = h * dpr;
-    digitCanvas.style.width = w + 'px'; digitCanvas.style.height = h + 'px';
-    const ctx = digitCanvas.getContext('2d');
+    brushCanvas.width = w * dpr; brushCanvas.height = h * dpr;
+    brushCanvas.style.width = w + 'px'; brushCanvas.style.height = h + 'px';
+    const ctx = brushCanvas.getContext('2d');
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, w, h);
-    let seed = 7;                                    // same pattern every visit
-    const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
-    const shades = ['#14253d', '#14253d', '#12223a', '#0f1d31', '#1a2e4a', '#223858', '#2b4262', '#16294a'];
-    const unit = Math.max(.55, h / 520);
-    // acrylic brush stroke, drawn bristle by bristle so it stays sharp
-    const k = h / 560;
-    // soft core so the lettering has an even ground
-    ctx.beginPath();
-    for (let i = 0; i <= 60; i++) { const x = i / 60 * w * .84; ctx.lineTo(x, h * .1 + 5 * k * Math.sin(x * .004)); }
-    for (let i = 60; i >= 0; i--) { const x = i / 60 * w * .84; ctx.lineTo(x, h * .9 + 5 * k * Math.sin(x * .0035 + 2)); }
-    ctx.closePath();
-    const g = ctx.createLinearGradient(0, 0, w, 0);
-    g.addColorStop(0, 'rgba(20,37,61,.85)'); g.addColorStop(.74, 'rgba(20,37,61,.85)'); g.addColorStop(.86, 'rgba(20,37,61,0)');
-    ctx.fillStyle = g;
-    ctx.filter = `blur(${Math.round(12 * k)}px)`;
-    ctx.fill();
-    ctx.filter = 'none';
-    ctx.lineCap = 'round';
+    ctx.lineCap = 'butt';
     ctx.lineJoin = 'round';
-    const n = Math.round(380 * Math.min(1, h / 420) + 60);
-    for (let i = 0; i < n; i++) {
-      const t = i / (n - 1);
-      const y0 = h * (.04 + .92 * t) + (rnd() - .5) * 4 * k;
-      const edge = Math.min(1, Math.min(t, 1 - t) * 4);
-      const thick = k * (2.2 + rnd() * 3.3) * (.55 + .9 * edge);
-      const alpha = (.72 + rnd() * .28) * (.55 + .45 * Math.min(1, edge * 1.25));
-      const end = w * (.86 + rnd() * .12) * (.93 + .07 * edge);
-      const amp = k * (1 + rnd() * 2), f = .0012 + rnd() * .0018, ph = rnd() * 6.28;
-      ctx.strokeStyle = shades[Math.floor(rnd() * shades.length)];
-      const yy = (xx) => y0 + amp * Math.sin(xx * f + ph) + h * .012 * Math.sin(xx * .0009 + 1.3);
-      ctx.globalAlpha = alpha;
-      // one continuous line per unbroken run; runs break up near the dry end
-      let x = rnd() * 18 + (1 - edge) * rnd() * 40;
-      let runStart = x;
-      const flush = (from, to) => {
-        if (to - from < 2) return;
-        ctx.lineWidth = thick * (1 - .45 * Math.max(0, (to / end) - .8) / .2);
-        ctx.beginPath();
-        ctx.moveTo(from, yy(from));
-        for (let xx = from + 24; xx < to; xx += 24) ctx.lineTo(xx, yy(xx));
-        ctx.lineTo(to, yy(to));
-        ctx.stroke();
-      };
-      while (x < end) {
-        const step = 18 + rnd() * 28;
-        const frac = x / end;
-        if (frac > .8 && rnd() < (frac - .8) * 2.2) {
-          flush(runStart, x);
-          x += step * (.6 + rnd() * 1.6);
-          runStart = x;
-          continue;
-        }
-        x = Math.min(end, x + step);
-      }
-      flush(runStart, Math.min(x, end));
-    }
-    ctx.globalAlpha = 1;
+    ctx.clearRect(0, 0, w, h);
+    const strokes = buildBrush(w, h);
+    if (!animate || reduceMotionBrush) { strokes.forEach((st) => paintSegment(ctx, st, 0, 1)); return; }
+    // each stroke starts a little before the previous one finishes
+    let t = 0;
+    const plan = strokes.map((st) => { const p = { st, start: t, done: 0 }; t += st.dur * .62; return p; });
+    const ease = (x) => 1 - Math.pow(1 - x, 2.2);
+    const t0 = performance.now();
+    const frame = () => {
+      const now = performance.now() - t0;
+      let busy = false;
+      plan.forEach((p) => {
+        const k2 = Math.min(1, Math.max(0, (now - p.start) / p.st.dur));
+        const prog = ease(k2);
+        if (prog > p.done) { paintSegment(ctx, p.st, Math.max(0, p.done - .004), prog); p.done = prog; }
+        if (k2 < 1) busy = true;
+      });
+      if (busy) brushAnim = requestAnimationFrame(frame);
+    };
+    brushAnim = requestAnimationFrame(frame);
   };
   const paintStroke = () => {
     if (!heroStroke) return;
     placeStroke();
-    heroStroke.classList.add('is-painted');
+    drawBrush(true);
   };
-  window.addEventListener('resize', placeStroke);
+  window.addEventListener('resize', () => { placeStroke(); drawBrush(false); });
   const showNamePlain = () => {
     if (heroName) heroName.classList.remove('name-intro-pending');
     paintStroke();
@@ -845,7 +913,6 @@
           });
           Promise.all(anims.map((a) => a.finished)).then(() => {
             heroName.style.clipPath = '';
-            placeStroke();
           }, () => { heroName.style.clipPath = ''; });
           shakeT0 = clock.elapsedTime + 1.4;        // first shake once the name has landed
         }

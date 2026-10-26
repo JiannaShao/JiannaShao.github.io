@@ -2959,3 +2959,7 @@ html body .art-card.gallery-doors::after{
   inset:58% 0 0 !important;
   background:linear-gradient(transparent, rgba(20,37,61,.6)) !important;
 }
+
+/* brush strokes animate themselves on the canvas (no sweep mask) */
+html body .hero-title-row > .hero-stroke,
+html body .hero-title-row > .hero-stroke.is-painted{ clip-path:none !important; animation:none !important; }
