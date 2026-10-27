@@ -527,3 +527,26 @@ h1,h2,h3{
     .scroll-snake svg{width:38px !important}
 }
 @media(max-width:500px){.portfolio-header h1{font-size:64px !important}}
+
+/* ---------- scribbled title ---------- */
+.ap-title{ position:relative; }
+.ap-line{ display:block; }
+.ap-word{ display:inline-block; white-space:nowrap; }
+.ap-ch{ display:inline-block; white-space:pre; }
+.ap-baseline{ display:inline-block; width:0; height:0; vertical-align:baseline; }
+.ap-title.is-scribbling .ap-ch{ color:transparent !important; }
+.ap-title.is-scribbled .ap-ch{ animation:ap-settle .8s ease-out; }
+@keyframes ap-settle{ from{ opacity:0; } to{ opacity:1; } }
+.ap-scribble{
+  position:absolute;
+  pointer-events:none;
+  overflow:visible;
+  transition:opacity .7s ease;
+}
+.ap-scribble.is-done{ opacity:0; }
+.ap-pen{
+  fill:none;
+  stroke:currentColor;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
