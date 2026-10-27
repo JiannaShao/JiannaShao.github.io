@@ -210,43 +210,67 @@
     heroStroke.style.height = `${nameRect.height + padTop + padBot}px`;
     heroStroke.style.width = `${(right - rowRect.left) - left + nameRect.width * (window.innerWidth <= 800 ? 0.2 : 0.2)}px`;
   };
-  /* Background behind the name: several wide dry-brush strokes (curved
-     sweeps with bristle texture and dry streaks), painted one after another
-     along their paths on a canvas at screen resolution. */
+  /* Background behind the name: one wide dry-brush stroke that snakes from the
+     top left to the bottom right, like the scroll snake in the sidebar:
+     straight runs joined by round U-turns, the runs tilted down to the right.
+     Painted along its path on a canvas at screen resolution. */
   let brushCanvas = null;
   let brushAnim = 0;
   const reduceMotionBrush = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  /* Strokes are circular arcs: a: [centre x (share of box width), centre y
-     (share of box height), radius (× box height), start angle, end angle] in
-     degrees (0 = right, 90 = down). Most start outside the box so they enter
-     the frame at the edge, like the reference; wd = width × box height;
-     dry = extra dry-brush streaking. The first two wide arcs sit behind the
-     lettering so the name always has solid paint under it. */
-  const BRUSH_STROKES = [
-    { a: [.42, 2.14, 1.78, 236, 302], wd: .6,  dry: 0,   dur: 520 },   // low dome behind JIANNA
-    { a: [.48, -1.18, 1.82, 122, 58], wd: .48, dry: 0,   dur: 520 },   // shallow bowl behind SHAO
-    { a: [-.22, .5, .62, -75, 62],    wd: .26, dry: .1,  dur: 420 },   // down the left edge
-    { a: [.86, .8, .74, 196, 318],    wd: .3,  dry: .08, dur: 460 },   // big arch over the top right
-    { a: [.1, .1, .5, 160, 20],       wd: .22, dry: .12, dur: 400 },   // curl in from the top left
-    { a: [.98, 1.18, .58, 182, 282],  wd: .3,  dry: .1,  dur: 420 },   // quarter circle, bottom right
-    { a: [.2, .3, .62, 118, 12],      wd: .22, dry: .12, dur: 420 },   // bowl in from the bottom left
-    { a: [.62, 1.45, 1.0, 196, 252],  wd: .2,  dry: .14, dur: 380 },   // diagonal sweep, lower middle
-    { a: [.5, .52, .44, 338, 214],    wd: .18, dry: .14, dur: 400 }    // small arc over the middle
-  ];
+  // rows = runs; gap = distance between runs and wd = brush width (× box height);
+  // tilt in degrees; the first run starts off the left edge
+  const BRUSH_SNAKE = { rows: 3, gap: .285, wd: .31, tilt: 7, dur: 1700 };
+  const snakePoints = (w, h) => {
+    const S = BRUSH_SNAKE;
+    const th = S.tilt * Math.PI / 180;
+    const u = [Math.cos(th), Math.sin(th)], n = [-Math.sin(th), Math.cos(th)];
+    const gap = S.gap * h, r = gap / 2;
+    const cx = w * .5, cy = h * .5;
+    // run length leaves room for the U-turns inside the box
+    const half = (w - 2 * (r + S.wd * h * .5)) / 2 / Math.cos(th);
+    const P = (t, i) => [cx + u[0] * t + n[0] * i * gap, cy + u[1] * t + n[1] * i * gap];
+    const pts = [];
+    const line = (A, B, steps) => { for (let q = 0; q < steps; q++) pts.push([A[0] + (B[0] - A[0]) * q / steps, A[1] + (B[1] - A[1]) * q / steps]); };
+    const turn = (i, side) => {          // semicircle from run i to run i+1 on the given side (+1 right, -1 left)
+      const c = P(side * half, i + .5);
+      const a0 = Math.atan2(-n[1], -n[0]);
+      for (let q = 0; q < 40; q++) {
+        const a = a0 + side * Math.PI * q / 40;
+        pts.push([c[0] + Math.cos(a) * r, c[1] + Math.sin(a) * r]);
+      }
+    };
+    const first = -(S.rows - 1) / 2;
+    for (let k2 = 0; k2 < S.rows; k2++) {
+      const i = first + k2;
+      const dir = k2 % 2 ? -1 : 1;          // even runs go right, odd runs go left
+      const start = k2 === 0 ? -w * .58 / Math.cos(th) : -dir * half;   // first run enters from off the left edge
+      const end = k2 === S.rows - 1 ? dir * (half + r * 1.4) : dir * half;
+      line(P(start, i), P(end, i), 90);
+      if (k2 < S.rows - 1) turn(i, dir);
+      else pts.push(P(end, i));
+    }
+    // even out the spacing along the path
+    const len = [0];
+    for (let q = 1; q < pts.length; q++) len.push(len[q - 1] + Math.hypot(pts[q][0] - pts[q - 1][0], pts[q][1] - pts[q - 1][1]));
+    const total = len[len.length - 1], out = [], M = 600;
+    let q = 1;
+    for (let m = 0; m <= M; m++) {
+      const d = total * m / M;
+      while (q < len.length - 1 && len[q] < d) q++;
+      const f = (d - len[q - 1]) / ((len[q] - len[q - 1]) || 1);
+      out.push([pts[q - 1][0] + (pts[q][0] - pts[q - 1][0]) * f, pts[q - 1][1] + (pts[q][1] - pts[q - 1][1]) * f]);
+    }
+    return { pts: out, len: total };
+  };
   const buildBrush = (w, h) => {
     let seed = 7;
     const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
     const shades = ['#14253d', '#14253d', '#12223a', '#0f1d31', '#172a45', '#1b3050', '#16294a', '#203655', '#0c1829', '#2a4262'];
     const k = h / 520;
-    return BRUSH_STROKES.map((S) => {
-      const N = 140;
-      // centre line points with unit normals (in px)
-      const pts = [];
-      const [cx, cy, r, a0, a1] = S.a;
-      for (let i = 0; i <= N; i++) {
-        const ang = (a0 + (a1 - a0) * i / N) * Math.PI / 180;
-        pts.push([cx * w + Math.cos(ang) * r * h, cy * h + Math.sin(ang) * r * h]);
-      }
+    return [BRUSH_SNAKE].map((S) => {
+      const { pts, len } = snakePoints(w, h);
+      const N = pts.length - 1;
+      const nf = len / w;                 // keeps the dry streaks a similar length to before
       const nrm = pts.map((pt, i) => {
         const a = pts[Math.max(0, i - 1)], b = pts[Math.min(N, i + 1)];
         const dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy) || 1;
@@ -267,21 +291,21 @@
       for (let j = 0; j < B; j++) {
         const o = (j / (B - 1) - .5) + (rnd() - .5) * .01;
         const edge = Math.min(1, (.5 - Math.abs(o)) * 6);
-        const tEnd = .94 + rnd() * .06 * (.5 + .5 * edge);
-        const tStart = rnd() * .015 + (1 - edge) * rnd() * .04;
+        const tEnd = .97 + rnd() * .03 * (.5 + .5 * edge);
+        const tStart = rnd() * .005 + (1 - edge) * rnd() * .015;
         const runs = [];
         let on = false, start = 0;
-        for (let t = tStart; t <= tEnd; t += .006) {
+        for (let t = tStart; t <= tEnd; t += .002) {
           // clumped streaks (long along the stroke, narrow across it) + fine grain
-          const n1 = noise(o * 26, t * 5);
-          const n2 = noise(o * 90 + 7, t * 22);
+          const n1 = noise(o * 26, t * 5 * nf);
+          const n2 = noise(o * 90 + 7, t * 22 * nf);
           // solid where the lettering sits; dry at the rims and toward the end
-          const dry = .02 + S.dry + (1 - edge) * .42 + Math.max(0, t - .8) * .9;
+          const dry = .02 + (1 - edge) * .3 + Math.max(0, t - .93) * 3;
           const paint = n1 * .75 + n2 * .25 > dry;
           if (paint && !on) { on = true; start = t; }
-          if (!paint && on) { on = false; if (t - start > .004) runs.push([start, t]); }
+          if (!paint && on) { on = false; if (t - start > .0015) runs.push([start, t]); }
         }
-        if (on && tEnd - start > .004) runs.push([start, tEnd]);
+        if (on && tEnd - start > .0015) runs.push([start, tEnd]);
         bristles.push({
           o, runs,
           lw: k * (1.6 + rnd() * 1.6),
@@ -300,7 +324,7 @@
       const x = st.pts[i][0] + (st.pts[i + 1][0] - st.pts[i][0]) * r;
       const y = st.pts[i][1] + (st.pts[i + 1][1] - st.pts[i][1]) * r;
       // slight pressure change along the stroke
-      const wid = st.width * (.92 + .08 * Math.sin(t * 5.3 + 1));
+      const wid = st.width * (.95 + .05 * Math.sin(t * 13 + 1));
       return [x + st.nrm[i][0] * o * wid, y + st.nrm[i][1] * o * wid];
     };
     st.bristles.forEach((b) => {
@@ -310,13 +334,13 @@
       b.runs.forEach(([ra, rb]) => {
         const a = Math.max(ra, t0), z = Math.min(rb, t1);
         if (z <= a) return;
-        // opacity fades in over the first 5% and out over the last 30%
-        const FIN = .05, FOUT = .7;
+        // opacity fades in at the very start and out over the last stretch
+        const FIN = .02, FOUT = .9;
         const solidA = Math.max(a, FIN), solidZ = Math.min(z, FOUT);
         const line = (from, to, alpha) => {
           ctx.globalAlpha = Math.max(0, alpha);
           ctx.beginPath();
-          const steps = Math.max(1, Math.ceil((to - from) * 60));
+          const steps = Math.max(1, Math.ceil((to - from) * 300));
           for (let s2 = 0; s2 <= steps; s2++) {
             const [x, y] = at(from + (to - from) * s2 / steps, b.o);
             s2 ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
@@ -326,7 +350,7 @@
         // solid middle as one line
         if (solidZ > solidA) line(solidA, solidZ, b.a);
         // fading start and end in short steps
-        const FADE_STEP = .008;
+        const FADE_STEP = .003;
         for (let x0 = a; x0 < Math.min(z, FIN); x0 += FADE_STEP) {
           const x1 = Math.min(x0 + FADE_STEP, z, FIN);
           line(x0, x1, b.a * ((x0 + x1) / 2) / FIN);
@@ -351,19 +375,22 @@
     }
     cancelAnimationFrame(brushAnim);
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    brushCanvas.width = w * dpr; brushCanvas.height = h * dpr;
-    brushCanvas.style.width = w + 'px'; brushCanvas.style.height = h + 'px';
+    // the canvas bleeds past the box top and bottom so the tilted runs aren't cut flat
+    const bleed = Math.round(h * .12);
+    brushCanvas.width = w * dpr; brushCanvas.height = (h + bleed * 2) * dpr;
+    brushCanvas.style.width = w + 'px'; brushCanvas.style.height = (h + bleed * 2) + 'px';
+    brushCanvas.style.top = -bleed + 'px'; brushCanvas.style.bottom = 'auto';
     const ctx = brushCanvas.getContext('2d');
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, bleed * dpr);
     ctx.lineCap = 'butt';
     ctx.lineJoin = 'round';
-    ctx.clearRect(0, 0, w, h);
+    ctx.clearRect(0, -bleed, w, h + bleed * 2);
     const strokes = buildBrush(w, h);
     if (!animate || reduceMotionBrush) { strokes.forEach((st) => paintSegment(ctx, st, 0, 1)); return; }
     // each stroke starts a little before the previous one finishes
     let t = 0;
     const plan = strokes.map((st) => { const p = { st, start: t, done: 0 }; t += st.dur * .5; return p; });
-    const ease = (x) => 1 - Math.pow(1 - x, 2.2);
+    const ease = (x) => (x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2) * .35 + (1 - Math.pow(1 - x, 1.6)) * .65;
     const t0 = performance.now();
     const frame = () => {
       const now = performance.now() - t0;
@@ -371,7 +398,7 @@
       plan.forEach((p) => {
         const k2 = Math.min(1, Math.max(0, (now - p.start) / p.st.dur));
         const prog = ease(k2);
-        if (prog > p.done) { paintSegment(ctx, p.st, p.done > .05 && p.done < .7 ? p.done - .004 : p.done, prog); p.done = prog; }
+        if (prog > p.done) { paintSegment(ctx, p.st, p.done > .02 && p.done < .9 ? p.done - .0015 : p.done, prog); p.done = prog; }
         if (k2 < 1) busy = true;
       });
       if (busy) brushAnim = requestAnimationFrame(frame);
