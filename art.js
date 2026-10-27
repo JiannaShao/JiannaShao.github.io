@@ -342,6 +342,15 @@ function furnitureCollision(newPosition) {
 
         const box = collider.box;
 
+        if (collider.obb) {
+            // angled collider: test the player's circle in the object's own frame
+            const local = newPosition.clone().applyMatrix4(collider.obb);
+            const cx = Math.max(box.min.x, Math.min(local.x, box.max.x));
+            const cz = Math.max(box.min.z, Math.min(local.z, box.max.z));
+            if (Math.hypot(local.x - cx, local.z - cz) < playerRadius) return true;
+            continue;
+        }
+
         if (
             newPosition.x + playerRadius > box.min.x &&
             newPosition.x - playerRadius < box.max.x &&
@@ -542,17 +551,21 @@ furnitureLoader.load(
 
 
 /* =====================================================
-   SCROLL BENCH (middle room)
+   SCROLL BENCH (third room)
    RoomFurniture/ScrollBench.glb is modelled as a flat slab;
    it is laid flat so its lower outer ledge is the seat, the
    taller scroll body behind it the back. It faces the
-   paintings on the middle room's left wall.
+   corner between the third room's back and left walls.
    Walk up to it and look at the floating E, then press E to
    sit; E (or W A S D) to stand.
 ===================================================== */
 
 const BENCH_PATH = "RoomFurniture/ScrollBench.glb";
-const BENCH_CENTER = new THREE.Vector3(0.6, 0, -7.75);
+// third room, angled to face the corner between the back wall
+// ("Touch Grass") and the left wall ("Even Fish can Drown")
+const BENCH_CENTER = new THREE.Vector3(1.1, 0, -20.2);
+const BENCH_TURN = -Math.PI / 4;   // seat faces (-x, -z)
+const BENCH_FACE_YAW = Math.PI / 2 + BENCH_TURN;
 const BENCH_LENGTH = 7.6;         // along the wall (uniform scale: the ledge lands at seat height)
 
 const SEATED_EYE = 1.05;
@@ -616,13 +629,16 @@ furnitureLoader.load(
 
         box = new THREE.Box3().setFromObject(holder);
         const center = box.getCenter(new THREE.Vector3());
+        // built centred on a pivot at the origin, then the pivot is moved
+        // to BENCH_CENTER and turned
+        const pivot = new THREE.Group();
+        pivot.add(holder);
         holder.position.set(
-            BENCH_CENTER.x - center.x,
+            -center.x,
             -box.min.y + 0.1,               // floor top is at y = 0.1
-            BENCH_CENTER.z - center.z
+            -center.z
         );
-        holder.updateMatrixWorld(true);
-        scene.add(holder);
+        pivot.updateMatrixWorld(true);
         box = new THREE.Box3().setFromObject(holder);
 
         // seat: the lowest broad top surface on the -x side (the ledge)
@@ -643,13 +659,21 @@ furnitureLoader.load(
         tops.forEach((t) => { const h = Math.round(t[1] * 20) / 20; hist[h] = (hist[h] || 0) + 1; });
         ledgeTop = +Object.keys(hist).filter((h) => h > 0.25).sort((a, b) => hist[b] - hist[a])[0] || 0.5;
         tops.forEach((t) => { if (Math.abs(t[1] - ledgeTop) < 0.04) { sumX += t[0]; sumZ += t[2]; n++; } });
-        bench.seat.set(n ? sumX / n : box.min.x + width * 0.15, ledgeTop + SEATED_EYE, n ? sumZ / n : BENCH_CENTER.z);
+        bench.seat.set(n ? sumX / n : box.min.x + width * 0.15, ledgeTop + SEATED_EYE, n ? sumZ / n : 0);
         bench.prompt.position.set(bench.seat.x - 0.15, ledgeTop + 1.35, bench.seat.z);
 
-        // solid: the player walks around it, not through it
+        // place and turn it, then carry the seat and prompt along
+        pivot.position.copy(BENCH_CENTER);
+        pivot.rotation.y = BENCH_TURN;
+        pivot.updateMatrixWorld(true);
+        scene.add(pivot);
+        bench.seat.applyMatrix4(pivot.matrixWorld);
+        bench.prompt.position.applyMatrix4(pivot.matrixWorld);
+
+        // solid: an angled box the player walks around, not through
         const pad = 0.1;
         box.min.x -= pad; box.max.x += pad; box.min.z -= pad; box.max.z += pad;
-        furnitureColliders.push({ object: holder, box });
+        furnitureColliders.push({ object: pivot, box, obb: new THREE.Matrix4().copy(pivot.matrixWorld).invert() });
 
         bench.ready = true;
     },
@@ -686,7 +710,7 @@ function sitOnBench() {
     bench.standYaw = yaw;
     bench.seated = true;
     Object.keys(keys).forEach((k) => { keys[k] = false; });
-    startBenchAnim(bench.seat, Math.PI / 2, -0.04);   // face the left wall (-x)
+    startBenchAnim(bench.seat, BENCH_FACE_YAW, -0.04);   // face the corner
     if (benchHint) benchHint.classList.add("is-on");
 }
 
