@@ -207,8 +207,8 @@
     const NS = parseFloat(getComputedStyle(heroName).getPropertyValue('--name-scale')) || 1;
     const H0 = nameRect.height / NS;
     const grow = (H0 - nameRect.height) / 2;
-    const padTop = H0 * (phone ? 0.22 : 0.39) + grow;     // extra room above JIANNA
-    const padBot = H0 * (phone ? 0.15 : 0.27) + grow;
+    const padTop = H0 * (phone ? 0.23 : 0.46) + grow;     // extra room above JIANNA
+    const padBot = H0 * (phone ? 0.19 : 0.33) + grow;
     right = nameRect.left + (right - nameRect.left) / NS;
     // the name is nudged right with CSS `left`; the stroke moves with it
     const shift = parseFloat(getComputedStyle(heroName).left) || 0;
@@ -217,7 +217,7 @@
     heroStroke.style.top = `${nameRect.top - rowRect.top - padTop}px`;
     heroStroke.style.height = `${nameRect.height + padTop + padBot}px`;
     // the right-hand U-turn ends a little past the last letter (clear of the envelope)
-    const width = (right - rowRect.left) - left + H0 * (phone ? 0.1 : 0.12);
+    const width = (right - rowRect.left) - left + H0 * (phone ? 0.13 : window.innerWidth < 1100 ? 0.1 : 0.19);   // tablets: the envelope sits close
     heroStroke.style.width = `${width}px`;   // 8% narrower
   };
   /* Background behind the name: one wide dry-brush stroke that snakes from the
