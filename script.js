@@ -218,10 +218,12 @@
   const reduceMotionBrush = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   // centre line (cubic Bézier in 0..1 box units), width as a share of the box height
   const BRUSH_STROKES = [
-    { p: [[-.02, .22], [.3, .12], [.62, .14], [.9, .22]],   wd: .46, dur: 560 },
-    { p: [[-.02, .55], [.28, .49], [.6, .58], [.88, .5]],   wd: .46, dur: 560 },
-    { p: [[-.02, .82], [.32, .9], [.62, .8], [.84, .84]],  wd: .40, dur: 520 },
-    { p: [[.08, .05], [.32, -.01], [.58, .02], [.78, .07]], wd: .16, dur: 420 }
+    // a wide curved band through the middle keeps the lettering on solid paint
+    { p: [[-.04, .6], [.3, .46], [.66, .48], [.98, .62]],    wd: .68, dur: 620 },
+    // a big arch sweeping over the top and down the right side
+    { p: [[-.04, .92], [-.02, -.2], [.94, -.24], [.98, .86]], wd: .34, dur: 640 },
+    // a bowl sweeping under the bottom and up the right
+    { p: [[.02, .1], [.06, 1.16], [.88, 1.18], [1.0, .3]],   wd: .30, dur: 600 }
   ];
   const bez = (P, t) => {
     const m = 1 - t;
@@ -263,8 +265,8 @@
       for (let j = 0; j < B; j++) {
         const o = (j / (B - 1) - .5) + (rnd() - .5) * .01;
         const edge = Math.min(1, (.5 - Math.abs(o)) * 6);
-        const tEnd = .9 + rnd() * .1 * (.5 + .5 * edge);
-        const tStart = rnd() * .02 + (1 - edge) * rnd() * .06;
+        const tEnd = .94 + rnd() * .06 * (.5 + .5 * edge);
+        const tStart = rnd() * .015 + (1 - edge) * rnd() * .04;
         const runs = [];
         let on = false, start = 0;
         for (let t = tStart; t <= tEnd; t += .006) {
@@ -272,7 +274,7 @@
           const n1 = noise(o * 26, t * 5);
           const n2 = noise(o * 90 + 7, t * 22);
           // solid where the lettering sits; dry at the rims and toward the end
-          const dry = .02 + (1 - edge) * .42 + Math.max(0, t - .86) * 2.6;
+          const dry = .02 + (1 - edge) * .42 + Math.max(0, t - .8) * .9;
           const paint = n1 * .75 + n2 * .25 > dry;
           if (paint && !on) { on = true; start = t; }
           if (!paint && on) { on = false; if (t - start > .004) runs.push([start, t]); }
@@ -306,13 +308,32 @@
       b.runs.forEach(([ra, rb]) => {
         const a = Math.max(ra, t0), z = Math.min(rb, t1);
         if (z <= a) return;
-        ctx.beginPath();
-        const steps = Math.max(1, Math.ceil((z - a) * 60));
-        for (let s2 = 0; s2 <= steps; s2++) {
-          const [x, y] = at(a + (z - a) * s2 / steps, b.o);
-          s2 ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+        // opacity fades in over the first 8% and out over the last 30%
+        const FIN = .08, FOUT = .7;
+        const solidA = Math.max(a, FIN), solidZ = Math.min(z, FOUT);
+        const line = (from, to, alpha) => {
+          ctx.globalAlpha = Math.max(0, alpha);
+          ctx.beginPath();
+          const steps = Math.max(1, Math.ceil((to - from) * 60));
+          for (let s2 = 0; s2 <= steps; s2++) {
+            const [x, y] = at(from + (to - from) * s2 / steps, b.o);
+            s2 ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+          }
+          ctx.stroke();
+        };
+        // solid middle as one line
+        if (solidZ > solidA) line(solidA, solidZ, b.a);
+        // fading start and end in short steps
+        const FADE_STEP = .008;
+        for (let x0 = a; x0 < Math.min(z, FIN); x0 += FADE_STEP) {
+          const x1 = Math.min(x0 + FADE_STEP, z, FIN);
+          line(x0, x1, b.a * ((x0 + x1) / 2) / FIN);
         }
-        ctx.stroke();
+        for (let x0 = Math.max(a, FOUT); x0 < z; x0 += FADE_STEP) {
+          const x1 = Math.min(x0 + FADE_STEP, z);
+          const m = (x0 + x1) / 2;
+          line(x0, x1, b.a * Math.pow(1 - (m - FOUT) / (1 - FOUT), 1.3));
+        }
       });
     });
     ctx.globalAlpha = 1;
@@ -348,7 +369,7 @@
       plan.forEach((p) => {
         const k2 = Math.min(1, Math.max(0, (now - p.start) / p.st.dur));
         const prog = ease(k2);
-        if (prog > p.done) { paintSegment(ctx, p.st, Math.max(0, p.done - .004), prog); p.done = prog; }
+        if (prog > p.done) { paintSegment(ctx, p.st, p.done > .08 && p.done < .7 ? p.done - .004 : p.done, prog); p.done = prog; }
         if (k2 < 1) busy = true;
       });
       if (busy) brushAnim = requestAnimationFrame(frame);
