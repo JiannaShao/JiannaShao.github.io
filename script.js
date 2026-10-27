@@ -207,8 +207,8 @@
     const NS = parseFloat(getComputedStyle(heroName).getPropertyValue('--name-scale')) || 1;
     const H0 = nameRect.height / NS;
     const grow = (H0 - nameRect.height) / 2;
-    const padTop = H0 * (phone ? 0.21 : 0.38) + grow;     // extra room above JIANNA
-    const padBot = H0 * (phone ? 0.21 : 0.38) + grow;
+    const padTop = H0 * (phone ? 0.25 : 0.46) + grow;     // extra room above JIANNA
+    const padBot = H0 * (phone ? 0.25 : 0.46) + grow;
     right = nameRect.left + (right - nameRect.left) / NS;
     // the name is nudged right with CSS `left`; the stroke moves with it
     const shift = parseFloat(getComputedStyle(heroName).left) || 0;
