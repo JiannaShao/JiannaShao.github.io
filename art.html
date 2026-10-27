@@ -28,7 +28,7 @@
 
     <link
         rel="stylesheet"
-        href="art.css?v=2"
+        href="art.css?v=4"
     >
 
   <link rel="stylesheet" href="site-loader.css?v=1">
@@ -145,105 +145,31 @@
 
     <div class="music-player">
 
-        <div class="ipod">
-
-
-            <!-- IPOD SCREEN -->
-
-            <div class="ipod-screen">
-
-                <p class="music-label">
-                    NOW PLAYING
-                </p>
-
-                <div
-                    id="album-name"
-                    class="album-name"
-                >
-                    Select an album
-                </div>
-
-                <div
-                    id="song-title"
-                    class="song-title"
-                >
-                    —
-                </div>
-
-                <div
-                    id="artist-name"
-                    class="artist-name"
-                >
-                    —
-                </div>
-
-            </div>
-
-
-
-            <!-- IPOD WHEEL -->
-
-            <div class="ipod-wheel">
-
-                <button
-                    id="previous"
-                    class="wheel-button previous"
-                    type="button"
-                    aria-label="Previous song"
-                >
-                    ◀
-                </button>
-
-
-                <button
-                    id="play"
-                    class="play-button"
-                    type="button"
-                    aria-label="Play"
-                >
-                    ▶
-                </button>
-
-
-                <button
-                    id="next"
-                    class="wheel-button next"
-                    type="button"
-                    aria-label="Next song"
-                >
-                    ▶
-                </button>
-
-            </div>
-
-
-
-            <!-- ALBUM BUTTON -->
-
-            <button
-                id="album-button"
-                class="album-button"
-                type="button"
-            >
-                Albums
-            </button>
-
+        <!-- album menu: opens from the menu button, sits to the left of the player -->
+        <div id="album-menu" class="album-menu hidden" role="menu" aria-label="Albums">
+            <div id="album-list"></div>
         </div>
 
+        <div class="mp" role="region" aria-label="Music player">
 
+            <div class="mp-screen" aria-live="polite">
+                <p class="mp-label">NOW PLAYING</p>
+                <div id="album-name" class="mp-album">Select an album</div>
+                <div id="song-title" class="mp-title">—</div>
+                <div id="artist-name" class="mp-artist">—</div>
+                <div class="mp-time"><span id="mp-current">0:00</span><span id="mp-duration">0:00</span></div>
+            </div>
 
-        <!-- ALBUM MENU -->
+            <button id="album-button" class="mp-menu" type="button" aria-label="Choose an album" aria-haspopup="menu" aria-expanded="false"></button>
+            <input id="mp-progress" class="mp-range mp-progress" type="range" min="0" max="1000" value="0" step="1" aria-label="Song position">
 
-        <div
-            id="album-menu"
-            class="album-menu hidden"
-        >
+            <button id="previous" class="mp-skip mp-prev" type="button" aria-label="Previous song"></button>
+            <button id="play" class="mp-play" type="button" aria-label="Play"></button>
+            <button id="next" class="mp-skip mp-next" type="button" aria-label="Next song"></button>
 
-            <p>
-                SELECT ALBUM
-            </p>
-
-            <div id="album-list"></div>
+            <span class="mp-vol-icon mp-vol-low" aria-hidden="true"></span>
+            <input id="mp-volume" class="mp-range mp-volume" type="range" min="0" max="100" value="40" step="1" aria-label="Volume">
+            <span class="mp-vol-icon mp-vol-high" aria-hidden="true"></span>
 
         </div>
 
@@ -295,7 +221,7 @@
 
     <script
         type="module"
-        src="art.js?v=5"
+        src="art.js?v=6"
     ></script>
 
 

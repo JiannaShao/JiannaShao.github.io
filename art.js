@@ -2368,29 +2368,8 @@ function updatePlayButton() {
     }
 
 
-    if (isPlaying) {
-
-        playButton.textContent =
-            "Ⅱ";
-
-        playButton.setAttribute(
-            "aria-label",
-            "Pause"
-        );
-
-    }
-
-    else {
-
-        playButton.textContent =
-            "▶";
-
-        playButton.setAttribute(
-            "aria-label",
-            "Play"
-        );
-
-    }
+    playButton.classList.toggle("is-playing", isPlaying);
+    playButton.setAttribute("aria-label", isPlaying ? "Pause" : "Play");
 
 }
 
@@ -2633,9 +2612,8 @@ if (
             event.stopPropagation();
 
 
-            albumMenu.classList.toggle(
-                "hidden"
-            );
+            const open = albumMenu.classList.toggle("hidden") === false;
+            albumButton.setAttribute("aria-expanded", String(open));
 
         }
     );
@@ -2692,7 +2670,11 @@ if (albumList) {
                             "hidden"
                         );
 
+                        if (albumButton) albumButton.setAttribute("aria-expanded", "false");
+
                     }
+
+                    markCurrentAlbum();
 
                 }
             );
@@ -2706,6 +2688,72 @@ if (albumList) {
     );
 
 }
+
+
+// =====================================================
+// PROGRESS + VOLUME SLIDERS
+// =====================================================
+
+const progressInput = document.getElementById("mp-progress");
+const volumeInput = document.getElementById("mp-volume");
+const timeNow = document.getElementById("mp-current");
+const timeTotal = document.getElementById("mp-duration");
+let seeking = false;
+
+const fmtTime = (t) => {
+    if (!isFinite(t) || t < 0) t = 0;
+    const m = Math.floor(t / 60), sec = Math.floor(t % 60);
+    return m + ":" + String(sec).padStart(2, "0");
+};
+const setFill = (input) => {
+    if (!input) return;
+    const pct = (input.value - input.min) / (input.max - input.min) * 100;
+    input.style.setProperty("--fill", pct + "%");
+};
+const syncProgress = () => {
+    if (!progressInput || seeking) return;
+    const d = audio.duration;
+    progressInput.value = isFinite(d) && d > 0 ? Math.round(audio.currentTime / d * 1000) : 0;
+    setFill(progressInput);
+    if (timeNow) timeNow.textContent = fmtTime(audio.currentTime);
+    if (timeTotal) timeTotal.textContent = fmtTime(d);
+};
+["timeupdate", "loadedmetadata", "durationchange", "emptied"].forEach((ev) => audio.addEventListener(ev, syncProgress));
+
+if (progressInput) {
+    progressInput.addEventListener("input", () => {
+        seeking = true;
+        setFill(progressInput);
+        if (isFinite(audio.duration) && timeNow) timeNow.textContent = fmtTime(progressInput.value / 1000 * audio.duration);
+    });
+    progressInput.addEventListener("change", () => {
+        if (isFinite(audio.duration)) audio.currentTime = progressInput.value / 1000 * audio.duration;
+        seeking = false;
+        syncProgress();
+    });
+    setFill(progressInput);
+}
+if (volumeInput) {
+    const applyVolume = () => { audio.volume = volumeInput.value / 100; setFill(volumeInput); };
+    volumeInput.addEventListener("input", applyVolume);
+    applyVolume();
+}
+// keep keyboard focus on the sliders from also walking around the room
+[progressInput, volumeInput].forEach((el) => el && el.addEventListener("keydown", (e) => e.stopPropagation()));
+
+function markCurrentAlbum() {
+    if (!albumList) return;
+    albumList.querySelectorAll(".album-option").forEach((b) => b.classList.toggle("is-current", b.textContent === currentAlbum));
+}
+markCurrentAlbum();
+
+// close the album menu when clicking anywhere else
+document.addEventListener("click", (e) => {
+    if (!albumMenu || albumMenu.classList.contains("hidden")) return;
+    if (albumMenu.contains(e.target) || (albumButton && albumButton.contains(e.target))) return;
+    albumMenu.classList.add("hidden");
+    if (albumButton) albumButton.setAttribute("aria-expanded", "false");
+});
 
 
 // =====================================================

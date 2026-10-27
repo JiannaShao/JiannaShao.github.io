@@ -194,230 +194,202 @@ body {
 
 /* =========================
    MUSIC PLAYER
+   Silver media player built from the MediaPlayerUI sheet
+   (web/player/*). Positions are percentages of the body art
+   (582 x 786) so everything scales with --mp-w.
 ========================= */
 
 .music-player {
+    --mp-w: 236px;
     position: fixed;
-
     right: 30px;
     bottom: 25px;
-
     z-index: 50;
-
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
     pointer-events: none;
+    font-family: 'Work Sans', Arial, sans-serif;
 }
 
-.ipod {
-    width: 190px;
-
-    padding: 14px;
-
-    background: var(--white);
-
-    border: 2px solid var(--black);
-
-    border-radius: 14px;
-
-    box-shadow: 5px 5px 0 rgba(17, 17, 17, 0.25);
-
+.mp {
+    position: relative;
+    width: var(--mp-w);
+    aspect-ratio: 582 / 786;
+    background: url("web/player/body.png") center / 100% 100% no-repeat;
+    filter: drop-shadow(0 14px 22px rgba(17, 17, 17, .28));
     pointer-events: auto;
+    user-select: none;
 }
 
-
-/* =========================
-   IPOD SCREEN
-========================= */
-
-.ipod-screen {
-    height: 115px;
-
-    padding: 12px;
-
-    background: var(--turquoise-light);
-
-    border: 1px solid var(--black);
-
+/* black screen: 45,44 -> 538,435 of the body */
+.mp-screen {
+    position: absolute;
+    left: 9.5%;
+    right: 9.5%;
+    top: 8.3%;
+    height: 44.2%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 8%;
+    color: #f4f4f4;
     text-align: center;
-
     overflow: hidden;
 }
-
-.music-label {
-    margin: 0 0 10px;
-
+.mp-label {
+    margin: 0 0 8px;
     font-size: 8px;
-    letter-spacing: 1.5px;
-    font-weight: bold;
+    font-weight: 600;
+    letter-spacing: .22em;
+    color: #9a9a9a;
 }
-
-.album-name {
-    margin-bottom: 7px;
-
-    font-size: 11px;
-    font-weight: bold;
-}
-
-.song-title {
-    font-family: Georgia, serif;
-
-    font-size: 16px;
-
+.mp-album {
+    margin-bottom: 6px;
+    font-size: 10px;
+    letter-spacing: .06em;
+    color: #c9c9c9;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
-.artist-name {
-    margin-top: 5px;
-
+.mp-title {
+    font-family: 'Gulax', 'DM Serif Display', Georgia, serif;
+    font-size: 19px;
+    line-height: 1.15;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.mp-artist {
+    margin-top: 4px;
     font-size: 10px;
+    color: #b5b5b5;
+}
+.mp-time {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+    font-size: 9px;
+    font-variant-numeric: tabular-nums;
+    color: #8d8d8d;
 }
 
+/* buttons share a reset */
+.mp button {
+    position: absolute;
+    padding: 0;
+    border: 0;
+    background: transparent center / contain no-repeat;
+    cursor: pointer;
+    transition: transform .15s ease, filter .15s ease;
+}
+.mp button:hover { transform: scale(1.08); }
+.mp button:active { transform: scale(.94); }
+.mp button:focus-visible { outline: 2px solid #fff; outline-offset: 3px; border-radius: 6px; }
 
-/* =========================
-   IPOD WHEEL
-========================= */
+/* menu icon: 30,485 -> 70,512 */
+.mp-menu {
+    left: 5.4%;
+    top: 61.4%;
+    width: 7%;
+    height: 3.5%;
+    background-image: url("web/player/menu.png") !important;
+}
 
-.ipod-wheel {
-    position: relative;
-
-    width: 100px;
-    height: 100px;
-
-    margin: 15px auto;
-
-    background: var(--cream);
-
-    border: 2px solid var(--black);
-
+/* previous / play / next centred on y 607 */
+.mp-skip { top: 74.1%; width: 8.4%; height: 6.3%; }
+.mp-prev { left: 21.9%; background-image: url("web/player/prev.png") !important; }
+.mp-next { left: 68.4%; background-image: url("web/player/next.png") !important; }
+.mp-play {
+    left: 38.6%;
+    top: 69.1%;
+    width: 22.2%;
+    height: 16.3%;
+    background-image: url("web/player/play.png") !important;
     border-radius: 50%;
+    filter: drop-shadow(0 3px 5px rgba(0, 0, 0, .12));
 }
+.mp-play.is-playing { background-image: url("web/player/pause.png") !important; }
 
-.play-button,
-.wheel-button {
+/* volume icons: 51,710 -> 83,745 and 480,710 -> 527,745 */
+.mp-vol-icon {
     position: absolute;
+    top: 90.2%;
+    height: 4.8%;
+    background: center / contain no-repeat;
+    pointer-events: none;
+}
+.mp-vol-low { left: 8.6%; width: 3.8%; background-image: url("web/player/vol-low.png"); }
+.mp-vol-high { left: 82.5%; width: 8.4%; background-image: url("web/player/vol-high.png"); }
 
-    border: none;
-
-    background: none;
-
+/* sliders: grey track, white fill (--fill), white round thumb */
+.mp-range {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    height: 3%;
+    -webkit-appearance: none;
+    appearance: none;
+    background: linear-gradient(90deg, #fff 0 var(--fill, 0%), #9b9b9b var(--fill, 0%) 100%);
+    border-radius: 99px;
     cursor: pointer;
-
-    color: var(--black);
 }
-
-.play-button {
-    top: 50%;
-    left: 50%;
-
-    transform: translate(-50%, -50%);
-
-    font-size: 22px;
+.mp-progress { left: 16.3%; width: 75.6%; top: 62%; }
+.mp-volume { left: 16.3%; width: 63.9%; top: 91.3%; }
+.mp-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 0;
+    height: 0;
 }
-
-.wheel-button {
-    font-size: 12px;
+.mp-range::-moz-range-thumb { width: 0; height: 0; border: 0; }
+.mp-volume::-webkit-slider-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .25);
 }
-
-.previous {
-    left: 14px;
-    top: 50%;
-
-    transform: translateY(-50%);
+.mp-volume::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border: 0;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .25);
 }
+.mp-range:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
 
-.next {
-    right: 14px;
-    top: 50%;
-
-    transform: translateY(-50%);
-}
-
-.play-button:hover,
-.wheel-button:hover {
-    color: var(--turquoise);
-}
-
-
-/* =========================
-   ALBUM BUTTON
-========================= */
-
-.album-button {
-    width: 100%;
-
-    padding: 8px;
-
-    border: 1px solid var(--black);
-
-    background: var(--cream);
-
-    cursor: pointer;
-
-    font-size: 11px;
-    font-weight: bold;
-}
-
-.album-button:hover {
-    background: var(--turquoise);
-    color: var(--white);
-}
-
-
-/* =========================
-   ALBUM MENU
-========================= */
-
+/* album menu: the small silver box with white pill buttons */
 .album-menu {
-    position: absolute;
-
-    right: 205px;
-    bottom: 0;
-
-    width: 190px;
-
-    padding: 20px;
-
-    background: var(--cream);
-
-    border: 1px solid var(--black);
-
+    width: calc(var(--mp-w) * .56);
+    padding: 16px 12px;
+    background: url("web/player/box.png") center / 100% 100% no-repeat;
+    filter: drop-shadow(0 10px 18px rgba(17, 17, 17, .22));
     pointer-events: auto;
+    transform-origin: bottom right;
+    animation: mp-menu-in .22s ease-out;
 }
-
-.album-menu.hidden {
-    display: none;
-}
-
-.album-menu > p {
-    margin: 0 0 15px;
-
-    font-size: 10px;
-    font-weight: bold;
-    letter-spacing: 2px;
-}
-
+.album-menu.hidden { display: none; }
+@keyframes mp-menu-in { from { opacity: 0; transform: scale(.92) translateY(6px); } }
+#album-list { display: flex; flex-direction: column; gap: 10px; }
 .album-option {
     display: block;
-
     width: 100%;
-
-    padding: 10px;
-
-    margin-bottom: 7px;
-
-    border: 1px solid var(--border);
-
-    background: var(--white);
-
-    text-align: left;
-
+    padding: 12px 10px;
+    border: 0;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .14);
+    color: #3d3d3d;
+    font: 600 11px/1.2 'Work Sans', Arial, sans-serif;
+    letter-spacing: .04em;
+    text-align: center;
     cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease;
 }
-
-.album-option:hover {
-    border-color: var(--turquoise);
-}
+.album-option:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(0, 0, 0, .18); }
+.album-option.is-current { color: #111; background: #f1f1f1; box-shadow: inset 0 2px 5px rgba(0, 0, 0, .14); }
 
 
 /* =========================
@@ -471,17 +443,8 @@ body {
         bottom: 15px;
     }
 
-    .ipod {
-        width: 150px;
-    }
-
-    .ipod-screen {
-        height: 95px;
-    }
-
-    .ipod-wheel {
-        width: 80px;
-        height: 80px;
+    .music-player {
+        --mp-w: 180px;
     }
 
     .artwork-info {
