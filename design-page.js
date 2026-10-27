@@ -67,19 +67,31 @@
           anims.push([node, len, delay, dur]);
         };
 
-        // lines: baseline, x-height, cap height for each title line
+        // lines: baseline, x-height, cap height for each row of text as it is
+        // laid out (a title line that wraps on a phone gets one set per row)
         var lines = [];
         title.querySelectorAll('.dx-line').forEach(function (line) {
-          var spans = line.querySelectorAll('.dx-ch');
+          var spans = [].slice.call(line.querySelectorAll('.dx-ch'));
           if (!spans.length) return;
-          var first = spans[0].getBoundingClientRect();
-          var last = spans[spans.length - 1].getBoundingClientRect();
-          var base = line.querySelector('.dx-baseline').getBoundingClientRect().top - tr.top + PAD;
           var size = parseFloat(getComputedStyle(spans[0]).fontSize);
           var u = size / font.unitsPerEm;
           var capH = (font.tables.os2 && font.tables.os2.sCapHeight) || font.unitsPerEm * 0.7;
           var xH = (font.tables.os2 && font.tables.os2.sxHeight) || font.unitsPerEm * 0.48;
-          lines.push({ x0: first.left - tr.left + PAD, x1: last.right - tr.left + PAD, base: base, cap: base - capH * u, xh: base - xH * u, size: size });
+          // the baseline probe sits at the end of the last row; every letter box
+          // has the same offset from its top to the baseline
+          var lastRect = spans[spans.length - 1].getBoundingClientRect();
+          var toBase = line.querySelector('.dx-baseline').getBoundingClientRect().top - lastRect.top;
+          var rows = [];
+          spans.forEach(function (sp) {
+            var r = sp.getBoundingClientRect();
+            var row = rows.length && Math.abs(rows[rows.length - 1].top - r.top) < size * 0.3 ? rows[rows.length - 1] : null;
+            if (!row) { row = { top: r.top, x0: r.left, x1: r.right }; rows.push(row); }
+            row.x0 = Math.min(row.x0, r.left); row.x1 = Math.max(row.x1, r.right);
+          });
+          rows.forEach(function (row, ri) {
+            var base = row.top + toBase - tr.top + PAD;
+            lines.push({ top: ri === 0, x0: row.x0 - tr.left + PAD, x1: row.x1 - tr.left + PAD, base: base, cap: base - capH * u, xh: base - xH * u, size: size });
+          });
         });
 
         var t = 0;
@@ -88,17 +100,22 @@
             var g = el('line', { x1: L.x0 - 30, y1: y, x2: L.x1 + 30, y2: y, 'class': 'bp-guide bp-fade' }, svg);
             trace(g, t + i * 90, 520);
           });
-          // overall width dimension above the line
-          var dy = L.cap - Math.max(18, L.size * 0.16);
-          var dim = el('path', { d: 'M' + L.x0 + ' ' + (dy - 6) + 'v12M' + L.x1 + ' ' + (dy - 6) + 'v12M' + L.x0 + ' ' + dy + 'H' + L.x1, 'class': 'bp-dim bp-fade' }, svg);
-          trace(dim, t + 280, 520);
+          // overall width dimension above the line (top row only, so it never
+          // sits on the row above)
+          if (L.top) {
+            var dy = L.cap - Math.max(18, L.size * 0.16);
+            var dim = el('path', { d: 'M' + L.x0 + ' ' + (dy - 6) + 'v12M' + L.x1 + ' ' + (dy - 6) + 'v12M' + L.x0 + ' ' + dy + 'H' + L.x1, 'class': 'bp-dim bp-fade' }, svg);
+            trace(dim, t + 280, 520);
+          }
           // cap-height dimension at the left
           var dx = L.x0 - Math.max(16, L.size * 0.12);
           var dim2 = el('path', { d: 'M' + (dx - 6) + ' ' + L.cap + 'h12M' + (dx - 6) + ' ' + L.base + 'h12M' + dx + ' ' + L.cap + 'V' + L.base, 'class': 'bp-dim bp-fade' }, svg);
           trace(dim2, t + 380, 420);
-          var label = el('text', { x: (L.x0 + L.x1) / 2, y: dy - 8, 'text-anchor': 'middle', 'class': 'bp-dim-text bp-fade', opacity: 0 }, svg);
-          label.textContent = 'SCALE 1:1';
-          anims.push([label, 0, t + 700, 300, 'fade']);
+          if (L.top) {
+            var label = el('text', { x: (L.x0 + L.x1) / 2, y: dy - 8, 'text-anchor': 'middle', 'class': 'bp-dim-text bp-fade', opacity: 0 }, svg);
+            label.textContent = 'SCALE 1:1';
+            anims.push([label, 0, t + 700, 300, 'fade']);
+          }
           t += 160;
         });
 
