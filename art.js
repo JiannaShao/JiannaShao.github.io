@@ -552,9 +552,9 @@ furnitureLoader.load(
 ===================================================== */
 
 const BENCH_PATH = "RoomFurniture/ScrollBench.glb";
-const BENCH_CENTER = new THREE.Vector3(0.2, 0, -7.75);
-const BENCH_LENGTH = 3.0;         // along the wall
-const BENCH_HEIGHT_STRETCH = 2.4; // ledge comes out at seat height
+const BENCH_CENTER = new THREE.Vector3(0.6, 0, -7.75);
+const BENCH_LENGTH = 7.6;         // along the wall (uniform scale: the ledge lands at seat height)
+
 const SEATED_EYE = 1.05;
 
 const bench = {
@@ -611,7 +611,7 @@ furnitureLoader.load(
         let box = new THREE.Box3().setFromObject(holder);
         const size = box.getSize(new THREE.Vector3());
         const k = BENCH_LENGTH / Math.max(size.x, size.z);
-        holder.scale.set(k, k * BENCH_HEIGHT_STRETCH, k);
+        holder.scale.setScalar(k);   // uniform: no stretching
         holder.updateMatrixWorld(true);
 
         box = new THREE.Box3().setFromObject(holder);
