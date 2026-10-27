@@ -3001,7 +3001,7 @@ html body .hero .hero-content.hero-content{ padding-top:70px !important; }
 
 /* "Click to open" sits on the brush stroke's tail on wide screens: white text */
 @media (min-width:1100px){
-  html body .hero-postcard-hint{ color:#fafafa !important; transform:translateY(-12px) !important; }
+  html body .hero-postcard-hint{ color:#fafafa !important; transform:translateY(4px) !important; }
 }
 
 /* brush stroke at 95% opacity; name text a touch lower inside it */
