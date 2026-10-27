@@ -216,34 +216,36 @@
   let brushCanvas = null;
   let brushAnim = 0;
   const reduceMotionBrush = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  // centre line (cubic Bézier in 0..1 box units), width as a share of the box height
+  /* Strokes are circular arcs: a: [centre x (share of box width), centre y
+     (share of box height), radius (× box height), start angle, end angle] in
+     degrees (0 = right, 90 = down). Most start outside the box so they enter
+     the frame at the edge, like the reference; wd = width × box height;
+     dry = extra dry-brush streaking. The first two wide arcs sit behind the
+     lettering so the name always has solid paint under it. */
   const BRUSH_STROKES = [
-    // a wide curved band through the middle keeps the lettering on solid paint
-    { p: [[-.04, .6], [.3, .46], [.66, .48], [.98, .62]],    wd: .68, dur: 620 },
-    // a big arch sweeping over the top and down the right side
-    { p: [[-.04, .92], [-.02, -.2], [.94, -.24], [.98, .86]], wd: .34, dur: 640 },
-    // a bowl sweeping under the bottom and up the right
-    { p: [[.02, .1], [.06, 1.16], [.88, 1.18], [1.0, .3]],   wd: .30, dur: 600 }
+    { a: [.42, 2.14, 1.78, 236, 302], wd: .6,  dry: 0,   dur: 520 },   // low dome behind JIANNA
+    { a: [.48, -1.18, 1.82, 122, 58], wd: .48, dry: 0,   dur: 520 },   // shallow bowl behind SHAO
+    { a: [-.22, .5, .62, -75, 62],    wd: .26, dry: .1,  dur: 420 },   // down the left edge
+    { a: [.86, .8, .74, 196, 318],    wd: .3,  dry: .08, dur: 460 },   // big arch over the top right
+    { a: [.1, .1, .5, 160, 20],       wd: .22, dry: .12, dur: 400 },   // curl in from the top left
+    { a: [.98, 1.18, .58, 182, 282],  wd: .3,  dry: .1,  dur: 420 },   // quarter circle, bottom right
+    { a: [.2, .3, .62, 118, 12],      wd: .22, dry: .12, dur: 420 },   // bowl in from the bottom left
+    { a: [.62, 1.45, 1.0, 196, 252],  wd: .2,  dry: .14, dur: 380 },   // diagonal sweep, lower middle
+    { a: [.5, .52, .44, 338, 214],    wd: .18, dry: .14, dur: 400 }    // small arc over the middle
   ];
-  const bez = (P, t) => {
-    const m = 1 - t;
-    return [
-      m * m * m * P[0][0] + 3 * m * m * t * P[1][0] + 3 * m * t * t * P[2][0] + t * t * t * P[3][0],
-      m * m * m * P[0][1] + 3 * m * m * t * P[1][1] + 3 * m * t * t * P[2][1] + t * t * t * P[3][1]
-    ];
-  };
   const buildBrush = (w, h) => {
     let seed = 7;
     const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
-    const shades = ['#14253d', '#14253d', '#12223a', '#0f1d31', '#172a45', '#1b3050', '#16294a', '#203655'];
+    const shades = ['#14253d', '#14253d', '#12223a', '#0f1d31', '#172a45', '#1b3050', '#16294a', '#203655', '#0c1829', '#2a4262'];
     const k = h / 520;
     return BRUSH_STROKES.map((S) => {
       const N = 140;
       // centre line points with unit normals (in px)
       const pts = [];
+      const [cx, cy, r, a0, a1] = S.a;
       for (let i = 0; i <= N; i++) {
-        const [x, y] = bez(S.p, i / N);
-        pts.push([x * w, y * h]);
+        const ang = (a0 + (a1 - a0) * i / N) * Math.PI / 180;
+        pts.push([cx * w + Math.cos(ang) * r * h, cy * h + Math.sin(ang) * r * h]);
       }
       const nrm = pts.map((pt, i) => {
         const a = pts[Math.max(0, i - 1)], b = pts[Math.min(N, i + 1)];
@@ -274,7 +276,7 @@
           const n1 = noise(o * 26, t * 5);
           const n2 = noise(o * 90 + 7, t * 22);
           // solid where the lettering sits; dry at the rims and toward the end
-          const dry = .02 + (1 - edge) * .42 + Math.max(0, t - .8) * .9;
+          const dry = .02 + S.dry + (1 - edge) * .42 + Math.max(0, t - .8) * .9;
           const paint = n1 * .75 + n2 * .25 > dry;
           if (paint && !on) { on = true; start = t; }
           if (!paint && on) { on = false; if (t - start > .004) runs.push([start, t]); }
@@ -308,8 +310,8 @@
       b.runs.forEach(([ra, rb]) => {
         const a = Math.max(ra, t0), z = Math.min(rb, t1);
         if (z <= a) return;
-        // opacity fades in over the first 8% and out over the last 30%
-        const FIN = .08, FOUT = .7;
+        // opacity fades in over the first 5% and out over the last 30%
+        const FIN = .05, FOUT = .7;
         const solidA = Math.max(a, FIN), solidZ = Math.min(z, FOUT);
         const line = (from, to, alpha) => {
           ctx.globalAlpha = Math.max(0, alpha);
@@ -360,7 +362,7 @@
     if (!animate || reduceMotionBrush) { strokes.forEach((st) => paintSegment(ctx, st, 0, 1)); return; }
     // each stroke starts a little before the previous one finishes
     let t = 0;
-    const plan = strokes.map((st) => { const p = { st, start: t, done: 0 }; t += st.dur * .62; return p; });
+    const plan = strokes.map((st) => { const p = { st, start: t, done: 0 }; t += st.dur * .5; return p; });
     const ease = (x) => 1 - Math.pow(1 - x, 2.2);
     const t0 = performance.now();
     const frame = () => {
@@ -369,7 +371,7 @@
       plan.forEach((p) => {
         const k2 = Math.min(1, Math.max(0, (now - p.start) / p.st.dur));
         const prog = ease(k2);
-        if (prog > p.done) { paintSegment(ctx, p.st, p.done > .08 && p.done < .7 ? p.done - .004 : p.done, prog); p.done = prog; }
+        if (prog > p.done) { paintSegment(ctx, p.st, p.done > .05 && p.done < .7 ? p.done - .004 : p.done, prog); p.done = prog; }
         if (k2 < 1) busy = true;
       });
       if (busy) brushAnim = requestAnimationFrame(frame);
