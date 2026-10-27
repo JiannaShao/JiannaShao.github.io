@@ -180,6 +180,9 @@ const CAMERA_HEIGHT = 2;
 
 const collidableObjects = [];
 
+// solid walls the player can't walk through (outer walls + partitions)
+const wallColliders = [];
+
 /* =====================================================
    3D FURNITURE
 ===================================================== */
@@ -319,6 +322,21 @@ function furnitureCollision(newPosition) {
 
     // Radius of the player/camera.
     const playerRadius = 0.35;
+
+    for (const box of wallColliders) {
+
+        if (
+            newPosition.x + playerRadius > box.min.x &&
+            newPosition.x - playerRadius < box.max.x &&
+            newPosition.z + playerRadius > box.min.z &&
+            newPosition.z - playerRadius < box.max.z
+        ) {
+
+            return true;
+
+        }
+
+    }
 
     for (const collider of furnitureColliders) {
 
@@ -619,6 +637,9 @@ function createWall(
         type: "wall",
         object: wall
     });
+
+    wall.updateMatrixWorld(true);
+    wallColliders.push(new THREE.Box3().setFromObject(wall));
 
     return wall;
 }
@@ -1957,14 +1978,24 @@ function moveCamera(delta) {
         );
 
 
-        // Only move if the new position is not inside
-        // a plant or column.
+        // Only move if the new position is not inside a wall,
+        // plant or column. If the full step is blocked, try each
+        // axis on its own so the player slides along the wall.
         if (!furnitureCollision(newPosition)) {
-        
-            camera.position.copy(
-                newPosition
-            );
-        
+
+            camera.position.copy(newPosition);
+
+        } else {
+
+            const slideX = camera.position.clone();
+            slideX.x = newPosition.x;
+
+            const slideZ = camera.position.clone();
+            slideZ.z = newPosition.z;
+
+            if (!furnitureCollision(slideX)) camera.position.copy(slideX);
+            else if (!furnitureCollision(slideZ)) camera.position.copy(slideZ);
+
         }
 
     }
