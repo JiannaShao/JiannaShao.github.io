@@ -2856,10 +2856,10 @@ html body .work-card .explore-btn:focus-visible{ outline:3px solid #48666d; outl
 
 /* Home name: a bit bigger, gentler hover growth */
 @media (min-width:801px){
-  html body .hero h1.hero-name{ font-size:clamp(76px, 10.8vw, 156px) !important; }
+  html body .hero h1.hero-name{ font-size:calc(clamp(76px, 10.8vw, 156px) * var(--name-scale)) !important; }
 }
 @media (max-width:800px){
-  html body .hero h1.hero-name{ font-size:clamp(64px, 21vw, 96px) !important; }
+  html body .hero h1.hero-name{ font-size:calc(clamp(64px, 21vw, 96px) * var(--name-scale)) !important; }
 }
 @media (hover:hover) and (pointer:fine){
   html body .hero-name-jianna:hover,
@@ -2982,3 +2982,6 @@ html body .section .eyebrow{
   color:#667080 !important;
   margin-bottom:13px !important;
 }
+
+/* name text 5% smaller; the brush stroke behind it keeps its size (script.js) */
+html body .hero h1.hero-name{ --name-scale:.95; }

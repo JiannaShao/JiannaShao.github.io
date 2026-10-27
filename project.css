@@ -4114,12 +4114,12 @@ html body .project-hero .eyebrow{ margin-bottom:36px; }
 .sp-garden{
   position:relative;
   margin:8px 0 0;
-  padding-top:16px;
+  padding-top:56px;            /* sky for the bird */
   overflow:hidden;
 }
 .sp-bird{
   position:absolute;
-  top:4%;
+  top:14px;
   left:0;
   z-index:3;
   width:clamp(64px, 8vw, 104px);
