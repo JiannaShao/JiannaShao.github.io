@@ -204,11 +204,15 @@
     const phone = window.innerWidth <= 800;
     const padTop = nameRect.height * (phone ? 0.22 : 0.39);     // extra room above JIANNA
     const padBot = nameRect.height * (phone ? 0.15 : 0.27);
-    const left = navRight - rowRect.left;
+    // the name is nudged right with CSS `left`; the stroke moves with it
+    const shift = parseFloat(getComputedStyle(heroName).left) || 0;
+    const left = navRight - rowRect.left + shift;
     heroStroke.style.left = `${left}px`;
     heroStroke.style.top = `${nameRect.top - rowRect.top - padTop}px`;
     heroStroke.style.height = `${nameRect.height + padTop + padBot}px`;
-    heroStroke.style.width = `${((right - rowRect.left) - left + nameRect.width * 0.2) * 0.92}px`;   // 8% narrower
+    // the right-hand U-turn ends a little past the last letter (clear of the envelope)
+    const width = (right - rowRect.left) - left + nameRect.height * (phone ? 0.1 : 0.12);
+    heroStroke.style.width = `${width}px`;   // 8% narrower
   };
   /* Background behind the name: one wide dry-brush stroke that snakes from the
      top left to the bottom right, like the scroll snake in the sidebar:
@@ -376,15 +380,17 @@
     cancelAnimationFrame(brushAnim);
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     // the canvas bleeds past the box top and bottom so the tilted runs aren't cut flat
-    const bleed = Math.round(h * .12);
-    brushCanvas.width = w * dpr; brushCanvas.height = (h + bleed * 2) * dpr;
-    brushCanvas.style.width = w + 'px'; brushCanvas.style.height = (h + bleed * 2) + 'px';
-    brushCanvas.style.top = -bleed + 'px'; brushCanvas.style.bottom = 'auto';
+    // and past the sides so the round U-turns keep their full curve
+    const bleed = Math.round(h * .12), bx = Math.round(h * .1);
+    brushCanvas.width = (w + bx * 2) * dpr; brushCanvas.height = (h + bleed * 2) * dpr;
+    brushCanvas.style.width = (w + bx * 2) + 'px'; brushCanvas.style.height = (h + bleed * 2) + 'px';
+    brushCanvas.style.top = -bleed + 'px'; brushCanvas.style.left = -bx + 'px';
+    brushCanvas.style.bottom = 'auto'; brushCanvas.style.right = 'auto';
     const ctx = brushCanvas.getContext('2d');
-    ctx.setTransform(dpr, 0, 0, dpr, 0, bleed * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, bx * dpr, bleed * dpr);
     ctx.lineCap = 'butt';
     ctx.lineJoin = 'round';
-    ctx.clearRect(0, -bleed, w, h + bleed * 2);
+    ctx.clearRect(-bx, -bleed, w + bx * 2, h + bleed * 2);
     const strokes = buildBrush(w, h);
     if (!animate || reduceMotionBrush) { strokes.forEach((st) => paintSegment(ctx, st, 0, 1)); return; }
     // each stroke starts a little before the previous one finishes

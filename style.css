@@ -2963,3 +2963,9 @@ html body .art-card.gallery-doors::after{
 /* brush strokes animate themselves on the canvas (no sweep mask) */
 html body .hero-title-row > .hero-stroke,
 html body .hero-title-row > .hero-stroke.is-painted{ clip-path:none !important; animation:none !important; }
+
+/* Name (and its brush stroke, placed from it in script.js) nudged right */
+html body .hero h1.hero-name{ left:40px; }
+@media (max-width:800px){
+  html body .hero h1.hero-name{ left:10px; }
+}
