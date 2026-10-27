@@ -423,12 +423,23 @@
     };
     brushAnim = requestAnimationFrame(frame);
   };
+  // painted (animated) once per page load; later calls do nothing
+  let strokePainted = false;
   const paintStroke = () => {
-    if (!heroStroke) return;
+    if (!heroStroke || strokePainted) return;
+    strokePainted = true;
     placeStroke();
     drawBrush(true);
   };
-  window.addEventListener('resize', () => { placeStroke(); drawBrush(false); });
+  // only a real width change (not a phone's address bar showing/hiding)
+  // re-lays the stroke out, and then without animating
+  let strokeW = window.innerWidth;
+  window.addEventListener('resize', () => {
+    if (!strokePainted || window.innerWidth === strokeW) return;
+    strokeW = window.innerWidth;
+    placeStroke();
+    drawBrush(false);
+  });
   const showNamePlain = () => {
     if (heroName) heroName.classList.remove('name-intro-pending');
     paintStroke();

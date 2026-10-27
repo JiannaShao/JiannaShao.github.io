@@ -3008,3 +3008,7 @@ html body .hero .hero-content.hero-content{ padding-top:70px !important; }
 html body .hero-stroke-canvas{ opacity:.95; }
 html body .hero h1.hero-name{ top:14px; }
 @media (max-width:800px){ html body .hero h1.hero-name{ top:6px; } }
+
+/* name a touch further right */
+@media (min-width:1100px){ html body .hero h1.hero-name{ padding-left:68px; } }
+@media (min-width:801px) and (max-width:1099px){ html body .hero h1.hero-name{ padding-left:30px; } }
