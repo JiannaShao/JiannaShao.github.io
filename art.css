@@ -556,3 +556,33 @@ body {
     text-decoration: underline;
     cursor: pointer;
 }
+
+/* "Press E to stand" while seated on the bench */
+.bench-hint {
+    position: fixed;
+    left: 50%;
+    bottom: 72px;
+    z-index: 30;
+    padding: 9px 16px;
+    border-radius: 99px;
+    background: rgba(20, 37, 61, .82);
+    color: #fafafa;
+    font: 500 13px/1 'Work Sans', Arial, sans-serif;
+    letter-spacing: .04em;
+    opacity: 0;
+    transform: translate(-50%, 8px);
+    transition: opacity .3s ease, transform .3s ease;
+    pointer-events: none;
+}
+.bench-hint.is-on { opacity: 1; transform: translate(-50%, 0); }
+.bench-hint kbd {
+    display: inline-block;
+    min-width: 20px;
+    margin: 0 3px;
+    padding: 3px 6px;
+    border-radius: 5px;
+    background: #fafafa;
+    color: #14253d;
+    font: 700 12px/1 'Work Sans', Arial, sans-serif;
+    text-align: center;
+}

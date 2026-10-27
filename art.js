@@ -540,6 +540,193 @@ furnitureLoader.load(
     }
 );
 
+
+/* =====================================================
+   SCROLL BENCH (middle room)
+   RoomFurniture/ScrollBench.glb is modelled as a flat slab;
+   it is laid flat so its lower outer ledge is the seat, the
+   taller scroll body behind it the back. It faces the
+   paintings on the middle room's left wall.
+   Walk up to it and look at the floating E, then press E to
+   sit; E (or W A S D) to stand.
+===================================================== */
+
+const BENCH_PATH = "RoomFurniture/ScrollBench.glb";
+const BENCH_CENTER = new THREE.Vector3(0.2, 0, -7.75);
+const BENCH_LENGTH = 3.0;         // along the wall
+const BENCH_HEIGHT_STRETCH = 2.4; // ledge comes out at seat height
+const SEATED_EYE = 1.05;
+
+const bench = {
+    ready: false,
+    seat: new THREE.Vector3(),     // where the seated eye sits
+    prompt: null,
+    seated: false,
+    anim: null,                    // { from, to, yawFrom, yawTo, pitchFrom, t }
+    standPos: new THREE.Vector3(),
+    standYaw: 0
+};
+
+// floating "E" key cap
+(function makeBenchPrompt() {
+    const c = document.createElement("canvas");
+    c.width = c.height = 256;
+    const g = c.getContext("2d");
+    g.fillStyle = "rgba(0,0,0,.18)";
+    g.beginPath(); g.roundRect(30, 38, 196, 196, 46); g.fill();
+    g.fillStyle = "#fafafa";
+    g.strokeStyle = "#14253d";
+    g.lineWidth = 10;
+    g.beginPath(); g.roundRect(28, 24, 196, 196, 46); g.fill(); g.stroke();
+    g.fillStyle = "#14253d";
+    g.font = "700 128px 'Work Sans', Arial, sans-serif";
+    g.textAlign = "center";
+    g.textBaseline = "middle";
+    g.fillText("E", 126, 126);
+    const tex = new THREE.CanvasTexture(c);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, opacity: 0, depthTest: false }));
+    sprite.scale.set(0.42, 0.42, 1);
+    sprite.renderOrder = 10;
+    sprite.visible = false;
+    scene.add(sprite);
+    bench.prompt = sprite;
+})();
+
+furnitureLoader.load(
+    BENCH_PATH,
+    (gltf) => {
+        const model = gltf.scene;
+        model.traverse((o) => {
+            if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; }
+        });
+
+        // lay the slab flat (file Z becomes up), seat ledge toward -x
+        const holder = new THREE.Group();
+        model.rotation.x = -Math.PI / 2;
+        holder.add(model);
+        holder.rotation.y = Math.PI;
+        holder.updateMatrixWorld(true);
+
+        let box = new THREE.Box3().setFromObject(holder);
+        const size = box.getSize(new THREE.Vector3());
+        const k = BENCH_LENGTH / Math.max(size.x, size.z);
+        holder.scale.set(k, k * BENCH_HEIGHT_STRETCH, k);
+        holder.updateMatrixWorld(true);
+
+        box = new THREE.Box3().setFromObject(holder);
+        const center = box.getCenter(new THREE.Vector3());
+        holder.position.set(
+            BENCH_CENTER.x - center.x,
+            -box.min.y + 0.1,               // floor top is at y = 0.1
+            BENCH_CENTER.z - center.z
+        );
+        holder.updateMatrixWorld(true);
+        scene.add(holder);
+        box = new THREE.Box3().setFromObject(holder);
+
+        // seat: the lowest broad top surface on the -x side (the ledge)
+        const v = new THREE.Vector3();
+        const width = box.max.x - box.min.x;
+        let sumX = 0, sumZ = 0, n = 0, ledgeTop = 0;
+        const tops = [];
+        holder.traverse((o) => {
+            if (!o.isMesh) return;
+            const p = o.geometry.attributes.position;
+            for (let i = 0; i < p.count; i += 2) {
+                v.fromBufferAttribute(p, i).applyMatrix4(o.matrixWorld);
+                if (v.x < box.min.x + width * 0.3) tops.push([v.x, v.y, v.z]);
+            }
+        });
+        // the ledge top is the most common height near the outer edge
+        const hist = {};
+        tops.forEach((t) => { const h = Math.round(t[1] * 20) / 20; hist[h] = (hist[h] || 0) + 1; });
+        ledgeTop = +Object.keys(hist).filter((h) => h > 0.25).sort((a, b) => hist[b] - hist[a])[0] || 0.5;
+        tops.forEach((t) => { if (Math.abs(t[1] - ledgeTop) < 0.04) { sumX += t[0]; sumZ += t[2]; n++; } });
+        bench.seat.set(n ? sumX / n : box.min.x + width * 0.15, ledgeTop + SEATED_EYE, n ? sumZ / n : BENCH_CENTER.z);
+        bench.prompt.position.set(bench.seat.x - 0.15, ledgeTop + 1.35, bench.seat.z);
+
+        // solid: the player walks around it, not through it
+        const pad = 0.1;
+        box.min.x -= pad; box.max.x += pad; box.min.z -= pad; box.max.z += pad;
+        furnitureColliders.push({ object: holder, box });
+
+        bench.ready = true;
+    },
+    undefined,
+    (error) => console.error("Could not load ScrollBench.glb:", error)
+);
+
+const benchHint = document.getElementById("bench-hint");
+const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+const _toPrompt = new THREE.Vector3();
+const _look = new THREE.Vector3();
+
+function benchPromptVisible() {
+    if (!bench.ready || bench.seated || bench.anim) return false;
+    const dx = camera.position.x - bench.seat.x, dz = camera.position.z - bench.seat.z;
+    if (Math.hypot(dx, dz) > 3.4) return false;
+    _toPrompt.copy(bench.prompt.position).sub(camera.position).normalize();
+    camera.getWorldDirection(_look);
+    return _look.dot(_toPrompt) > Math.cos(THREE.MathUtils.degToRad(28));
+}
+
+function startBenchAnim(toPos, toYaw, toPitch) {
+    // turn the short way round
+    let dy = toYaw - yaw;
+    dy = Math.atan2(Math.sin(dy), Math.cos(dy));
+    bench.anim = {
+        from: camera.position.clone(), to: toPos.clone(),
+        yawFrom: yaw, yawTo: yaw + dy, pitchFrom: pitch, pitchTo: toPitch, t: 0
+    };
+}
+
+function sitOnBench() {
+    bench.standPos.copy(camera.position);
+    bench.standYaw = yaw;
+    bench.seated = true;
+    Object.keys(keys).forEach((k) => { keys[k] = false; });
+    startBenchAnim(bench.seat, Math.PI / 2, -0.04);   // face the left wall (-x)
+    if (benchHint) benchHint.classList.add("is-on");
+}
+
+function standFromBench() {
+    bench.seated = false;
+    const back = bench.standPos.clone();
+    back.y = CAMERA_HEIGHT;
+    startBenchAnim(back, yaw, 0);
+    if (benchHint) benchHint.classList.remove("is-on");
+}
+
+window.addEventListener("keydown", (e) => {
+    if (e.key.toLowerCase() !== "e" || e.repeat) return;
+    if (bench.anim) return;
+    if (bench.seated) standFromBench();
+    else if (benchPromptVisible()) sitOnBench();
+});
+window.addEventListener("keydown", (e) => {
+    if (bench.seated && !bench.anim && ["w", "a", "s", "d"].includes(e.key.toLowerCase())) standFromBench();
+});
+
+function updateBench(delta, now) {
+    if (!bench.prompt) return;
+    const show = benchPromptVisible();
+    const m = bench.prompt.material;
+    m.opacity += ((show ? 1 : 0) - m.opacity) * Math.min(1, delta * 10);
+    bench.prompt.visible = m.opacity > 0.02;
+    if (bench.ready) bench.prompt.position.y = bench.seat.y - SEATED_EYE + 1.35 + Math.sin(now * 2.4) * 0.05;
+
+    if (bench.anim) {
+        const a = bench.anim;
+        a.t = Math.min(1, a.t + delta / 0.8);
+        const k = ease(a.t);
+        camera.position.lerpVectors(a.from, a.to, k);
+        yaw = a.yawFrom + (a.yawTo - a.yawFrom) * k;
+        pitch = a.pitchFrom + (a.pitchTo - a.pitchFrom) * k;
+        if (a.t >= 1) bench.anim = null;
+    }
+}
+
 // =====================================================
 // FLOOR
 // =====================================================
@@ -1894,6 +2081,8 @@ function keepCameraInside() {
 
 function moveCamera(delta) {
 
+    if (bench.seated || bench.anim) return;
+
     const speed = 4;
 
 
@@ -2813,6 +3002,8 @@ function animate() {
         delta
     );
 
+
+    updateBench(delta, clock.elapsedTime);
 
     updateCameraRotation();
 
