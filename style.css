@@ -2988,3 +2988,9 @@ html body .hero h1.hero-name{ --name-scale:.95; }
 
 /* the brush stroke runs on behind the envelope / postcard */
 @media (min-width:801px){ html body .hero-postcard-wrap{ position:relative; z-index:3; } }
+
+/* no eyebrow above the name any more: hero content sits higher */
+html body .hero .hero-content.hero-content{ padding-top:36px !important; }
+@media (max-width:800px){
+  html body .hero .hero-content.hero-content{ padding-top:70px !important; }
+}

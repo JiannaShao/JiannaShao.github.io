@@ -207,8 +207,8 @@
     const NS = parseFloat(getComputedStyle(heroName).getPropertyValue('--name-scale')) || 1;
     const H0 = nameRect.height / NS;
     const grow = (H0 - nameRect.height) / 2;
-    const padTop = H0 * (phone ? 0.23 : 0.46) + grow;     // extra room above JIANNA
-    const padBot = H0 * (phone ? 0.19 : 0.33) + grow;
+    const padTop = H0 * (phone ? 0.21 : 0.38) + grow;     // extra room above JIANNA
+    const padBot = H0 * (phone ? 0.21 : 0.38) + grow;
     right = nameRect.left + (right - nameRect.left) / NS;
     // the name is nudged right with CSS `left`; the stroke moves with it
     const shift = parseFloat(getComputedStyle(heroName).left) || 0;
@@ -233,7 +233,7 @@
   const reduceMotionBrush = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   // rows = runs; gap = distance between runs and wd = brush width (× box height);
   // tilt in degrees; the first run starts off the left edge
-  const BRUSH_SNAKE = { rows: 3, gap: .285, wd: .31, tilt: 7, dur: 1700 };
+  const BRUSH_SNAKE = { rows: 3, gap: .285, wd: .31, tilt: 3.5, dur: 1700 };
   const snakePoints = (w, h) => {
     const S = BRUSH_SNAKE;
     const th = S.tilt * Math.PI / 180;
