@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="project.css?v=35">
+  <link rel="stylesheet" href="project.css?v=37">
   <link rel="stylesheet" href="site-chrome.css?v=6">
   <link rel="stylesheet" href="site-loader.css?v=1">
   <script src="site-loader.js?v=1"></script>
@@ -156,7 +156,6 @@
           </div>
           <p class="sp-fridge-hint">Drag the magnets around</p>
         </div>
-        <div class="sp-egg" role="img" aria-label="Cracking egg animation"></div>
         </div>
 
         <article class="sp-takeaway">
@@ -525,28 +524,6 @@ What is the dot product of the vector from us to Hill 2 and the vector from us t
         birdBox.querySelector('img').src = G('bird1');
       }
 
-      // egg on top of the fridge: cracks open, rests, starts again
-      const eggBox = document.querySelector('.sp-egg');
-      if (eggBox) {
-        const eggs = [1, 2, 3, 4, 5, 6].map((i, n) => {
-          const im = document.createElement('img');
-          im.src = G('egg' + i); im.alt = ''; im.draggable = false;
-          if (n === 0) im.classList.add('is-on');
-          eggBox.appendChild(im);
-          return im;
-        });
-        if (!reduceMotion) {
-          let e = 0;
-          const crack = () => {
-            eggs[e].classList.remove('is-on');
-            e = (e + 1) % eggs.length;
-            eggs[e].classList.add('is-on');
-            setTimeout(crack, e === eggs.length - 1 ? 2400 : e === 0 ? 1600 : 520);
-          };
-          setTimeout(crack, 1600);
-        }
-      }
-
       /* =====================================================
          PROJECT 1 — FRIDGE MAGNETS
          Positions and sizes are in units of the fridge width, so the
@@ -558,16 +535,17 @@ What is the dot product of the vector from us to Hill 2 and the vector from us t
       ====================================================== */
       const FRIDGE_LAYOUTS = {
         wide: {
-          pad: { l: .12, r: .035, t: .045, b: .05 },
-          minH: 1.3,
-          font: .0168,
-          size: { context: .35, process: .35, logo: .34, 'duck-village': .3, bamboo: .135, kitchen: .165, guzheng: .3, 'pond-plants': .29, 'wishes-table': .17, bed: .23, goldfish: .17, dandelion: .18, pot: .16, 'park-sign': .24 },
+          // side-by-side doors; the handle strip down the middle is kept clear
+          pad: { l: .03, r: .03, t: .04, b: .04 },
+          block: [[.474, 0, .54, 9]],
+          minH: .7,
+          font: .0126,
+          size: { context: .28, process: .28, logo: .305, 'duck-village': .21, bamboo: .1, kitchen: .11, guzheng: .21, 'pond-plants': .2, 'wishes-table': .11, bed: .15, goldfish: .115, dandelion: .13, pot: .11, 'park-sign': .225 },
           pos: {
-            logo: [.13, .07], guzheng: [.5, .06], pot: [.5, .19], 'wishes-table': [.7, .17],
-            context: [.13, .39], 'duck-village': [.51, .38], bamboo: [.83, .37],
-            dandelion: [.51, .67], goldfish: [.72, .67],
-            process: [.13, .81], kitchen: [.8, .86], 'pond-plants': [.495, .89],
-            'park-sign': [.5, 1.08], bed: [.735, 1.16]
+            logo: [.035, .04], context: [.035, .225], guzheng: [.04, .495], 'pond-plants': [.04, .585],
+            'wishes-table': [.358, .04], pot: [.358, .17], goldfish: [.356, .275], dandelion: [.27, .49],
+            process: [.56, .04], bamboo: [.86, .035], kitchen: [.858, .255],
+            'duck-village': [.56, .306], bed: [.81, .46], 'park-sign': [.56, .512]
           },
           tilt: { logo: -2, guzheng: 1.5, 'wishes-table': 3, pot: -3, goldfish: 4, context: -1, 'duck-village': 1.5, bamboo: 9, dandelion: 2, kitchen: -1.5, process: 1, 'pond-plants': -2, 'park-sign': 2.5, bed: -1 }
         },
@@ -576,8 +554,12 @@ What is the dot product of the vector from us to Hill 2 and the vector from us t
           minH: 2.2,
           font: .041,
           fontMax: 15,
-          size: { context: .82, process: .82, logo: .6, 'duck-village': .5, bamboo: .22, kitchen: .28, guzheng: .56, 'pond-plants': .5, 'wishes-table': .32, bed: .42, goldfish: .34, dandelion: .34, pot: .33, 'park-sign': .46 },
-          pos: null,   // packed automatically until a phone layout is chosen
+          size: { context: .82, process: .82, logo: .66, 'duck-village': .5, bamboo: .22, kitchen: .28, guzheng: .56, 'pond-plants': .5, 'wishes-table': .32, bed: .42, goldfish: .34, dandelion: .34, pot: .33, 'park-sign': .52 },
+          pos: {
+            logo: [.13, .04], 'wishes-table': [.13, .44], pot: [.55, .45], context: [.13, .8],
+            'duck-village': [.13, 1.82], bamboo: [.72, 1.8], dandelion: [.13, 2.33], kitchen: [.62, 2.33], goldfish: [.16, 2.78],
+            process: [.13, 3.18], guzheng: [.13, 4.16], 'pond-plants': [.13, 4.42], bed: [.54, 4.4], 'park-sign': [.26, 4.78]
+          },
           tilt: { logo: -2, guzheng: 1.5, 'wishes-table': 3, pot: -3, goldfish: 4, context: -.6, 'duck-village': 1.5, bamboo: 9, dandelion: 2, kitchen: -1.5, process: .6, 'pond-plants': -2, 'park-sign': 2.5, bed: -1 }
         }
       };
@@ -593,7 +575,8 @@ What is the dot product of the vector from us to Hill 2 and the vector from us t
 
         const area = () => ({ x0: L.pad.l * W, x1: W - L.pad.r * W, y0: L.pad.t * W, y1: Infinity });
         const hit = (m, x, y, others) => others.some((o) => o !== m && o.placed !== false &&
-          x < o.x + o.w + GAP() && x + m.w + GAP() > o.x && y < o.y + o.h + GAP() && y + m.h + GAP() > o.y);
+          x < o.x + o.w + GAP() && x + m.w + GAP() > o.x && y < o.y + o.h + GAP() && y + m.h + GAP() > o.y) ||
+          (L.block || []).some((b) => x < b[2] * W && x + m.w > b[0] * W && y < b[3] * W && y + m.h > b[1] * W);
         const clamp = (m, x, y) => {
           const A = area();
           const maxY = fridge.clientHeight - L.pad.b * W - m.h;
@@ -643,7 +626,8 @@ What is the dot product of the vector from us to Hill 2 and the vector from us t
         const layout = () => {
           W = fridge.clientWidth;
           if (!W) return;
-          key = W >= 560 ? 'wide' : 'tall';
+          key = W >= 900 ? 'wide' : 'tall';
+          fridge.classList.toggle('is-wide', key === 'wide');
           L = FRIDGE_LAYOUTS[key];
           const fs = Math.min(L.fontMax || 99, W * L.font);
           fridge.style.setProperty('--magnet-font', fs + 'px');
@@ -654,7 +638,7 @@ What is the dot product of the vector from us to Hill 2 and the vector from us t
           const saved = loadSaved();
           const pos = saved || L.pos;
           const placed = [];
-          const order = pos ? magnets.map((m) => m.id) : PACK_ORDER;
+          const order = pos ? magnets.map((m) => m.id).sort((a, b) => ((pos[a] || [0, 99])[1] - (pos[b] || [0, 99])[1])) : PACK_ORDER;
           order.forEach((id) => {
             const m = byId[id];
             if (!m) return;

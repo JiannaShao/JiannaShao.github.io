@@ -4185,13 +4185,7 @@ html body .project-hero .eyebrow{ margin-bottom:36px; }
 }
 
 /* ---------- fridge ---------- */
-.sp-fridge-row{
-  display:grid;
-  grid-template-columns:minmax(0, 820px) minmax(0, 1fr);
-  gap:clamp(24px, 4vw, 64px);
-  align-items:center;
-  margin-top:72px;
-}
+.sp-fridge-row{ margin-top:72px; }
 .sp-fridge-wrap{ min-width:0; }
 .sp-fridge-hint{
   margin:30px 0 0;
@@ -4409,12 +4403,8 @@ html body .project-hero .eyebrow{ margin-bottom:36px; }
 }
 html body .garden-subsection .sp-takeaway{ margin:56px auto 0; }
 
-@media (max-width:900px){
-  .sp-fridge-row{ grid-template-columns:minmax(0, 1fr) 150px; gap:16px; }
-}
 @media (max-width:620px){
-  .sp-fridge-row{ grid-template-columns:minmax(0, 1fr); margin-top:48px; }
-  .sp-egg{ width:150px; grid-row:2; }
+  .sp-fridge-row{ margin-top:48px; }
 }
 /* takeaway as wide as the facts box */
 html body .garden-subsection .sp-takeaway{ max-width:none; margin:56px 0 0; }
@@ -4426,3 +4416,26 @@ html body .garden-subsection .sp-takeaway{ max-width:none; margin:56px 0 0; }
 @media (max-width:900px){
   .ss-top{ grid-template-columns:minmax(0, 1fr); }
 }
+
+/* full-width side-by-side fridge on wide screens */
+.sp-fridge.is-wide{ border-radius:30px 30px 18px 18px; }
+.sp-fridge.is-wide .sp-fridge-split{
+  top:0;
+  bottom:0;
+  left:calc(50% - 2px);
+  right:auto;
+  width:4px;
+  height:auto;
+  background:linear-gradient(90deg, #c3ccc9, #f4f7f6);
+}
+.sp-fridge.is-wide .sp-handle-top,
+.sp-fridge.is-wide .sp-handle-bottom{
+  top:14%;
+  height:44%;
+  width:1.1%;
+  min-width:9px;
+}
+.sp-fridge.is-wide .sp-handle-top{ left:calc(50% - 2.6%); }
+.sp-fridge.is-wide .sp-handle-bottom{ left:calc(50% + 1.5%); }
+.sp-fridge.is-wide .sp-foot-l{ left:6%; }
+.sp-fridge.is-wide .sp-foot-r{ right:6%; }
