@@ -712,3 +712,28 @@ html body .dx .gx-piece figcaption{
   .gx-three{ grid-template-columns:minmax(0, 1fr); }
   .gx-three .gx-piece:last-child{ width:auto; }
 }
+
+/* graphic design: one shared facts table, no per-campaign tables */
+.gx-facts{ max-width:640px; margin-top:28px; }
+.gx-head{ display:block; }
+.gx-head h2{ margin-bottom:14px; }
+/* New Books: columns follow each poster's shape so all three are equally tall */
+.gx-newbooks{ grid-template-columns:.8fr .8fr .714fr; }
+/* poster on the left, smaller post with the description under it; centred */
+.gx-pair{
+  display:grid;
+  grid-template-columns:minmax(0, 1.35fr) minmax(0, 1fr);
+  gap:clamp(20px, 3vw, 44px);
+  align-items:start;
+  max-width:960px;
+  margin:0 auto;
+}
+.gx-side{ display:flex; flex-direction:column; gap:24px; }
+.gx-side .gx-post{ width:82%; }
+html body .dx .gx-side .dx-summary{ margin:0 !important; font-size:16px !important; }
+@media (max-width:640px){
+  .gx-newbooks{ grid-template-columns:minmax(0, 1fr) minmax(0, 1fr); }
+  .gx-pair{ grid-template-columns:minmax(0, 1fr); }
+  .gx-side .gx-post{ width:70%; align-self:center; }
+}
+@media (max-width:420px){ .gx-newbooks{ grid-template-columns:minmax(0, 1fr); } }
