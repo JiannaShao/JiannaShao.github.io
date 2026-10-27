@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="project.css?v=23">
+  <link rel="stylesheet" href="project.css?v=26">
   <link rel="stylesheet" href="site-chrome.css?v=6">
   <link rel="stylesheet" href="site-loader.css?v=1">
   <script src="site-loader.js?v=1"></script>
@@ -81,11 +81,17 @@
     </svg>
   </div>
 
-  <main class="page">
+  <main class="page" id="top">
     <header class="project-hero">
       <p class="eyebrow">Selected Work</p>
       <h1>Projects</h1>
       <p class="hero-copy">A collection of independent, collaborative, and experimental work spanning visual design, making, interactive media, and mathematical graphing.</p>
+      <nav class="project-jump" aria-label="Jump to a project">
+        <a href="#project-one"><span class="pj-thumb"><img src="Thumbs/project-game.jpg" alt="" loading="lazy" decoding="async"></span><span class="pj-num">01</span><span class="pj-name">Game Design Projects</span></a>
+        <a href="#project-two"><span class="pj-thumb"><img src="Thumbs/project-exhibit.jpg" alt="" loading="lazy" decoding="async"></span><span class="pj-num">02</span><span class="pj-name">Withdrawn Pandemonium</span></a>
+        <a href="#project-three"><span class="pj-thumb"><img src="Thumbs/project-matlab.jpg" alt="" loading="lazy" decoding="async"></span><span class="pj-num">03</span><span class="pj-name">Vector Ventures</span></a>
+        <a href="#project-four"><span class="pj-thumb pj-thumb-empty"><span>Coming soon</span></span><span class="pj-num">04</span><span class="pj-name">Anarchist Prop Design</span></a>
+      </nav>
     </header>
 
     <!-- =====================================================
@@ -104,6 +110,12 @@
         <div class="subsection-heading first-section-heading">
           <p class="small-label">Part I</p>
           <h3>Sunpuddle</h3>
+        </div>
+        <div class="project-facts">
+          <p><span>Role</span>Solo illustrator and developer</p>
+          <p><span>Tools</span>Construct3, Clip Studio Paint</p>
+          <p><span>Team</span>Solo</p>
+          <p><span>Status</span>Retired before release</p>
         </div>
 
         <div class="sunpuddle-garden">
@@ -141,7 +153,7 @@
 
           <article class="reference-text-card text-card-one">
             <p class="small-label">Context</p>
-            <p>Sunpuddle was my first solo endeavor when it came to game design, and I imagined a cozy farming game (a bit like Stardew Valley) but with more character interaction features and a painted storybook feeling. The assets were drawn in CSP while the game engine used was Construct3 due to its superior handling of graphics and maniupulating visual effects.</p>
+            <p>Sunpuddle was my first solo endeavor when it came to game design, and I imagined a cozy farming game (a bit like Stardew Valley) but with more character interaction features and a painted storybook feeling. The assets were drawn in CSP while the game engine used was Construct3 due to its superior handling of graphics and manipulating visual effects.</p>
           </article>
 
           <figure class="reference-card pond-plants-card">
@@ -162,7 +174,7 @@
 
           <article class="reference-text-card text-card-two">
             <p class="small-label">Process</p>
-            <p>Since it was an open world, lots of assets were needed to fill all the space and the different items and furniture had to be interactable too! From dandelion plants that released seeds, to crop planting mechanisms and fishing minigames everything had to individually painted and coded into the game.</p>
+            <p>Since it was an open world, lots of assets were needed to fill all the space and the different items and furniture had to be interactable too! From dandelion plants that released seeds, to crop planting mechanisms and fishing minigames everything had to be individually painted and coded into the game.</p>
           </article>
 
           <figure class="reference-card fish-two-card">
@@ -179,7 +191,7 @@
 
           <article class="reference-text-card text-card-three">
             <p class="small-label">Takeaway</p>
-            <p>The project was never completed or finished both because of the huge time committment it required that I couldn't keep up with as a student and also the fact that my illustration skills and style had improved so drastically throughout the project so much that in order for the entire project to be cohesive I would have had to go back to redraw a lot of assets which didn't seeem worth doing. These two reasons in combination made for the retirement of this project.</p>
+            <p>Sunpuddle taught me how much an open-world game asks of a solo developer, and how fast my own art could grow. My illustration style improved so much over the project that finishing it cohesively would have meant redrawing most of the early assets, on top of a time commitment I couldn't keep up with as a student. I chose to retire it, and I now scope projects with that in mind: a smaller world, a fixed art style, and a clear finish line.</p>
           </article>
 
           <figure class="reference-card park-sign-card">
@@ -196,6 +208,11 @@
             A promotional video, character animation, and gameplay scenes developed for Sketchy Secret, a Godot-based collaborative project done with Nadine McMahon (a student at USC).
           </p>
         </div>
+        <div class="project-facts">
+          <p><span>Tools</span>Godot</p>
+          <p><span>Team</span>With Nadine McMahon (USC)</p>
+          <p><span>Status</span>Level 1 of 3 complete and tested</p>
+        </div>
 
         <div class="sketchy-secret-layout">
 
@@ -203,6 +220,7 @@
             <video
               class="sketchy-video"
               src="SketchySecretFiles/SketchyVideo2.mov"
+              poster="web/SketchySecretFiles/video-poster.jpg"
               controls
               playsinline
               preload="metadata"
@@ -246,7 +264,14 @@
           </div>
 
           <article class="sketchy-text-panel">
-            <p>Sketchy Secret is a mystery game that follows the detective Bri as she looks for the missing artists. It turns out that they are trapped inside their own artwork, and she has to explore the world's they've imagined up in order to find the root of their problems that got them trapped in the first place. The first level (out of three) of the game was compeleted and test-runned, but the rest of the game was never completed as my game development partner and I went to different universities. We hope to pick up and complete the project someday.</p>
+            <div>
+              <p class="small-label">Context</p>
+              <p>Sketchy Secret is a mystery game that follows the detective Bri as she looks for the missing artists. It turns out that they are trapped inside their own artwork, and she has to explore the worlds they've imagined in order to find the root of the problems that trapped them in the first place.</p>
+            </div>
+            <div>
+              <p class="small-label">Outcome</p>
+              <p>The first level (out of three) was completed and tested, but the rest of the game was put on hold when my game development partner and I went to different universities. We hope to pick it up and finish it someday.</p>
+            </div>
           </article>
 
           <div class="sketchy-row sketchy-row-three">
@@ -284,7 +309,9 @@
 
       
       <div class="project-two-intro-copy">
+        <p class="small-label">Context</p>
         <p>I received this opportunity by submitting a proposal for a solo art exhibition to a committee, where my proposal was reviewed and accepted so that I could begin installing. The exhibition was promoted through flyers and emails and was up for four months.</p>
+        <p class="small-label">Outcome</p>
         <p>The exhibition was also photographed and saved in the library's digital archives, preserving its presence for future generations.</p>
       </div>
 
@@ -329,7 +356,9 @@
           <div class="project-meta">
             <p><span>Role</span>Artist and curator</p>
             <p><span>Year</span>2026</p>
-            <p><span>Location</span>Wesleyan University Olin Library</p>
+            <p><span>Location</span>Wesleyan University Olin Library, 2nd floor balcony</p>
+            <p><span>On view</span>February 19 – early May 2026</p>
+            <p><span>Pieces</span>Eight original paintings and mixed-media works</p>
           </div>
 
           <figure class="portrait-paper-media">
@@ -359,6 +388,13 @@
           <h2>Vector Ventures</h2>
         </div>
         <p class="section-summary">A MATLAB-based educational game combining generated maps, math problems, and a text-driven adventure.</p>
+      </div>
+
+      <div class="project-facts project-facts-wide">
+        <p><span>Tools</span>MATLAB</p>
+        <p><span>Course</span>Intro to MATLAB final project</p>
+        <p><span>Levels</span>3, from 2D maps to a 3D map</p>
+        <p><span>Math</span>Vectors, dot product, cross product</p>
       </div>
 
       <div class="project-three-grid">
@@ -399,18 +435,27 @@
         </figure>
 
         <article class="project-three-text-card project-three-text-large">
-          <p class="small-label">Overview</p>
+          <p class="small-label">Context</p>
           <h3>Intro to MATLAB Final Project</h3>
           <p>This began as the final project of my introductory MATLAB course in university, and eventually also became a study tool for myself when preparing for my Multivariable Calculus final exam. It is designed to have 3 levels that progress in difficulty, featuring different maps and math problems.</p>
         </article>
 
         <!-- Row 3: full-width terminal example -->
-        <figure class="project-three-media project-three-terminal project-three-wide">
-          <img
-            src="MATLABFiles/TermEx1.png"
-            alt="MATLAB Vector Ventures terminal example 1"
-            class="project-three-hover"
-          >
+        <figure class="project-three-media project-three-wide vv-terminal">
+          <figcaption class="vv-bar"><span class="vv-dots" aria-hidden="true"><i></i><i></i><i></i></span>Level 01 · Matrixville<a class="vv-orig" href="MATLABFiles/TermEx1.png" target="_blank" rel="noopener">Original screenshot ↗</a></figcaption>
+          <pre class="vv-screen"><span class="vv-cmd">&gt;&gt; VectorVenturesFinal</span>
+Please enter your character name: <b>Jianna</b>
+Welcome, Jianna!
+Please prepare your calculator, paper and pencil! Enter Contrl C to close the game.
+<span class="vv-rule"></span>
+Take a look at the map. We are at the white square. You can move the legend, as well check the points of each shape by hovering over and clicking them.
+Do you see the blue circle? That is my friend Victors store. He buys and sells antiques; maybe he has some clues as to where the treasure is.
+<span class="vv-rule"></span>
+What are the coordinates of Victors store? Enter in the form [x, y]: <b>[0.2, 0.9]</b>
+Nice! You found the location of Victors store!
+<span class="vv-rule"></span>
+What is the vector between us and Victors store? (Use the form [f, g] with one decimal place, e.g. [0.2, -0.3]): <b>[-0.1, 0.5]</b>
+Good going, Jianna! This vector represents the direction and magnitude (displacement) to get from our spot to Victors store.</pre>
         </figure>
 
         <!-- Row 4: three text cards -->
@@ -433,12 +478,17 @@
         </article>
 
         <!-- Row 5: second full-width terminal example -->
-        <figure class="project-three-media project-three-terminal project-three-wide">
-          <img
-            src="MATLABFiles/TermEx2.png"
-            alt="MATLAB Vector Ventures terminal example 2"
-            class="project-three-hover"
-          >
+        <figure class="project-three-media project-three-wide vv-terminal">
+          <figcaption class="vv-bar"><span class="vv-dots" aria-hidden="true"><i></i><i></i><i></i></span>Level 02 · Planeful Plains<a class="vv-orig" href="MATLABFiles/TermEx2.png" target="_blank" rel="noopener">Original screenshot ↗</a></figcaption>
+          <pre class="vv-screen">Welcome to level 2! Lets move onto our exploration of the Planeful Plains in our search for the treasure. I, Jiwi, the legendary treasure hunter, know exactly where to start!
+<span class="vv-rule"></span>
+What is the vector between us and Hill 1? (Use the form [f, g], e.g. [2, -3]): <b>[11,9]</b>
+Youre an expert at this now Jianna! This vector represents the direction and magnitude (displacement) to get from our spot to Hill 1.
+<span class="vv-rule"></span>
+While you were doing that, I found the vector from us to Hill 2, its [0 -9]. Perfect! We should find the multiplication of our vectors together!
+When you multiply a scalar (a singular quantity with only magnitude and no direction) by a vector, each part of the vector gets multipled by that scalar.
+<span class="vv-rule"></span>
+What is the dot product of the vector from us to Hill 2 and the vector from us to Hill 3? (Answer should be scalar): <span class="vv-caret" aria-hidden="true"></span></pre>
         </figure>
 
       </div>
@@ -454,8 +504,21 @@
           <h2>The Accidental Death of an Anarchist Prop Design</h2>
         </div>
       </div>
-      <div class="empty-project-space" aria-hidden="true"></div>
+      <div class="coming-soon-note">
+        <p class="small-label">In progress</p>
+        <p>Photos and a write-up of the props are on their way.</p>
+      </div>
     </section>
+
+    <footer class="project-section project-end">
+      <p class="small-label">Keep exploring</p>
+      <div class="project-end-links">
+        <a href="design.html">Product Design <span aria-hidden="true">→</span></a>
+        <a href="art-portfolio.html">Fine Art <span aria-hidden="true">→</span></a>
+        <a href="research.html">Research <span aria-hidden="true">→</span></a>
+      </div>
+      <a class="back-to-top" href="#top">Back to top <span aria-hidden="true">↑</span></a>
+    </footer>
   </main>
 
   <!-- =====================================================
@@ -848,6 +911,31 @@
           closeMagnifiedImage();
         }
       });
+    })();
+  </script>
+  <script>
+    /* Vector Ventures transcripts type in line by line when they scroll into view */
+    (() => {
+      const screens = document.querySelectorAll('.vv-screen');
+      if (!screens.length) return;
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      screens.forEach((pre) => {
+        pre.innerHTML = pre.innerHTML.split('\n').map((l) => `<span class="vv-line">${l}</span>`).join('\n');
+      });
+      if (reduce || !('IntersectionObserver' in window)) return;
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          io.unobserve(e.target);
+          const fig = e.target;
+          const lines = [...fig.querySelectorAll('.vv-line')];
+          lines.forEach((ln, i) => setTimeout(() => {
+            ln.classList.add('is-shown');
+            if (i === lines.length - 1) fig.classList.remove('vv-typing');
+          }, 140 + i * 230));
+        });
+      }, { threshold: .35 });
+      document.querySelectorAll('.vv-terminal').forEach((fig) => { fig.classList.add('vv-typing'); io.observe(fig); });
     })();
   </script>
   <script src="site-chrome.js?v=3"></script>

@@ -3879,3 +3879,230 @@ figcaption{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.5;}
     aspect-ratio:auto;
   }
 }
+
+/* =====================================================
+   PROJECTS PAGE ADDITIONS
+===================================================== */
+
+/* quick links under the intro */
+.project-jump{
+  display:grid;
+  grid-template-columns:repeat(4, minmax(0, 1fr));
+  gap:16px;
+  margin-top:48px;
+}
+.project-jump a{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  grid-template-rows:auto auto;
+  column-gap:12px;
+  align-items:center;
+  padding:10px;
+  border-radius:14px;
+  background:var(--white);
+  border:1px solid var(--line);
+  color:var(--navy);
+  text-decoration:none;
+  transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.project-jump a:hover,
+.project-jump a:focus-visible{
+  transform:translateY(-3px);
+  border-color:var(--teal);
+  box-shadow:0 10px 22px rgba(20,37,61,.1);
+}
+.pj-thumb{
+  grid-row:1 / span 2;
+  width:64px;
+  height:48px;
+  border-radius:9px;
+  overflow:hidden;
+  background:var(--light-accent);
+}
+.pj-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+.pj-thumb-empty{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:9px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--accent);
+  text-align:center;
+}
+.pj-num{
+  align-self:end;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.18em;
+  color:var(--accent);
+}
+.pj-name{
+  align-self:start;
+  font-size:14px;
+  line-height:1.3;
+}
+
+/* facts strip (Role / Tools / Team / Status) */
+.project-facts{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px 40px;
+  margin:6px 0 34px;
+  padding:18px 24px;
+  border-radius:14px;
+  background:var(--light-accent);
+}
+.project-facts p{ margin:0; font-size:14px; color:var(--navy); }
+.project-facts span{
+  display:block;
+  margin-bottom:2px;
+  color:var(--accent);
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.project-facts-wide{ margin-bottom:40px; }
+
+/* Sketchy Secret text: two labelled columns */
+html body .sketchy-text-panel{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:40px;
+  align-items:start;
+}
+html body .sketchy-text-panel .small-label{ margin-bottom:10px; font-size:13px; }
+html body .sketchy-text-panel p:not(.small-label){ font-size:16px; }
+
+/* Project 2 intro labels */
+.project-two-intro-copy .small-label{ margin:0 0 8px; }
+.project-two-intro-copy p + .small-label{ margin-top:22px; }
+
+/* Vector Ventures transcripts */
+.vv-terminal{
+  margin:0;
+  border-radius:16px;
+  overflow:hidden;
+  background:#111418;
+  box-shadow:0 14px 30px rgba(20,37,61,.14);
+}
+.vv-bar{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 18px;
+  background:#1d2229;
+  color:#aab4bd;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.vv-dots{ display:inline-flex; gap:6px; }
+.vv-dots i{ width:10px; height:10px; border-radius:50%; background:#3a424c; }
+.vv-orig{
+  margin-left:auto;
+  color:#aab4bd;
+  font-weight:500;
+  letter-spacing:.04em;
+  text-transform:none;
+  text-decoration:none;
+}
+.vv-orig:hover{ color:#fff; }
+.vv-screen{
+  margin:0;
+  padding:22px 24px 26px;
+  max-height:440px;
+  overflow:auto;
+  white-space:pre-wrap;
+  word-break:break-word;
+  font-family:ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size:14px;
+  line-height:1.65;
+  color:#e6e9ec;
+}
+.vv-screen b{ color:#7fd6c2; font-weight:600; }
+.vv-cmd{ color:#9fb3c8; }
+.vv-rule{
+  display:inline-block;
+  width:100%;
+  height:1px;
+  vertical-align:middle;
+  background:rgba(255,255,255,.14);
+}
+.vv-caret{
+  display:inline-block;
+  width:.6em;
+  height:1.1em;
+  vertical-align:text-bottom;
+  background:#7fd6c2;
+  animation:vv-blink 1s steps(1) infinite;
+}
+@keyframes vv-blink{ 50%{ opacity:0; } }
+/* typing: lines appear one after another once the transcript scrolls in */
+.vv-terminal.vv-typing .vv-line{ visibility:hidden; }
+.vv-terminal .vv-line.is-shown{ visibility:visible; }
+
+/* project 04 placeholder */
+.coming-soon-note{
+  margin-top:28px;
+  max-width:520px;
+  padding:24px 28px;
+  border-radius:14px;
+  border:1px dashed var(--line);
+  color:var(--muted);
+  font-size:15px;
+  line-height:1.7;
+}
+.coming-soon-note p{ margin:0; }
+.coming-soon-note .small-label{ margin-bottom:6px; }
+
+/* end of page */
+.project-end{
+  width:min(1152px, calc(100% - 96px));
+  margin:40px auto 0;
+  padding:48px 0 96px;
+  border-top:1px solid var(--line);
+}
+.project-end-links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px;
+  margin-bottom:28px;
+}
+.project-end-links a{
+  padding:12px 20px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:var(--white);
+  color:var(--navy);
+  text-decoration:none;
+  font-size:15px;
+  transition:background .2s ease, color .2s ease, border-color .2s ease;
+}
+.project-end-links a:hover,
+.project-end-links a:focus-visible{ background:var(--navy); border-color:var(--navy); color:#fff; }
+.back-to-top{
+  color:var(--accent);
+  font-size:14px;
+  font-weight:600;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  text-decoration:none;
+}
+.back-to-top:hover{ color:var(--navy); }
+
+@media (max-width:900px){
+  .project-jump{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
+  html body .sketchy-text-panel{ grid-template-columns:minmax(0, 1fr); gap:22px; }
+}
+@media (max-width:800px){
+  .project-end{ width:calc(100% - 72px); }
+}
+@media (max-width:560px){
+  .project-jump{ grid-template-columns:minmax(0, 1fr); gap:10px; margin-top:32px; }
+  .project-facts{ gap:12px 24px; padding:16px 18px; }
+  .vv-screen{ font-size:12.5px; padding:18px; max-height:380px; }
+  .vv-orig{ display:none; }
+}
