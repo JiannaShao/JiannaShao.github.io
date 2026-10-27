@@ -217,7 +217,11 @@
     heroStroke.style.top = `${nameRect.top - rowRect.top - padTop}px`;
     heroStroke.style.height = `${nameRect.height + padTop + padBot}px`;
     // the right-hand U-turn ends a little past the last letter (clear of the envelope)
-    const width = (right - rowRect.left) - left + H0 * (phone ? 0.13 : window.innerWidth < 1100 ? 0.1 : 0.19);   // tablets: the envelope sits close
+    // phones: just past the name; wider screens: across the whole heading row,
+    // running on behind the envelope / postcard
+    const width = phone
+      ? (right - rowRect.left) - left + H0 * 0.13
+      : rowRect.width - left;
     heroStroke.style.width = `${width}px`;   // 8% narrower
   };
   /* Background behind the name: one wide dry-brush stroke that snakes from the

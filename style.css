@@ -2985,3 +2985,6 @@ html body .section .eyebrow{
 
 /* name text 5% smaller; the brush stroke behind it keeps its size (script.js) */
 html body .hero h1.hero-name{ --name-scale:.95; }
+
+/* the brush stroke runs on behind the envelope / postcard */
+@media (min-width:801px){ html body .hero-postcard-wrap{ position:relative; z-index:3; } }
