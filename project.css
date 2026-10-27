@@ -4128,7 +4128,7 @@ html body .project-hero .eyebrow{ margin-bottom:36px; }
 }
 .sp-bird{
   position:absolute;
-  top:34%;
+  top:4%;
   left:0;
   z-index:3;
   width:clamp(64px, 8vw, 104px);
@@ -4175,7 +4175,9 @@ html body .project-hero .eyebrow{ margin-bottom:36px; }
 .sp-plant img.is-on,
 .sp-egg img.is-on,
 .ss-sprite img.is-on{ opacity:1; }
-.ss-sprite img{ transition:none; }
+.sp-plant img,
+.ss-sprite img,
+.sp-egg img{ transition:none; }
 .sp-soil{
   position:relative;
   z-index:1;
@@ -4192,10 +4194,14 @@ html body .project-hero .eyebrow{ margin-bottom:36px; }
 }
 
 /* ---------- fridge ---------- */
-.sp-fridge-wrap{
-  width:min(820px, 100%);
-  margin:72px auto 0;
+.sp-fridge-row{
+  display:grid;
+  grid-template-columns:minmax(0, 820px) minmax(0, 1fr);
+  gap:clamp(24px, 4vw, 64px);
+  align-items:center;
+  margin-top:72px;
 }
+.sp-fridge-wrap{ min-width:0; }
 .sp-fridge-hint{
   margin:30px 0 0;
   text-align:center;
@@ -4251,12 +4257,10 @@ html body .project-hero .eyebrow{ margin-bottom:36px; }
 
 /* egg on top of the fridge */
 .sp-egg{
-  position:absolute;
-  right:12%;
-  bottom:100%;
-  width:clamp(44px, 9%, 74px);
-  aspect-ratio:325 / 495;
-  margin-bottom:-4px;
+  position:relative;
+  justify-self:center;
+  width:min(100%, 280px);
+  aspect-ratio:455 / 829;
   pointer-events:none;
 }
 
@@ -4271,8 +4275,10 @@ html body .project-hero .eyebrow{ margin-bottom:36px; }
   -webkit-user-select:none;
   touch-action:none;
   opacity:0;
-  transition:filter .18s ease, opacity .3s ease;
-  filter:drop-shadow(0 2px 1.5px rgba(20,37,61,.22)) drop-shadow(0 6px 10px rgba(20,37,61,.12));
+  transition:opacity .3s ease;
+  will-change:transform;
+  -webkit-user-drag:none;
+  filter:drop-shadow(0 3px 4px rgba(20,37,61,.22));
 }
 .sp-fridge.is-ready .sp-magnet{ opacity:1; }
 .sp-magnet-img{ display:block; height:auto; max-width:none; }
@@ -4280,7 +4286,7 @@ html body .project-hero .eyebrow{ margin-bottom:36px; }
 .sp-magnet.is-dragging{
   z-index:5;
   cursor:grabbing;
-  filter:drop-shadow(0 6px 4px rgba(20,37,61,.2)) drop-shadow(0 16px 22px rgba(20,37,61,.18));
+  filter:drop-shadow(0 10px 10px rgba(20,37,61,.24));
 }
 .sp-magnet-text{
   margin:0;
@@ -4403,7 +4409,6 @@ html body .project-hero .eyebrow{ margin-bottom:36px; }
 @media (max-width:560px){
   .ss-pair{ grid-template-columns:minmax(0, 1fr); gap:16px; }
   .sp-fridge{ border-radius:30px 30px 16px 16px; }
-  .sp-fridge-wrap{ margin-top:56px; }
   .sp-takeaway{ padding:24px; }
   .ss-text{ padding:24px; }
 }
@@ -4412,3 +4417,21 @@ html body .project-hero .eyebrow{ margin-bottom:36px; }
   .sp-plants{ margin:0 7%; }
 }
 html body .garden-subsection .sp-takeaway{ margin:56px auto 0; }
+
+@media (max-width:900px){
+  .sp-fridge-row{ grid-template-columns:minmax(0, 1fr) 150px; gap:16px; }
+}
+@media (max-width:620px){
+  .sp-fridge-row{ grid-template-columns:minmax(0, 1fr); margin-top:48px; }
+  .sp-egg{ width:150px; grid-row:2; }
+}
+/* takeaway as wide as the facts box */
+html body .garden-subsection .sp-takeaway{ max-width:none; margin:56px 0 0; }
+
+/* Sketchy Secret: bigger characters */
+.ss-top{ grid-template-columns:minmax(0, 1.25fr) minmax(0, 1fr); }
+.ss-sprites{ gap:2px; }
+.ss-sprite{ aspect-ratio:239 / 360; }
+@media (max-width:900px){
+  .ss-top{ grid-template-columns:minmax(0, 1fr); }
+}
