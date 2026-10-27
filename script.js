@@ -214,7 +214,9 @@
     const shift = parseFloat(getComputedStyle(heroName).left) || 0;
     const left = navRight - rowRect.left + shift;
     heroStroke.style.left = `${left}px`;
-    heroStroke.style.top = `${nameRect.top - rowRect.top - padTop}px`;
+    // the name text can be nudged down with CSS `top`; the stroke stays put
+    const drop = parseFloat(getComputedStyle(heroName).top) || 0;
+    heroStroke.style.top = `${nameRect.top - drop - rowRect.top - padTop}px`;
     heroStroke.style.height = `${nameRect.height + padTop + padBot}px`;
     // the right-hand U-turn ends a little past the last letter (clear of the envelope)
     // phones: just past the name; wider screens: across the whole heading row,
@@ -751,7 +753,7 @@
           fxW = cw; fxH = ch;
           Object.assign(fxLayer.style, { left: `${-padX}px`, top: `${-padY}px`, width: `${cw}px`, height: `${ch}px` });
 
-          const margin = 1.29;
+          const margin = 1.19;   // smaller margin = bigger postcard
           const tanBase = Math.tan(THREE.MathUtils.degToRad(BASE_FOV / 2));
           const boxAspect = width / height;
           const distH = (CARD_H * margin / 2) / tanBase;
