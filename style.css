@@ -2969,3 +2969,16 @@ html body .hero h1.hero-name{ left:40px; }
 @media (max-width:800px){
   html body .hero h1.hero-name{ left:10px; }
 }
+
+/* Section labels above the headings: Areas of Practice and Experience match
+   Selected Projects / Integrative Art */
+html body .section .eyebrow{
+  font-family:'Work Sans', Arial, sans-serif !important;
+  font-size:15px !important;
+  font-weight:300 !important;
+  letter-spacing:3px !important;
+  line-height:1.75 !important;
+  text-transform:uppercase !important;
+  color:#667080 !important;
+  margin-bottom:13px !important;
+}
