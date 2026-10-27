@@ -1525,16 +1525,7 @@ figcaption{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.5;}
 
 
 /* No click-to-zoom affordance anywhere in Project 1 / Section 1. */
-.garden-subsection .reference-card,
-.garden-subsection img{
-  cursor:default !important;
-}
 
-.garden-subsection .reference-card:hover img,
-.garden-subsection img:hover{
-  transform:none !important;
-  filter:none !important;
-}
 
 
 /* =====================================================
