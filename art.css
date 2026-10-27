@@ -586,3 +586,176 @@ body {
     font: 700 12px/1 'Work Sans', Arial, sans-serif;
     text-align: center;
 }
+
+/* =========================================================
+   SITE STYLE — buttons, labels and panels match the rest of
+   jiannashao.com (navy / sage / off-white, Work Sans, Gulax
+   headings, rounded pills and soft shadows)
+========================================================= */
+:root {
+    --site-navy: #14253d;
+    --site-sage: #48666d;
+    --site-muted: #5f6b74;
+    --site-paper: #fafafa;
+    --site-line: rgba(20, 37, 61, .14);
+    --site-shadow: 0 10px 28px -8px rgba(20, 37, 61, .28);
+}
+html, body { font-family: 'Work Sans', Arial, sans-serif; color: var(--site-navy); }
+
+/* back to home: navy-outlined pill, fills navy on hover */
+html body .home-button {
+    top: 26px;
+    left: 30px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 20px 11px 16px;
+    border: 1px solid var(--site-line);
+    border-radius: 999px;
+    background: rgba(250, 250, 250, .92);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    box-shadow: var(--site-shadow);
+    color: var(--site-navy);
+    font: 500 14px/1 'Work Sans', Arial, sans-serif;
+    letter-spacing: .02em;
+    transition: background .2s ease, color .2s ease, border-color .2s ease, transform .2s ease;
+}
+html body .home-button:hover {
+    background: var(--site-navy);
+    border-color: var(--site-navy);
+    color: #fff;
+    transform: translateY(-1px);
+}
+.home-arrow { display: inline-block; transition: transform .2s ease; }
+html body .home-button:hover .home-arrow { transform: translateX(-3px); }
+html body .home-button:focus-visible { outline: 3px solid var(--site-sage); outline-offset: 3px; }
+
+/* page label: the site's small uppercase eyebrow */
+html body .gallery-title { top: 34px; }
+html body .gallery-title p {
+    padding: 9px 18px;
+    border-radius: 999px;
+    background: rgba(250, 250, 250, .88);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 6px 18px -8px rgba(20, 37, 61, .25);
+    color: var(--site-sage);
+    font: 600 12px/1 'Work Sans', Arial, sans-serif;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* artwork card */
+html body .artwork-info {
+    top: 26px;
+    right: 30px;
+    width: 380px;
+    max-height: calc(100vh - 52px);
+    overflow: auto;
+    padding: 30px 30px 28px;
+    border: 1px solid var(--site-line);
+    border-radius: 18px;
+    background: rgba(250, 250, 250, .97);
+    box-shadow: 0 24px 60px -18px rgba(20, 37, 61, .4);
+    animation: info-in .28s ease-out;
+}
+@keyframes info-in { from { opacity: 0; transform: translateY(-8px); } }
+html body .artwork-info button {
+    top: 16px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #eef1f0;
+    color: var(--site-navy);
+    font: 400 22px/1 'Work Sans', Arial, sans-serif;
+    transition: background .2s ease, color .2s ease;
+}
+html body .artwork-info button:hover { background: var(--site-navy); color: #fff; }
+html body #artwork-year {
+    margin: 0 0 10px;
+    color: var(--site-sage);
+    font: 600 12px/1 'Work Sans', Arial, sans-serif;
+    letter-spacing: .2em;
+}
+html body #artwork-title {
+    margin: 0 44px 10px 0;
+    font-family: 'Gulax', 'DM Serif Display', Georgia, serif;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 1.08;
+    letter-spacing: .01em;
+    color: var(--site-navy);
+}
+html body #artwork-medium {
+    margin: 0 0 18px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--site-line);
+    color: var(--site-sage);
+    font-size: 14px;
+    font-style: normal;
+}
+html body #artwork-description {
+    color: var(--site-muted);
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+/* controls bar: key caps like the floating E */
+html body .instructions {
+    bottom: 26px;
+    align-items: center;
+    gap: 22px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: rgba(250, 250, 250, .9);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    box-shadow: var(--site-shadow);
+    color: var(--site-muted);
+    font: 500 12px/1 'Work Sans', Arial, sans-serif;
+    white-space: nowrap;
+}
+html body .instructions span { display: inline-flex; align-items: center; gap: 4px; }
+html body .instructions kbd,
+html body .bench-hint kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 5px;
+    margin-right: 2px;
+    border: 1.5px solid var(--site-navy);
+    border-radius: 6px;
+    background: #fff;
+    box-shadow: 0 2px 0 var(--site-navy);
+    color: var(--site-navy);
+    font: 700 11px/1 'Work Sans', Arial, sans-serif;
+}
+html body .instructions kbd.kbd-wide { padding: 0 7px; font-weight: 600; }
+html body .instructions span:last-child kbd { margin-right: 4px; }
+
+/* "Press E to stand": same pill, navy */
+html body .bench-hint {
+    bottom: 80px;
+    padding: 10px 18px;
+    background: var(--site-navy);
+    box-shadow: var(--site-shadow);
+    font: 500 13px/1 'Work Sans', Arial, sans-serif;
+}
+html body .bench-hint kbd { margin: 0 4px; border-color: #fff; box-shadow: 0 2px 0 rgba(255, 255, 255, .5); }
+
+/* phone notice: site fonts */
+html body .mobile-notice-card { font-family: 'Work Sans', Arial, sans-serif; background: var(--site-paper); }
+html body .mobile-notice-card h2 { font-family: 'Gulax', 'DM Serif Display', Georgia, serif; letter-spacing: .01em; }
+html body .mobile-notice-link { font-family: inherit; }
+
+@media (max-width: 1100px) {
+    html body .instructions { gap: 14px; font-size: 11px; }
+}
