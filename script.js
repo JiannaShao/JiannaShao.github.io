@@ -208,7 +208,7 @@
     heroStroke.style.left = `${left}px`;
     heroStroke.style.top = `${nameRect.top - rowRect.top - padTop}px`;
     heroStroke.style.height = `${nameRect.height + padTop + padBot}px`;
-    heroStroke.style.width = `${(right - rowRect.left) - left + nameRect.width * (window.innerWidth <= 800 ? 0.2 : 0.2)}px`;
+    heroStroke.style.width = `${((right - rowRect.left) - left + nameRect.width * 0.2) * 0.92}px`;   // 8% narrower
   };
   /* Background behind the name: one wide dry-brush stroke that snakes from the
      top left to the bottom right, like the scroll snake in the sidebar:
@@ -243,7 +243,7 @@
     for (let k2 = 0; k2 < S.rows; k2++) {
       const i = first + k2;
       const dir = k2 % 2 ? -1 : 1;          // even runs go right, odd runs go left
-      const start = k2 === 0 ? -w * .58 / Math.cos(th) : -dir * half;   // first run enters from off the left edge
+      const start = k2 === 0 ? -(half + r + S.wd * h * .5) / Math.cos(th) : -dir * half;   // first run starts at the left edge and fades in, like the end
       const end = k2 === S.rows - 1 ? dir * (half + r * 1.4) : dir * half;
       line(P(start, i), P(end, i), 90);
       if (k2 < S.rows - 1) turn(i, dir);
@@ -292,7 +292,7 @@
         const o = (j / (B - 1) - .5) + (rnd() - .5) * .01;
         const edge = Math.min(1, (.5 - Math.abs(o)) * 6);
         const tEnd = .97 + rnd() * .03 * (.5 + .5 * edge);
-        const tStart = rnd() * .005 + (1 - edge) * rnd() * .015;
+        const tStart = rnd() * .02 * (.5 + .5 * edge) + (1 - edge) * rnd() * .015;
         const runs = [];
         let on = false, start = 0;
         for (let t = tStart; t <= tEnd; t += .002) {
@@ -300,7 +300,7 @@
           const n1 = noise(o * 26, t * 5 * nf);
           const n2 = noise(o * 90 + 7, t * 22 * nf);
           // solid where the lettering sits; dry at the rims and toward the end
-          const dry = .02 + (1 - edge) * .3 + Math.max(0, t - .93) * 3;
+          const dry = .02 + (1 - edge) * .3 + Math.max(0, t - .93) * 3 + Math.max(0, .05 - t) * 4;
           const paint = n1 * .75 + n2 * .25 > dry;
           if (paint && !on) { on = true; start = t; }
           if (!paint && on) { on = false; if (t - start > .0015) runs.push([start, t]); }
@@ -335,7 +335,7 @@
         const a = Math.max(ra, t0), z = Math.min(rb, t1);
         if (z <= a) return;
         // opacity fades in at the very start and out over the last stretch
-        const FIN = .02, FOUT = .9;
+        const FIN = .06, FOUT = .9;
         const solidA = Math.max(a, FIN), solidZ = Math.min(z, FOUT);
         const line = (from, to, alpha) => {
           ctx.globalAlpha = Math.max(0, alpha);
@@ -353,7 +353,7 @@
         const FADE_STEP = .003;
         for (let x0 = a; x0 < Math.min(z, FIN); x0 += FADE_STEP) {
           const x1 = Math.min(x0 + FADE_STEP, z, FIN);
-          line(x0, x1, b.a * ((x0 + x1) / 2) / FIN);
+          line(x0, x1, b.a * Math.pow(((x0 + x1) / 2) / FIN, 1.3));
         }
         for (let x0 = Math.max(a, FOUT); x0 < z; x0 += FADE_STEP) {
           const x1 = Math.min(x0 + FADE_STEP, z);
@@ -398,7 +398,7 @@
       plan.forEach((p) => {
         const k2 = Math.min(1, Math.max(0, (now - p.start) / p.st.dur));
         const prog = ease(k2);
-        if (prog > p.done) { paintSegment(ctx, p.st, p.done > .02 && p.done < .9 ? p.done - .0015 : p.done, prog); p.done = prog; }
+        if (prog > p.done) { paintSegment(ctx, p.st, p.done > .06 && p.done < .9 ? p.done - .0015 : p.done, prog); p.done = prog; }
         if (k2 < 1) busy = true;
       });
       if (busy) brushAnim = requestAnimationFrame(frame);
