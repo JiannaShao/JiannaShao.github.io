@@ -566,6 +566,7 @@ const BENCH_PATH = "RoomFurniture/ScrollBench.glb";
 const BENCH_CENTER = new THREE.Vector3(1.1, 0, -20.2);
 const BENCH_TURN = -Math.PI / 4;   // seat faces (-x, -z)
 const BENCH_FACE_YAW = Math.PI / 2 + BENCH_TURN;
+const BENCH_SEAT_SHIFT = 0.6;     // 0 = middle of the ledge, 1 = near its right end
 const BENCH_LENGTH = 7.6;         // along the wall (uniform scale: the ledge lands at seat height)
 
 const SEATED_EYE = 1.05;
@@ -658,8 +659,20 @@ furnitureLoader.load(
         const hist = {};
         tops.forEach((t) => { const h = Math.round(t[1] * 20) / 20; hist[h] = (hist[h] || 0) + 1; });
         ledgeTop = +Object.keys(hist).filter((h) => h > 0.25).sort((a, b) => hist[b] - hist[a])[0] || 0.5;
-        tops.forEach((t) => { if (Math.abs(t[1] - ledgeTop) < 0.04) { sumX += t[0]; sumZ += t[2]; n++; } });
-        bench.seat.set(n ? sumX / n : box.min.x + width * 0.15, ledgeTop + SEATED_EYE, n ? sumZ / n : 0);
+        const ledge = tops.filter((t) => Math.abs(t[1] - ledgeTop) < 0.04);
+        ledge.forEach((t) => { sumX += t[0]; sumZ += t[2]; n++; });
+        // sit toward the right-hand end of the ledge (as seen when seated): -z here
+        let seatZ = n ? sumZ / n : 0, seatX = n ? sumX / n : box.min.x + width * 0.15;
+        if (n) {
+            const zs = ledge.map((t) => t[2]).sort((a, b) => a - b);
+            const target = seatZ + (zs[Math.floor(zs.length * 0.12)] - seatZ) * BENCH_SEAT_SHIFT;
+            const near = ledge.filter((t) => Math.abs(t[2] - target) < 0.35);
+            if (near.length) {
+                seatZ = target;
+                seatX = near.reduce((a, t) => a + t[0], 0) / near.length;
+            }
+        }
+        bench.seat.set(seatX, ledgeTop + SEATED_EYE, seatZ);
         bench.prompt.position.set(bench.seat.x - 0.15, ledgeTop + 1.35, bench.seat.z);
 
         // place and turn it, then carry the seat and prompt along
