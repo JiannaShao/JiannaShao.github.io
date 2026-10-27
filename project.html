@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="project.css?v=26">
+  <link rel="stylesheet" href="project.css?v=31">
   <link rel="stylesheet" href="site-chrome.css?v=6">
   <link rel="stylesheet" href="site-loader.css?v=1">
   <script src="site-loader.js?v=1"></script>
@@ -87,10 +87,10 @@
       <h1>Projects</h1>
       <p class="hero-copy">A collection of independent, collaborative, and experimental work spanning visual design, making, interactive media, and mathematical graphing.</p>
       <nav class="project-jump" aria-label="Jump to a project">
-        <a href="#project-one"><span class="pj-thumb"><img src="Thumbs/project-game.jpg" alt="" loading="lazy" decoding="async"></span><span class="pj-num">01</span><span class="pj-name">Game Design Projects</span></a>
-        <a href="#project-two"><span class="pj-thumb"><img src="Thumbs/project-exhibit.jpg" alt="" loading="lazy" decoding="async"></span><span class="pj-num">02</span><span class="pj-name">Withdrawn Pandemonium</span></a>
-        <a href="#project-three"><span class="pj-thumb"><img src="Thumbs/project-matlab.jpg" alt="" loading="lazy" decoding="async"></span><span class="pj-num">03</span><span class="pj-name">Vector Ventures</span></a>
-        <a href="#project-four"><span class="pj-thumb pj-thumb-empty"><span>Coming soon</span></span><span class="pj-num">04</span><span class="pj-name">Anarchist Prop Design</span></a>
+        <a href="#project-one"><span class="pj-icon"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M9 11h14a6 6 0 0 1 6 6v1.5a4.5 4.5 0 0 1-8.2 2.6L19.5 19h-7l-1.3 2.1A4.5 4.5 0 0 1 3 18.5V17a6 6 0 0 1 6-6z"/><path d="M10 14.5v4M8 16.5h4"/><circle cx="21.5" cy="15.5" r="1"/><circle cx="24" cy="18" r="1"/></svg></span><span class="pj-num">01 · Game design</span><span class="pj-name">Game Design Projects</span></a>
+        <a href="#project-two"><span class="pj-icon"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="7" width="22" height="17" rx="1.5"/><rect x="9" y="11" width="14" height="9"/><path d="M11 20l4-4 3 3 2-2 3 3"/><path d="M16 4v3"/></svg></span><span class="pj-num">02 · Exhibition</span><span class="pj-name">Withdrawn Pandemonium</span></a>
+        <a href="#project-three"><span class="pj-icon"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 26V6M6 26h20"/><path d="M6 26l14-14"/><path d="M15 12h5v5"/><path d="M6 26l9 -3"/><path d="M11.5 21.5l3.5 1.5-1 -3.6"/></svg></span><span class="pj-num">03 · Math + code</span><span class="pj-name">Vector Ventures</span></a>
+        <a href="#project-four"><span class="pj-icon"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 6h12v8a6 6 0 0 1-12 0z"/><path d="M8.5 10.5h1.5M12 10.5h1.5"/><path d="M8.5 15.5c1.2-1 3.8-1 5 0"/><path d="M17 12h10v8a5 5 0 0 1-10 0"/><path d="M20 15.5h1.3M23.3 15.5h1.3"/><path d="M20 20.5c1-.9 3.4-.9 4.4 0"/></svg></span><span class="pj-num">04 · Theater props</span><span class="pj-name">Anarchist Prop Design</span></a>
       </nav>
     </header>
 
@@ -118,89 +118,52 @@
           <p><span>Status</span>Retired before release</p>
         </div>
 
-        <div class="sunpuddle-garden">
-          <div id="bird-animation" class="garden-bird" aria-label="Bird animation"></div>
-          <div id="garden-plants" class="garden-plants-row"></div>
+        <div class="sp-garden" aria-label="Animated crops from Sunpuddle growing in a planter">
+          <div class="sp-bird" aria-hidden="true"><img alt="" draggable="false"></div>
+          <div class="sp-plants" id="sp-plants"></div>
+          <div class="sp-soil" aria-hidden="true"></div>
+          <div class="sp-planter" aria-hidden="true"></div>
+        </div>
 
-          <div class="garden-dirt" aria-hidden="true"></div>
-
-          <div class="garden-planter" aria-hidden="true">
-            <div class="garden-planter-rim"></div>
-            <div class="garden-planter-body"></div>
+        <div class="sp-fridge-wrap">
+          <div class="sp-fridge" id="sp-fridge">
+            <div class="sp-egg" aria-label="Cracking egg animation"></div>
+            <span class="sp-fridge-split" aria-hidden="true"></span>
+            <span class="sp-handle sp-handle-top" aria-hidden="true"></span>
+            <span class="sp-handle sp-handle-bottom" aria-hidden="true"></span>
+            <article class="sp-magnet sp-magnet-text" data-id="context" tabindex="0">
+              <p class="small-label">Context</p>
+              <p>Sunpuddle was my first solo endeavor when it came to game design, and I imagined a cozy farming game (a bit like Stardew Valley) but with more character interaction features and a painted storybook feeling. The assets were drawn in CSP while the game engine used was Construct3 due to its superior handling of graphics and manipulating visual effects.</p>
+            </article>
+            <article class="sp-magnet sp-magnet-text" data-id="process" tabindex="0">
+              <p class="small-label">Process</p>
+              <p>Since it was an open world, lots of assets were needed to fill all the space and the different items and furniture had to be interactable too! From dandelion plants that released seeds, to crop planting mechanisms and fishing minigames everything had to be individually painted and coded into the game.</p>
+            </article>
+            <img class="sp-magnet sp-magnet-img" data-id="logo" src="web/fridge/logo.webp" width="548" height="288" alt="Sunpuddle title logo" draggable="false" decoding="async">
+            <img class="sp-magnet sp-magnet-img" data-id="duck-village" src="web/fridge/duck-village.webp" width="548" height="486" alt="Duck village buildings" draggable="false" decoding="async">
+            <img class="sp-magnet sp-magnet-img" data-id="bamboo" src="web/fridge/bamboo.webp" width="280" height="548" alt="Lucky bamboo in a vase" draggable="false" decoding="async">
+            <img class="sp-magnet sp-magnet-img" data-id="kitchen" src="web/fridge/kitchen.webp" width="329" height="548" alt="Kitchen counter set" draggable="false" decoding="async">
+            <img class="sp-magnet sp-magnet-img" data-id="guzheng" src="web/fridge/guzheng.webp" width="548" height="182" alt="Guzheng on a stand" draggable="false" decoding="async">
+            <img class="sp-magnet sp-magnet-img" data-id="pond-plants" src="web/fridge/pond-plants.webp" width="548" height="295" alt="Pond plants" draggable="false" decoding="async">
+            <img class="sp-magnet sp-magnet-img" data-id="wishes-table" src="web/fridge/wishes-table.webp" width="326" height="291" alt="Lantern table for the Fishing for Wishes game" draggable="false" decoding="async">
+            <img class="sp-magnet sp-magnet-img" data-id="bed" src="web/fridge/bed.webp" width="548" height="381" alt="Wooden bed" draggable="false" decoding="async">
+            <img class="sp-magnet sp-magnet-img" data-id="goldfish" src="web/fridge/goldfish.webp" width="516" height="497" alt="Goldfish decoration" draggable="false" decoding="async">
+            <img class="sp-magnet sp-magnet-img" data-id="dandelion" src="web/fridge/dandelion.webp" width="506" height="548" alt="Dandelions" draggable="false" decoding="async">
+            <img class="sp-magnet sp-magnet-img" data-id="pot" src="web/fridge/pot.webp" width="368" height="300" alt="Clay pot with lily pads" draggable="false" decoding="async">
+            <img class="sp-magnet sp-magnet-img" data-id="park-sign" src="web/fridge/park-sign.webp" width="548" height="406" alt="Solvilla Park sign" draggable="false" decoding="async">
+            <span class="sp-foot sp-foot-l" aria-hidden="true"></span>
+            <span class="sp-foot sp-foot-r" aria-hidden="true"></span>
           </div>
+          <p class="sp-fridge-hint">Drag the magnets around</p>
         </div>
 
-        <div class="sunpuddle-reference-grid">
-          <figure class="reference-card duck-village-card">
-            <img src="web/SunpuddleFiles/DuckVillage.png" alt="Duck Village">
-          </figure>
-
-          <figure class="reference-card bamboo-card">
-            <img src="SunpuddleFiles/treehousebamboo.png" alt="Bamboo">
-          </figure>
-
-          <figure class="reference-card kitchen-card">
-            <img src="web/SunpuddleFiles/Kitchen.png" alt="Kitchen">
-          </figure>
-
-          <figure class="egg-card">
-            <div id="egg-animation" class="egg-animation-slot" aria-label="Cracking egg animation"></div>
-          </figure>
-
-          <figure class="reference-card guzheng-card">
-            <img src="web/SunpuddleFiles/TreeHouseGuzheng.png" alt="Guzheng">
-          </figure>
-
-          <article class="reference-text-card text-card-one">
-            <p class="small-label">Context</p>
-            <p>Sunpuddle was my first solo endeavor when it came to game design, and I imagined a cozy farming game (a bit like Stardew Valley) but with more character interaction features and a painted storybook feeling. The assets were drawn in CSP while the game engine used was Construct3 due to its superior handling of graphics and manipulating visual effects.</p>
-          </article>
-
-          <figure class="reference-card pond-plants-card">
-            <img src="web/SunpuddleFiles/PondPlants.png" alt="Pond plants">
-          </figure>
-
-          <figure class="reference-card fish-one-card">
-            <img src="web/SunpuddleFiles/fishdecor1.png" alt="Fish decoration 1">
-          </figure>
-
-          <figure class="reference-card wishes-table-card">
-            <img src="SunpuddleFiles/fishingforwishestable.png" alt="Fishing for Wishes table">
-          </figure>
-
-          <figure class="reference-card fish-three-card">
-            <img src="web/SunpuddleFiles/fishdecor3.png" alt="Fish decoration 3">
-          </figure>
-
-          <article class="reference-text-card text-card-two">
-            <p class="small-label">Process</p>
-            <p>Since it was an open world, lots of assets were needed to fill all the space and the different items and furniture had to be interactable too! From dandelion plants that released seeds, to crop planting mechanisms and fishing minigames everything had to be individually painted and coded into the game.</p>
-          </article>
-
-          <figure class="reference-card fish-two-card">
-            <img src="SunpuddleFiles/fishdecor2.png" alt="Fish decoration 2">
-          </figure>
-
-          <figure class="reference-card dandelion-card">
-            <img src="web/SunpuddleFiles/Dandelion2.png" alt="Dandelion">
-          </figure>
-
-          <figure class="reference-card pot-card">
-            <img src="SunpuddleFiles/pot.png" alt="Pot">
-          </figure>
-
-          <article class="reference-text-card text-card-three">
-            <p class="small-label">Takeaway</p>
-            <p>Sunpuddle taught me how much an open-world game asks of a solo developer, and how fast my own art could grow. My illustration style improved so much over the project that finishing it cohesively would have meant redrawing most of the early assets, on top of a time commitment I couldn't keep up with as a student. I chose to retire it, and I now scope projects with that in mind: a smaller world, a fixed art style, and a clear finish line.</p>
-          </article>
-
-          <figure class="reference-card park-sign-card">
-            <img src="web/SunpuddleFiles/parksign.png" alt="Park sign">
-          </figure>
-        </div>
+        <article class="sp-takeaway">
+          <p class="small-label">Takeaway</p>
+          <p>Sunpuddle taught me how much an open-world game asks of a solo developer, and how fast my own art could grow. My illustration style improved so much over the project that finishing it cohesively would have meant redrawing most of the early assets, on top of a time commitment I couldn't keep up with as a student. I chose to retire it, and I now scope projects with that in mind: a smaller world, a fixed art style, and a clear finish line.</p>
+        </article>
       </div>
 
-      <div class="mosaic-subsection second-mosaic-subsection sketchy-secret-section">
+      <div class="mosaic-subsection sketchy-secret-section ss-section">
         <div class="subsection-heading">
           <p class="small-label">Part II</p>
           <h3>Sketchy Secret</h3>
@@ -214,56 +177,25 @@
           <p><span>Status</span>Level 1 of 3 complete and tested</p>
         </div>
 
-        <div class="sketchy-secret-layout">
-
-          <div class="sketchy-video-card">
-            <video
-              class="sketchy-video"
-              src="SketchySecretFiles/SketchyVideo2.mov"
-              poster="web/SketchySecretFiles/video-poster.jpg"
-              controls
-              playsinline
-              preload="metadata"
-            >
-              Your browser does not support this video format.
-            </video>
+        <div class="ss-top">
+          <div class="ss-video">
+            <video src="SketchySecretFiles/SketchyVideo2.mov" poster="web/SketchySecretFiles/video-poster.jpg" controls playsinline preload="metadata">Your browser does not support this video format.</video>
           </div>
-
-          <div class="sketchy-row sketchy-row-one">
-            <figure class="sketchy-media-card sketchy-screenshot sketchy-screenshot-one">
-              <img
-                src="web/SketchySecretFiles/Screenshot1.jpg"
-                alt="Sketchy Secret screenshot 1"
-              >
-            </figure>
-
-            <figure class="sketchy-media-card sketchy-sprite-card">
-              <div
-                id="sketchy-front-animation"
-                class="sketchy-animation-slot"
-                aria-label="Front character animation"
-              ></div>
-            </figure>
+          <div class="ss-sprites">
+            <div class="ss-sprite" id="sketchy-front-animation" aria-label="Bri walking, front view"></div>
+            <div class="ss-sprite" id="sketchy-back-animation" aria-label="Bri walking, back view"></div>
+            <div class="ss-sprite" id="sketchy-cb-animation" aria-label="Bri cheering"></div>
           </div>
+        </div>
 
-          <div class="sketchy-row sketchy-row-two">
-            <figure class="sketchy-media-card sketchy-sprite-card">
-              <div
-                id="sketchy-back-animation"
-                class="sketchy-animation-slot"
-                aria-label="Back character animation"
-              ></div>
-            </figure>
+        <div class="ss-pair">
+          <figure class="ss-shot"><img src="web/SketchySecretFiles/Screenshot1.jpg" alt="Bri in the gallery room, with the prompt Press E to interact" loading="lazy" decoding="async"></figure>
+          <figure class="ss-shot"><img src="web/SketchySecretFiles/Screenshot2.jpg" alt="The gallery manager talking to Bri in front of a landscape painting" loading="lazy" decoding="async"></figure>
+        </div>
 
-            <figure class="sketchy-media-card sketchy-screenshot sketchy-screenshot-two">
-              <img
-                src="web/SketchySecretFiles/Screenshot2.jpg"
-                alt="Sketchy Secret screenshot 2"
-              >
-            </figure>
-          </div>
-
-          <article class="sketchy-text-panel">
+        <div class="ss-bottom">
+          <figure class="ss-shot"><img src="web/SketchySecretFiles/Screenshot3.jpg" alt="A pink pixel-art battle scene with heart health bars" loading="lazy" decoding="async"></figure>
+          <article class="ss-text">
             <div>
               <p class="small-label">Context</p>
               <p>Sketchy Secret is a mystery game that follows the detective Bri as she looks for the missing artists. It turns out that they are trapped inside their own artwork, and she has to explore the worlds they've imagined in order to find the root of the problems that trapped them in the first place.</p>
@@ -273,24 +205,6 @@
               <p>The first level (out of three) was completed and tested, but the rest of the game was put on hold when my game development partner and I went to different universities. We hope to pick it up and finish it someday.</p>
             </div>
           </article>
-
-          <div class="sketchy-row sketchy-row-three">
-            <figure class="sketchy-media-card sketchy-screenshot sketchy-screenshot-three">
-              <img
-                src="web/SketchySecretFiles/Screenshot3.jpg"
-                alt="Sketchy Secret screenshot 3"
-              >
-            </figure>
-
-            <figure class="sketchy-media-card sketchy-sprite-card">
-              <div
-                id="sketchy-cb-animation"
-                class="sketchy-animation-slot"
-                aria-label="Character animation"
-              ></div>
-            </figure>
-          </div>
-
         </div>
       </div>
     </section>
@@ -534,310 +448,321 @@ What is the dot product of the vector from us to Hill 2 and the vector from us t
       /* Sidebar behaviour lives in site-chrome.js */
 
       /* =====================================================
-         PROJECT 1 — SUNPUDDLE ANIMATIONS
+         PROJECT 1 — SUNPUDDLE GARDEN
+         Every frame is stacked and preloaded; frames crossfade so the
+         plants grow smoothly, hold when fully grown, then fade back.
       ====================================================== */
-
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const G = (n) => `web/garden/${n}.webp`;
       const GARDEN_PLANTS = [
-        {
-          name: 'Tomato',
-          className: 'tomato',
-          frameTime: 880,
-          frames: [
-            'SunpuddleFiles/tomatoplant1.png',
-            'SunpuddleFiles/tomatoplant2.png',
-            'web/SunpuddleFiles/tomatoplant3.png',
-            'web/SunpuddleFiles/tomatoplant4.png',
-            'web/SunpuddleFiles/tomatoplant5.png'
-          ]
-        },
-        {
-          name: 'Cucumber',
-          className: 'cucumber',
-          frameTime: 965,
-          frames: [
-            'SunpuddleFiles/cucumberplant.png',
-            'SunpuddleFiles/cucumberplant2.png',
-            'SunpuddleFiles/cucumberplant3.png',
-            'SunpuddleFiles/cucumberplant4.png',
-            'SunpuddleFiles/cucumberplant5.png'
-          ]
-        },
-        {
-          name: 'Bean',
-          className: 'bean',
-          frameTime: 1050,
-          frames: [
-            'SunpuddleFiles/beanplant1.png',
-            'SunpuddleFiles/beanplant2.png',
-            'SunpuddleFiles/beanplant3.png',
-            'SunpuddleFiles/beanplant4.png'
-          ]
-        },
-        {
-          name: 'Corn',
-          className: 'corn',
-          frameTime: 1140,
-          frames: [
-            'SunpuddleFiles/cornplant1.png',
-            'SunpuddleFiles/cornplant2.png',
-            'web/SunpuddleFiles/cornplant3.png'
-          ]
-        },
-        {
-          name: 'Lettuce',
-          className: 'lettuce',
-          frameTime: 1230,
-          frames: [
-            'SunpuddleFiles/lettuceplant1.png',
-            'SunpuddleFiles/lettuceplant2.png',
-            'SunpuddleFiles/lettuceplant3.png'
-          ]
-        },
-        {
-          name: 'Onion',
-          className: 'onion',
-          frameTime: 1320,
-          frames: [
-            'SunpuddleFiles/onionplant1.png',
-            'SunpuddleFiles/onionplant2.png',
-            'SunpuddleFiles/onionplant3.png'
-          ]
-        },
-        {
-          name: 'Strawberry',
-          className: 'strawberry',
-          frameTime: 1410,
-          frames: [
-            'SunpuddleFiles/StrawberryPlant1.png',
-            'SunpuddleFiles/strawberryplant2.png',
-            'SunpuddleFiles/strawberryplant3.png',
-            'SunpuddleFiles/strawberryplant4.png'
-          ]
-        },
-        {
-          name: 'Potato',
-          className: 'potato',
-          frameTime: 1500,
-          frames: [
-            'SunpuddleFiles/Potatoplant1.png',
-            'SunpuddleFiles/potatoplant2.png'
-          ]
-        }
+        { name: 'Tomato', frames: ['tomatoplant1', 'tomatoplant2', 'tomatoplant3', 'tomatoplant4', 'tomatoplant5'], step: 900 },
+        { name: 'Cucumber', frames: ['cucumberplant', 'cucumberplant2', 'cucumberplant3', 'cucumberplant4', 'cucumberplant5'], step: 960 },
+        { name: 'Bean', frames: ['beanplant1', 'beanplant2', 'beanplant3', 'beanplant4'], step: 1080 },
+        { name: 'Corn', frames: ['cornplant1', 'cornplant2', 'cornplant3'], step: 1300 },
+        { name: 'Lettuce', frames: ['lettuceplant1', 'lettuceplant2', 'lettuceplant3'], step: 1240 },
+        { name: 'Onion', frames: ['onionplant1', 'onionplant2', 'onionplant3'], step: 1340 },
+        { name: 'Strawberry', frames: ['strawberryplant1', 'strawberryplant2', 'strawberryplant3', 'strawberryplant4'], step: 1100 },
+        { name: 'Potato', frames: ['potatoplant1', 'potatoplant2'], step: 1700 }
       ];
 
-      const EGG_FRAMES = [
-        'SunpuddleFiles/Egg1.png',
-        'SunpuddleFiles/Egg2.png',
-        'SunpuddleFiles/Egg3.png',
-        'SunpuddleFiles/Egg4.png',
-        'SunpuddleFiles/Egg5.png',
-        'SunpuddleFiles/Egg6.png'
-      ];
-
-      const BIRD_FRAMES = [
-        'SunpuddleFiles/Bird1.png',
-        'SunpuddleFiles/Bird2.png',
-        'SunpuddleFiles/Bird3.png',
-        'SunpuddleFiles/Bird4.png',
-        'SunpuddleFiles/Bird5.png',
-        'SunpuddleFiles/Bird6.png'
-      ];
-
-      const SKETCHY_FRONT_FRAMES = [
-        'SketchySecretFiles/Front1.PNG',
-        'SketchySecretFiles/Front2.PNG',
-        'SketchySecretFiles/Front3.PNG',
-        'SketchySecretFiles/Front4.PNG'
-      ];
-
-      const SKETCHY_BACK_FRAMES = [
-        'SketchySecretFiles/Back1.PNG',
-        'SketchySecretFiles/Back2.PNG',
-        'SketchySecretFiles/Back3.PNG',
-        'SketchySecretFiles/Back4.PNG'
-      ];
-
-      const SKETCHY_CB_FRAMES = [
-        'SketchySecretFiles/CB1.PNG',
-        'SketchySecretFiles/CB2.PNG',
-        'SketchySecretFiles/CB3.PNG',
-        'SketchySecretFiles/CB4.PNG',
-        'SketchySecretFiles/CB5.PNG',
-        'SketchySecretFiles/CB6.PNG',
-        'SketchySecretFiles/CB7.PNG'
-      ];
-
-      const GROW_FRAME_TIME = 676;
-
-      function createLoopingImage(frames, altText, className, frameTime = GROW_FRAME_TIME) {
-        if (!Array.isArray(frames) || frames.length === 0) return null;
-
-        const image = document.createElement('img');
-        image.className = className;
-        image.alt = altText;
-        image.src = frames[0];
-        image.decoding = 'async';
-
-        let frameIndex = 0;
-
-        window.setInterval(() => {
-          frameIndex = (frameIndex + 1) % frames.length;
-          image.src = frames[frameIndex];
-        }, frameTime);
-
-        return image;
+      const plantsRow = document.getElementById('sp-plants');
+      if (plantsRow) {
+        GARDEN_PLANTS.forEach((plant, pi) => {
+          const box = document.createElement('div');
+          box.className = 'sp-plant';
+          box.setAttribute('role', 'img');
+          box.setAttribute('aria-label', `${plant.name} plant growing`);
+          const imgs = plant.frames.map((f, i) => {
+            const im = document.createElement('img');
+            im.src = G(f);
+            im.alt = '';
+            im.decoding = 'async';
+            im.draggable = false;
+            if (i === 0) im.classList.add('is-on');
+            box.appendChild(im);
+            return im;
+          });
+          plantsRow.appendChild(box);
+          if (reduceMotion) { imgs.forEach((im, i) => im.classList.toggle('is-on', i === imgs.length - 1)); return; }
+          let k = 0;
+          const HOLD = 2600;
+          const tick = () => {
+            imgs[k].classList.remove('is-on');
+            k = (k + 1) % imgs.length;
+            imgs[k].classList.add('is-on');
+            box.classList.toggle('is-grown', k === imgs.length - 1);
+            setTimeout(tick, k === imgs.length - 1 ? HOLD : plant.step);
+          };
+          setTimeout(tick, 600 + pi * 170);
+        });
       }
 
-      function buildGardenAnimations() {
-        const plantsRow = document.getElementById('garden-plants');
-        const eggSlot = document.getElementById('egg-animation');
-        const birdSlot = document.getElementById('bird-animation');
+      // bird flaps across the top of the garden, right to left, then waits
+      const birdBox = document.querySelector('.sp-bird');
+      if (birdBox && !reduceMotion) {
+        const bird = birdBox.querySelector('img');
+        const frames = [1, 2, 3, 4, 5, 6].map((i) => { const im = new Image(); im.src = G('bird' + i); return im.src; });
+        let f = 0;
+        bird.src = frames[0];
+        setInterval(() => { f = (f + 1) % frames.length; bird.src = frames[f]; }, 130);
+        const garden = birdBox.parentElement;
+        const FLIGHT = 9000, REST = 2500;
+        let t0 = performance.now();
+        const fly = (now) => {
+          const t = (now - t0) % (FLIGHT + REST);
+          const k = Math.min(1, t / FLIGHT);
+          const W = garden.clientWidth, bw = birdBox.offsetWidth;
+          const x = (W + 20) - k * (W + bw + 60);
+          const y = Math.sin(k * Math.PI * 3) * 10 - k * 24;
+          birdBox.style.transform = `translate(${x}px, ${y}px)`;
+          birdBox.style.opacity = t < FLIGHT ? 1 : 0;
+          requestAnimationFrame(fly);
+        };
+        requestAnimationFrame(fly);
+      } else if (birdBox) {
+        birdBox.querySelector('img').src = G('bird1');
+      }
 
-        if (plantsRow) {
-          plantsRow.innerHTML = '';
+      // egg on top of the fridge: cracks open, rests, starts again
+      const eggBox = document.querySelector('.sp-egg');
+      if (eggBox) {
+        const eggs = [1, 2, 3, 4, 5, 6].map((i, n) => {
+          const im = document.createElement('img');
+          im.src = G('egg' + i); im.alt = ''; im.draggable = false;
+          if (n === 0) im.classList.add('is-on');
+          eggBox.appendChild(im);
+          return im;
+        });
+        if (!reduceMotion) {
+          let e = 0;
+          const crack = () => {
+            eggs[e].classList.remove('is-on');
+            e = (e + 1) % eggs.length;
+            eggs[e].classList.add('is-on');
+            setTimeout(crack, e === eggs.length - 1 ? 2400 : e === 0 ? 1600 : 520);
+          };
+          setTimeout(crack, 1600);
+        }
+      }
 
-          GARDEN_PLANTS.forEach((plant, index) => {
-            const figure = document.createElement('figure');
-            figure.className = `garden-plant plant-${plant.className || 'generic'}`;
+      /* =====================================================
+         PROJECT 1 — FRIDGE MAGNETS
+         Positions and sizes are in units of the fridge width, so the
+         layout scales with the fridge. Two layouts: "wide" (fridge
+         560px or wider) and "tall" (phones). Magnets never overlap:
+         a drag that would overlap slides along the other magnet or
+         stops. Open project.html?arrange to rearrange them and copy
+         the new layout.
+      ====================================================== */
+      const FRIDGE_LAYOUTS = {
+        wide: {
+          pad: { l: .12, r: .035, t: .045, b: .05 },
+          minH: 1.3,
+          font: .0168,
+          size: { context: .36, process: .36, logo: .3, 'duck-village': .25, bamboo: .11, kitchen: .14, guzheng: .26, 'pond-plants': .24, 'wishes-table': .14, bed: .19, goldfish: .14, dandelion: .15, pot: .13, 'park-sign': .2 },
+          pos: {
+            logo: [.13, .065], guzheng: [.47, .08], 'wishes-table': [.8, .055], pot: [.47, .2], goldfish: [.68, .19],
+            context: [.13, .4], 'duck-village': [.53, .39], bamboo: [.83, .385],
+            dandelion: [.55, .66], kitchen: [.8, .64],
+            process: [.13, .8], 'pond-plants': [.53, .87], 'park-sign': [.76, .93], bed: [.55, 1.04]
+          },
+          tilt: { logo: -2, guzheng: 1.5, 'wishes-table': 3, pot: -3, goldfish: 4, context: -1, 'duck-village': 1.5, bamboo: -2.5, dandelion: 2, kitchen: -1.5, process: 1, 'pond-plants': -2, 'park-sign': 2.5, bed: -1 }
+        },
+        tall: {
+          pad: { l: .13, r: .04, t: .05, b: .06 },
+          minH: 2.2,
+          font: .041,
+          fontMax: 15,
+          size: { context: .82, process: .82, logo: .56, 'duck-village': .44, bamboo: .2, kitchen: .25, guzheng: .5, 'pond-plants': .44, 'wishes-table': .27, bed: .38, goldfish: .3, dandelion: .3, pot: .3, 'park-sign': .4 },
+          pos: null,   // packed automatically until a phone layout is chosen
+          tilt: { logo: -2, guzheng: 1.5, 'wishes-table': 3, pot: -3, goldfish: 4, context: -.6, 'duck-village': 1.5, bamboo: -2.5, dandelion: 2, kitchen: -1.5, process: .6, 'pond-plants': -2, 'park-sign': 2.5, bed: -1 }
+        }
+      };
+      const PACK_ORDER = ['logo', 'wishes-table', 'context', 'duck-village', 'bamboo', 'kitchen', 'dandelion', 'goldfish', 'process', 'guzheng', 'pond-plants', 'pot', 'park-sign', 'bed'];
 
-            const image = createLoopingImage(
-              plant.frames,
-              `${plant.name || `Plant ${index + 1}`} growing animation`,
-              'garden-sprite',
-              plant.frameTime
-            );
+      const fridge = document.getElementById('sp-fridge');
+      if (fridge) {
+        const arrange = /[?&]arrange\b/.test(location.search);
+        const magnets = [...fridge.querySelectorAll('.sp-magnet')].map((el) => ({ el, id: el.dataset.id, x: 0, y: 0, w: 0, h: 0 }));
+        const byId = Object.fromEntries(magnets.map((m) => [m.id, m]));
+        let W = 0, L = null, key = '';
+        const GAP = () => W * .012;
 
-            if (image) {
-              figure.appendChild(image);
+        const area = () => ({ x0: L.pad.l * W, x1: W - L.pad.r * W, y0: L.pad.t * W, y1: Infinity });
+        const hit = (m, x, y, others) => others.some((o) => o !== m && o.placed !== false &&
+          x < o.x + o.w + GAP() && x + m.w + GAP() > o.x && y < o.y + o.h + GAP() && y + m.h + GAP() > o.y);
+        const clamp = (m, x, y) => {
+          const A = area();
+          const maxY = fridge.clientHeight - L.pad.b * W - m.h;
+          return [Math.min(Math.max(x, A.x0), A.x1 - m.w), Math.min(Math.max(y, A.y0), Math.max(A.y0, maxY))];
+        };
+        const apply = (m) => { m.el.style.transform = `translate(${m.x}px, ${m.y}px) rotate(${(L.tilt && L.tilt[m.id]) || 0}deg)`; };
+
+        // nearest free spot to (x, y), searching outward in rings
+        const freeSpot = (m, x, y, placed) => {
+          const A = area();
+          const step = Math.max(4, W * .01);
+          const ok = (px, py) => px >= A.x0 && px + m.w <= A.x1 && py >= A.y0 && !hit(m, px, py, placed);
+          if (ok(x, y)) return [x, y];
+          for (let r = 1; r < 400; r++) {
+            for (let i = -r; i <= r; i++) {
+              const cands = [[x + i * step, y + r * step], [x + i * step, y - r * step], [x + r * step, y + i * step], [x - r * step, y + i * step]];
+              for (const [px, py] of cands) if (ok(px, py)) return [px, py];
             }
+          }
+          return [A.x0, y];
+        };
 
-            plantsRow.appendChild(figure);
+        // first fit, scanning rows from the top, then left to right
+        const packSpot = (m, placed) => {
+          const A = area();
+          const step = Math.max(4, W * .01);
+          for (let y = A.y0; y < A.y0 + W * 20; y += step) {
+            for (let x = A.x0; x + m.w <= A.x1; x += step) {
+              if (!hit(m, x, y, placed)) return [x, y];
+            }
+          }
+          return [A.x0, A.y0];
+        };
+
+        const loadSaved = () => {
+          if (!arrange) return null;
+          try { return JSON.parse(localStorage.getItem('fridge-layout-' + key) || 'null'); } catch (e) { return null; }
+        };
+        const save = () => {
+          if (!arrange) return;
+          const out = {};
+          magnets.forEach((m) => { out[m.id] = [+(m.x / W).toFixed(3), +(m.y / W).toFixed(3)]; });
+          try { localStorage.setItem('fridge-layout-' + key, JSON.stringify(out)); } catch (e) {}
+          return out;
+        };
+
+        const layout = () => {
+          W = fridge.clientWidth;
+          if (!W) return;
+          key = W >= 560 ? 'wide' : 'tall';
+          L = FRIDGE_LAYOUTS[key];
+          const fs = Math.min(L.fontMax || 99, W * L.font);
+          fridge.style.setProperty('--magnet-font', fs + 'px');
+          fridge.style.height = 'auto';
+          fridge.style.minHeight = (L.minH * W) + 'px';
+          magnets.forEach((m) => { m.el.style.width = (L.size[m.id] * W) + 'px'; });
+          magnets.forEach((m) => { m.w = m.el.offsetWidth; m.h = m.el.offsetHeight; m.placed = false; });
+          const saved = loadSaved();
+          const pos = saved || L.pos;
+          const placed = [];
+          const order = pos ? magnets.map((m) => m.id) : PACK_ORDER;
+          order.forEach((id) => {
+            const m = byId[id];
+            if (!m) return;
+            let x, y;
+            if (pos && pos[id]) [x, y] = freeSpot(m, pos[id][0] * W, pos[id][1] * W, placed);
+            else [x, y] = packSpot(m, placed);
+            m.x = x; m.y = y; m.placed = true;
+            placed.push(m);
+          });
+          const bottom = Math.max(...magnets.map((m) => m.y + m.h));
+          fridge.style.height = Math.max(L.minH * W, bottom + L.pad.b * W + W * .02) + 'px';
+          // freezer / main door split sits under the top row of magnets
+          fridge.style.setProperty('--split', (key === 'wide' ? .345 : .36) * W + 'px');
+          magnets.forEach(apply);
+          fridge.classList.add('is-ready');
+        };
+
+        // dragging
+        let drag = null;
+        const move = (m, nx, ny) => {
+          [nx, ny] = clamp(m, nx, ny);
+          // walk there in small steps so a fast drag can't jump over a magnet
+          const dx = nx - m.x, dy = ny - m.y;
+          const n = Math.max(1, Math.ceil(Math.hypot(dx, dy) / 6));
+          for (let i = 0; i < n; i++) {
+            const sx = m.x + dx / n, sy = m.y + dy / n;
+            if (!hit(m, sx, sy, magnets)) { m.x = sx; m.y = sy; }
+            else if (!hit(m, sx, m.y, magnets)) m.x = sx;
+            else if (!hit(m, m.x, sy, magnets)) m.y = sy;
+            else break;
+          }
+          apply(m);
+        };
+        magnets.forEach((m) => {
+          m.el.addEventListener('pointerdown', (e) => {
+            if (e.button !== 0) return;
+            e.preventDefault();
+            drag = { m, px: e.clientX, py: e.clientY, ox: m.x, oy: m.y };
+            m.el.setPointerCapture(e.pointerId);
+            m.el.classList.add('is-dragging');
+          });
+          m.el.addEventListener('pointermove', (e) => {
+            if (!drag || drag.m !== m) return;
+            move(m, drag.ox + e.clientX - drag.px, drag.oy + e.clientY - drag.py);
+          });
+          const end = () => {
+            if (!drag || drag.m !== m) return;
+            drag = null;
+            m.el.classList.remove('is-dragging');
+            save();
+          };
+          m.el.addEventListener('pointerup', end);
+          m.el.addEventListener('pointercancel', end);
+          if (m.el.tagName === 'IMG') m.el.tabIndex = 0;
+          m.el.addEventListener('keydown', (e) => {
+            const d = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[e.key];
+            if (!d) return;
+            e.preventDefault();
+            const st = e.shiftKey ? 40 : 10;
+            move(m, m.x + d[0] * st, m.y + d[1] * st);
+            save();
+          });
+        });
+
+        if (arrange) {
+          const bar = document.createElement('div');
+          bar.className = 'sp-arrange-bar';
+          bar.innerHTML = '<span>Arrange mode: drag the magnets, then copy the layout.</span><button type="button" data-act="copy">Copy layout</button><button type="button" data-act="reset">Reset</button><textarea readonly rows="3" aria-label="Layout"></textarea>';
+          fridge.parentElement.insertBefore(bar, fridge);
+          const ta = bar.querySelector('textarea');
+          bar.addEventListener('click', (e) => {
+            const act = e.target.dataset && e.target.dataset.act;
+            if (act === 'copy') {
+              const text = JSON.stringify({ layout: key, width: W, pos: save() });
+              ta.value = text; ta.select();
+              if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => { e.target.textContent = 'Copied'; setTimeout(() => { e.target.textContent = 'Copy layout'; }, 1500); }, () => {});
+            }
+            if (act === 'reset') { try { localStorage.removeItem('fridge-layout-' + key); } catch (err) {} layout(); }
           });
         }
 
-        if (eggSlot) {
-          eggSlot.innerHTML = '';
-
-          const egg = createLoopingImage(
-            EGG_FRAMES,
-            'Egg animation',
-            'egg-sprite'
-          );
-
-          if (egg) {
-            eggSlot.appendChild(egg);
-          }
-        }
-
-        if (birdSlot) {
-          birdSlot.innerHTML = '';
-
-          const bird = document.createElement('img');
-          bird.className = 'bird-sprite';
-          bird.alt = 'Flying bird animation';
-          bird.draggable = false;
-
-          let birdFrame = 0;
-          let birdProgress = 1.08;
-
-          const BIRD_FRAME_TIME = 145;
-          const BIRD_TRAVEL_PER_FRAME = 0.028;
-
-          bird.src = BIRD_FRAMES[birdFrame];
-          birdSlot.appendChild(bird);
-
-          function advanceBird() {
-            birdFrame =
-              (birdFrame + 1) %
-              BIRD_FRAMES.length;
-
-            birdProgress -=
-              BIRD_TRAVEL_PER_FRAME;
-
-            const birdTravelDistance =
-              Math.max(
-                1,
-                Math.abs(
-                  birdSlot.clientWidth -
-                  bird.getBoundingClientRect().width
-                )
-              );
-
-            const earlierStopProgress =
-              -0.10 +
-              (15 / birdTravelDistance) -
-              (560 / birdTravelDistance);
-
-            if (birdProgress < earlierStopProgress) {
-              birdProgress = 1.08;
-            }
-
-            bird.src =
-              BIRD_FRAMES[birdFrame];
-
-            birdSlot.style.setProperty(
-              '--bird-progress',
-              birdProgress
-            );
-          }
-
-          birdSlot.style.setProperty(
-            '--bird-progress',
-            birdProgress
-          );
-
-          window.setInterval(
-            advanceBird,
-            BIRD_FRAME_TIME
-          );
-        }
+        let relayT = 0;
+        magnets.forEach((m) => { if (m.el.tagName === 'IMG' && !m.el.complete) m.el.addEventListener('load', () => { clearTimeout(relayT); relayT = setTimeout(layout, 60); }); });
+        layout();
+        let lastW = W;
+        window.addEventListener('resize', () => { if (Math.abs(fridge.clientWidth - lastW) > 2) { lastW = fridge.clientWidth; layout(); } });
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+        window.addEventListener('load', layout, { once: true });
       }
-
-      buildGardenAnimations();
 
       /* =====================================================
-         PROJECT 1 — SKETCHY SECRET ANIMATIONS
+         PROJECT 1 — SKETCHY SECRET CHARACTER LOOPS
       ====================================================== */
-      function buildSketchyAnimations() {
-        const frontSlot = document.getElementById('sketchy-front-animation');
-        const backSlot = document.getElementById('sketchy-back-animation');
-        const cbSlot = document.getElementById('sketchy-cb-animation');
-
-        if (frontSlot) {
-          frontSlot.innerHTML = '';
-          const front = createLoopingImage(
-            SKETCHY_FRONT_FRAMES,
-            'Front character animation',
-            'sketchy-sprite',
-            300
-          );
-          if (front) frontSlot.appendChild(front);
-        }
-
-        if (backSlot) {
-          backSlot.innerHTML = '';
-          const back = createLoopingImage(
-            SKETCHY_BACK_FRAMES,
-            'Back character animation',
-            'sketchy-sprite',
-            300
-          );
-          if (back) backSlot.appendChild(back);
-        }
-
-        if (cbSlot) {
-          cbSlot.innerHTML = '';
-          const cb = createLoopingImage(
-            SKETCHY_CB_FRAMES,
-            'Character animation',
-            'sketchy-sprite',
-            240
-          );
-          if (cb) cbSlot.appendChild(cb);
-        }
-      }
-
-      buildSketchyAnimations();
+      const loop = (slotId, frames, ms, alt) => {
+        const slot = document.getElementById(slotId);
+        if (!slot) return;
+        const imgs = frames.map((src, i) => {
+          const im = document.createElement('img');
+          im.src = src; im.alt = ''; im.draggable = false;
+          if (i === 0) im.classList.add('is-on');
+          slot.appendChild(im);
+          return im;
+        });
+        if (reduceMotion) return;
+        let k = 0;
+        setInterval(() => { imgs[k].classList.remove('is-on'); k = (k + 1) % imgs.length; imgs[k].classList.add('is-on'); }, ms);
+      };
+      const SS = (n) => `SketchySecretFiles/${n}.PNG`;
+      loop('sketchy-front-animation', ['Front1', 'Front2', 'Front3', 'Front4'].map(SS), 300);
+      loop('sketchy-back-animation', ['Back1', 'Back2', 'Back3', 'Back4'].map(SS), 300);
+      loop('sketchy-cb-animation', ['CB1', 'CB2', 'CB3', 'CB4', 'CB5', 'CB6', 'CB7'].map(SS), 240);
 
       /* Scroll snake lives in site-chrome.js */
 
