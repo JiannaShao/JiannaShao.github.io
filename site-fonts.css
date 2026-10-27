@@ -4,6 +4,29 @@
    Loaded last; the :not(#gx) bump outranks the page stylesheets.
    Characters Gulax lacks (— – · ’) fall back to DM Serif Display.
    ========================================================= */
+/* Body and serif fonts are hosted here too (no requests to Google):
+   Work Sans and DM Serif Display, SIL OFL (fonts/*-OFL.txt), Latin subset. */
+@font-face{
+  font-family:'Work Sans';
+  src:url('fonts/WorkSans-var.woff') format('woff');
+  font-weight:100 900;
+  font-style:normal;
+  font-display:swap;
+}
+@font-face{
+  font-family:'DM Serif Display';
+  src:url('fonts/DMSerifDisplay-Regular.woff') format('woff');
+  font-weight:400;
+  font-style:normal;
+  font-display:swap;
+}
+@font-face{
+  font-family:'DM Serif Display';
+  src:url('fonts/DMSerifDisplay-Italic.woff') format('woff');
+  font-weight:400;
+  font-style:italic;
+  font-display:swap;
+}
 @font-face{
   font-family:'Gulax';
   src:url('fonts/Gulax.otf') format('opentype');   /* the original file: same shapes the title animations trace */

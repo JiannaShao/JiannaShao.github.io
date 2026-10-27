@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/loaders/GLTFLoader.js";
+import { GLTFLoader } from "./vendor/three/examples/jsm/loaders/GLTFLoader.js";
 
 // Keep the site loading screen up until the gallery's models and artwork have loaded.
 // Phones get a "best on a computer" notice instead, so they don't wait for the 3D.

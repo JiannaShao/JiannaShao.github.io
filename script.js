@@ -133,12 +133,12 @@
     (async () => {
       try {
         const pdfjsLib = await import(
-          'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs'
+          './vendor/pdfjs/pdf.min.mjs'
         );
         pdfjsLib.GlobalWorkerOptions.workerSrc =
-          'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs';
+          new URL('vendor/pdfjs/pdf.worker.min.mjs', document.baseURI).href;
 
-        const pdf = await pdfjsLib.getDocument('Resume.pdf').promise;
+        const pdf = await pdfjsLib.getDocument({ url: 'Resume.pdf' }).promise;
         const page = await pdf.getPage(1);
 
         async function draw(canvas, targetWidth) {
@@ -155,7 +155,7 @@
           const ctx = canvas.getContext('2d');
           ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 
-          await page.render({ canvasContext: ctx, viewport }).promise;
+          await page.render({ canvas, canvasContext: ctx, viewport }).promise;
         }
 
         drawResume = async () => {
@@ -458,7 +458,7 @@
     (async () => {
       try {
         const THREE = await import(
-          'https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js'
+          './vendor/three/build/three.module.min.js'
         );
 
         const wrap = postcardHost.closest('.hero-postcard-wrap') || postcardHost;
