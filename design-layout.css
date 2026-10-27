@@ -740,3 +740,14 @@ html body .dx .gx-side .dx-summary{ margin:0 !important; font-size:16px !importa
 
 /* more room above the "Design" heading */
 html body .dx .dx-eyebrow{ margin-bottom:clamp(64px, 11vh, 104px) !important; }
+
+/* Library Work: poster + post pairs share one row each, posts sized to the poster height */
+.gx-pairs{
+  grid-template-columns:.7725fr .8fr .7725fr .8fr;
+  align-items:end;
+  margin-top:clamp(16px, 2.4vw, 32px);
+}
+html body .dx #library-work .gx-facts{ margin-top:22px; }
+@media (max-width:900px){
+  .gx-pairs{ grid-template-columns:.7725fr .8fr; }
+}
