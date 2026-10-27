@@ -2994,3 +2994,7 @@ html body .hero .hero-content.hero-content{ padding-top:36px !important; }
 @media (max-width:800px){
   html body .hero .hero-content.hero-content{ padding-top:70px !important; }
 }
+
+/* name text nudged right inside its brush stroke (the stroke stays put) */
+@media (min-width:801px){ html body .hero h1.hero-name{ padding-left:22px; } }
+@media (min-width:1100px){ html body .hero h1.hero-name{ padding-left:56px; } }
