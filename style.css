@@ -3088,3 +3088,18 @@ html body .resume-section .resume-folders .resume-folder:last-child{ align-self:
 html body .resume-section .resume-folders{ align-items:stretch; }
 html body .resume-section .resume-folders .resume-folder{ align-self:flex-start; }
 html body .resume-section .resume-folders .resume-folder:last-child{ align-self:flex-end; }
+/* narrower folders, side by side */
+html body .resume-section .resume-folders{ flex-direction:row; flex-wrap:nowrap; align-items:flex-end; gap:36px; }
+html body .resume-section .resume-folders .resume-folder,
+html body .resume-section .resume-folders .resume-folder:last-child{ align-self:auto; }
+html body .resume-section .resume-folders .resume-peek{ gap:16px !important; }
+html body .resume-section .resume-folders .resume-peek-stage{ width:160px; }
+html body .resume-section .resume-folders .resume-peek-sheet{ width:128px; margin-left:-64px; }
+html body .resume-section .resume-heading-row{ gap:56px !important; }
+@media (max-width:1240px){
+  html body .resume-section .resume-heading-row{ flex-direction:column !important; align-items:flex-start !important; gap:32px !important; }
+}
+@media (max-width:760px){
+  html body .resume-section .resume-folders{ flex-direction:column; align-items:flex-start; gap:30px; }
+  html body .resume-section .resume-folders .resume-folder:last-child{ align-self:flex-end; }
+}
