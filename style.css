@@ -3081,3 +3081,10 @@ html body .resume-section .resume-folders{ flex-direction:column; align-items:fl
   html body .resume-peek-stage{ width:180px; }
   html body .resume-peek-sheet{ width:144px; margin-left:-72px; }
 }
+/* Research CV: label + button on the left, folder on the right, so the two folders sit diagonally */
+html body .resume-section .resume-folders #cv-preview-button{ flex-direction:row-reverse !important; }
+html body .resume-section .resume-folders #cv-preview-button .resume-peek-side{ align-items:flex-end; }
+html body .resume-section .resume-folders .resume-folder:last-child{ align-self:flex-end; }
+html body .resume-section .resume-folders{ align-items:stretch; }
+html body .resume-section .resume-folders .resume-folder{ align-self:flex-start; }
+html body .resume-section .resume-folders .resume-folder:last-child{ align-self:flex-end; }
