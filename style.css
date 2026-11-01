@@ -3103,3 +3103,13 @@ html body .resume-section .resume-heading-row{ gap:56px !important; }
   html body .resume-section .resume-folders{ flex-direction:column; align-items:flex-start; gap:30px; }
   html body .resume-section .resume-folders .resume-folder:last-child{ align-self:flex-end; }
 }
+/* both folders: label + button on the right; arrow points back at the folder */
+html body .resume-section .resume-folders #cv-preview-button{ flex-direction:row !important; }
+html body .resume-section .resume-folders #cv-preview-button .resume-peek-side{ align-items:flex-start; }
+@media (max-width:760px){
+  html body .resume-section .resume-folders .resume-folder:last-child{ align-self:flex-start; }
+}
+.resume-peek-arrow{ display:inline-block; transition:transform .2s ease; }
+@media (hover:hover) and (pointer:fine){
+  .resume-peek:hover .resume-peek-arrow{ transform:translateX(-4px); }
+}
