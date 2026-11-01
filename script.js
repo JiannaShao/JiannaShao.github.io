@@ -81,47 +81,82 @@
     });
   }
 
-  /* RESUME PREVIEW / LIGHTBOX */
+  /* RESUME + CV PREVIEW / LIGHTBOX
+     Each folder button names its PDF (data-pdf) and a preview image
+     (data-preview). The viewer opens right away with the preview image;
+     the sharp PDF render replaces it once pdf.js has the document. If
+     the library can't load, the click opens the PDF itself instead. */
   const resumeCanvasZoom = document.getElementById('resume-canvas-zoom');
-  const resumeButton = document.getElementById('resume-preview-button');
+  const docButtons = [...document.querySelectorAll('.resume-peek[data-pdf]')];
   const resumeLightbox = document.getElementById('resume-lightbox');
   const resumeClose = document.getElementById('resume-lightbox-close');
 
-  if (resumeCanvasZoom && resumeButton && resumeLightbox && resumeClose) {
-    // The viewer opens right away on click; the sharp PDF render replaces a
-    // preview image as soon as the PDF library is ready. If the library can't
-    // load at all, the click opens the PDF itself instead.
-    let drawResume = null;          // set once pdf.js has loaded the PDF
-    let resumeFailed = false;
+  if (resumeCanvasZoom && docButtons.length && resumeLightbox && resumeClose) {
+    let pdfjsPromise = null;
+    const pages = {};               // pdf url -> Promise<page>
     let placeholder = null;
+    let current = null;             // pdf url showing now
+    let failed = false;
 
-    function openResume() {
-      if (resumeFailed) {
-        window.open('Resume.pdf', '_blank', 'noopener');
-        return;
-      }
+    const loadLib = () => pdfjsPromise || (pdfjsPromise = import('./vendor/pdfjs/pdf.min.mjs').then((lib) => {
+      lib.GlobalWorkerOptions.workerSrc = new URL('vendor/pdfjs/pdf.worker.min.mjs', document.baseURI).href;
+      return lib;
+    }));
+    const loadPage = (url) => pages[url] || (pages[url] = loadLib()
+      .then((lib) => lib.getDocument({ url }).promise)
+      .then((pdf) => pdf.getPage(1)));
+
+    async function draw(page, canvas, targetWidth) {
+      const base = page.getViewport({ scale: 1 });
+      const viewport = page.getViewport({ scale: targetWidth / base.width });
+      const ratio = window.devicePixelRatio || 1;
+      canvas.width = Math.floor(viewport.width * ratio);
+      canvas.height = Math.floor(viewport.height * ratio);
+      canvas.style.width = `${viewport.width}px`;
+      canvas.style.height = `${viewport.height}px`;
+      const ctx = canvas.getContext('2d');
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      await page.render({ canvas, canvasContext: ctx, viewport }).promise;
+    }
+
+    function openDoc(btn) {
+      const url = btn.dataset.pdf;
+      if (failed) { window.open(url, '_blank', 'noopener'); return; }
+      current = url;
       resumeLightbox.classList.add('open');
       resumeLightbox.setAttribute('aria-hidden', 'false');
+      resumeLightbox.setAttribute('aria-label', btn.getAttribute('aria-label') || 'Document preview');
       document.body.classList.add('resume-zoom-open');
-      if (drawResume) {
-        drawResume();
-      } else if (!placeholder) {
+      // show the preview image until the sharp render is ready
+      if (!placeholder) {
         placeholder = document.createElement('img');
         placeholder.className = 'resume-lightbox-placeholder';
-        placeholder.src = 'Resume-preview.jpg';
-        placeholder.alt = 'Résumé (loading full quality)';
-        resumeCanvasZoom.style.display = 'none';
         resumeCanvasZoom.parentNode.insertBefore(placeholder, resumeCanvasZoom);
       }
+      placeholder.src = btn.dataset.preview;
+      placeholder.alt = 'Loading full quality';
+      placeholder.style.display = '';
+      resumeCanvasZoom.style.display = 'none';
+      loadPage(url).then(async (page) => {
+        if (current !== url) return;
+        await draw(page, resumeCanvasZoom, Math.min(window.innerWidth * 0.88, 1100));
+        if (current !== url) return;
+        resumeCanvasZoom.style.display = '';
+        placeholder.style.display = 'none';
+      }).catch((error) => {
+        console.error(url + ' preview failed:', error);
+        failed = true;
+      });
     }
 
     function closeResume() {
+      current = null;
       resumeLightbox.classList.remove('open');
       resumeLightbox.setAttribute('aria-hidden', 'true');
       document.body.classList.remove('resume-zoom-open');
     }
 
-    resumeButton.addEventListener('click', openResume);
+    docButtons.forEach((btn) => btn.addEventListener('click', () => openDoc(btn)));
     resumeClose.addEventListener('click', closeResume);
     resumeLightbox.addEventListener('click', (e) => {
       if (e.target === resumeLightbox) closeResume();
@@ -129,46 +164,8 @@
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeResume();
     });
-
-    (async () => {
-      try {
-        const pdfjsLib = await import(
-          './vendor/pdfjs/pdf.min.mjs'
-        );
-        pdfjsLib.GlobalWorkerOptions.workerSrc =
-          new URL('vendor/pdfjs/pdf.worker.min.mjs', document.baseURI).href;
-
-        const pdf = await pdfjsLib.getDocument({ url: 'Resume.pdf' }).promise;
-        const page = await pdf.getPage(1);
-
-        async function draw(canvas, targetWidth) {
-          const base = page.getViewport({ scale: 1 });
-          const scale = targetWidth / base.width;
-          const viewport = page.getViewport({ scale });
-          const ratio = window.devicePixelRatio || 1;
-
-          canvas.width = Math.floor(viewport.width * ratio);
-          canvas.height = Math.floor(viewport.height * ratio);
-          canvas.style.width = `${viewport.width}px`;
-          canvas.style.height = `${viewport.height}px`;
-
-          const ctx = canvas.getContext('2d');
-          ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-
-          await page.render({ canvas, canvasContext: ctx, viewport }).promise;
-        }
-
-        drawResume = async () => {
-          await draw(resumeCanvasZoom, Math.min(window.innerWidth * 0.88, 1100));
-          resumeCanvasZoom.style.display = '';
-          if (placeholder) { placeholder.remove(); placeholder = null; }
-        };
-        if (resumeLightbox.classList.contains('open')) drawResume();
-      } catch (error) {
-        console.error('Resume.pdf preview failed:', error);
-        resumeFailed = true;
-      }
-    })();
+    // warm the library once the page has settled so the first open is quick
+    window.addEventListener('load', () => setTimeout(() => { loadPage('Resume.pdf').catch(() => {}); }, 1500), { once: true });
   }
   /* =====================================================
      HERO POSTCARD

@@ -3016,3 +3016,38 @@ html body .hero h1.hero-name{ top:14px; }
 /* envelope + "Click to open" a touch lower */
 @media (min-width:801px){ html body .hero-postcard-wrap{ top:12px; } }
 @media (max-width:800px){ html body .hero-postcard-wrap{ position:relative; top:10px; } }
+
+/* Resume + CV: two labelled folders side by side */
+html body .resume-section .resume-folders{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:flex-end;
+  gap:28px 56px;
+}
+.resume-folder{ display:flex; flex-direction:column; gap:12px; }
+html body .resume-section .resume-folder-label{
+  margin:0;
+  font-family:'Work Sans', Arial, sans-serif;
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:#48666d;
+}
+@media (max-width:1100px){
+  html body .resume-section .resume-heading-row{ flex-wrap:wrap; }
+}
+/* each folder stacks its "Click to view" under it so the two fit side by side */
+html body .resume-section .resume-folders .resume-peek{
+  flex-direction:column !important;
+  align-items:flex-start !important;
+  gap:14px !important;
+}
+html body .resume-section .resume-folders .resume-peek-cta{ margin-bottom:0; }
+html body .resume-section .resume-folders{ min-width:0; gap:28px 48px; }
+@media (max-width:1100px){
+  html body .resume-section .resume-heading-row{ flex-direction:column !important; align-items:flex-start !important; gap:32px !important; }
+}
+@media (max-width:600px){
+  html body .resume-section .resume-folders{ flex-direction:column; align-items:flex-start; gap:36px; }
+}
