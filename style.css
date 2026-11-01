@@ -3051,3 +3051,33 @@ html body .resume-section .resume-folders{ min-width:0; gap:28px 48px; }
 @media (max-width:600px){
   html body .resume-section .resume-folders{ flex-direction:column; align-items:flex-start; gap:36px; }
 }
+/* labels sit above each "Click to view", to the right of its folder */
+html body .resume-section .resume-folders .resume-peek{
+  flex-direction:row !important;
+  align-items:flex-end !important;
+  gap:22px !important;
+}
+.resume-peek-side{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:12px;
+  margin-bottom:10px;
+}
+html body .resume-section .resume-folder-label{
+  display:block;
+  font-family:'Work Sans', Arial, sans-serif;
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:#48666d;
+  white-space:nowrap;
+}
+/* the two folders stack beside the heading */
+html body .resume-section .resume-folders{ flex-direction:column; align-items:flex-start; gap:30px; }
+@media (max-width:420px){
+  html body .resume-section .resume-folders .resume-peek{ gap:14px !important; }
+  html body .resume-peek-stage{ width:180px; }
+  html body .resume-peek-sheet{ width:144px; margin-left:-72px; }
+}
