@@ -856,3 +856,6 @@ html body .dx .gx-slide .gx-zoom img{
   color:var(--dx-muted);
 }
 html body .dx .gx-blurb{ width:min(68ch, 100%); max-width:none; margin:30px auto 0; text-align:center; }
+html body .dx .gx-blurb{ width:100%; max-width:none; }
+.gx-track{ touch-action:pan-y; cursor:grab; }
+.gx-track:active{ cursor:grabbing; }

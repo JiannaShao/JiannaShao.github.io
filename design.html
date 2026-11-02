@@ -22,7 +22,7 @@
   <meta name="twitter:card" content="summary_large_image">
 
     <link rel="stylesheet" href="design.css?v=5">
-    <link rel="stylesheet" href="design-layout.css?v=18">
+    <link rel="stylesheet" href="design-layout.css?v=19">
 
   <link rel="stylesheet" href="site-chrome.css?v=7">
   <link rel="stylesheet" href="site-loader.css?v=1">
@@ -287,7 +287,7 @@
             <button class="gx-nav gx-next" type="button" aria-label="Next design"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6"/></svg></button>
         </div>
         <div class="gx-dots" role="tablist" aria-label="Choose a design"></div>
-        <p class="gx-blurb">As Olin Library's Graphic Design and Marketing Assistant, I work directly with library departments to understand what each event or collection needs, then turn that into flyers, posters and Instagram posts in Canva. The work calls for quick visual concepting, typography and layout that read from across a room, adapting one idea between print and social formats, and coordinating promotion across print, social media and email.</p>
+        <p class="gx-blurb">As the Graphic Design and Marketing Assistant at Olin Library, Wesleyan University's main library, I work directly with library departments to understand what each event or collection needs, then turn that into flyers, posters and Instagram posts in Canva. The work calls for quick visual concepting, typography and layout that read from across a room, adapting one idea between print and social formats, and coordinating promotion across print, social media and email.</p>
     </article>
 
     <div class="gx-lightbox" id="gx-lightbox" hidden>
@@ -456,6 +456,22 @@
           track.addEventListener('click', (ev) => { ev.stopPropagation(); ev.preventDefault(); }, { capture: true, once: true });
         }
       });
+      // trackpad / horizontal mouse-wheel scrolling (vertical scrolling still scrolls the page)
+      let acc = 0, lock = 0;
+      track.addEventListener('wheel', (e) => {
+        const dx = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : (e.shiftKey ? e.deltaY : 0);
+        if (!dx) return;
+        e.preventDefault();
+        const now = performance.now();
+        if (now < lock) return;
+        acc += dx;
+        if (Math.abs(acc) > 40) {
+          go(cur + (acc > 0 ? 1 : -1));
+          acc = 0;
+          lock = now + 420;
+        }
+      }, { passive: false });
+      slides.forEach((s) => { const im = s.querySelector('img'); if (im) im.draggable = false; });
       if (reduce) root.classList.add('no-motion');
       layout();
       requestAnimationFrame(() => root.classList.add('is-ready'));
