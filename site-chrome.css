@@ -9,7 +9,7 @@
   --chrome-open: 200px;
   --chrome-bg: #e8ebea;
   --chrome-ink: #42524d;
-  --chrome-snake-w: 39px;   /* ~10% narrower again (was 43px) */
+  --chrome-snake-w: 28px;   /* narrower (was 39px) */
   --chrome-snake-inset: 12px;
 }
 

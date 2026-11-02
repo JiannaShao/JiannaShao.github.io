@@ -751,3 +751,94 @@ html body .dx #library-work .gx-facts{ margin-top:22px; }
 @media (max-width:900px){
   .gx-pairs{ grid-template-columns:.8fr .7725fr; }
 }
+
+/* =========================================================
+   LIBRARY WORK CAROUSEL
+   ========================================================= */
+.gx-carousel{
+  position:relative;
+  margin:clamp(24px, 4vh, 40px) auto 0;
+  max-width:1060px;
+  padding:0 26px;
+}
+.gx-track{
+  position:relative;
+  height:clamp(310px, 33vw, 440px);
+  overflow:hidden;
+}
+.gx-slide{
+  position:absolute;
+  top:50%;
+  left:50%;
+  margin:0;
+  transform-origin:50% 50%;
+  transition:none;
+}
+.gx-carousel.is-ready .gx-slide{
+  transition:transform .55s cubic-bezier(.45,.05,.25,1), opacity .45s ease;
+}
+.gx-carousel.no-motion .gx-slide{ transition:none !important; }
+.gx-slide .gx-zoom{ cursor:pointer; }
+.gx-slide.is-current .gx-zoom{ cursor:zoom-in; }
+html body .dx .gx-slide .gx-zoom img{
+  width:100%;
+  height:auto;
+  border-radius:12px;
+  box-shadow:0 2px 4px rgba(20,37,61,.08), 0 18px 34px -16px rgba(20,37,61,.35);
+}
+.gx-slide .gx-zoom:hover img,
+.gx-slide .gx-zoom:focus-visible img{ transform:none; }
+.gx-slide.is-current .gx-zoom:hover img{ box-shadow:0 2px 4px rgba(20,37,61,.1), 0 26px 44px -16px rgba(20,37,61,.45); }
+
+/* round arrows with a ring, overlapping the track edges */
+.gx-nav{
+  position:absolute;
+  top:50%;
+  z-index:20;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:46px;
+  height:46px;
+  margin-top:-23px;
+  padding:0;
+  border:5px solid var(--dx-paper, #fafafa);
+  border-radius:50%;
+  background:var(--dx-navy);
+  color:#fff;
+  cursor:pointer;
+  box-shadow:0 6px 16px -6px rgba(20,37,61,.45);
+  transition:transform .2s ease, background .2s ease;
+}
+.gx-nav svg{ width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+.gx-prev{ left:4px; }
+.gx-next{ right:4px; }
+.gx-nav:hover{ background:#263b58; transform:scale(1.08); }
+.gx-nav:focus-visible{ outline:3px solid var(--dx-label); outline-offset:2px; }
+
+/* dash indicators */
+.gx-dots{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-top:26px;
+}
+.gx-dot{
+  width:16px;
+  height:5px;
+  padding:0;
+  border:0;
+  border-radius:99px;
+  background:rgba(20,37,61,.22);
+  cursor:pointer;
+  transition:background .2s ease, width .25s ease;
+}
+.gx-dot.is-on{ width:26px; background:var(--dx-navy); }
+.gx-dot:hover{ background:rgba(20,37,61,.45); }
+.gx-dot.is-on:hover{ background:var(--dx-navy); }
+
+@media (max-width:640px){
+  .gx-carousel{ padding:0 18px; }
+  .gx-track{ height:clamp(260px, 92vw, 420px); }
+  .gx-nav{ width:40px; height:40px; margin-top:-20px; border-width:4px; }
+}
