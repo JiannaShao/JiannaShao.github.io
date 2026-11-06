@@ -480,8 +480,8 @@ What is the dot product of the vector from us to Hill 2 and the vector from us t
         </article>
         <article class="ad-prop">
           <figure class="ad-prop-media ad-prop-pair">
-            <img src="web/adoaa/hand-a.webp" alt="Prosthetic hand, palm view, with a pull handle at the wrist" width="678" height="1100" loading="lazy" decoding="async">
-            <img src="web/adoaa/hand-b.webp" alt="Prosthetic hand, back view" width="732" height="1100" loading="lazy" decoding="async">
+            <img src="web/adoaa/hand-a.webp?v=2" alt="Prosthetic hand, palm view, with a pull handle at the wrist" width="678" height="1100" loading="lazy" decoding="async">
+            <img src="web/adoaa/hand-b.webp?v=2" alt="Prosthetic hand, back view" width="732" height="1100" loading="lazy" decoding="async">
           </figure>
           <p class="small-label">Prop 02</p>
           <h4>The Hand</h4>
@@ -937,7 +937,7 @@ What is the dot product of the vector from us to Hill 2 and the vector from us t
 
       // like the reference: a column of sheets rising out of the drawer
       // opening, dense just above the box and thinning toward the top,
-      // leaning slightly right; a few stray sheets drift down beside the box.
+      // leaning slightly right.
       // Positions are % of the stage; the drawer opening is at about (50, 66).
       const order = items.map((_, i) => i).sort(() => rnd() - .5);
       items.forEach((it, i) => {
@@ -945,8 +945,9 @@ What is the dot product of the vector from us to Hill 2 and the vector from us t
         const n = order.indexOf(i);
         if (n < 3) {
           // strays: low, beside and in front of the box
-          x = [33, 67, 61][n] + (rnd() - .5) * 4;
-          y = [74, 80, 66][n];
+          // two near the top middle of the column, one stray beside the box
+          x = [55, 47, 61][n] + (rnd() - .5) * 4;
+          y = [7, 12, 66][n];
           rx = 55 + rnd() * 20; ry = (rnd() - .5) * 60; rz = (rnd() - .5) * 70; s = .95;
         } else {
           const t = (n - 3 + rnd() * .7) / (items.length - 3);
