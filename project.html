@@ -18,7 +18,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="stylesheet" href="project.css?v=44">
+  <link rel="stylesheet" href="project.css?v=45">
   <link rel="stylesheet" href="site-chrome.css?v=7">
   <link rel="stylesheet" href="site-loader.css?v=1">
   <script src="site-loader.js?v=1"></script>
@@ -934,31 +934,36 @@ What is the dot product of the vector from us to Hill 2 and the vector from us t
       const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
       const items = [];
       for (let i = 1; i <= 23; i++) items.push({ src: `web/adoaa/page-${String(i).padStart(2, '0')}-t.jpg`, card: false });
-      items.push({ src: 'web/adoaa/card-front.jpg', card: true });
-      items.push({ src: 'web/adoaa/card-back.jpg', card: true });
 
-      // the column of paper rises from the drawer opening (x 50%, y ~72%)
-      // and fans wider the higher it goes; positions are in % of the stage
+      // like the reference: a column of sheets rising out of the drawer
+      // opening, dense just above the box and thinning toward the top,
+      // leaning slightly right; a few stray sheets drift down beside the box.
+      // Positions are % of the stage; the drawer opening is at about (50, 66).
       const order = items.map((_, i) => i).sort(() => rnd() - .5);
       items.forEach((it, i) => {
-        let x, y, rx, ry, rz, s;
-        if (it.card) {
-          // cards drop just in front of the drawer, either side
-          const left = i === 23;
-          x = left ? 22 : 78; y = left ? 84 : 88; rx = 50; ry = left ? 18 : -22; rz = left ? -14 : 18; s = 1;
+        let x, y, rx, ry, rz, s, sk;
+        const n = order.indexOf(i);
+        if (n < 3) {
+          // strays: low, beside and in front of the box
+          x = [33, 67, 61][n] + (rnd() - .5) * 4;
+          y = [74, 80, 66][n];
+          rx = 55 + rnd() * 20; ry = (rnd() - .5) * 60; rz = (rnd() - .5) * 70; s = .95;
         } else {
-          const h = (order.indexOf(i) + rnd() * .8) / 23;      // 0 = just above the box, 1 = top
-          y = 62 - h * 56 + (rnd() - .5) * 5;
-          const spread = 6 + h * 30;
-          x = 50 + (rnd() - .5) * 2 * spread;
-          rx = 20 + rnd() * 55;
-          ry = (rnd() - .5) * 90;
-          rz = (rnd() - .5) * 120;
-          s = .75 + rnd() * .35 - h * .12;
+          const t = (n - 3 + rnd() * .7) / (items.length - 3);
+          const h = Math.pow(t, 1.25);                 // more sheets low down
+          y = 62 - h * 58 + (rnd() - .5) * 3;
+          const spread = 5 + h * 15;
+          x = 50 + h * 7 + (rnd() - .5) * 2 * spread;
+          rx = 15 + rnd() * 60;
+          ry = (rnd() - .5) * 100;
+          rz = (rnd() - .5) * 150;
+          s = .92 - h * .3 + rnd() * .12;
         }
+        sk = (rnd() - .5) * 18;
+        it.sk = sk;
         const el = document.createElement('span');
-        el.className = 'ad-paper' + (it.card ? ' ad-card' : '');
-        el.style.cssText = `--x:${x.toFixed(1)}%;--y:${y.toFixed(1)}%;--rx:${rx.toFixed(0)}deg;--ry:${ry.toFixed(0)}deg;--rz:${rz.toFixed(0)}deg;--s:${s.toFixed(2)};--d:${(it.card ? 0.5 : (1 - (y - 6) / 56) * .45 + rnd() * .12).toFixed(2)}s;--z:${it.card ? 60 : Math.round(60 - y / 2)}`;
+        el.className = 'ad-paper';
+        el.style.cssText = `--x:${x.toFixed(1)}%;--y:${y.toFixed(1)}%;--rx:${rx.toFixed(0)}deg;--ry:${ry.toFixed(0)}deg;--rz:${rz.toFixed(0)}deg;--s:${s.toFixed(2)};--sk:${sk.toFixed(1)}deg;--d:${((1 - (y - 4) / 62) * .5 + rnd() * .1).toFixed(2)}s;--z:${Math.round(y)}`;
         el.innerHTML = `<span class="ad-paper-float" style="animation-delay:${(-rnd() * 6).toFixed(2)}s"><span class="ad-sheet ${rnd() > .5 ? 'bow-l' : 'bow-r'}"><img src="${it.src}" alt="" loading="lazy" decoding="async"></span></span>`;
         box.appendChild(el);
       });
