@@ -18,7 +18,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="stylesheet" href="project.css?v=43">
+  <link rel="stylesheet" href="project.css?v=44">
   <link rel="stylesheet" href="site-chrome.css?v=7">
   <link rel="stylesheet" href="site-loader.css?v=1">
   <script src="site-loader.js?v=1"></script>
@@ -449,7 +449,7 @@ What is the dot product of the vector from us to Hill 2 and the vector from us t
       <div class="ad-scene" id="ad-scene">
         <div class="ad-stage">
           <div class="ad-papers" id="ad-papers"></div>
-          <div class="ad-drawer" aria-hidden="true">
+          <div class="ad-drawer" aria-hidden="true" tabindex="-1">
             <div class="ad-box">
               <span class="ad-face ad-bottom"></span>
               <span class="ad-face ad-back"></span>
@@ -459,7 +459,7 @@ What is the dot product of the vector from us to Hill 2 and the vector from us t
               <span class="ad-face ad-front"><span class="ad-label"><span>Case No. 155/92</span></span><span class="ad-knob"></span></span>
             </div>
           </div>
-          <p class="ad-hint"><span class="ad-hint-scroll">Scroll to open the files</span></p>
+          <p class="ad-hint">Hover over the drawer</p>
         </div>
       </div>
 
@@ -921,87 +921,57 @@ What is the dot product of the vector from us to Hill 2 and the vector from us t
     })();
   </script>
   <script>
-    /* ADoaA case files: pages float up out of the drawer one after another
-       as the scene scrolls past, then hover where they land. Click one to
-       read it. The business card (both sides) sits closest to the front. Pages are display only. */
+    /* ADoaA case files: hovering the drawer sends the pages and the business
+       card spilling up out of its opening in a loose, tumbling column; they
+       slide back in when the pointer leaves. On touch screens they start out.
+       Display only (no zoom). */
     (() => {
       const scene = document.getElementById('ad-scene');
       if (!scene) return;
       const box = document.getElementById('ad-papers');
-      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      let seed = 23;
+      const drawer = scene.querySelector('.ad-drawer');
+      let seed = 41;
       const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
       const items = [];
-      for (let i = 1; i <= 23; i++) {
-        const n = String(i).padStart(2, '0');
-        items.push({ thumb: `web/adoaa/page-${n}-t.jpg`, full: `web/adoaa/page-${n}.jpg`, label: `Case file, page ${i} of 23`, card: false });
-      }
-      items.push({ thumb: 'web/adoaa/card-front.jpg', full: 'web/adoaa/card-front.jpg', label: "Professor Antonio Robbi's business card, front", card: true });
-      items.push({ thumb: 'web/adoaa/card-back.jpg', full: 'web/adoaa/card-back.jpg', label: "Professor Antonio Robbi's business card, back", card: true });
+      for (let i = 1; i <= 23; i++) items.push({ src: `web/adoaa/page-${String(i).padStart(2, '0')}-t.jpg`, card: false });
+      items.push({ src: 'web/adoaa/card-front.jpg', card: true });
+      items.push({ src: 'web/adoaa/card-back.jpg', card: true });
 
-      // landing spots: pages in three loose rows above the drawer, cards low and in front
-      const rows = [[0, 8], [8, 16], [16, 23]];
-      const ROW_Y = [14, 33, 52];
+      // the column of paper rises from the drawer opening (x 50%, y ~72%)
+      // and fans wider the higher it goes; positions are in % of the stage
+      const order = items.map((_, i) => i).sort(() => rnd() - .5);
       items.forEach((it, i) => {
+        let x, y, rx, ry, rz, s;
         if (it.card) {
+          // cards drop just in front of the drawer, either side
           const left = i === 23;
-          it.x = left ? 22 : 78; it.y = 74; it.r = left ? -8 : 9; it.z = 60;
+          x = left ? 22 : 78; y = left ? 84 : 88; rx = 50; ry = left ? 18 : -22; rz = left ? -14 : 18; s = 1;
         } else {
-          const r = rows.findIndex(([s, e]) => i >= s && i < e);
-          const [s, e] = rows[r];
-          const k = i - s, cnt = e - s;
-          it.x = 9 + (82 * (k + .5)) / cnt + (rnd() - .5) * 4;
-          it.y = ROW_Y[r] + (rnd() - .5) * 6;
-          it.r = (rnd() - .5) * 28;
-          it.z = 10 + r * 10 + k;
+          const h = (order.indexOf(i) + rnd() * .8) / 23;      // 0 = just above the box, 1 = top
+          y = 62 - h * 56 + (rnd() - .5) * 5;
+          const spread = 6 + h * 30;
+          x = 50 + (rnd() - .5) * 2 * spread;
+          rx = 20 + rnd() * 55;
+          ry = (rnd() - .5) * 90;
+          rz = (rnd() - .5) * 120;
+          s = .75 + rnd() * .35 - h * .12;
         }
-        it.start = (i / items.length) * .72;
-        it.spin = (rnd() - .5) * 140;
-        it.drift = (rnd() - .5) * 12;
-        // 3D tilt so each sheet is seen at an angle, not head on
-        it.rx = 25 + rnd() * 35;               // tipped back
-        it.ry = (rnd() - .5) * 70;             // turned left/right
-        it.curl = (rnd() - .5) * 2;            // which way the sheet bows
-        const b = document.createElement('span');
-        b.className = 'ad-paper' + (it.card ? ' ad-card' : '');
-        b.innerHTML = `<span class="ad-paper-float" style="animation-delay:${(-rnd() * 6).toFixed(2)}s"><span class="ad-sheet ${it.curl > 0 ? 'bow-l' : 'bow-r'}"><img src="${it.thumb}" alt="" loading="lazy" decoding="async"></span></span>`;
-        box.appendChild(b);
-        it.el = b;
+        const el = document.createElement('span');
+        el.className = 'ad-paper' + (it.card ? ' ad-card' : '');
+        el.style.cssText = `--x:${x.toFixed(1)}%;--y:${y.toFixed(1)}%;--rx:${rx.toFixed(0)}deg;--ry:${ry.toFixed(0)}deg;--rz:${rz.toFixed(0)}deg;--s:${s.toFixed(2)};--d:${(it.card ? 0.5 : (1 - (y - 6) / 56) * .45 + rnd() * .12).toFixed(2)}s;--z:${it.card ? 60 : Math.round(60 - y / 2)}`;
+        el.innerHTML = `<span class="ad-paper-float" style="animation-delay:${(-rnd() * 6).toFixed(2)}s"><span class="ad-sheet ${rnd() > .5 ? 'bow-l' : 'bow-r'}"><img src="${it.src}" alt="" loading="lazy" decoding="async"></span></span>`;
+        box.appendChild(el);
       });
 
-      const ease = (t) => 1 - Math.pow(1 - t, 3);
-      let raf = 0;
-      function frame() {
-        raf = 0;
-        const r = scene.getBoundingClientRect();
-        const span = scene.offsetHeight - window.innerHeight;
-        const prog = reduce ? 1 : Math.min(1, Math.max(0, -r.top / Math.max(1, span) * 1.15));
-        scene.classList.toggle('is-open', prog > .02);
-        scene.classList.toggle('is-done', prog > .97);
-        items.forEach((it) => {
-          const k = Math.min(1, Math.max(0, (prog - it.start) / .26));
-          const e = ease(k);
-          // start tucked in the drawer (bottom centre), rise past the landing spot, settle
-          const sx = 50 + (it.x - 50) * .12, sy = 84;
-          const lift = Math.sin(k * Math.PI) * 9;
-          const x = sx + (it.x - sx) * e + Math.sin(k * Math.PI * 2) * it.drift * (1 - e);
-          const y = sy + (it.y - sy) * e - lift;
-          const rot = it.r + it.spin * (1 - e);
-          const sc = .55 + .45 * e;
-          it.el.style.left = x + '%';
-          it.el.style.top = y + '%';
-          const rx = it.rx * (it.card ? .55 : 1) + 50 * (1 - e), ry = it.ry * (it.card ? .5 : 1) + it.spin * .6 * (1 - e);
-          it.el.style.transform = `translate(-50%, -50%) rotateZ(${rot}deg) rotateX(${rx}deg) rotateY(${ry}deg) scale(${sc})`;
-          it.el.style.opacity = k > 0 ? Math.min(1, k * 6) : 0;
-          it.el.style.zIndex = k >= 1 ? it.z : (k > 0 ? 5 : 1);
-          it.el.classList.toggle('is-landed', k >= 1);
-        });
-      }
-      const req = () => { if (!raf) raf = requestAnimationFrame(frame); };
-      window.addEventListener('scroll', req, { passive: true });
-      window.addEventListener('resize', req);
-      frame();
-
+      const touch = window.matchMedia('(hover: none), (max-width: 760px)');
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const set = (open) => scene.classList.toggle('is-out', open);
+      const sync = () => set(touch.matches || reduce);
+      sync();
+      touch.addEventListener('change', sync);
+      drawer.addEventListener('mouseenter', () => { if (!touch.matches) set(true); });
+      scene.addEventListener('mouseleave', () => { if (!touch.matches && !reduce) set(false); });
+      drawer.addEventListener('focus', () => set(true));
     })();
   </script>
   <script src="site-chrome.js?v=3"></script>

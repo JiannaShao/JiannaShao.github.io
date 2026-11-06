@@ -4783,3 +4783,43 @@ html body .ad-paper img{ box-shadow:none; }
 .ad-drawer{ bottom:15%; }
 .ad-scene.is-done .ad-stack3d{ transform:translateY(calc(var(--h) * .18)); }
 @media (max-width:760px){ .ad-drawer{ --w:clamp(170px, 50vw, 230px); bottom:13%; } }
+
+/* ---- ADoaA v3: hover the drawer and the files spill out of it ---- */
+html body .ad-scene{ height:auto; }
+html body .ad-stage{ position:relative; height:clamp(560px, 62vw, 820px); min-height:0; top:auto; overflow:visible; }
+html body .ad-paper{
+  left:var(--x);
+  top:var(--y);
+  z-index:var(--z);
+  opacity:0;
+  /* tucked inside the drawer opening */
+  transform:translate(calc(-50% + (50% - var(--x)) * 0), -50%) translate3d(0,0,0);
+  left:50%;
+  top:70%;
+  transform:translate(-50%, -50%) rotateX(70deg) rotateZ(var(--rz)) scale(.35);
+  transition:left .7s cubic-bezier(.2,.7,.25,1), top .7s cubic-bezier(.2,.7,.25,1), transform .8s cubic-bezier(.2,.7,.25,1), opacity .25s ease;
+  transition-delay:calc(.45s - var(--d)), calc(.45s - var(--d)), calc(.45s - var(--d)), calc(.6s - var(--d));
+}
+html body .ad-scene.is-out .ad-paper{
+  left:var(--x);
+  top:var(--y);
+  opacity:1;
+  transform:translate(-50%, -50%) rotateZ(var(--rz)) rotateX(var(--rx)) rotateY(var(--ry)) scale(var(--s));
+  transition-delay:var(--d), var(--d), var(--d), var(--d);
+}
+html body .ad-scene.is-out .ad-paper .ad-paper-float{ animation:ad-hover 6s ease-in-out infinite; }
+html body .ad-paper .ad-paper-float{ animation:none; }
+html body .ad-drawer{ bottom:12%; z-index:50; pointer-events:auto; cursor:default; }
+html body .ad-drawer .ad-box{ transition:transform .5s ease; }
+html body .ad-scene.is-out .ad-drawer .ad-box{ transform:rotateX(-26deg) rotateY(-28deg) translateY(4px); }
+html body .ad-scene .ad-stack3d{ transform:translateY(calc(var(--h) - var(--h) * 1.02)); }
+html body .ad-scene.is-out .ad-stack3d{ transform:translateY(calc(var(--h) * .2)); }
+html body .ad-hint{ bottom:4%; top:auto; opacity:1; transition:opacity .3s ease; }
+html body .ad-scene.is-out .ad-hint{ opacity:0; }
+@media (max-width:760px){
+  html body .ad-stage{ height:clamp(480px, 130vw, 620px); }
+  html body .ad-hint{ display:none; }
+}
+html body .ad-drawer{ bottom:16%; }
+html body .ad-hint{ bottom:1%; }
+@media (max-width:760px){ html body .ad-paper.ad-card{ width:clamp(80px, 22vw, 110px); } }
