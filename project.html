@@ -943,14 +943,14 @@ What is the dot product of the vector from us to Hill 2 and the vector from us t
       items.forEach((it, i) => {
         let x, y, rx, ry, rz, s, sk;
         const n = order.indexOf(i);
-        if (n < 3) {
+        if (n < 4) {
           // strays: low, beside and in front of the box
-          // two near the top middle of the column, one stray beside the box
-          x = [55, 47, 61][n] + (rnd() - .5) * 4;
-          y = [7, 12, 66][n];
+          // a few extra sheets near the top middle of the column
+          x = [55, 47, 51, 53][n] + (rnd() - .5) * 4;
+          y = [7, 12, 3, 17][n];
           rx = 55 + rnd() * 20; ry = (rnd() - .5) * 60; rz = (rnd() - .5) * 70; s = .95;
         } else {
-          const t = (n - 3 + rnd() * .7) / (items.length - 3);
+          const t = (n - 4 + rnd() * .7) / (items.length - 4);
           const h = Math.pow(t, 1.25);                 // more sheets low down
           y = 62 - h * 58 + (rnd() - .5) * 3;
           const spread = 5 + h * 15;
