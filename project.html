@@ -18,7 +18,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="stylesheet" href="project.css?v=38">
+  <link rel="stylesheet" href="project.css?v=41">
   <link rel="stylesheet" href="site-chrome.css?v=7">
   <link rel="stylesheet" href="site-loader.css?v=1">
   <script src="site-loader.js?v=1"></script>
@@ -430,9 +430,67 @@ What is the dot product of the vector from us to Hill 2 and the vector from us t
           <h2>The Accidental Death of an Anarchist Prop Design</h2>
         </div>
       </div>
-      <div class="coming-soon-note">
-        <p class="small-label">In progress</p>
-        <p>Photos and a write-up of the props are on their way.</p>
+      <p class="section-summary ad-summary">Props for Spike Tape Wes's production of Dario Fo's <em>Accidental Death of an Anarchist</em>: a stack of forged police files and two key pieces I fabricated for the show.</p>
+
+      <div class="project-facts">
+        <p><span>Role</span>Lead Prop Designer</p>
+        <p><span>Production</span>Spike Tape Wes, 2026</p>
+        <p><span>Budget</span>$150 for the whole show</p>
+        <p><span>Key props</span>Replica bomb · prosthetic hand</p>
+      </div>
+
+      <!-- Part I: the case files rise out of a card-catalog drawer as you scroll -->
+      <div class="subsection-heading ad-sub">
+        <p class="small-label">Part I</p>
+        <h3>The Case Files</h3>
+        <p class="subsection-description">Mugshot records, intelligence reports, memos and letters made as paper props for the interrogation scenes, plus the Professor's business card.</p>
+      </div>
+
+      <div class="ad-scene" id="ad-scene">
+        <div class="ad-stage">
+          <div class="ad-papers" id="ad-papers"></div>
+          <div class="ad-drawer" aria-hidden="true">
+            <div class="ad-drawer-inside"><span class="ad-stack"></span></div>
+            <div class="ad-drawer-front">
+              <span class="ad-label"><span>Case No. 155/92</span></span>
+              <span class="ad-knob"></span>
+            </div>
+          </div>
+          <p class="ad-hint"><span class="ad-hint-scroll">Scroll to open the files</span><span class="ad-hint-click">Click a page to read it</span></p>
+        </div>
+      </div>
+
+      <!-- Part II: the two fabricated props -->
+      <div class="subsection-heading ad-sub">
+        <p class="small-label">Part II</p>
+        <h3>Fabricated Props</h3>
+      </div>
+
+      <div class="ad-props">
+        <article class="ad-prop">
+          <figure class="ad-prop-media">
+            <img src="web/adoaa/bomb.webp" alt="Replica bomb: a cast grey casing packed with wiring, a breadboard, LEDs and sensors" width="1100" height="1030" loading="lazy" decoding="async">
+          </figure>
+          <p class="small-label">Prop 01</p>
+          <h4>The Bomb</h4>
+          <p>A replica bomb for the play's final scenes: a cast grey casing packed with real wiring, a breadboard, LEDs and small sensors, so it reads as convincingly live from the audience.</p>
+        </article>
+        <article class="ad-prop">
+          <figure class="ad-prop-media ad-prop-pair">
+            <img src="web/adoaa/hand-a.webp" alt="Prosthetic hand, palm view, with a pull handle at the wrist" width="678" height="1100" loading="lazy" decoding="async">
+            <img src="web/adoaa/hand-b.webp" alt="Prosthetic hand, back view" width="732" height="1100" loading="lazy" decoding="async">
+          </figure>
+          <p class="small-label">Prop 02</p>
+          <h4>The Hand</h4>
+          <p>A lifelike prosthetic hand for the Maniac's disguise, sculpted and painted to match skin tone, with a pull handle at the wrist so it can come away on cue.</p>
+        </article>
+      </div>
+
+      <div class="ad-viewer" id="ad-viewer" hidden>
+        <button class="ad-viewer-close" type="button" aria-label="Close">×</button>
+        <button class="ad-viewer-nav ad-viewer-prev" type="button" aria-label="Previous page">‹</button>
+        <figure><img alt=""><figcaption></figcaption></figure>
+        <button class="ad-viewer-nav ad-viewer-next" type="button" aria-label="Next page">›</button>
       </div>
     </section>
 
@@ -863,6 +921,123 @@ What is the dot product of the vector from us to Hill 2 and the vector from us t
         });
       }, { threshold: .35 });
       document.querySelectorAll('.vv-terminal').forEach((fig) => { fig.classList.add('vv-typing'); io.observe(fig); });
+    })();
+  </script>
+  <script>
+    /* ADoaA case files: pages float up out of the drawer one after another
+       as the scene scrolls past, then hover where they land. Click one to
+       read it. The business card (both sides) sits closest to the front. */
+    (() => {
+      const scene = document.getElementById('ad-scene');
+      if (!scene) return;
+      const box = document.getElementById('ad-papers');
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let seed = 23;
+      const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+      const items = [];
+      for (let i = 1; i <= 23; i++) {
+        const n = String(i).padStart(2, '0');
+        items.push({ thumb: `web/adoaa/page-${n}-t.jpg`, full: `web/adoaa/page-${n}.jpg`, label: `Case file, page ${i} of 23`, card: false });
+      }
+      items.push({ thumb: 'web/adoaa/card-front.jpg', full: 'web/adoaa/card-front.jpg', label: "Professor Antonio Robbi's business card, front", card: true });
+      items.push({ thumb: 'web/adoaa/card-back.jpg', full: 'web/adoaa/card-back.jpg', label: "Professor Antonio Robbi's business card, back", card: true });
+
+      // landing spots: pages in three loose rows above the drawer, cards low and in front
+      const rows = [[0, 8], [8, 16], [16, 23]];
+      const ROW_Y = [14, 33, 52];
+      items.forEach((it, i) => {
+        if (it.card) {
+          const left = i === 23;
+          it.x = left ? 22 : 78; it.y = 74; it.r = left ? -8 : 9; it.z = 60;
+        } else {
+          const r = rows.findIndex(([s, e]) => i >= s && i < e);
+          const [s, e] = rows[r];
+          const k = i - s, cnt = e - s;
+          it.x = 9 + (82 * (k + .5)) / cnt + (rnd() - .5) * 4;
+          it.y = ROW_Y[r] + (rnd() - .5) * 6;
+          it.r = (rnd() - .5) * 28;
+          it.z = 10 + r * 10 + k;
+        }
+        it.start = (i / items.length) * .72;
+        it.spin = (rnd() - .5) * 140;
+        it.drift = (rnd() - .5) * 12;
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'ad-paper' + (it.card ? ' ad-card' : '');
+        b.setAttribute('aria-label', 'Open ' + it.label);
+        b.innerHTML = `<span class="ad-paper-float" style="animation-delay:${(-rnd() * 6).toFixed(2)}s"><img src="${it.thumb}" alt="" loading="lazy" decoding="async"></span>`;
+        b.addEventListener('click', () => openViewer(i));
+        box.appendChild(b);
+        it.el = b;
+      });
+
+      const ease = (t) => 1 - Math.pow(1 - t, 3);
+      let raf = 0;
+      function frame() {
+        raf = 0;
+        const r = scene.getBoundingClientRect();
+        const span = scene.offsetHeight - window.innerHeight;
+        const prog = reduce ? 1 : Math.min(1, Math.max(0, -r.top / Math.max(1, span) * 1.15));
+        scene.classList.toggle('is-open', prog > .02);
+        scene.classList.toggle('is-done', prog > .97);
+        items.forEach((it) => {
+          const k = Math.min(1, Math.max(0, (prog - it.start) / .26));
+          const e = ease(k);
+          // start tucked in the drawer (bottom centre), rise past the landing spot, settle
+          const sx = 50 + (it.x - 50) * .12, sy = 84;
+          const lift = Math.sin(k * Math.PI) * 9;
+          const x = sx + (it.x - sx) * e + Math.sin(k * Math.PI * 2) * it.drift * (1 - e);
+          const y = sy + (it.y - sy) * e - lift;
+          const rot = it.r + it.spin * (1 - e);
+          const sc = .55 + .45 * e;
+          it.el.style.left = x + '%';
+          it.el.style.top = y + '%';
+          it.el.style.transform = `translate(-50%, -50%) rotate(${rot}deg) scale(${sc})`;
+          it.el.style.opacity = k > 0 ? Math.min(1, k * 6) : 0;
+          it.el.style.zIndex = k >= 1 ? it.z : (k > 0 ? 5 : 1);
+          it.el.classList.toggle('is-landed', k >= 1);
+          it.el.tabIndex = k >= 1 ? 0 : -1;
+        });
+      }
+      const req = () => { if (!raf) raf = requestAnimationFrame(frame); };
+      window.addEventListener('scroll', req, { passive: true });
+      window.addEventListener('resize', req);
+      frame();
+
+      // viewer
+      const viewer = document.getElementById('ad-viewer');
+      const vImg = viewer.querySelector('img');
+      const vCap = viewer.querySelector('figcaption');
+      let cur = 0, last = null;
+      function show(i) {
+        cur = (i + items.length) % items.length;
+        vImg.src = items[cur].full;
+        vImg.alt = items[cur].label;
+        vCap.textContent = items[cur].label;
+        viewer.classList.toggle('is-card', items[cur].card);
+      }
+      function openViewer(i) {
+        last = items[i].el;
+        show(i);
+        viewer.hidden = false;
+        document.body.style.overflow = 'hidden';
+        viewer.querySelector('.ad-viewer-close').focus();
+      }
+      function close() {
+        viewer.hidden = true;
+        document.body.style.overflow = '';
+        if (last) last.focus();
+      }
+      viewer.querySelector('.ad-viewer-close').addEventListener('click', close);
+      viewer.querySelector('.ad-viewer-prev').addEventListener('click', (e) => { e.stopPropagation(); show(cur - 1); });
+      viewer.querySelector('.ad-viewer-next').addEventListener('click', (e) => { e.stopPropagation(); show(cur + 1); });
+      viewer.addEventListener('click', (e) => { if (e.target === viewer) close(); });
+      document.addEventListener('keydown', (e) => {
+        if (viewer.hidden) return;
+        if (e.key === 'Escape') close();
+        if (e.key === 'ArrowLeft') show(cur - 1);
+        if (e.key === 'ArrowRight') show(cur + 1);
+      });
     })();
   </script>
   <script src="site-chrome.js?v=3"></script>
