@@ -5050,3 +5050,18 @@ html body .ad-thumb{ flex:0 0 auto; width:100%; }
   }
   html body .ad-thumb{ flex:0 0 38vw; width:auto; }
 }
+/* taller props card; bomb name lower, hand name above the hand */
+@media (min-width:901px){
+  html body .ad-stage{ height:clamp(520px, 50vw, 700px); }
+  html body .ad-stage .ad-props{ height:clamp(300px, 32vw, 440px); }
+}
+.ad-prop-item:first-child figcaption{ bottom:-12px; }
+.ad-prop-hands figcaption{ top:-4px; bottom:auto; transform:translate(-50%, -8px); }
+@media (hover:hover) and (pointer:fine){
+  .ad-prop-hands:hover figcaption{ transform:translate(-50%, 0); }
+  .ad-prop-hands:hover .ad-hands{ transform:scale(1.12) translateY(10px); }
+}
+@media (hover:none), (max-width:900px){
+  .ad-prop-hands figcaption{ transform:translate(-50%, 0); }
+  .ad-prop-hands .ad-hands{ transform:translateY(12px); }
+}
