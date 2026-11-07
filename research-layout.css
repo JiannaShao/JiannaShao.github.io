@@ -20,7 +20,7 @@ html body main.rx{
   width:min(1152px, calc(100% - 96px));
   margin:0 auto;
   padding:0 0 96px;
-  color:var(--rx-navy);
+  color:var(--t-ink);
   font-family:var(--rx-sans);
 }
 
@@ -33,7 +33,7 @@ html body main.rx{
   font-weight:600;
   letter-spacing:.2em;
   text-transform:uppercase;
-  color:#3a6f99;
+  color:#8fbadb;
 }
 .rx h2{
   margin:0;
@@ -42,7 +42,7 @@ html body main.rx{
   font-size:clamp(32px, 3.6vw, 48px) !important;
   line-height:1.08 !important;
   letter-spacing:-.01em;
-  color:var(--rx-navy) !important;
+  color:var(--t-ink) !important;
   text-wrap:balance;
 }
 .rx h3{
@@ -51,7 +51,7 @@ html body main.rx{
   font-weight:400 !important;
   font-size:22px !important;
   line-height:1.25;
-  color:var(--rx-navy) !important;
+  color:var(--t-ink) !important;
 }
 .rx p{
   margin:0;
@@ -63,7 +63,7 @@ html body main.rx{
   font-size:16px;
   line-height:1.75;
   font-weight:400;
-  color:var(--rx-muted);
+  color:var(--t-muted);
 }
 .rx .rx-body p + p,
 .rx .rx-setup-text p + p{ margin-top:14px; }
@@ -71,7 +71,7 @@ html body main.rx{
 /* ---------- hero ---------- */
 .rx-hero{
   padding:clamp(56px, 9vh, 96px) 0 clamp(48px, 7vh, 72px);
-  border-bottom:1px solid var(--rx-line);
+  border-bottom:1px solid var(--t-line);
 }
 .rx .rx-title{
   position:relative;
@@ -81,7 +81,7 @@ html body main.rx{
   font-size:clamp(52px, 9.4vw, 148px) !important;
   line-height:.95 !important;
   letter-spacing:-.025em !important;
-  color:var(--rx-navy) !important;
+  color:var(--t-ink) !important;
 }
 .rx-line{
   display:block;
@@ -98,27 +98,27 @@ html body main.rx{
   font-size:18px;
   line-height:1.65;
   font-weight:400;
-  color:var(--rx-muted);
+  color:var(--t-muted);
 }
 .rx-facts{
   display:grid;
   gap:0;
   margin:0;
-  border-top:1px solid var(--rx-line);
+  border-top:1px solid var(--t-line);
 }
 .rx-facts > div{
   display:grid;
   grid-template-columns:90px minmax(0, 1fr);
   gap:16px;
   padding:12px 0;
-  border-bottom:1px solid var(--rx-line);
+  border-bottom:1px solid var(--t-line);
 }
 .rx-facts dt{
   font-size:12px;
   font-weight:600;
   letter-spacing:.18em;
   text-transform:uppercase;
-  color:#3a6f99;
+  color:#8fbadb;
   padding-top:2px;
 }
 .rx-facts dd{
@@ -127,7 +127,7 @@ html body main.rx{
   align-items:center;
   gap:9px;
   font-size:15px;
-  color:var(--rx-navy);
+  color:var(--t-ink);
 }
 .rx-dot{
   flex:0 0 auto;
@@ -160,14 +160,14 @@ html body main.rx{
   width:100%;
   height:auto;
   border-radius:12px;
-  background:var(--rx-soft);
+  background:var(--t-soft);
 }
 .rx-figure figcaption{
   margin-top:12px;
   max-width:60ch;
   font-size:14px;
   line-height:1.6;
-  color:var(--rx-muted);
+  color:var(--t-muted);
 }
 
 /* 02: diagram + text + key */
@@ -178,8 +178,8 @@ html body main.rx{
   align-items:start;
 }
 .rx-figure-diagram img{
-  background:#ffffff;
-  border:1px solid var(--rx-line);
+  background:#0a2d51;
+  border:1px solid var(--t-line);
   padding:clamp(8px, 1.4vw, 18px);
   box-sizing:border-box;
 }
@@ -188,7 +188,7 @@ html body main.rx{
   counter-reset:rx;
   margin:26px 0 0;
   padding:18px 0 0;
-  border-top:1px solid var(--rx-line);
+  border-top:1px solid var(--t-line);
   display:grid;
   grid-template-columns:repeat(2, minmax(0, 1fr));
   gap:10px 18px;
@@ -199,7 +199,7 @@ html body main.rx{
   align-items:center;
   gap:10px;
   font-size:14px;
-  color:var(--rx-navy);
+  color:var(--t-ink);
 }
 .rx-key li::before{
   content:counter(rx);
@@ -235,7 +235,7 @@ html body main.rx{
   gap:clamp(24px, 5vw, 80px);
   align-items:start;
   padding:clamp(28px, 4vw, 48px);
-  background:var(--rx-soft);
+  background:var(--t-soft);
   border-radius:14px;
 }
 .rx .rx-status{
@@ -244,9 +244,9 @@ html body main.rx{
   gap:10px;
   margin-top:20px !important;
   padding-top:16px;
-  border-top:1px solid var(--rx-line);
+  border-top:1px solid var(--t-line);
   font-size:14px !important;
-  color:var(--rx-navy) !important;
+  color:var(--t-ink) !important;
 }
 
 /* 05: symposium */
@@ -262,7 +262,7 @@ html body main.rx{
   list-style:none;
   margin:0;
   padding:0;
-  border-top:1px solid var(--rx-line);
+  border-top:1px solid var(--t-line);
 }
 .rx-list li{
   display:flex;
@@ -270,11 +270,11 @@ html body main.rx{
   justify-content:space-between;
   gap:24px;
   padding:20px 0;
-  border-bottom:1px solid var(--rx-line);
+  border-bottom:1px solid var(--t-line);
 }
 .rx-list li p{
   font-size:14px;
-  color:var(--rx-muted);
+  color:var(--t-muted);
 }
 .rx-list li > span{
   flex:0 0 auto;
@@ -282,7 +282,7 @@ html body main.rx{
   font-weight:600;
   letter-spacing:.16em;
   text-transform:uppercase;
-  color:var(--rx-navy);
+  color:var(--t-ink);
 }
 
 /* ---------- welding title animation ---------- */
@@ -315,7 +315,7 @@ html body main.rx{
     text-shadow:0 0 6px rgba(63,216,232,.2);
   }
   100%{
-    color:var(--rx-navy);
+    color:var(--t-ink);
     text-shadow:none;
   }
 }
@@ -372,7 +372,7 @@ html body main.rx{
 .rx-skills{
   margin-top:26px;
   padding-top:18px;
-  border-top:1px solid var(--rx-line);
+  border-top:1px solid var(--t-line);
 }
 html body .rx .rx-skills-label{
   margin:0 0 14px;
@@ -380,7 +380,7 @@ html body .rx .rx-skills-label{
   font-weight:600;
   letter-spacing:.18em;
   text-transform:uppercase;
-  color:#3a6f99;
+  color:#8fbadb;
 }
 .rx-skills ul{
   list-style:none;
@@ -393,10 +393,10 @@ html body .rx .rx-skills-label{
 .rx-skills li{
   padding:7px 12px;
   border-radius:999px;
-  background:var(--rx-soft);
+  background:var(--t-soft);
   font-family:var(--rx-sans);
   font-size:14px;
-  color:var(--rx-navy);
+  color:var(--t-ink);
 }
 
 /* question section: the problem photo spans both columns */

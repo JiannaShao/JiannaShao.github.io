@@ -48,7 +48,7 @@ html body main.portfolio .artwork-image{
   pointer-events:auto !important;     /* clickable now */
   overflow:hidden;
   border-radius:10px !important;
-  background:#eef0ef;
+  background:#0c3257;
 }
 html body main.portfolio .artwork-image img{
   display:block;
@@ -219,12 +219,12 @@ body.ag-locked{ overflow:hidden !important; }
   padding:0;
   border:1px solid rgba(255,255,255,.22);
   border-radius:50%;
-  background:rgba(255,255,255,.06);
+  background:rgba(10,45,81,.06);
   color:#ffffff;
   cursor:pointer;
   transition:background .2s ease, border-color .2s ease;
 }
-.ag-btn:hover{ background:rgba(255,255,255,.16); border-color:rgba(255,255,255,.45); }
+.ag-btn:hover{ background:rgba(10,45,81,.16); border-color:rgba(255,255,255,.45); }
 .ag-btn:focus-visible{ outline:2px solid #9fe7f0; outline-offset:3px; }
 .ag-btn svg{ width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
 .ag-close{ top:max(18px, env(safe-area-inset-top, 0px)); right:max(18px, env(safe-area-inset-right, 0px)); }

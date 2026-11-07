@@ -1,0 +1,32 @@
+/* =========================================================
+   SITE THEME — dark Egyptian-blue pages
+   Egyptian blue #03203D background, stone blue #639CC5,
+   scarlet #EB2F33 buttons, cream text.
+   ========================================================= */
+:root{
+  --t-page:#03203d;
+  --t-card:#0a2d51;
+  --t-soft:#0c3257;
+  --t-fill:#1c4a76;
+  --t-ink:#f3efe6;
+  --t-muted:#a9b9c8;
+  --t-label:#8fbadb;
+  --t-line:rgba(214,228,240,.16);
+  --t-stone:#639cc5;
+  --t-red:#eb2f33;
+  color-scheme:dark;
+}
+html, body{ background:var(--t-page) !important; color:var(--t-ink); }
+::selection{ background:#639cc5; color:#03203d; }
+
+/* sidebar on the dark theme */
+:root{ --chrome-bg:#021a33; --chrome-ink:#dfe8f0; }
+
+/* props that are paper stay paper */
+html body .ad-s-top{ background:#fbfbf8 !important; }
+html body .ad-s-front{ background:repeating-linear-gradient(#fdfdfb 0 2px, #d8d7d0 2px 3px) !important; }
+html body .ad-s-side{ background:repeating-linear-gradient(#f4f3ee 0 2px, #cfcec6 2px 3px) !important; }
+/* fridge note cards keep dark ink on cream paper */
+html body .sp-magnet-text{ color:#03203d !important; }
+html body .sp-magnet-text p:not(.small-label){ color:#2d3e4d !important; }
+html body .sp-magnet-text .small-label{ color:#3a6f99 !important; }

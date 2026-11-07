@@ -33,9 +33,9 @@ html body .side-nav{
   bottom: 0 !important;
   width: var(--chrome-rail) !important;
   height: auto !important;
-  background: var(--chrome-bg) !important;
-  border-right: 1px solid rgba(66,82,77,.12) !important;
-  box-shadow: none !important;
+  background:var(--chrome-bg) !important;
+  border-right:1px solid rgba(66,82,77,.12) !important;
+  box-shadow:none !important;
   z-index: 6000 !important;
   overflow: hidden !important;
   transform: none !important;
@@ -55,7 +55,7 @@ html body .side-nav::after{
   bottom: 0 !important;
   left: auto !important;
   width: 2px !important;
-  background: #ffffff !important;
+  background:#0a2d51 !important;
   pointer-events: none !important;
   z-index: 0 !important;
 }
@@ -93,8 +93,8 @@ html body .side-logo{
   display: block !important;
   width: 42px !important;
   height: 42px !important;
-  fill: none !important;
-  stroke: var(--chrome-ink) !important;
+  fill:none !important;
+  stroke:var(--chrome-ink) !important;
   stroke-width: 2.6 !important;
   stroke-linecap: round !important;
   stroke-linejoin: round !important;
@@ -133,9 +133,9 @@ html body .side-dropdown-toggle{
   min-height: 24px !important;
   margin: 0 !important;
   padding: 0 !important;
-  border: 0 !important;
-  background: transparent !important;
-  color: var(--chrome-ink) !important;
+  border:0 !important;
+  background:transparent !important;
+  color:var(--chrome-ink) !important;
   font-family: 'Work Sans', Arial, sans-serif !important;
   font-size: 16px !important;
   font-weight: 400 !important;
@@ -156,7 +156,7 @@ html body .side-dropdown-toggle{
 }
 html body .side-main-link:hover,
 html body .side-dropdown-toggle:hover{
-  color: #ffffff !important;
+  color:#ffffff !important;
   transform: translateX(4px) !important;
 }
 html body .side-dropdown-arrow{
@@ -187,13 +187,13 @@ html body .side-submenu{
   gap: 11px !important;
   padding: 0 0 0 12px !important;
   margin: 0 !important;
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
 }
 html body .side-submenu a{
   display: block !important;
-  color: var(--chrome-ink) !important;
+  color:var(--chrome-ink) !important;
   font-family: 'Work Sans', Arial, sans-serif !important;
   font-size: 14px !important;
   line-height: 1.3 !important;
@@ -203,7 +203,7 @@ html body .side-submenu a{
   transition: color .16s ease, transform .18s ease, opacity .16s ease !important;
 }
 html body .side-submenu a:hover{
-  color: #ffffff !important;
+  color:#ffffff !important;
   opacity: 1 !important;
   transform: translateX(4px) !important;
 }
@@ -242,24 +242,24 @@ html body .scroll-snake svg{
 }
 html body #snake-ghost,
 html body #snake-path{
-  fill: none !important;
+  fill:none !important;
   stroke-width: 4.5 !important;
   stroke-linecap: round !important;
   stroke-linejoin: round !important;
   vector-effect: non-scaling-stroke !important;
 }
 html body #snake-ghost{
-  stroke: #d5dfdc !important;
+  stroke:#1f4a73 !important;
   opacity: 1 !important;
 }
 html body #snake-path{
-  stroke: var(--chrome-ink) !important;
+  stroke:var(--chrome-ink) !important;
   transition: none !important;
 }
 /* small open circle that marks where you are on the snake */
 html body #snake-head{
-  fill: #fafafa !important;
-  stroke: var(--chrome-ink) !important;
+  fill:#fafafa !important;
+  stroke:var(--chrome-ink) !important;
   stroke-width: 2 !important;
   vector-effect: non-scaling-stroke;
 }
@@ -284,12 +284,12 @@ html body #snake-head{
     width: 240px !important;
     transform: translateX(-102%) !important;
     transition: transform .28s ease !important;
-    box-shadow: none !important;
+    box-shadow:none !important;
     z-index: 7000 !important;
   }
   html body .side-nav.mobile-open{
     transform: translateX(0) !important;
-    box-shadow: 0 0 40px rgba(3,32,61,.22) !important;
+    box-shadow:0 0 40px rgba(0,6,18,0.37) !important;
   }
   html body .side-nav-inner{
     width: 240px !important;
@@ -326,10 +326,10 @@ html body #snake-head{
     width: 46px;
     height: 46px;
     padding: 0;
-    border: 1px solid rgba(66,82,77,.14);
-    border-radius: 50%;
-    background: var(--chrome-bg);
-    box-shadow: 0 4px 14px rgba(3,32,61,.12);
+    border:1px solid rgba(66,82,77,.14);
+    border-radius:50%;
+    background:var(--chrome-bg);
+    box-shadow:0 4px 14px rgba(0,6,18,0.20);
     align-items: center;
     justify-content: center;
     flex-direction: column;
@@ -341,8 +341,8 @@ html body #snake-head{
     display: block;
     width: 20px;
     height: 2px;
-    border-radius: 2px;
-    background: var(--chrome-ink);
+    border-radius:2px;
+    background:var(--chrome-ink);
     transition: transform .25s ease, opacity .2s ease;
   }
   .chrome-menu-btn[aria-expanded="true"] span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
@@ -354,7 +354,7 @@ html body #snake-head{
     position: fixed;
     inset: 0;
     z-index: 6900;
-    background: rgba(3,32,61,.28);
+    background:rgba(214,228,240,0.28);
     opacity: 0;
     pointer-events: none;
     transition: opacity .25s ease;
@@ -384,8 +384,8 @@ html body .side-dropdown-toggle .side-dropdown-arrow{ margin-left: auto; }
 .side-icon svg{
   width: 20px;
   height: 20px;
-  fill: none;
-  stroke: currentColor;
+  fill:none;
+  stroke:currentColor;
   stroke-width: 1.6;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -401,9 +401,9 @@ html body .side-links{ position: relative !important; }
   top: -3.5px;
   width: 7px;
   height: 7px;
-  border-radius: 50%;
-  border: 1.6px solid var(--chrome-ink);
-  background: var(--chrome-bg);
+  border-radius:50%;
+  border:1.6px solid var(--chrome-ink);
+  background:var(--chrome-bg);
   opacity: 0;
   transition: transform .35s cubic-bezier(.3,.7,.2,1), opacity .2s ease;
   pointer-events: none;
@@ -462,7 +462,7 @@ html body .side-submenu a.is-current{ opacity: 1 !important; font-weight: 600 !i
   html body .side-main-link:hover,
   html body .side-dropdown-toggle:hover,
   html body .side-submenu a:hover{
-    color: var(--chrome-ink) !important;
+    color:var(--chrome-ink) !important;
     transform: none !important;
   }
   html body .side-submenu a:hover{ opacity: .82 !important; }
@@ -470,8 +470,8 @@ html body .side-submenu a.is-current{ opacity: 1 !important; font-weight: 600 !i
   html body .side-main-link:active,
   html body .side-dropdown-toggle:active,
   html body .side-submenu a:active{
-    background: rgba(66,82,77,.08) !important;
-    border-radius: 8px;
+    background:rgba(66,82,77,.08) !important;
+    border-radius:8px;
   }
   html body .side-brand:hover{ transform: none !important; }
 }
@@ -525,7 +525,7 @@ html body .side-submenu{ gap: 16px !important; }
   html body .side-dropdown.is-open .side-submenu-wrap{ margin-top: 8px !important; }
   html body .side-submenu{ gap: 8px !important; padding-left: 34px !important; }
   html body .side-dropdown-toggle{ padding-right: 12px !important; }
-  html body .side-dropdown-arrow{ color: var(--chrome-ink) !important; opacity: 1 !important; }
+  html body .side-dropdown-arrow{ color:var(--chrome-ink) !important; opacity: 1 !important; }
 }
 
 /* Palette accents (red) shared across pages */

@@ -278,7 +278,7 @@
   const buildBrush = (w, h) => {
     let seed = 7;
     const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
-    const shades = ['#03203d', '#03203d', '#041c36', '#02182e', '#062544', '#0a2a4b', '#05213f', '#0d3155', '#021529', '#123a60'];   // Egyptian blue brush
+    const shades = ['#639cc5', '#639cc5', '#5a92ba', '#5089b2', '#6aa3cb', '#74abd1', '#5e97c0', '#7bb1d6', '#4a82ab', '#86b8db'];   // stone-blue brush on the dark page
     const k = h / 520;
     return [BRUSH_SNAKE].map((S) => {
       const { pts, len } = snakePoints(w, h);

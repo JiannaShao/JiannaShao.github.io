@@ -27,8 +27,8 @@
 
 body {
     margin: 0;
-    background: var(--cream);
-    color: var(--black);
+    background:var(--t-page);
+    color:var(--t-ink);
     font-family: Helvetica, Arial, sans-serif;
 }
 
@@ -47,13 +47,13 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid var(--border);
+    border-bottom:1px solid var(--t-line);
 }
 
 .site-name {
     font-size: 20px;
     font-weight: bold;
-    color: var(--black);
+    color:var(--t-ink);
     text-decoration: none;
 }
 
@@ -63,14 +63,14 @@ body {
 }
 
 .nav-links a {
-    color: var(--black);
+    color:var(--t-ink);
     text-decoration: none;
     font-size: 15px;
 }
 
 .nav-links a:hover,
 .nav-links .active {
-    color: var(--turquoise);
+    color:var(--turquoise);
     text-decoration: underline;
 }
 
@@ -95,7 +95,7 @@ body {
 }
 
 .eyebrow {
-    color: var(--turquoise);
+    color:var(--turquoise);
     font-size: 13px;
     letter-spacing: 2px;
     margin-bottom: 25px;
@@ -103,7 +103,7 @@ body {
 
 h1 {
     font-family: "Abril Fatface", serif;
-    color: var(--black);
+    color:var(--t-ink);
     font-size: clamp(45px, 6vw, 85px);
     line-height: 0.98;
     margin: 0 0 30px;
@@ -128,11 +128,11 @@ h1 {
 
 .section {
     padding: 120px 10%;
-    border-top: 1px solid var(--border);
+    border-top:1px solid var(--t-line);
 }
 
 .section-label {
-    color: var(--turquoise);
+    color:var(--turquoise);
     font-size: 12px;
     letter-spacing: 2px;
     font-weight: bold;
@@ -141,7 +141,7 @@ h1 {
 
 h2 {
     font-family: "Abril Fatface", serif;
-    color: var(--black);
+    color:var(--t-ink);
     font-size: clamp(35px, 4vw, 60px);
     line-height: 1.05;
     max-width: 850px;
@@ -184,12 +184,12 @@ h2 {
 }
 
 .process-item {
-    border-top: 2px solid var(--turquoise);
+    border-top:2px solid var(--turquoise);
     padding-top: 20px;
 }
 
 .process-item span {
-    color: var(--turquoise);
+    color:var(--turquoise);
     font-size: 13px;
     letter-spacing: 1px;
 }
@@ -245,7 +245,7 @@ figcaption {
 ========================= */
 
 .findings {
-    background: var(--turquoise-light);
+    background:var(--turquoise-light);
 }
 
 .findings h2 {
@@ -272,8 +272,8 @@ figcaption {
 }
 
 .skills span {
-    border: 1px solid var(--turquoise);
-    color: var(--black);
+    border:1px solid var(--turquoise);
+    color:var(--t-ink);
     padding: 12px 18px;
     font-size: 14px;
 }
@@ -284,7 +284,7 @@ figcaption {
 ========================= */
 
 .presentation {
-    background: var(--white);
+    background:var(--t-card);
 }
 
 
@@ -299,11 +299,11 @@ figcaption {
 
     padding: 25px 0;
 
-    border-top: 1px solid var(--border);
+    border-top:1px solid var(--t-line);
 }
 
 .output:last-child {
-    border-bottom: 1px solid var(--border);
+    border-bottom:1px solid var(--t-line);
 }
 
 .output h3 {
@@ -317,7 +317,7 @@ figcaption {
 }
 
 .output > span {
-    color: var(--turquoise);
+    color:var(--turquoise);
     font-size: 12px;
     letter-spacing: 1px;
     text-transform: uppercase;
@@ -336,14 +336,14 @@ footer {
 }
 
 footer a {
-    color: var(--black);
+    color:var(--t-ink);
     text-decoration: none;
     font-size: 20px;
     font-weight: bold;
 }
 
 footer a:hover {
-    color: var(--turquoise);
+    color:var(--turquoise);
     text-decoration: underline;
 }
 
@@ -440,8 +440,8 @@ footer a:hover {
     top: 0 !important;
     bottom: 0 !important;
     width: var(--sidebar-rail) !important;
-    background: #e8ebea !important;
-    border-right: 1px solid rgba(66, 82, 77, .12) !important;
+    background:#0c3257 !important;
+    border-right:1px solid rgba(66, 82, 77, .12) !important;
     z-index: 6000 !important;
     overflow: hidden !important;
     transition: width .24s ease !important;
@@ -455,7 +455,7 @@ footer a:hover {
     right: 0;
     bottom: 0;
     width: 2px;
-    background: #ffffff;
+    background:#0a2d51;
     pointer-events: none;
     z-index: 0;
 }
@@ -478,7 +478,7 @@ footer a:hover {
     width: 42px !important;
     height: 42px !important;
     margin: 0 0 56px 0 !important;
-    color: #0e2f52;
+    color:#f3efe6;
     text-decoration: none;
     transform-origin: center center !important;
     transition: transform .18s ease !important;
@@ -488,8 +488,8 @@ footer a:hover {
     width: 42px;
     height: 42px;
     display: block;
-    fill: none;
-    stroke: currentColor;
+    fill:none;
+    stroke:currentColor;
     stroke-width: 2.2;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -528,9 +528,9 @@ footer a:hover {
     width: 100%;
     min-height: 24px;
     padding: 0;
-    border: 0;
-    background: transparent;
-    color: #0e2f52 !important;
+    border:0;
+    background:transparent;
+    color:#f3efe6 !important;
     font-family: "Work Sans", Arial, sans-serif;
     font-size: 16px !important;
     font-weight: 400;
@@ -551,7 +551,7 @@ footer a:hover {
 
 .side-main-link:hover,
 .side-dropdown-toggle:hover {
-    color: #ffffff !important;
+    color:#ffffff !important;
     transform: translateX(4px) !important;
 }
 
@@ -591,7 +591,7 @@ footer a:hover {
 
 .side-submenu a {
     display: block;
-    color: #0e2f52 !important;
+    color:#f3efe6 !important;
     font-family: "Work Sans", Arial, sans-serif;
     font-size: 14px !important;
     line-height: 1.3;
@@ -602,7 +602,7 @@ footer a:hover {
 }
 
 .side-submenu a:hover {
-    color: #ffffff !important;
+    color:#ffffff !important;
     opacity: 1;
     transform: translateX(4px) !important;
 }
@@ -739,7 +739,7 @@ figcaption{
 
 /* Curvature Matters section */
 .findings{
-    background:#e8ebea !important;
+    background:#0c3257 !important;
 }
 
 /* Keep all dark text on the same navy as the index page */
@@ -755,7 +755,7 @@ h3,
 .skills span,
 figcaption,
 footer a{
-    color:#03203d;
+    color:#f3efe6;
 }
 
 /* Research accent color */
@@ -765,7 +765,7 @@ footer a{
 .output > span,
 .nav-links a:hover,
 .nav-links .active{
-    color:#3a6f99 !important;
+    color:#8fbadb !important;
 }
 
 .process-item{
@@ -813,8 +813,8 @@ html{
 body{
     margin:0;
     padding-left:var(--sidebar-rail) !important;
-    background:var(--cream) !important;
-    color:var(--navy) !important;
+    background:var(--t-page) !important;
+    color:var(--t-ink) !important;
     font-family:'Work Sans',Arial,sans-serif !important;
     font-size:16px !important;
 }
@@ -823,7 +823,7 @@ h1,
 h2,
 h3{
     font-family:'DM Serif Display',Georgia,serif !important;
-    color:var(--navy) !important;
+    color:var(--t-ink) !important;
     font-weight:400 !important;
 }
 
@@ -878,7 +878,7 @@ p{
 
 .subtitle{
     max-width:560px !important;
-    color:var(--muted) !important;
+    color:var(--t-muted) !important;
     font-family:'Work Sans',Arial,sans-serif !important;
     font-size:17px !important;
     line-height:1.7 !important;
@@ -893,7 +893,7 @@ p{
 
 .body-text{
     max-width:750px !important;
-    color:var(--muted) !important;
+    color:var(--t-muted) !important;
     font-family:'Work Sans',Arial,sans-serif !important;
     font-size:15px !important;
     line-height:1.75 !important;
@@ -907,7 +907,7 @@ p{
 
 .process-item p,
 .output p{
-    color:var(--muted) !important;
+    color:var(--t-muted) !important;
     font-size:15px !important;
     line-height:1.75 !important;
     font-weight:300 !important;
@@ -922,14 +922,14 @@ p{
 }
 
 figcaption{
-    color:var(--muted) !important;
+    color:var(--t-muted) !important;
     font-size:13px !important;
     line-height:1.5 !important;
     font-weight:300 !important;
 }
 
 .note{
-    color:var(--muted) !important;
+    color:var(--t-muted) !important;
     font-size:13px !important;
     line-height:1.6 !important;
     font-weight:300 !important;
@@ -946,7 +946,7 @@ figcaption{
 .section-label,
 .process-item span,
 .output > span{
-    color:#3a6f99 !important;
+    color:#8fbadb !important;
 }
 
 .process-item{
@@ -954,7 +954,7 @@ figcaption{
 }
 
 .findings{
-    background:#e8ebea !important;
+    background:#0c3257 !important;
     padding-left:48px !important;
     padding-right:48px !important;
 }
@@ -1009,12 +1009,12 @@ figcaption{
 }
 
 #snake-ghost{
-    stroke:#d5dfdc !important;
+    stroke:#1f4a73 !important;
     opacity:1 !important;
 }
 
 #snake-path{
-    stroke:#0e2f52 !important;
+    stroke:#e9eef3 !important;
     opacity:1 !important;
     stroke-dasharray:1;
     stroke-dashoffset:1;

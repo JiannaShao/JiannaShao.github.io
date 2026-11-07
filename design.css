@@ -15,9 +15,9 @@ html {
 body {
     margin: 0;
 
-    background: #f7f4ec;
+    background:#0a2d51;
 
-    color: #03203d;
+    color:#f3efe6;
 
     font-family:
         Helvetica,
@@ -64,7 +64,7 @@ p {
 
 
 .eyebrow {
-    color: #6d7866;
+    color:#a9b9c8;
 
     font-size: 13px;
 
@@ -98,8 +98,7 @@ p {
     position: absolute;
     inset: 0;
 
-    background-image:
-        linear-gradient(
+    background-image:linear-gradient(
             to bottom,
             rgba(38, 55, 70, 0.20) 0%,
             rgba(38, 55, 70, 0.20) 50%,
@@ -110,10 +109,10 @@ p {
         ),
         url("web/DesignImages/Final3.jpg");
 
-    background-size: cover;
-    background-position: center;
+    background-size:cover;
+    background-position:center;
 
-    filter: saturate(0.55);
+    filter:saturate(0.55);
 }
 
 
@@ -128,24 +127,22 @@ p {
 
     padding: 45px 50px;
 
-    background:
-        rgba(
+    background:rgba(
             247,
             244,
             236,
             0.94
         );
 
-    color: #03203d;
+    color:#f3efe6;
 
-    box-shadow:
-        0 20px 60px
+    box-shadow:0 20px 60px
         rgba(0, 0, 0, 0.18);
 }
 
 
 .hero-content .eyebrow {
-    color: #687f8d;
+    color:#a9b9c8;
 }
 
 
@@ -168,7 +165,7 @@ p {
 
     padding: 120px 8% 100px;
 
-    background: #f7f4ec;
+    background:#0a2d51;
 }
 
 
@@ -179,10 +176,9 @@ p {
 
     padding: 65px;
 
-    background: #ffffff;
+    background:#0a2d51;
 
-    box-shadow:
-        0 15px 50px
+    box-shadow:0 15px 50px
         rgba(38, 55, 70, 0.10);
 }
 
@@ -197,7 +193,7 @@ p {
 .description-text p {
     font-size: 18px;
 
-    color: #3a6f99;
+    color:#8fbadb;
 }
 
 
@@ -206,7 +202,7 @@ p {
 
     padding-left: 25px;
 
-    color: #03203d;
+    color:#f3efe6;
 
     line-height: 2;
 }
@@ -242,9 +238,9 @@ p {
 
     justify-content: center;
 
-    background: #dce3e5;
+    background:#0c3257;
 
-    color: #687f8d;
+    color:#a9b9c8;
 
     letter-spacing: 2px;
 }
@@ -271,23 +267,21 @@ p {
 
     inset: 0;
 
-    background-size: cover;
+    background-size:cover;
 
-    background-position: center;
+    background-position:center;
 
-    filter: saturate(0.55);
+    filter:saturate(0.55);
 }
 
 
 .image-one {
-    background-image:
-        url("DesignImages/sketchmodel.jpg");
+    background-image:url("DesignImages/sketchmodel.jpg");
 }
 
 
 .image-two {
-    background-image:
-        url("DesignImages/FinalSketches.png");
+    background-image:url("DesignImages/FinalSketches.png");
 }
 
 
@@ -302,16 +296,9 @@ p {
 
     padding: 40px 45px;
 
-    background:
-        rgba(
-            255,
-            255,
-            255,
-            0.94
-        );
+    background:rgba(10,45,81,0.94);
 
-    box-shadow:
-        0 15px 45px
+    box-shadow:0 15px 45px
         rgba(0, 0, 0, 0.15);
 }
 
@@ -319,7 +306,7 @@ p {
 .feature-box p:last-child {
     margin-bottom: 0;
 
-    color: #3a6f99;
+    color:#8fbadb;
 
     font-size: 17px;
 }
@@ -333,11 +320,11 @@ p {
 .design-section {
     padding: 120px 0;
 
-    background: #ffffff;
+    background:#0a2d51;
 
     margin-top: 40px;
 
-    border-top: 80px solid #f7f4ec;
+    border-top:80px solid #1f4a73;
 }
 
 
@@ -358,7 +345,7 @@ p {
 .section-subtitle {
     max-width: 750px;
 
-    color: #3a6f99;
+    color:#8fbadb;
 
     font-size: 19px;
 
@@ -407,15 +394,15 @@ p {
 
     padding: 45px 55px;
 
-    background: #f7f4ec;
+    background:#0a2d51;
 
-    color: #3a6f99;
+    color:#8fbadb;
 
     font-size: 18px;
 
     line-height: 1.7;
 
-    border-left: 6px solid #6d7866;
+    border-left:6px solid #5b7a96;
 }
 
 
@@ -469,7 +456,7 @@ p {
 .project-details {
     padding: 120px 8%;
 
-    background: #f7f4ec;
+    background:#0a2d51;
 }
 
 
@@ -517,7 +504,7 @@ p {
 
     justify-content: center;
 
-    background: #dce3e5;
+    background:#0c3257;
 }
 
 
@@ -537,7 +524,7 @@ p {
 
 
 .detail-text p:last-child {
-    color: #3a6f99;
+    color:#8fbadb;
 
     font-size: 18px;
 }
@@ -557,7 +544,7 @@ p {
 
     overflow: hidden;
 
-    background: #f7f4ec;
+    background:#0a2d51;
 }
 
 
@@ -579,8 +566,7 @@ p {
 
     overflow: hidden;
 
-    box-shadow:
-        0 20px 50px
+    box-shadow:0 20px 50px
         rgba(38, 55, 70, 0.20);
 }
 
@@ -640,16 +626,14 @@ p {
 
     padding: 35px 45px;
 
-    background:
-        rgba(
+    background:rgba(
             247,
             244,
             236,
             0.95
         );
 
-    box-shadow:
-        0 15px 40px
+    box-shadow:0 15px 40px
         rgba(0, 0, 0, 0.15);
 
     text-align: center;
@@ -676,7 +660,7 @@ p {
 
     padding: 50px 20px;
 
-    color: #3a6f99;
+    color:#8fbadb;
 
     text-decoration: none;
 
@@ -687,7 +671,7 @@ p {
 
 
 .back-link:hover {
-    color: #d1ad54;
+    color:#d1ad54;
 }
 
 
@@ -839,8 +823,8 @@ html{
 body{
     margin:0;
     padding-left:var(--sidebar-rail) !important;
-    background:var(--cream) !important;
-    color:var(--navy) !important;
+    background:var(--t-page) !important;
+    color:var(--t-ink) !important;
     font-family:'Work Sans',Arial,sans-serif !important;
     font-size:16px !important;
 }
@@ -849,7 +833,7 @@ h1,
 h2,
 h3{
     font-family:'DM Serif Display',Georgia,serif !important;
-    color:var(--navy) !important;
+    color:var(--t-ink) !important;
     font-weight:400 !important;
 }
 
@@ -860,7 +844,7 @@ li{
 
 /* Match index typography */
 .eyebrow{
-    color:var(--accent) !important;
+    color:var(--t-label) !important;
     font-size:14px !important;
     letter-spacing:.2em !important;
     text-transform:uppercase !important;
@@ -888,14 +872,14 @@ h2{
 .feature-box p:last-child,
 .detail-text p:last-child,
 .design-text-box{
-    color:var(--muted) !important;
+    color:var(--t-muted) !important;
     font-size:15px !important;
     line-height:1.75 !important;
     font-weight:300 !important;
 }
 
 .description-text ul{
-    color:var(--navy) !important;
+    color:var(--t-ink) !important;
     font-size:15px !important;
     line-height:1.85 !important;
 }
@@ -936,31 +920,31 @@ h2{
 .project-intro,
 .project-details,
 .final-project{
-    background:var(--cream) !important;
+    background:var(--t-page) !important;
 }
 
 .description-box,
 .design-section{
-    background:#ffffff !important;
+    background:#0a2d51 !important;
 }
 
 .design-text-box{
-    background:var(--light-accent) !important;
+    background:var(--t-soft) !important;
     border-left-color:var(--accent) !important;
 }
 
 .image-placeholder,
 .detail-image{
-    background:var(--light-accent) !important;
+    background:var(--t-soft) !important;
 }
 
 .hero-content{
-    color:var(--navy) !important;
-    background:rgba(250,250,250,.94) !important;
+    color:var(--t-ink) !important;
+    background:rgba(10,45,81,.94) !important;
 }
 
 .hero-content .eyebrow{
-    color:var(--accent) !important;
+    color:var(--t-label) !important;
 }
 
 /* Rounded corners consistent with index */
@@ -1033,7 +1017,7 @@ h2{
     top:0 !important;
     bottom:0 !important;
     width:var(--sidebar-rail) !important;
-    background:#e8ebea !important;
+    background:#0c3257 !important;
     border-right:1px solid rgba(66,82,77,.12) !important;
     z-index:6000 !important;
     overflow:hidden !important;
@@ -1048,7 +1032,7 @@ h2{
     right:0;
     bottom:0;
     width:2px;
-    background:#ffffff;
+    background:#0a2d51;
     pointer-events:none;
     z-index:0;
 }
@@ -1071,7 +1055,7 @@ h2{
     width:42px !important;
     height:42px !important;
     margin:0 0 56px 0 !important;
-    color:#0e2f52;
+    color:#f3efe6;
     text-decoration:none;
     transform-origin:center center !important;
     transition:transform .18s ease !important;
@@ -1123,7 +1107,7 @@ h2{
     padding:0;
     border:0;
     background:transparent;
-    color:#0e2f52 !important;
+    color:#f3efe6 !important;
     font-family:'Work Sans',Arial,sans-serif !important;
     font-size:16px !important;
     font-weight:400;
@@ -1184,7 +1168,7 @@ h2{
 
 .side-submenu a{
     display:block;
-    color:#0e2f52 !important;
+    color:#f3efe6 !important;
     font-family:'Work Sans',Arial,sans-serif !important;
     font-size:14px !important;
     line-height:1.3;
@@ -1245,12 +1229,12 @@ h2{
 }
 
 #snake-ghost{
-    stroke:#d5dfdc !important;
+    stroke:#1f4a73 !important;
     opacity:1 !important;
 }
 
 #snake-path{
-    stroke:#0e2f52 !important;
+    stroke:#e9eef3 !important;
     opacity:1 !important;
     stroke-dasharray:1;
     stroke-dashoffset:1;
