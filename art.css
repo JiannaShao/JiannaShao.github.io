@@ -476,7 +476,7 @@ body {
         align-items: center;
         justify-content: center;
         padding: 24px;
-        background: rgba(24,55,65, 0.55);
+        background: rgba(3,32,61, 0.55);
         -webkit-backdrop-filter: blur(6px);
         backdrop-filter: blur(6px);
     }
@@ -492,7 +492,7 @@ body {
     padding: 30px 26px 22px;
     border-radius: 16px;
     background: #f7f6f2;
-    color: #183741;
+    color: #03203d;
     text-align: center;
     box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
     font-family: Helvetica, Arial, sans-serif;
@@ -503,7 +503,7 @@ body {
     font-size: 12px;
     font-weight: 600;
     letter-spacing: 0.2em;
-    color: #1d6071;
+    color: #3a6f99;
 }
 
 .mobile-notice-card h2 {
@@ -537,13 +537,13 @@ body {
 }
 
 .mobile-notice-primary {
-    background: #183741;
+    background: #03203d;
     color: #ffffff;
 }
 
 .mobile-notice-secondary {
-    border: 1px solid rgba(24,55,65, 0.25);
-    color: #183741;
+    border: 1px solid rgba(3,32,61, 0.25);
+    color: #03203d;
 }
 
 .mobile-notice-link {
@@ -565,7 +565,7 @@ body {
     z-index: 30;
     padding: 9px 16px;
     border-radius: 99px;
-    background: rgba(24,55,65, .82);
+    background: rgba(3,32,61, .82);
     color: #fafafa;
     font: 500 13px/1 'Work Sans', Arial, sans-serif;
     letter-spacing: .04em;
@@ -582,7 +582,7 @@ body {
     padding: 3px 6px;
     border-radius: 5px;
     background: #fafafa;
-    color: #183741;
+    color: #03203d;
     font: 700 12px/1 'Work Sans', Arial, sans-serif;
     text-align: center;
 }
@@ -593,12 +593,12 @@ body {
    headings, rounded pills and soft shadows)
 ========================================================= */
 :root {
-    --site-navy: #183741;
-    --site-sage: #1d6071;
+    --site-navy: #03203d;
+    --site-sage: #3a6f99;
     --site-muted: #5f6b74;
     --site-paper: #fafafa;
-    --site-line: rgba(24,55,65, .14);
-    --site-shadow: 0 10px 28px -8px rgba(24,55,65, .28);
+    --site-line: rgba(3,32,61, .14);
+    --site-shadow: 0 10px 28px -8px rgba(3,32,61, .28);
 }
 html, body { font-family: 'Work Sans', Arial, sans-serif; color: var(--site-navy); }
 
@@ -639,7 +639,7 @@ html body .gallery-title p {
     background: rgba(250, 250, 250, .88);
     -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
-    box-shadow: 0 6px 18px -8px rgba(24,55,65, .25);
+    box-shadow: 0 6px 18px -8px rgba(3,32,61, .25);
     color: var(--site-sage);
     font: 600 12px/1 'Work Sans', Arial, sans-serif;
     letter-spacing: .2em;
@@ -658,7 +658,7 @@ html body .artwork-info {
     border: 1px solid var(--site-line);
     border-radius: 18px;
     background: rgba(250, 250, 250, .97);
-    box-shadow: 0 24px 60px -18px rgba(24,55,65, .4);
+    box-shadow: 0 24px 60px -18px rgba(3,32,61, .4);
     animation: info-in .28s ease-out;
 }
 @keyframes info-in { from { opacity: 0; transform: translateY(-8px); } }
@@ -760,7 +760,7 @@ html body .mobile-notice-link { font-family: inherit; }
     html body .instructions { gap: 14px; font-size: 11px; }
 }
 /* red buttons */
-html body .home-button{ background:#a63737; border-color:#a63737; color:#fff; }
-html body .home-button:hover{ background:#733232; border-color:#733232; }
-html body .artwork-info button:hover{ background:#a63737; }
-html body .mobile-notice-primary{ background:#a63737; }
+html body .home-button{ background:#eb2f33; border-color:#eb2f33; color:#fff; }
+html body .home-button:hover{ background:#c4242a; border-color:#c4242a; }
+html body .artwork-info button:hover{ background:#eb2f33; }
+html body .mobile-notice-primary{ background:#eb2f33; }

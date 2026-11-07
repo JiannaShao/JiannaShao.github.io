@@ -341,11 +341,11 @@ body {
    INDEX-ALIGNED ART PORTFOLIO
 ===================================================== */
 :root{
-    --navy:#183741;
-    --navy2:#1f4a4d;
+    --navy:#03203d;
+    --navy2:#0e2f52;
     --muted:#667080;
     --cream:#fafafa;
-    --accent:#1d6071;
+    --accent:#3a6f99;
     --sidebar-rail:58px;
     --sidebar-full:200px;
 }
@@ -462,7 +462,7 @@ h1,h2,h3{
 }
 .side-brand{
     display:block !important;width:42px !important;height:42px !important;margin:0 0 56px 0 !important;
-    color:#1f4a4d;text-decoration:none;transform-origin:center center !important;
+    color:#0e2f52;text-decoration:none;transform-origin:center center !important;
     transition:transform .18s ease !important;
 }
 .side-logo{
@@ -479,7 +479,7 @@ h1,h2,h3{
 .side-nav-item{width:100%;margin:0 0 30px 0}
 .side-nav-item:last-child{margin-bottom:0}
 .side-main-link,.side-dropdown-toggle{
-    width:100%;min-height:24px;padding:0;border:0;background:transparent;color:#1f4a4d !important;
+    width:100%;min-height:24px;padding:0;border:0;background:transparent;color:#0e2f52 !important;
     font-family:'Work Sans',Arial,sans-serif !important;font-size:16px !important;font-weight:400;
     line-height:1.35;text-align:left;text-decoration:none;white-space:nowrap;cursor:pointer;
     transition:color .16s ease,transform .18s ease !important;
@@ -495,7 +495,7 @@ h1,h2,h3{
 .side-dropdown.is-open .side-submenu-wrap{grid-template-rows:1fr;opacity:1;margin-top:13px}
 .side-submenu{min-height:0;overflow:hidden;display:flex;flex-direction:column;gap:11px;padding-left:12px}
 .side-submenu a{
-    display:block;color:#1f4a4d !important;font-family:'Work Sans',Arial,sans-serif !important;
+    display:block;color:#0e2f52 !important;font-family:'Work Sans',Arial,sans-serif !important;
     font-size:14px !important;line-height:1.3;text-decoration:none;white-space:nowrap;opacity:.82;
     transition:color .16s ease,transform .18s ease,opacity .16s ease !important;
 }
@@ -515,7 +515,7 @@ h1,h2,h3{
     vector-effect:non-scaling-stroke !important;stroke-linecap:round !important;stroke-linejoin:round !important;
 }
 #snake-ghost{stroke:#d5dfdc !important;opacity:1 !important}
-#snake-path{stroke:#1f4a4d !important;opacity:1 !important;stroke-dasharray:1;stroke-dashoffset:1}
+#snake-path{stroke:#0e2f52 !important;opacity:1 !important;stroke-dasharray:1;stroke-dashoffset:1}
 
 @media(max-width:700px){
     :root{--sidebar-rail:54px;--sidebar-full:176px}

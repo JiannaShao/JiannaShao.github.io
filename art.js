@@ -589,10 +589,10 @@ const bench = {
     g.fillStyle = "rgba(0,0,0,.18)";
     g.beginPath(); g.roundRect(30, 38, 196, 196, 46); g.fill();
     g.fillStyle = "#fafafa";
-    g.strokeStyle = "#183741";
+    g.strokeStyle = "#03203d";
     g.lineWidth = 10;
     g.beginPath(); g.roundRect(28, 24, 196, 196, 46); g.fill(); g.stroke();
-    g.fillStyle = "#183741";
+    g.fillStyle = "#03203d";
     g.font = "700 128px 'Work Sans', Arial, sans-serif";
     g.textAlign = "center";
     g.textBaseline = "middle";

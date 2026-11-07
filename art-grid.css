@@ -4,10 +4,10 @@
    short caption; clicking one opens it large with the full text.
    ========================================================= */
 :root{
-  --ag-navy:#183741;
+  --ag-navy:#03203d;
   --ag-muted:#5f6b74;
-  --ag-line:rgba(24,55,65,.12);
-  --ag-label:#1d6071;
+  --ag-line:rgba(3,32,61,.12);
+  --ag-label:#3a6f99;
   --ag-serif:'DM Serif Display', Georgia, serif;
   --ag-sans:'Work Sans', Arial, sans-serif;
   --ag-backdrop:rgba(12,18,28,.975);

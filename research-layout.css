@@ -4,10 +4,10 @@
    between a heading column and a text/image column.
    ========================================================= */
 :root{
-  --rx-navy:#183741;
-  --rx-ink:#1f4a4d;
+  --rx-navy:#03203d;
+  --rx-ink:#0e2f52;
   --rx-muted:#5f6b74;
-  --rx-line:rgba(24,55,65,.14);
+  --rx-line:rgba(3,32,61,.14);
   --rx-soft:#eef1f0;
   --rx-arc:#3fd8e8;        /* azure weld arc */
   --rx-arc-hot:#e9fdff;
@@ -33,7 +33,7 @@ html body main.rx{
   font-weight:600;
   letter-spacing:.2em;
   text-transform:uppercase;
-  color:#1d6071;
+  color:#3a6f99;
 }
 .rx h2{
   margin:0;
@@ -118,7 +118,7 @@ html body main.rx{
   font-weight:600;
   letter-spacing:.18em;
   text-transform:uppercase;
-  color:#1d6071;
+  color:#3a6f99;
   padding-top:2px;
 }
 .rx-facts dd{
@@ -207,8 +207,8 @@ html body main.rx{
   width:22px;
   height:22px;
   border-radius:50%;
-  border:1.6px solid #a63737;
-  color:#a63737;
+  border:1.6px solid #eb2f33;
+  color:#eb2f33;
   display:inline-flex;
   align-items:center;
   justify-content:center;
@@ -380,7 +380,7 @@ html body .rx .rx-skills-label{
   font-weight:600;
   letter-spacing:.18em;
   text-transform:uppercase;
-  color:#1d6071;
+  color:#3a6f99;
 }
 .rx-skills ul{
   list-style:none;
