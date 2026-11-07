@@ -5065,3 +5065,7 @@ html body .ad-thumb{ flex:0 0 auto; width:100%; }
   .ad-prop-hands figcaption{ transform:translate(-50%, 0); }
   .ad-prop-hands .ad-hands{ transform:translateY(12px); }
 }
+@media (min-width:901px){
+  html body .ad-stage{ height:clamp(490px, 46vw, 650px); }
+  html body .ad-stage .ad-props{ height:clamp(270px, 28vw, 380px); }
+}
