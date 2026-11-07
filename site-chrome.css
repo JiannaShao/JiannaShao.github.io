@@ -8,7 +8,7 @@
   --chrome-rail: 58px;
   --chrome-open: 200px;
   --chrome-bg: #e8ebea;
-  --chrome-ink: #42524d;
+  --chrome-ink: #1f4a4d;
   --chrome-snake-w: 28px;   /* narrower (was 39px) */
   --chrome-snake-inset: 12px;
 }
@@ -289,7 +289,7 @@ html body #snake-head{
   }
   html body .side-nav.mobile-open{
     transform: translateX(0) !important;
-    box-shadow: 0 0 40px rgba(20,37,61,.22) !important;
+    box-shadow: 0 0 40px rgba(24,55,65,.22) !important;
   }
   html body .side-nav-inner{
     width: 240px !important;
@@ -329,7 +329,7 @@ html body #snake-head{
     border: 1px solid rgba(66,82,77,.14);
     border-radius: 50%;
     background: var(--chrome-bg);
-    box-shadow: 0 4px 14px rgba(20,37,61,.12);
+    box-shadow: 0 4px 14px rgba(24,55,65,.12);
     align-items: center;
     justify-content: center;
     flex-direction: column;
@@ -354,7 +354,7 @@ html body #snake-head{
     position: fixed;
     inset: 0;
     z-index: 6900;
-    background: rgba(20,37,61,.28);
+    background: rgba(24,55,65,.28);
     opacity: 0;
     pointer-events: none;
     transition: opacity .25s ease;
@@ -527,3 +527,6 @@ html body .side-submenu{ gap: 16px !important; }
   html body .side-dropdown-toggle{ padding-right: 12px !important; }
   html body .side-dropdown-arrow{ color: var(--chrome-ink) !important; opacity: 1 !important; }
 }
+
+/* Palette accents (red) shared across pages */
+:root{ --pal-red:#a63737; --pal-wine:#733232; --pal-teal:#1d6071; --pal-deep:#1f4a4d; --pal-ink:#183741; }

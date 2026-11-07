@@ -30,7 +30,7 @@ html.site-loading body{
   width:76px;
   height:76px;
   fill:none;
-  stroke:#42524d;
+  stroke:#1f4a4d;
   stroke-width:2.6;
   stroke-linecap:round;
   stroke-linejoin:round;
@@ -51,14 +51,14 @@ html.site-loading body{
   width:min(180px, 46vw);
   height:2px;
   border-radius:2px;
-  background:rgba(20,37,61,.12);
+  background:rgba(24,55,65,.12);
   overflow:hidden;
 }
 .site-loader-bar span{
   display:block;
   height:100%;
   width:100%;
-  background:#14253d;
+  background:#183741;
   transform:scaleX(0);
   transform-origin:left center;
   transition:transform .3s ease;

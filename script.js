@@ -278,7 +278,7 @@
   const buildBrush = (w, h) => {
     let seed = 7;
     const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
-    const shades = ['#14253d', '#14253d', '#12223a', '#0f1d31', '#172a45', '#1b3050', '#16294a', '#203655', '#0c1829', '#2a4262'];
+    const shades = ['#183741', '#183741', '#16323b', '#132b33', '#1b3c47', '#1f4a4d', '#1a4049', '#22505a', '#112830', '#2a5a63'];
     const k = h / 520;
     return [BRUSH_SNAKE].map((S) => {
       const { pts, len } = snakePoints(w, h);
@@ -463,7 +463,7 @@
         const BACK_SRC = 'Postcard/2.png';
         const CREAM = 0xf8f7f5;               // envelope paper
         const CARD_EDGE = 0xeae8e2;           // postcard stock, sampled from the new card images
-        const NAVY = '#14253d';
+        const NAVY = '#183741';
 
         const CARD_W = 1.6;                   // card is 1650 x 1275
         const CARD_H = CARD_W * (1275 / 1650);
@@ -545,16 +545,16 @@
           const cx = w / 2, cy = h * 0.56;
           // bottom pocket: a soft gradient instead of a flat tint
           const pocket = g.createLinearGradient(0, cy, 0, h);
-          pocket.addColorStop(0, 'rgba(20,37,61,0.012)');
-          pocket.addColorStop(1, 'rgba(20,37,61,0.03)');
+          pocket.addColorStop(0, 'rgba(24,55,65,0.012)');
+          pocket.addColorStop(1, 'rgba(24,55,65,0.03)');
           g.fillStyle = pocket;
           g.beginPath(); g.moveTo(0, h); g.lineTo(cx, cy); g.lineTo(w, h); g.closePath(); g.fill();
           g.lineJoin = 'round'; g.lineCap = 'round';
-          g.strokeStyle = 'rgba(20,37,61,0.12)'; g.lineWidth = 5;
+          g.strokeStyle = 'rgba(24,55,65,0.12)'; g.lineWidth = 5;
           g.beginPath(); g.moveTo(0, h); g.lineTo(cx, cy); g.lineTo(w, h); g.stroke();
           g.beginPath(); g.moveTo(0, 0); g.lineTo(cx * 0.92, cy * 0.98); g.stroke();
           g.beginPath(); g.moveTo(w, 0); g.lineTo(w - cx * 0.92, cy * 0.98); g.stroke();
-          g.strokeStyle = 'rgba(20,37,61,0.2)'; g.lineWidth = 6;    // crisp outer edge
+          g.strokeStyle = 'rgba(24,55,65,0.2)'; g.lineWidth = 6;    // crisp outer edge
           g.strokeRect(3, 3, w - 6, h - 6);
         });
         const plainEdge = mat({ color: CREAM });
@@ -601,8 +601,8 @@
         const STAMP_Y = -FLAP_L + 0.17;        // a little lower, over the flap's point
         const stampShadowTex = canvasTex(256, 256, (g, w) => {
           const r = g.createRadialGradient(w / 2, w / 2, w * 0.4, w / 2, w / 2, w / 2);
-          r.addColorStop(0, 'rgba(20,37,61,0.3)');
-          r.addColorStop(1, 'rgba(20,37,61,0)');
+          r.addColorStop(0, 'rgba(24,55,65,0.3)');
+          r.addColorStop(1, 'rgba(24,55,65,0)');
           g.fillStyle = r; g.fillRect(0, 0, w, w);
         });
         const stampShadowMat = new THREE.MeshBasicMaterial({ map: stampShadowTex, transparent: true, depthWrite: false });
@@ -622,7 +622,7 @@
         // Soft drop shadow so the envelope lifts off the page
         const shadowTex = canvasTex(1024, 840, (g, w, h) => {
           g.clearRect(0, 0, w, h);
-          g.shadowColor = 'rgba(20,37,61,0.24)';
+          g.shadowColor = 'rgba(24,55,65,0.24)';
           g.shadowBlur = 90;
           g.shadowOffsetX = w * 2;                 // draw off-canvas, keep only the blur
           g.fillStyle = '#000';

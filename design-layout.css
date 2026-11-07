@@ -5,11 +5,11 @@
    The final overlapping photo cards keep their own styles.
    ========================================================= */
 :root{
-  --dx-navy:#14253d;
+  --dx-navy:#183741;
   --dx-muted:#5f6b74;
-  --dx-line:rgba(20,37,61,.14);
+  --dx-line:rgba(24,55,65,.14);
   --dx-soft:#eef1f0;
-  --dx-label:#48666d;
+  --dx-label:#1d6071;
   --dx-blue:#2f6fd6;          /* blueprint line colour */
   --dx-serif:'DM Serif Display', Georgia, serif;
   --dx-sans:'Work Sans', Arial, sans-serif;
@@ -314,7 +314,7 @@ html body .dx .final-project{ width:100% !important; margin-top:8px; }
   width:2px;
   margin-left:-1px;
   background:#fff;
-  box-shadow:0 0 0 1px rgba(20,37,61,.15);
+  box-shadow:0 0 0 1px rgba(24,55,65,.15);
   pointer-events:none;
 }
 .dx-compare-handle span{
@@ -326,7 +326,7 @@ html body .dx .final-project{ width:100% !important; margin-top:8px; }
   margin:-22px 0 0 -22px;
   border-radius:50%;
   background:#fff;
-  box-shadow:0 4px 14px rgba(20,37,61,.25);
+  box-shadow:0 4px 14px rgba(24,55,65,.25);
 }
 .dx-compare-handle span::before,
 .dx-compare-handle span::after{
@@ -357,7 +357,7 @@ html body .dx .final-project{ width:100% !important; margin-top:8px; }
   top:14px;
   padding:6px 10px;
   border-radius:6px;
-  background:rgba(20,37,61,.78);
+  background:rgba(24,55,65,.78);
   color:#fff;
   font-family:var(--dx-sans);
   font-size:12px;
@@ -649,13 +649,13 @@ html body .dx .gx-part-title{
   width:100%;
   height:auto;
   border-radius:10px;
-  box-shadow:0 1px 2px rgba(20,37,61,.08), 0 14px 30px -14px rgba(20,37,61,.3);
+  box-shadow:0 1px 2px rgba(24,55,65,.08), 0 14px 30px -14px rgba(24,55,65,.3);
   transition:transform .25s ease, box-shadow .25s ease;
 }
 .gx-zoom:hover img,
 .gx-zoom:focus-visible img{
   transform:translateY(-4px);
-  box-shadow:0 1px 2px rgba(20,37,61,.08), 0 22px 40px -16px rgba(20,37,61,.38);
+  box-shadow:0 1px 2px rgba(24,55,65,.08), 0 22px 40px -16px rgba(24,55,65,.38);
 }
 .gx-zoom:focus-visible{ outline:3px solid var(--dx-label); outline-offset:4px; }
 html body .dx .gx-piece figcaption{
@@ -784,11 +784,11 @@ html body .dx .gx-slide .gx-zoom img{
   width:100%;
   height:auto;
   border-radius:12px;
-  box-shadow:0 2px 4px rgba(20,37,61,.08), 0 18px 34px -16px rgba(20,37,61,.35);
+  box-shadow:0 2px 4px rgba(24,55,65,.08), 0 18px 34px -16px rgba(24,55,65,.35);
 }
 .gx-slide .gx-zoom:hover img,
 .gx-slide .gx-zoom:focus-visible img{ transform:none; }
-.gx-slide.is-current .gx-zoom:hover img{ box-shadow:0 2px 4px rgba(20,37,61,.1), 0 26px 44px -16px rgba(20,37,61,.45); }
+.gx-slide.is-current .gx-zoom:hover img{ box-shadow:0 2px 4px rgba(24,55,65,.1), 0 26px 44px -16px rgba(24,55,65,.45); }
 
 /* round arrows with a ring, overlapping the track edges */
 .gx-nav{
@@ -807,13 +807,13 @@ html body .dx .gx-slide .gx-zoom img{
   background:var(--dx-navy);
   color:#fff;
   cursor:pointer;
-  box-shadow:0 6px 16px -6px rgba(20,37,61,.45);
+  box-shadow:0 6px 16px -6px rgba(24,55,65,.45);
   transition:transform .2s ease, background .2s ease;
 }
 .gx-nav svg{ width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
 .gx-prev{ left:4px; }
 .gx-next{ right:4px; }
-.gx-nav:hover{ background:#263b58; transform:scale(1.08); }
+.gx-nav:hover{ background:#1f4a4d; transform:scale(1.08); }
 .gx-nav:focus-visible{ outline:3px solid var(--dx-label); outline-offset:2px; }
 
 /* dash indicators */
@@ -829,12 +829,12 @@ html body .dx .gx-slide .gx-zoom img{
   padding:0;
   border:0;
   border-radius:99px;
-  background:rgba(20,37,61,.22);
+  background:rgba(24,55,65,.22);
   cursor:pointer;
   transition:background .2s ease, width .25s ease;
 }
 .gx-dot.is-on{ width:26px; background:var(--dx-navy); }
-.gx-dot:hover{ background:rgba(20,37,61,.45); }
+.gx-dot:hover{ background:rgba(24,55,65,.45); }
 .gx-dot.is-on:hover{ background:var(--dx-navy); }
 
 @media (max-width:640px){
@@ -859,3 +859,4 @@ html body .dx .gx-blurb{ width:min(68ch, 100%); max-width:none; margin:30px auto
 html body .dx .gx-blurb{ width:100%; max-width:none; }
 .gx-track{ touch-action:pan-y; cursor:grab; }
 .gx-track:active{ cursor:grabbing; }
+.gx-dot.is-on, .gx-dot.is-on:hover{ background:#a63737; }
