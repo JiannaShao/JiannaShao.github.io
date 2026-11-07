@@ -5078,3 +5078,7 @@ html body .ad-thumb{ flex:0 0 auto; width:100%; }
 @media (max-width:760px){ html body .ad-strip{ padding:5px 5px 9px; } }
 html body .ad-thumb.is-on{ outline-color:#a63737; }
 .project-jump a:hover .pj-icon{ background:#a63737; }
+/* red buttons */
+html body .back-to-top{ color:#a63737; }
+html body .back-to-top:hover{ color:#733232; }
+html body .sp-arrange-bar button{ background:#a63737; }

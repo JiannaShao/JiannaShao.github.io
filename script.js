@@ -278,7 +278,7 @@
   const buildBrush = (w, h) => {
     let seed = 7;
     const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
-    const shades = ['#183741', '#183741', '#16323b', '#132b33', '#1b3c47', '#1f4a4d', '#1a4049', '#22505a', '#112830', '#2a5a63'];
+    const shades = ['#733232', '#733232', '#6a2d2d', '#5e2828', '#7d3636', '#843838', '#6f3030', '#8f3c3c', '#562424', '#9a4040'];   // wine brush
     const k = h / 520;
     return [BRUSH_SNAKE].map((S) => {
       const { pts, len } = snakePoints(w, h);

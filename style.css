@@ -3113,3 +3113,44 @@ html body .resume-section .resume-folders #cv-preview-button .resume-peek-side{ 
 @media (hover:hover) and (pointer:fine){
   .resume-peek:hover .resume-peek-arrow{ transform:translateX(-4px); }
 }
+
+/* =====================================================
+   RICHER PALETTE: red buttons, wine name stroke, teal accents
+===================================================== */
+/* main header: wine brush, cream JIANNA, pale teal SHAO */
+html body .hero-name .hero-name-jianna{ color:#fbf6ee !important; }
+html body .hero-name .teal-accent,
+html body .hero-name .hero-name-shao{ color:#a9d3d9 !important; }
+
+/* buttons: filled red, deeper wine on hover */
+html body .work-card .explore-btn,
+html body .contact-action,
+html body .resume-peek-cta{
+  background:#a63737 !important;
+  border-color:#a63737 !important;
+  color:#ffffff !important;
+  box-shadow:0 6px 16px -8px rgba(115,50,50,.55);
+}
+@media (hover:hover) and (pointer:fine){
+  html body .work-card .explore-btn:hover,
+  html body .contact-action:hover,
+  html body .resume-peek:hover .resume-peek-cta{
+    background:#733232 !important;
+    border-color:#733232 !important;
+    color:#ffffff !important;
+    box-shadow:0 12px 24px -10px rgba(115,50,50,.6);
+  }
+}
+html body .contact-action.is-copied{ background:#1d6071 !important; border-color:#1d6071 !important; }
+html body .work-card .explore-btn:focus-visible,
+html body .contact-action:focus-visible{ outline:3px solid #1d6071; outline-offset:3px; }
+@media (hover:none), (max-width:800px){
+  html body .work-card .explore-btn:active{ background:#733232 !important; }
+}
+
+/* richness: teal-blue project numbers and card hover edges, red link arrows */
+html body .project-box:hover{ border-color:#1d6071 !important; box-shadow:0 14px 30px -12px rgba(29,96,113,.35); }
+html body .project-number{ color:#1d6071 !important; }
+html body .project-link{ color:#a63737 !important; }
+html body .contact-links a:hover b{ color:#a63737 !important; }
+html body .work-meta b{ color:rgba(166,55,55,.55) !important; }

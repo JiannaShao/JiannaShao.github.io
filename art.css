@@ -759,3 +759,8 @@ html body .mobile-notice-link { font-family: inherit; }
 @media (max-width: 1100px) {
     html body .instructions { gap: 14px; font-size: 11px; }
 }
+/* red buttons */
+html body .home-button{ background:#a63737; border-color:#a63737; color:#fff; }
+html body .home-button:hover{ background:#733232; border-color:#733232; }
+html body .artwork-info button:hover{ background:#a63737; }
+html body .mobile-notice-primary{ background:#a63737; }

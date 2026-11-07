@@ -860,3 +860,7 @@ html body .dx .gx-blurb{ width:100%; max-width:none; }
 .gx-track{ touch-action:pan-y; cursor:grab; }
 .gx-track:active{ cursor:grabbing; }
 .gx-dot.is-on, .gx-dot.is-on:hover{ background:#a63737; }
+/* red buttons */
+.gx-nav{ background:#a63737; }
+.gx-nav:hover{ background:#733232; }
+html body .dx .dx-index a:hover{ background:#a63737 !important; border-color:#a63737 !important; color:#fff !important; }
