@@ -222,9 +222,74 @@ html body h2{ color:#eeaf9d !important; }
 html body .work-meta b{ color:#e15546 !important; }
 html body .dx .dx-title,
 html body .rx .rx-title,
-html body .ap-title,
+html body h1.ap-title,
 html body .project-hero h1{ color:#eae4cc !important; }
 /* name on the pink brush */
-html body .hero-name .hero-name-jianna{ color:#182335 !important; }
+html body .hero-name .hero-name-jianna{ color:#eae4cc !important; }
 html body .hero-name .teal-accent,
-html body .hero-name .hero-name-shao{ color:#e15546 !important; }
+html body .hero-name .hero-name-shao{ color:#182335 !important; }
+
+/* =========================================================
+   BRIGHTER — cream panels behind sections, images and text.
+   Section headings stay on the navy page; the content sits on cream.
+   ========================================================= */
+html body .t-panel,
+html body .work-card,
+html body #art .art-grid,
+html body .resume-folders,
+html body .contact-links,
+html body .dx-skills,
+html body .dx-step,
+html body .gx-carousel,
+html body .gx-blurb,
+html body .rx-body-wide,
+html body .rx-setup,
+html body .rx-photos,
+html body .rx-present,
+html body .rx-outputs,
+html body main.portfolio{
+  background:#eae4cc !important;
+  --t-ink:#182335;
+  --t-muted:#4f5562;
+  --t-label:#c8473a;
+  --t-line-rgb:24,35,53;
+  --t-card:#f6f2e4;
+  --t-soft:#fbf8ef;
+  color:var(--t-ink);
+  padding:clamp(22px, 3vw, 44px) !important;
+  box-sizing:border-box;
+}
+html body .t-panel h2, html body .t-panel h3,
+html body .work-card h3,
+html body .dx-step h2, html body .dx-step h3,
+html body .rx-present h2, html body .rx-outputs h3{ color:#182335 !important; }
+html body .t-panel p, html body .work-card p,
+html body .dx-step p, html body .rx-body-wide p, html body .rx-setup p,
+html body .rx-present p, html body .rx-outputs p,
+html body .gx-blurb, html body figcaption{ color:var(--t-muted); }
+html body .t-panel-project{ margin-top:clamp(18px, 2vw, 28px); }
+/* buttons are solid red so they read on cream and on navy */
+html body .work-card .explore-btn,
+html body .contact-action,
+html body .resume-peek-cta,
+html body .back-to-top,
+html body .mobile-notice-primary,
+html body .project-end-links a{
+  background:#e15546 !important;
+  color:#fbf8ef !important;
+}
+@media (hover:hover) and (pointer:fine){
+  html body .work-card .explore-btn:hover,
+  html body .contact-action:hover,
+  html body .resume-peek:hover .resume-peek-cta,
+  html body .back-to-top:hover,
+  html body .project-end-links a:hover{
+    background:#c8473a !important;
+    border-color:#c8473a !important;
+    color:#fff !important;
+  }
+}
+html body .contact-links a span{ color:#c8473a !important; }
+html body .contact-links a b{ color:#182335 !important; }
+html body .resume-folder-label{ color:#c8473a !important; }
+html body .resume-section .resume-folders{ padding:28px 24px !important; gap:28px 40px; flex-shrink:1; }

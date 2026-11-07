@@ -5078,3 +5078,36 @@ html body .ad-thumb.is-on{ outline-color:#e15546; }
 html body .back-to-top{ color:#e15546; }
 html body .back-to-top:hover{ color:#c8473a; }
 html body .sp-arrange-bar button{ background:#e15546; }
+
+/* ---------- Projects title: split-flap ---------- */
+.project-hero h1{ perspective:600px; }
+.project-hero h1 .pf-ch{
+  display:inline-block;
+  position:relative;
+  text-align:center;
+  transform-origin:50% 52%;
+  backface-visibility:hidden;
+}
+/* the seam across each flap while the board is turning */
+.project-hero h1.is-flapping .pf-ch::after{
+  content:'';
+  position:absolute;
+  left:-2px; right:-2px;
+  top:54%;
+  height:3px;
+  background:var(--t-page, #182335);
+  opacity:.9;
+  transition:opacity .3s ease;
+}
+.project-hero h1.is-flapping .pf-ch.is-set::after{ opacity:0; }
+.project-hero h1 .pf-ch.is-flip{ animation:pf-flip .11s cubic-bezier(.3,.6,.4,1); }
+.project-hero h1 .pf-ch.is-set.is-flip{ animation:pf-land .34s cubic-bezier(.2,.9,.3,1.3); }
+@keyframes pf-flip{
+  from{ transform:rotateX(-75deg); filter:brightness(.7); }
+  to{ transform:rotateX(0); filter:none; }
+}
+@keyframes pf-land{
+  0%{ transform:rotateX(-80deg); }
+  70%{ transform:rotateX(8deg); }
+  100%{ transform:rotateX(0); }
+}
