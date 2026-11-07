@@ -5073,3 +5073,6 @@ html body .ad-thumb{ flex:0 0 auto; width:100%; }
   html body .ad-gallery{ gap:32px; }
   html body .ad-strip{ padding-right:14px; flex-basis:clamp(134px, 13vw, 184px); }
 }
+/* room inside the strip so the active thumbnail's ring isn't clipped */
+@media (min-width:761px){ html body .ad-strip{ padding:5px 14px 5px 5px; } }
+@media (max-width:760px){ html body .ad-strip{ padding:5px 5px 9px; } }
