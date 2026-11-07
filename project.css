@@ -5069,3 +5069,7 @@ html body .ad-thumb{ flex:0 0 auto; width:100%; }
   html body .ad-stage{ height:clamp(490px, 46vw, 650px); }
   html body .ad-stage .ad-props{ height:clamp(270px, 28vw, 380px); }
 }
+@media (min-width:761px){
+  html body .ad-gallery{ gap:32px; }
+  html body .ad-strip{ padding-right:14px; flex-basis:clamp(134px, 13vw, 184px); }
+}
