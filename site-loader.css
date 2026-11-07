@@ -51,7 +51,7 @@ html.site-loading body{
   width:min(180px, 46vw);
   height:2px;
   border-radius:2px;
-  background:rgba(214,228,240,0.12);
+  background:rgba(var(--t-line-rgb),0.12);
   overflow:hidden;
 }
 .site-loader-bar span{

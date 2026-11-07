@@ -48,7 +48,7 @@ html body main.portfolio .artwork-image{
   pointer-events:auto !important;     /* clickable now */
   overflow:hidden;
   border-radius:10px !important;
-  background:#0c3257;
+  background:var(--t-soft);
 }
 html body main.portfolio .artwork-image img{
   display:block;

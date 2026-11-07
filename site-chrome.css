@@ -55,7 +55,7 @@ html body .side-nav::after{
   bottom: 0 !important;
   left: auto !important;
   width: 2px !important;
-  background:#0a2d51 !important;
+  background:var(--t-card) !important;
   pointer-events: none !important;
   z-index: 0 !important;
 }
@@ -354,7 +354,7 @@ html body #snake-head{
     position: fixed;
     inset: 0;
     z-index: 6900;
-    background:rgba(214,228,240,0.28);
+    background:rgba(var(--t-line-rgb),0.28);
     opacity: 0;
     pointer-events: none;
     transition: opacity .25s ease;

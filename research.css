@@ -440,7 +440,7 @@ footer a:hover {
     top: 0 !important;
     bottom: 0 !important;
     width: var(--sidebar-rail) !important;
-    background:#0c3257 !important;
+    background:var(--t-soft) !important;
     border-right:1px solid rgba(66, 82, 77, .12) !important;
     z-index: 6000 !important;
     overflow: hidden !important;
@@ -455,7 +455,7 @@ footer a:hover {
     right: 0;
     bottom: 0;
     width: 2px;
-    background:#0a2d51;
+    background:var(--t-card);
     pointer-events: none;
     z-index: 0;
 }
@@ -478,7 +478,7 @@ footer a:hover {
     width: 42px !important;
     height: 42px !important;
     margin: 0 0 56px 0 !important;
-    color:#f3efe6;
+    color:var(--t-ink);
     text-decoration: none;
     transform-origin: center center !important;
     transition: transform .18s ease !important;
@@ -530,7 +530,7 @@ footer a:hover {
     padding: 0;
     border:0;
     background:transparent;
-    color:#f3efe6 !important;
+    color:var(--t-ink) !important;
     font-family: "Work Sans", Arial, sans-serif;
     font-size: 16px !important;
     font-weight: 400;
@@ -591,7 +591,7 @@ footer a:hover {
 
 .side-submenu a {
     display: block;
-    color:#f3efe6 !important;
+    color:var(--t-ink) !important;
     font-family: "Work Sans", Arial, sans-serif;
     font-size: 14px !important;
     line-height: 1.3;
@@ -739,7 +739,7 @@ figcaption{
 
 /* Curvature Matters section */
 .findings{
-    background:#0c3257 !important;
+    background:var(--t-soft) !important;
 }
 
 /* Keep all dark text on the same navy as the index page */
@@ -755,7 +755,7 @@ h3,
 .skills span,
 figcaption,
 footer a{
-    color:#f3efe6;
+    color:var(--t-ink);
 }
 
 /* Research accent color */
@@ -765,7 +765,7 @@ footer a{
 .output > span,
 .nav-links a:hover,
 .nav-links .active{
-    color:#8fbadb !important;
+    color:var(--t-label) !important;
 }
 
 .process-item{
@@ -946,7 +946,7 @@ figcaption{
 .section-label,
 .process-item span,
 .output > span{
-    color:#8fbadb !important;
+    color:var(--t-label) !important;
 }
 
 .process-item{
@@ -954,7 +954,7 @@ figcaption{
 }
 
 .findings{
-    background:#0c3257 !important;
+    background:var(--t-soft) !important;
     padding-left:48px !important;
     padding-right:48px !important;
 }

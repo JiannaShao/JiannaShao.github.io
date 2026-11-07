@@ -33,7 +33,7 @@ html body main.rx{
   font-weight:600;
   letter-spacing:.2em;
   text-transform:uppercase;
-  color:#8fbadb;
+  color:var(--t-label);
 }
 .rx h2{
   margin:0;
@@ -118,7 +118,7 @@ html body main.rx{
   font-weight:600;
   letter-spacing:.18em;
   text-transform:uppercase;
-  color:#8fbadb;
+  color:var(--t-label);
   padding-top:2px;
 }
 .rx-facts dd{
@@ -178,7 +178,7 @@ html body main.rx{
   align-items:start;
 }
 .rx-figure-diagram img{
-  background:#0a2d51;
+  background:var(--t-card);
   border:1px solid var(--t-line);
   padding:clamp(8px, 1.4vw, 18px);
   box-sizing:border-box;
@@ -380,7 +380,7 @@ html body .rx .rx-skills-label{
   font-weight:600;
   letter-spacing:.18em;
   text-transform:uppercase;
-  color:#8fbadb;
+  color:var(--t-label);
 }
 .rx-skills ul{
   list-style:none;

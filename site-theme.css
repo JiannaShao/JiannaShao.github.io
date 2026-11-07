@@ -140,3 +140,67 @@ html body .resume-lightbox-inner,
 html body .art-grid-item, html body .art-grid img{
   border-radius:0 !important;
 }
+
+
+/* =========================================================
+   CARDS ARE WHITE — not another shade of dark blue.
+   Inside them the ink flips back to Egyptian blue.
+   ========================================================= */
+:root{ --t-card:#ffffff; --t-soft:#f4f2ec; --t-line-rgb:214,228,240; }
+html body .ad-prop,
+html body .ad-prop-media,
+html body .ad-stage .ad-props,
+html body .bird-asset-card,
+html body .description-box,
+html body .design-section,
+html body .design-text-box,
+html body .detail-image,
+html body .dx .dx-chips li,
+html body .dx-case-cover,
+html body .dx-compare,
+html body .dx-index a,
+html body .final-project,
+html body .findings,
+html body .garden-note-card,
+html body .image-placeholder,
+html body .mosaic-text-card,
+html body .presentation,
+html body .project-box,
+html body .project-details,
+html body .project-facts,
+html body .project-intro,
+html body .project-jump a,
+html body .project-meta,
+html body .project-three-text-card,
+html body .reference-card,
+html body .reference-text-card,
+html body .resume-display,
+html body .resume-peek-back,
+html body .resume-peek-pocket,
+html body .resume-peek-sheet,
+html body .rx-findings-card,
+html body .rx-skills li,
+html body .sketchy-media-card,
+html body .sketchy-screenshot,
+html body .sketchy-sprite-card,
+html body .sketchy-text-panel,
+html body .ss-text,
+html body .static-asset-card,
+html body .sp-takeaway{
+  --t-ink:#03203d;
+  --t-muted:#4f5f6c;
+  --t-label:#3a6f99;
+  --t-line-rgb:3,32,61;
+  color:var(--t-ink);
+}
+
+/* headings in scarlet */
+html body h1:not(.hero-name),
+html body h2,
+html body .dx .dx-title,
+html body .rx .rx-title,
+html body .ap-title{ color:#eb2f33 !important; }
+html body .rx-title .rx-ch.is-hot{ animation:none; }
+
+/* the contact area is a band of the page, not a card */
+html body .contact-section{ background:transparent !important; }

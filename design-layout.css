@@ -134,7 +134,7 @@ html body .dx .dx-facts dd{ font-size:15px !important; color:var(--t-ink); }
   padding:12px 18px;
   border:1.5px solid rgba(66,82,77,.3);
   border-radius:10px;
-  background:#0a2d51;
+  background:var(--t-card);
   color:var(--t-ink);
   font-family:var(--dx-sans);
   font-size:15px;
@@ -184,7 +184,7 @@ html body .dx .dx-chips li{
 }
 .dx-figure-white img,
 .dx-drawing img{
-  background:#0a2d51;
+  background:var(--t-card);
   border:1px solid var(--t-line);
   padding:clamp(10px, 2vw, 28px);
   box-sizing:border-box;
@@ -313,7 +313,7 @@ html body .dx .final-project{ width:100% !important; margin-top:8px; }
   left:var(--pos);
   width:2px;
   margin-left:-1px;
-  background:#0a2d51;
+  background:var(--t-card);
   box-shadow:0 0 0 1px rgba(0,6,18,0.26);
   pointer-events:none;
 }
@@ -325,7 +325,7 @@ html body .dx .final-project{ width:100% !important; margin-top:8px; }
   height:44px;
   margin:-22px 0 0 -22px;
   border-radius:50%;
-  background:#0a2d51;
+  background:var(--t-card);
   box-shadow:0 4px 14px rgba(0,6,18,0.42);
 }
 .dx-compare-handle span::before,
@@ -375,7 +375,7 @@ html body .dx .final-project{ width:100% !important; margin-top:8px; }
   position:relative;
   aspect-ratio:1201 / 762;
   border-radius:14px;
-  background:#0a2d51;
+  background:var(--t-card);
   border:1px solid var(--t-line);
   overflow:visible;
 }
@@ -540,7 +540,7 @@ html body .dx .dx-row .dx-text:first-of-type{ margin-top:0; }
   object-fit:contain;
   padding:0;
   border:1px solid var(--t-line);
-  background:#0a2d51;
+  background:var(--t-card);
 }
 .dx-pair > .dx-fit,
 .dx-pair > .dx-figure:not(.dx-fit){ flex:1 1 0; }
@@ -829,12 +829,12 @@ html body .dx .gx-slide .gx-zoom img{
   padding:0;
   border:0;
   border-radius:99px;
-  background:rgba(214,228,240,0.22);
+  background:rgba(var(--t-line-rgb),0.22);
   cursor:pointer;
   transition:background .2s ease, width .25s ease;
 }
 .gx-dot.is-on{ width:26px; background:var(--t-fill); }
-.gx-dot:hover{ background:rgba(214,228,240,0.45); }
+.gx-dot:hover{ background:rgba(var(--t-line-rgb),0.45); }
 .gx-dot.is-on:hover{ background:var(--t-fill); }
 
 @media (max-width:640px){
