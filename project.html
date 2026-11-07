@@ -943,23 +943,17 @@ What is the dot product of the vector from us to Hill 2 and the vector from us t
       items.forEach((it, i) => {
         let x, y, rx, ry, rz, s, sk;
         const n = order.indexOf(i);
-        if (n < 4) {
-          // strays: low, beside and in front of the box
-          // a few extra sheets near the top middle of the column
-          x = [55, 47, 51, 53][n] + (rnd() - .5) * 4;
-          y = [7, 12, 3, 17][n];
-          rx = 15 + rnd() * 30; ry = (rnd() - .5) * 50; rz = (rnd() - .5) * 70; s = .95;
-        } else {
-          const t = (n - 4 + rnd() * .7) / (items.length - 4);
-          const h = Math.pow(t, 1.25);                 // more sheets low down
-          y = 62 - h * 58 + (rnd() - .5) * 3;
-          const spread = 5 + h * 15;
-          x = 50 + h * 7 + (rnd() - .5) * 2 * spread;
-          rx = 10 + rnd() * 38;              // tipped, never edge-on
-          ry = (rnd() - .5) * 60;
-          rz = (rnd() - .5) * 150;
-          s = .92 - h * .3 + rnd() * .12;
-        }
+        // even spacing: equal steps up the cone, and a golden-ratio
+        // sequence across its width so neighbours never bunch up
+        const h = (n + .5) / items.length;
+        y = 62 - h * 58 + (rnd() - .5) * 1.5;
+        const spread = 5 + h * 15;
+        const u = ((n * 0.6180339887) + .31) % 1;
+        x = 50 + h * 7 + (u - .5) * 2 * spread + (rnd() - .5) * 1.5;
+        rx = 10 + rnd() * 38;                 // tipped, never edge-on
+        ry = (rnd() - .5) * 60;
+        rz = (rnd() - .5) * 150;
+        s = .92 - h * .3 + rnd() * .08;
         sk = (rnd() - .5) * 18;
         it.sk = sk;
         const el = document.createElement('span');
