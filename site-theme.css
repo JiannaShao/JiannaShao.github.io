@@ -1,13 +1,13 @@
 /* =========================================================
-   SITE THEME — Miami Nights palette: mint #E4F2EE page, white #F9FCFB
+   SITE THEME — Miami Nights palette: mint #F2ECE4 page, white #F9FCFB
    cards, deep teal #0F4953 ink + sidebar, salmon #F98E6E buttons +
-   brush, pink #FFCFD2 inner cards and highlights.
+   brush, pink #FFCFD2 text highlights only; navy #182335 sidebar + scroller.
    ========================================================= */
 :root{
-  --t-page:#E4F2EE;
+  --t-page:#F2ECE4;
   --t-card:#F9FCFB;
   --t-soft:#FFFFFF;
-  --t-fill:#a8e0d8;
+  --t-fill:#e2d8cc;
   --t-ink:#0F4953;
   --t-muted:#3d6168;
   --t-label:#C4593C;
@@ -20,7 +20,7 @@ html, body{ background:var(--t-page) !important; color:var(--t-ink); }
 ::selection{ background:#FFCFD2; color:#0F4953; }
 
 /* sidebar */
-:root{ --chrome-bg:#0F4953; --chrome-ink:#F9FCFB; }
+:root{ --chrome-bg:#182335; --chrome-ink:#F9FCFB; }
 
 /* props that are paper stay paper */
 html body .ad-s-top{ background:#fbfbf8 !important; }
@@ -216,8 +216,8 @@ html body footer{ background:transparent !important; color:var(--t-muted) !impor
 /* =========================================================
    Red sidebar, pink brush + section headings, cream page titles
    ========================================================= */
-:root{ --chrome-bg:#0F4953; --chrome-ink:#F9FCFB; }
-html body #snake-ghost{ stroke:rgba(249,252,251,.3) !important; }
+:root{ --chrome-bg:#182335; --chrome-ink:#F9FCFB; }
+html body #snake-ghost{ stroke:rgba(24,35,53,.18) !important; }
 html body h2{ color:#0F4953 !important; }
 html body .work-meta b{ color:#D96A4C !important; }
 html body .dx .dx-title,
@@ -253,8 +253,8 @@ html body main.portfolio{
   --t-muted:#3d6168;
   --t-label:#C4593C;
   --t-line-rgb:15,73,83;
-  --t-card:#FFCFD2;
-  --t-soft:#FFE6E7;
+  --t-card:#F6F1EA;
+  --t-soft:#FAF7F3;
   color:var(--t-ink);
   padding:clamp(22px, 3vw, 44px) !important;
   box-sizing:border-box;
@@ -327,11 +327,3 @@ html body .project-end-links a{
 }
 html body .gx-nav{ background:#F98E6E; border-color:#0F4953; }
 
-/* more pink: jump links, findings, contact band */
-html body .project-jump a,
-html body .dx .dx-index a,
-html body .rx-findings-card{ background:#FFCFD2 !important; border-color:#FFCFD2 !important; }
-html body .project-jump .pj-icon{ background:#FFE6E7 !important; }
-html body .contact-section{ background:#FFCFD2 !important; }
-html body .contact-section + footer, html body footer{ background:#FFCFD2 !important; }
-html body .contact-links{ background:#F9FCFB !important; }

@@ -7,8 +7,9 @@
 :root{
   --chrome-rail: 58px;
   --chrome-open: 200px;
-  --chrome-bg: #e8ebea;
-  --chrome-ink: #24324a;
+  --chrome-bg: #182335;
+  --chrome-ink: #F9FCFB;
+  --chrome-navy: #182335;
   --chrome-snake-w: 28px;   /* narrower (was 39px) */
   --chrome-snake-inset: 12px;
 }
@@ -249,17 +250,17 @@ html body #snake-path{
   vector-effect: non-scaling-stroke !important;
 }
 html body #snake-ghost{
-  stroke:#2c3a52 !important;
+  stroke:rgba(24,35,53,.18) !important;
   opacity: 1 !important;
 }
 html body #snake-path{
-  stroke:var(--chrome-ink) !important;
+  stroke:var(--chrome-navy) !important;
   transition: none !important;
 }
 /* small open circle that marks where you are on the snake */
 html body #snake-head{
   fill:#fafafa !important;
-  stroke:var(--chrome-ink) !important;
+  stroke:var(--chrome-navy) !important;
   stroke-width: 2 !important;
   vector-effect: non-scaling-stroke;
 }
