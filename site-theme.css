@@ -1,10 +1,10 @@
 /* =========================================================
-   SITE THEME — Miami Nights palette: mint #CBF5EF page, white #F9FCFB
+   SITE THEME — Miami Nights palette: mint #D3EBE3 page, white #F9FCFB
    cards, deep teal #0F4953 ink + sidebar, salmon #F98E6E buttons +
    brush, pink #FFCFD2 inner cards and highlights.
    ========================================================= */
 :root{
-  --t-page:#CBF5EF;
+  --t-page:#D3EBE3;
   --t-card:#F9FCFB;
   --t-soft:#FFFFFF;
   --t-fill:#a8e0d8;

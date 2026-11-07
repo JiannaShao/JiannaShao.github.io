@@ -16,7 +16,7 @@ html.site-loading body{
   align-items:center;
   justify-content:center;
   gap:28px;
-  background:#CBF5EF;
+  background:#D3EBE3;
   transition:opacity .45s ease, visibility 0s linear .45s;
 }
 .site-loader.is-done{
