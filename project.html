@@ -18,7 +18,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="stylesheet" href="project.css?v=49">
+  <link rel="stylesheet" href="project.css?v=51">
   <link rel="stylesheet" href="site-chrome.css?v=7">
   <link rel="stylesheet" href="site-loader.css?v=1">
   <script src="site-loader.js?v=1"></script>
@@ -430,20 +430,20 @@ What is the dot product of the vector from us to Hill 2 and the vector from us t
           <h2>The Accidental Death of an Anarchist Prop Design</h2>
         </div>
       </div>
-      <p class="section-summary ad-summary">Props for Spike Tape Wes's production of Dario Fo's <em>Accidental Death of an Anarchist</em>: a stack of forged police files and two key pieces I fabricated for the show.</p>
+      <p class="section-summary ad-summary">Props for Spike Tape Wes's production of Dario Fo's <em>Accidental Death of an Anarchist</em>.</p>
 
       <div class="project-facts">
         <p><span>Role</span>Lead Prop Designer</p>
         <p><span>Production</span>Spike Tape Wes, 2026</p>
         <p><span>Budget</span>$150 for the whole show</p>
-        <p><span>Key props</span>Replica bomb · prosthetic hand</p>
+        <p><span>Key props</span>Fake bomb · wooden hand</p>
       </div>
 
       <!-- Part I: the case files rise out of a card-catalog drawer as you scroll -->
       <div class="subsection-heading ad-sub">
         <p class="small-label">Part I</p>
-        <h3>The Case Files</h3>
-        <p class="subsection-description">Mugshot records, intelligence reports, memos and letters made as paper props for the interrogation scenes, plus the Professor's business card.</p>
+        <h3>My Role</h3>
+        <p class="subsection-description">As Lead Prop Designer, I sourced and organized every prop the show needed on a $150 budget. Each piece was borrowed, ordered online within the budget, or fabricated myself when nothing suitable existed; the two key pieces I built are the fake bomb and the wooden hand below. I also made the stack of case files the cast handles on stage: mugshot records, intelligence reports, memos and letters for the interrogation scenes.</p>
       </div>
 
       <div class="ad-scene" id="ad-scene">
@@ -462,18 +462,16 @@ What is the dot product of the vector from us to Hill 2 and the vector from us t
         <div class="ad-props" aria-label="Fabricated props">
           <article class="ad-prop">
             <figure class="ad-prop-media">
-              <img src="web/adoaa/bomb.webp" alt="Replica bomb: a cast grey casing packed with wiring, a breadboard, LEDs and sensors" width="1100" height="1030" loading="lazy" decoding="async">
+              <img src="web/adoaa/bomb.webp" alt="The fake bomb: a grey casing packed with wiring, a breadboard and LEDs" width="1100" height="1030" loading="lazy" decoding="async">
             </figure>
-            <h4>The Bomb</h4>
-            <p>Cast casing packed with real wiring, a breadboard and LEDs.</p>
+            <h4>The Fake Bomb</h4>
           </article>
           <article class="ad-prop">
             <figure class="ad-prop-media ad-prop-pair">
               <img src="web/adoaa/hand-a.webp?v=2" alt="Prosthetic hand, palm view, with a pull handle at the wrist" width="678" height="1100" loading="lazy" decoding="async">
               <img src="web/adoaa/hand-b.webp?v=2" alt="Prosthetic hand, back view" width="732" height="1100" loading="lazy" decoding="async">
             </figure>
-            <h4>The Hand</h4>
-            <p>Sculpted, painted prosthetic with a pull handle at the wrist.</p>
+            <h4>The Wooden Hand</h4>
           </article>
         </div>
 
@@ -482,6 +480,22 @@ What is the dot product of the vector from us to Hill 2 and the vector from us t
       </div>
 
 
+
+      <div class="subsection-heading ad-sub">
+        <p class="small-label">Part II</p>
+        <h3>On Stage</h3>
+      </div>
+      <div class="ad-gallery" id="ad-gallery">
+        <figure class="ad-feature"><img src="web/adoaa/show-1900.jpg" alt="An actor on the phone at the commissioner's desk" decoding="async"></figure>
+        <div class="ad-strip" role="group" aria-label="Production photos">
+            <button class="ad-thumb is-on" type="button" data-src="web/adoaa/show-1900.jpg" data-alt="An actor on the phone at the commissioner's desk" aria-label="Show photo 1"><img src="web/adoaa/show-1900.jpg" alt="" loading="lazy" decoding="async"></button>
+            <button class="ad-thumb" type="button" data-src="web/adoaa/show-2440.jpg" data-alt="Cast mid-scene in the dark, one holding the case files" aria-label="Show photo 2"><img src="web/adoaa/show-2440.jpg" alt="" loading="lazy" decoding="async"></button>
+            <button class="ad-thumb" type="button" data-src="web/adoaa/show-2482.jpg" data-alt="Actors gesturing in alarm while one holds the files" aria-label="Show photo 3"><img src="web/adoaa/show-2482.jpg" alt="" loading="lazy" decoding="async"></button>
+            <button class="ad-thumb" type="button" data-src="web/adoaa/show-2594.jpg" data-alt="An actor holding up the fake bomb" aria-label="Show photo 4"><img src="web/adoaa/show-2594.jpg" alt="" loading="lazy" decoding="async"></button>
+            <button class="ad-thumb" type="button" data-src="web/adoaa/show-2749.jpg" data-alt="The cast with a framed sign raised overhead" aria-label="Show photo 5"><img src="web/adoaa/show-2749.jpg" alt="" loading="lazy" decoding="async"></button>
+            <button class="ad-thumb" type="button" data-src="web/adoaa/show-2754.jpg" data-alt="An actor recoiling in the final scene" aria-label="Show photo 6"><img src="web/adoaa/show-2754.jpg" alt="" loading="lazy" decoding="async"></button>
+        </div>
+      </div>
     </section>
 
     <footer class="project-section project-end">
@@ -973,6 +987,20 @@ What is the dot product of the vector from us to Hill 2 and the vector from us t
       drawer.addEventListener('mouseenter', () => { if (!touch.matches) set(true); });
       scene.addEventListener('mouseleave', () => { if (!touch.matches && !reduce) set(false); });
       drawer.addEventListener('focus', () => set(true));
+    })();
+  </script>
+  <script>
+    /* ADoaA production photos: thumbnails swap the large photo above */
+    (() => {
+      const g = document.getElementById('ad-gallery');
+      if (!g) return;
+      const big = g.querySelector('.ad-feature img');
+      g.querySelectorAll('.ad-thumb').forEach((t) => t.addEventListener('click', () => {
+        g.querySelectorAll('.ad-thumb').forEach((x) => x.classList.toggle('is-on', x === t));
+        big.style.opacity = 0;
+        setTimeout(() => { big.src = t.dataset.src; big.alt = t.dataset.alt; big.onload = () => { big.style.opacity = 1; }; }, 180);
+        t.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      }));
     })();
   </script>
   <script src="site-chrome.js?v=3"></script>

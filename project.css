@@ -4898,3 +4898,54 @@ html body .ad-stage .ad-prop p:last-child{ font-size:13px; line-height:1.55; }
   html body .ad-stage .ad-prop h4{ font-size:18px; }
 }
 @media (min-width:901px){ html body .ad-stage .ad-props{ bottom:0; } }
+
+/* ---- ADoaA v8 ---- */
+html body .ad-summary{ margin:28px 0 36px; }
+html body #project-four .project-facts{ margin-bottom:56px; }
+html body .ad-stage .ad-prop-media{ height:clamp(170px, 17vw, 250px); margin-bottom:10px; }
+html body .ad-stage .ad-prop h4{ margin:0; }
+html body .ad-stage .ad-prop{ padding:12px 12px 14px; }
+html body .ad-stage .ad-props{ width:min(56%, 700px); }
+
+/* production photos: large photo with a sideways-scrolling strip */
+.ad-gallery{ margin-top:28px; }
+.ad-feature{ margin:0; border-radius:16px; overflow:hidden; background:#111; aspect-ratio:3 / 2; max-height:78vh; }
+.ad-feature img{ display:block; width:100%; height:100%; object-fit:contain; transition:opacity .18s ease; }
+.ad-strip{
+  display:flex;
+  gap:12px;
+  margin-top:14px;
+  padding-bottom:8px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  scrollbar-width:thin;
+}
+.ad-thumb{
+  flex:0 0 clamp(140px, 18vw, 240px);
+  aspect-ratio:3 / 2;
+  padding:0;
+  border:0;
+  border-radius:10px;
+  overflow:hidden;
+  scroll-snap-align:start;
+  cursor:pointer;
+  opacity:.55;
+  outline:2px solid transparent;
+  outline-offset:2px;
+  transition:opacity .2s ease, outline-color .2s ease;
+}
+.ad-thumb img{ display:block; width:100%; height:100%; object-fit:cover; }
+.ad-thumb:hover{ opacity:.85; }
+.ad-thumb.is-on{ opacity:1; outline-color:var(--navy); }
+.ad-thumb:focus-visible{ outline-color:var(--accent); }
+@media (max-width:560px){
+  .ad-thumb{ flex-basis:42vw; }
+  html body .ad-stage .ad-prop-media{ height:150px; }
+}
+/* stacked subsection headings in this project (label, title, text) */
+html body #project-four .ad-sub{ display:block; }
+html body #project-four .ad-sub .small-label{ margin:0 0 6px; }
+html body #project-four .ad-sub h3{ margin:0 0 14px; }
+html body #project-four .ad-sub .subsection-description{ max-width:74ch; margin:0; }
+html body .ad-stage .ad-props{ width:min(56%, 700px); }
+@media (max-width:900px){ html body .ad-stage .ad-props{ width:100%; } }
