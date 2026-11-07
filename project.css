@@ -4856,3 +4856,14 @@ html body .ad-scene.is-out .ad-stack3d{ transform:translateY(calc(var(--h) - var
 html body .ad-hint{ top:26%; bottom:auto; }
 html body .ad-scene + .ad-sub{ margin-top:40px; }
 html body .ad-hint{ top:auto; bottom:calc(8% + clamp(190px, 21vw, 290px) * .42 + 70px); }
+
+/* ---- ADoaA v6: drawer on the left, pages arc up and to the right ---- */
+html body .ad-drawer{ left:25%; }
+html body .ad-box{ transform:rotateX(-24deg) rotateY(-38deg); }
+html body .ad-scene.is-out .ad-drawer .ad-box{ transform:rotateX(-26deg) rotateY(-38deg) translateY(4px); }
+html body .ad-paper{ left:25%; }
+html body .ad-papers{ perspective-origin:25% 75%; }
+html body .ad-hint{ left:25%; }
+@media (max-width:760px){
+  html body .ad-drawer, html body .ad-paper{ left:30%; }
+}
