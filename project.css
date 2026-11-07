@@ -4949,3 +4949,104 @@ html body #project-four .ad-sub h3{ margin:0 0 14px; }
 html body #project-four .ad-sub .subsection-description{ max-width:74ch; margin:0; }
 html body .ad-stage .ad-props{ width:min(56%, 700px); }
 @media (max-width:900px){ html body .ad-stage .ad-props{ width:100%; } }
+
+/* ---- ADoaA v9 ---- */
+html body #project-four .ad-sub .subsection-description{ max-width:none; }
+
+/* props: one card, both pieces grow on hover and their name appears */
+html body .ad-stage .ad-props{
+  display:flex;
+  align-items:center;
+  justify-content:space-around;
+  gap:10px;
+  padding:20px 18px;
+  border-radius:20px;
+  background:radial-gradient(circle at 50% 45%, #ffffff, #e4e8e7 75%);
+  width:min(58%, 740px);
+  height:clamp(230px, 24vw, 330px);
+}
+.ad-prop-item{
+  position:relative;
+  flex:1 1 0;
+  height:100%;
+  margin:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  outline:none;
+}
+.ad-prop-item > img,
+.ad-hands{
+  max-width:92%;
+  max-height:84%;
+  transition:transform .35s cubic-bezier(.2,.7,.25,1), filter .35s ease;
+  filter:drop-shadow(0 14px 16px rgba(20,37,61,.22));
+}
+.ad-prop-item > img{ object-fit:contain; }
+.ad-hands{ display:flex; align-items:center; justify-content:center; gap:4%; height:84%; }
+.ad-hands img{ height:100%; width:auto; max-width:48%; object-fit:contain; }
+.ad-hands img:first-child{ transform:rotate(-8deg); }
+.ad-hands img:last-child{ transform:rotate(10deg) translateY(8px); }
+.ad-prop-item figcaption{
+  position:absolute;
+  left:50%;
+  bottom:0;
+  transform:translate(-50%, 8px);
+  opacity:0;
+  white-space:nowrap;
+  font-family:'Gulax', 'DM Serif Display', Georgia, serif;
+  font-size:22px;
+  color:var(--navy);
+  transition:opacity .3s ease, transform .3s ease;
+  pointer-events:none;
+}
+@media (hover:hover) and (pointer:fine){
+  .ad-prop-item:hover > img,
+  .ad-prop-item:hover .ad-hands{ transform:scale(1.12) translateY(-10px); filter:drop-shadow(0 22px 22px rgba(20,37,61,.3)); }
+  .ad-prop-item:hover figcaption{ opacity:1; transform:translate(-50%, 0); }
+}
+.ad-prop-item:focus-visible figcaption{ opacity:1; transform:translate(-50%, 0); }
+@media (hover:none), (max-width:900px){
+  .ad-prop-item figcaption{ opacity:1; transform:translate(-50%, 0); font-size:18px; }
+  .ad-prop-item > img, .ad-hands{ max-height:76%; transform:translateY(-12px); }
+}
+@media (max-width:900px){
+  html body .ad-stage .ad-props{ width:100%; height:clamp(220px, 60vw, 300px); }
+}
+
+/* On Stage: photo with a vertical selector to its right, centred together */
+html body .ad-gallery{
+  display:flex;
+  justify-content:center;
+  align-items:stretch;
+  gap:14px;
+  margin:28px auto 0;
+}
+html body .ad-feature{
+  flex:0 1 auto;
+  width:min(100%, calc((78vh) * 1.5), 960px);
+  aspect-ratio:3 / 2;
+  max-height:none;
+}
+html body .ad-strip{
+  flex:0 0 clamp(120px, 12vw, 170px);
+  flex-direction:column;
+  margin:0;
+  padding:0 4px 0 0;
+  overflow-x:hidden;
+  overflow-y:auto;
+  scroll-snap-type:y mandatory;
+  max-height:min(calc(78vh), 640px);
+  align-self:center;
+  height:calc(min(100vw, calc(78vh * 1.5), 960px) / 1.5);
+}
+html body .ad-thumb{ flex:0 0 auto; width:100%; }
+@media (max-width:760px){
+  html body .ad-gallery{ flex-direction:column; align-items:center; }
+  html body .ad-feature{ width:100%; }
+  html body .ad-strip{
+    flex:0 0 auto; flex-direction:row; width:100%; height:auto; max-height:none;
+    overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; padding:0 0 6px;
+  }
+  html body .ad-thumb{ flex:0 0 38vw; width:auto; }
+}
