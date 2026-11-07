@@ -18,7 +18,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="stylesheet" href="project.css?v=45">
+  <link rel="stylesheet" href="project.css?v=47">
   <link rel="stylesheet" href="site-chrome.css?v=7">
   <link rel="stylesheet" href="site-loader.css?v=1">
   <script src="site-loader.js?v=1"></script>
@@ -947,7 +947,7 @@ What is the dot product of the vector from us to Hill 2 and the vector from us t
         // sequence across its width so neighbours never bunch up
         const h = (n + .5) / items.length;
         y = 62 - h * 58 + (rnd() - .5) * 1.5;
-        const spread = 5 + h * 15;
+        const spread = 9 + h * 30;            // wide spray
         const u = ((n * 0.6180339887) + .31) % 1;
         x = 50 + h * 7 + (u - .5) * 2 * spread + (rnd() - .5) * 1.5;
         rx = 10 + rnd() * 38;                 // tipped, never edge-on

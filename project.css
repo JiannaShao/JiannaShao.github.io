@@ -4844,3 +4844,15 @@ html body .ad-sheet.bow-r{ border-radius:60% 0 30% 0 / 10% 0 6% 0; }
   html body .ad-paper{ width:clamp(48px, 13vw, 72px); }
   html body .ad-drawer{ --w:clamp(150px, 44vw, 200px); }
 }
+
+/* ---- ADoaA v5: shorter section, stack shrinks into the box instead of sliding through it ---- */
+html body .ad-stage{ height:clamp(400px, 40vw, 560px); }
+html body .ad-drawer{ bottom:8%; }
+html body .ad-scene .ad-stack3d,
+html body .ad-scene.is-out .ad-stack3d{ transform-origin:50% 100%; }
+html body .ad-scene .ad-stack3d{ transform:translateY(calc(var(--h) - var(--h) * 1.02)) scaleY(1); }
+html body .ad-scene.is-out .ad-stack3d{ transform:translateY(calc(var(--h) - var(--h) * 1.02)) scaleY(.62); }
+@media (max-width:760px){ html body .ad-stage{ height:clamp(380px, 105vw, 480px); } }
+html body .ad-hint{ top:26%; bottom:auto; }
+html body .ad-scene + .ad-sub{ margin-top:40px; }
+html body .ad-hint{ top:auto; bottom:calc(8% + clamp(190px, 21vw, 290px) * .42 + 70px); }
