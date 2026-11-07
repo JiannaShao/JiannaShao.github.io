@@ -1,10 +1,10 @@
 /* =========================================================
-   SITE THEME — Miami Nights palette: mint #D3EBE3 page, white #F9FCFB
+   SITE THEME — Miami Nights palette: mint #E4F2EE page, white #F9FCFB
    cards, deep teal #0F4953 ink + sidebar, salmon #F98E6E buttons +
    brush, pink #FFCFD2 inner cards and highlights.
    ========================================================= */
 :root{
-  --t-page:#D3EBE3;
+  --t-page:#E4F2EE;
   --t-card:#F9FCFB;
   --t-soft:#FFFFFF;
   --t-fill:#a8e0d8;
@@ -253,8 +253,8 @@ html body main.portfolio{
   --t-muted:#3d6168;
   --t-label:#C4593C;
   --t-line-rgb:15,73,83;
-  --t-card:#FFE4E5;
-  --t-soft:#FFF4F4;
+  --t-card:#FFCFD2;
+  --t-soft:#FFE6E7;
   color:var(--t-ink);
   padding:clamp(22px, 3vw, 44px) !important;
   box-sizing:border-box;
@@ -326,3 +326,12 @@ html body .project-end-links a{
   }
 }
 html body .gx-nav{ background:#F98E6E; border-color:#0F4953; }
+
+/* more pink: jump links, findings, contact band */
+html body .project-jump a,
+html body .dx .dx-index a,
+html body .rx-findings-card{ background:#FFCFD2 !important; border-color:#FFCFD2 !important; }
+html body .project-jump .pj-icon{ background:#FFE6E7 !important; }
+html body .contact-section{ background:#FFCFD2 !important; }
+html body .contact-section + footer, html body footer{ background:#FFCFD2 !important; }
+html body .contact-links{ background:#F9FCFB !important; }
