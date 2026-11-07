@@ -8,7 +8,7 @@
   --chrome-rail: 58px;
   --chrome-open: 200px;
   --chrome-bg: #e8ebea;
-  --chrome-ink: #0e2f52;
+  --chrome-ink: #24324a;
   --chrome-snake-w: 28px;   /* narrower (was 39px) */
   --chrome-snake-inset: 12px;
 }
@@ -249,7 +249,7 @@ html body #snake-path{
   vector-effect: non-scaling-stroke !important;
 }
 html body #snake-ghost{
-  stroke:#1f4a73 !important;
+  stroke:#2c3a52 !important;
   opacity: 1 !important;
 }
 html body #snake-path{
@@ -289,7 +289,7 @@ html body #snake-head{
   }
   html body .side-nav.mobile-open{
     transform: translateX(0) !important;
-    box-shadow:0 0 40px rgba(0,6,18,0.37) !important;
+    box-shadow:0 0 40px rgba(5,9,16,0.37) !important;
   }
   html body .side-nav-inner{
     width: 240px !important;
@@ -329,7 +329,7 @@ html body #snake-head{
     border:1px solid rgba(66,82,77,.14);
     border-radius:50%;
     background:var(--chrome-bg);
-    box-shadow:0 4px 14px rgba(0,6,18,0.20);
+    box-shadow:0 4px 14px rgba(5,9,16,0.20);
     align-items: center;
     justify-content: center;
     flex-direction: column;
@@ -529,4 +529,4 @@ html body .side-submenu{ gap: 16px !important; }
 }
 
 /* Palette accents (red) shared across pages */
-:root{ --pal-red:#eb2f33; --pal-wine:#c4242a; --pal-teal:#3a6f99; --pal-deep:#0e2f52; --pal-ink:#03203d; }
+:root{ --pal-red:#e15546; --pal-wine:#c8473a; --pal-teal:#c8473a; --pal-deep:#24324a; --pal-ink:#182335; }

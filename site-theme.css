@@ -1,35 +1,35 @@
 /* =========================================================
-   SITE THEME — dark Egyptian-blue pages
-   Egyptian blue #03203D background, stone blue #639CC5,
-   scarlet #EB2F33 buttons, cream text.
+   SITE THEME — Field Trip palette: navy #182335, coral #E15546, salmon #EEAF9D, cream #EAE4CC
+   Egyptian blue #182335 background, stone blue #eeaf9d,
+   scarlet #e15546 buttons, cream text.
    ========================================================= */
 :root{
-  --t-page:#03203d;
+  --t-page:#182335;
   --t-card:#0a2d51;
   --t-soft:#0c3257;
-  --t-fill:#1c4a76;
-  --t-ink:#f3efe6;
-  --t-muted:#a9b9c8;
-  --t-label:#8fbadb;
-  --t-line:rgba(214,228,240,.16);
-  --t-stone:#639cc5;
-  --t-red:#eb2f33;
+  --t-fill:#24324a;
+  --t-ink:#eae4cc;
+  --t-muted:#bdb69e;
+  --t-label:#eeaf9d;
+  --t-line:rgba(234,228,204,.16);
+  --t-stone:#eeaf9d;
+  --t-red:#e15546;
   color-scheme:dark;
 }
 html, body{ background:var(--t-page) !important; color:var(--t-ink); }
-::selection{ background:#639cc5; color:#03203d; }
+::selection{ background:#eeaf9d; color:#182335; }
 
 /* sidebar on the dark theme */
-:root{ --chrome-bg:#021a33; --chrome-ink:#dfe8f0; }
+:root{ --chrome-bg:#121b2a; --chrome-ink:#eae4cc; }
 
 /* props that are paper stay paper */
 html body .ad-s-top{ background:#fbfbf8 !important; }
 html body .ad-s-front{ background:repeating-linear-gradient(#fdfdfb 0 2px, #d8d7d0 2px 3px) !important; }
 html body .ad-s-side{ background:repeating-linear-gradient(#f4f3ee 0 2px, #cfcec6 2px 3px) !important; }
 /* fridge note cards keep dark ink on cream paper */
-html body .sp-magnet-text{ color:#03203d !important; }
-html body .sp-magnet-text p:not(.small-label){ color:#2d3e4d !important; }
-html body .sp-magnet-text .small-label{ color:#3a6f99 !important; }
+html body .sp-magnet-text{ color:#182335 !important; }
+html body .sp-magnet-text p:not(.small-label){ color:#3a4150 !important; }
+html body .sp-magnet-text .small-label{ color:#c8473a !important; }
 
 /* =========================================================
    SLEEK — bold condensed caps, square outlined scarlet
@@ -52,9 +52,9 @@ html body .back-to-top,
 html body .mobile-notice-primary,
 html body .project-end-links a{
   border-radius:0 !important;
-  border:2px solid #eb2f33 !important;
+  border:2px solid #e15546 !important;
   background:transparent !important;
-  color:#f3efe6 !important;
+  color:#eae4cc !important;
   box-shadow:none !important;
   font-family:var(--t-cond) !important;
   font-weight:500 !important;
@@ -68,13 +68,13 @@ html body .back-to-top{ display:inline-flex; padding:10px 18px; }
   html body .contact-action:hover,
   html body .resume-peek:hover .resume-peek-cta,
   html body .back-to-top:hover{
-    background:#eb2f33 !important;
+    background:#e15546 !important;
     color:#fff !important;
     box-shadow:none !important;
   }
 }
-html body .contact-action.is-copied{ background:#639cc5 !important; border-color:#639cc5 !important; color:#03203d !important; }
-html body .gx-nav{ border-radius:0; border-color:#03203d; background:#eb2f33; }
+html body .contact-action.is-copied{ background:#eeaf9d !important; border-color:#eeaf9d !important; color:#182335 !important; }
+html body .gx-nav{ border-radius:0; border-color:#182335; background:#e15546; }
 html body .gx-dot{ border-radius:0; }
 
 /* labels and small caps in a condensed face */
@@ -102,7 +102,7 @@ html body .rx-facts dt{
   letter-spacing:.08em !important;
 }
 html body .project-link,
-html body .contact-links a:hover b{ color:#eb2f33 !important; }
+html body .contact-links a:hover b{ color:#e15546 !important; }
 
 /* sharp corners */
 html body .project-box,
@@ -146,7 +146,7 @@ html body .art-grid-item, html body .art-grid img{
    CARDS ARE WHITE — not another shade of dark blue.
    Inside them the ink flips back to Egyptian blue.
    ========================================================= */
-:root{ --t-card:#ffffff; --t-soft:#f4f2ec; --t-line-rgb:214,228,240; }
+:root{ --t-card:#eae4cc; --t-soft:#f2edd9; --t-line-rgb:234,228,204; }
 html body .ad-prop,
 html body .ad-prop-media,
 html body .ad-stage .ad-props,
@@ -187,10 +187,10 @@ html body .sketchy-text-panel,
 html body .ss-text,
 html body .static-asset-card,
 html body .sp-takeaway{
-  --t-ink:#03203d;
-  --t-muted:#4f5f6c;
-  --t-label:#3a6f99;
-  --t-line-rgb:3,32,61;
+  --t-ink:#182335;
+  --t-muted:#5a5f66;
+  --t-label:#c8473a;
+  --t-line-rgb:24,35,53;
   color:var(--t-ink);
 }
 
@@ -199,8 +199,16 @@ html body h1:not(.hero-name),
 html body h2,
 html body .dx .dx-title,
 html body .rx .rx-title,
-html body .ap-title{ color:#eb2f33 !important; }
+html body .ap-title{ color:#e15546 !important; }
 html body .rx-title .rx-ch.is-hot{ animation:none; }
 
 /* the contact area is a band of the page, not a card */
 html body .contact-section{ background:transparent !important; }
+
+/* salmon for secondary accents */
+html body .work-meta b{ color:rgba(238,175,157,.75) !important; }
+html body .gx-dot.is-on, html body .gx-dot.is-on:hover{ background:#eeaf9d; }
+html body .ad-thumb.is-on{ outline-color:#eeaf9d; }
+html body .contact-links a span{ color:#eeaf9d !important; }
+html body .project-number{ color:#c8473a !important; }
+html body footer{ background:transparent !important; color:var(--t-muted) !important; }

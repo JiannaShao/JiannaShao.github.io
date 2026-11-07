@@ -4,10 +4,10 @@
    between a heading column and a text/image column.
    ========================================================= */
 :root{
-  --rx-navy:#03203d;
-  --rx-ink:#0e2f52;
+  --rx-navy:#182335;
+  --rx-ink:#24324a;
   --rx-muted:#5f6b74;
-  --rx-line:rgba(3,32,61,.14);
+  --rx-line:rgba(24,35,53,.14);
   --rx-soft:#eef1f0;
   --rx-arc:#3fd8e8;        /* azure weld arc */
   --rx-arc-hot:#e9fdff;
@@ -207,8 +207,8 @@ html body main.rx{
   width:22px;
   height:22px;
   border-radius:50%;
-  border:1.6px solid #eb2f33;
-  color:#eb2f33;
+  border:1.6px solid #e15546;
+  color:#e15546;
   display:inline-flex;
   align-items:center;
   justify-content:center;

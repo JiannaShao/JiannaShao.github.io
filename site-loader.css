@@ -16,7 +16,7 @@ html.site-loading body{
   align-items:center;
   justify-content:center;
   gap:28px;
-  background:#03203d;
+  background:#182335;
   transition:opacity .45s ease, visibility 0s linear .45s;
 }
 .site-loader.is-done{
@@ -30,7 +30,7 @@ html.site-loading body{
   width:76px;
   height:76px;
   fill:none;
-  stroke:#e9eef3;
+  stroke:#eae4cc;
   stroke-width:2.6;
   stroke-linecap:round;
   stroke-linejoin:round;
@@ -58,7 +58,7 @@ html.site-loading body{
   display:block;
   height:100%;
   width:100%;
-  background:#1c4a76;
+  background:#24324a;
   transform:scaleX(0);
   transform-origin:left center;
   transition:transform .3s ease;

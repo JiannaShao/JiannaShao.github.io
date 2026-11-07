@@ -629,9 +629,9 @@ footer a:hover {
 ===================================================== */
 
 :root{
-    --turquoise:#3a6f99 !important;
+    --turquoise:#c8473a !important;
     --turquoise-light:#e8ebea !important;
-    --black:#03203d !important;
+    --black:#182335 !important;
 }
 
 /* Make all text approximately 6px larger than the original design */
@@ -769,11 +769,11 @@ footer a{
 }
 
 .process-item{
-    border-top-color:#3a6f99 !important;
+    border-top-color:#c8473a !important;
 }
 
 .skills span{
-    border-color:#3a6f99 !important;
+    border-color:#c8473a !important;
 }
 
 /* Slightly rounded section presentation where colored/background blocks appear */
@@ -789,8 +789,8 @@ footer a{
 ===================================================== */
 
 :root{
-    --navy:#03203d;
-    --navy2:#0e2f52;
+    --navy:#182335;
+    --navy2:#24324a;
     --muted:#667080;
     --line:#d9ddda;
     --cream:#fafafa;
@@ -950,7 +950,7 @@ figcaption{
 }
 
 .process-item{
-    border-top-color:#3a6f99 !important;
+    border-top-color:#c8473a !important;
 }
 
 .findings{
@@ -1009,12 +1009,12 @@ figcaption{
 }
 
 #snake-ghost{
-    stroke:#1f4a73 !important;
+    stroke:#2c3a52 !important;
     opacity:1 !important;
 }
 
 #snake-path{
-    stroke:#e9eef3 !important;
+    stroke:#eae4cc !important;
     opacity:1 !important;
     stroke-dasharray:1;
     stroke-dashoffset:1;

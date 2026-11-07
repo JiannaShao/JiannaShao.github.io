@@ -340,11 +340,11 @@ body {
    INDEX-ALIGNED ART PORTFOLIO
 ===================================================== */
 :root{
-    --navy:#03203d;
-    --navy2:#0e2f52;
+    --navy:#182335;
+    --navy2:#24324a;
     --muted:#667080;
     --cream:#fafafa;
-    --accent:#3a6f99;
+    --accent:#c8473a;
     --sidebar-rail:58px;
     --sidebar-full:200px;
 }
@@ -513,8 +513,8 @@ h1,h2,h3{
     display:block !important;fill:none !important;stroke-width:4.5 !important;
     vector-effect:non-scaling-stroke !important;stroke-linecap:round !important;stroke-linejoin:round !important;
 }
-#snake-ghost{stroke:#1f4a73 !important;opacity:1 !important}
-#snake-path{stroke:#e9eef3 !important;opacity:1 !important;stroke-dasharray:1;stroke-dashoffset:1}
+#snake-ghost{stroke:#2c3a52 !important;opacity:1 !important}
+#snake-path{stroke:#eae4cc !important;opacity:1 !important;stroke-dasharray:1;stroke-dashoffset:1}
 
 @media(max-width:700px){
     :root{--sidebar-rail:54px;--sidebar-full:176px}

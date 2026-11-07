@@ -5,11 +5,11 @@
    The final overlapping photo cards keep their own styles.
    ========================================================= */
 :root{
-  --dx-navy:#03203d;
+  --dx-navy:#182335;
   --dx-muted:#5f6b74;
-  --dx-line:rgba(3,32,61,.14);
+  --dx-line:rgba(24,35,53,.14);
   --dx-soft:#eef1f0;
-  --dx-label:#3a6f99;
+  --dx-label:#c8473a;
   --dx-blue:#2f6fd6;          /* blueprint line colour */
   --dx-serif:'DM Serif Display', Georgia, serif;
   --dx-sans:'Work Sans', Arial, sans-serif;
@@ -314,7 +314,7 @@ html body .dx .final-project{ width:100% !important; margin-top:8px; }
   width:2px;
   margin-left:-1px;
   background:var(--t-card);
-  box-shadow:0 0 0 1px rgba(0,6,18,0.26);
+  box-shadow:0 0 0 1px rgba(5,9,16,0.26);
   pointer-events:none;
 }
 .dx-compare-handle span{
@@ -326,7 +326,7 @@ html body .dx .final-project{ width:100% !important; margin-top:8px; }
   margin:-22px 0 0 -22px;
   border-radius:50%;
   background:var(--t-card);
-  box-shadow:0 4px 14px rgba(0,6,18,0.42);
+  box-shadow:0 4px 14px rgba(5,9,16,0.42);
 }
 .dx-compare-handle span::before,
 .dx-compare-handle span::after{
@@ -357,7 +357,7 @@ html body .dx .final-project{ width:100% !important; margin-top:8px; }
   top:14px;
   padding:6px 10px;
   border-radius:6px;
-  background:rgba(3,32,61,0.78);
+  background:rgba(24,35,53,0.78);
   color:#fff;
   font-family:var(--dx-sans);
   font-size:12px;
@@ -649,13 +649,13 @@ html body .dx .gx-part-title{
   width:100%;
   height:auto;
   border-radius:10px;
-  box-shadow:0 1px 2px rgba(0,6,18,0.14), 0 14px 30px -14px rgba(0,6,18,0.51);
+  box-shadow:0 1px 2px rgba(5,9,16,0.14), 0 14px 30px -14px rgba(5,9,16,0.51);
   transition:transform .25s ease, box-shadow .25s ease;
 }
 .gx-zoom:hover img,
 .gx-zoom:focus-visible img{
   transform:translateY(-4px);
-  box-shadow:0 1px 2px rgba(0,6,18,0.14), 0 22px 40px -16px rgba(0,6,18,0.65);
+  box-shadow:0 1px 2px rgba(5,9,16,0.14), 0 22px 40px -16px rgba(5,9,16,0.65);
 }
 .gx-zoom:focus-visible{ outline:3px solid var(--dx-label); outline-offset:4px; }
 html body .dx .gx-piece figcaption{
@@ -784,11 +784,11 @@ html body .dx .gx-slide .gx-zoom img{
   width:100%;
   height:auto;
   border-radius:12px;
-  box-shadow:0 2px 4px rgba(0,6,18,0.14), 0 18px 34px -16px rgba(0,6,18,0.59);
+  box-shadow:0 2px 4px rgba(5,9,16,0.14), 0 18px 34px -16px rgba(5,9,16,0.59);
 }
 .gx-slide .gx-zoom:hover img,
 .gx-slide .gx-zoom:focus-visible img{ transform:none; }
-.gx-slide.is-current .gx-zoom:hover img{ box-shadow:0 2px 4px rgba(0,6,18,0.17), 0 26px 44px -16px rgba(0,6,18,0.77); }
+.gx-slide.is-current .gx-zoom:hover img{ box-shadow:0 2px 4px rgba(5,9,16,0.17), 0 26px 44px -16px rgba(5,9,16,0.77); }
 
 /* round arrows with a ring, overlapping the track edges */
 .gx-nav{
@@ -802,18 +802,18 @@ html body .dx .gx-slide .gx-zoom img{
   height:46px;
   margin-top:-23px;
   padding:0;
-  border:5px solid var(--dx-paper, #1f4a73);
+  border:5px solid var(--dx-paper, #2c3a52);
   border-radius:50%;
   background:var(--t-fill);
   color:#fff;
   cursor:pointer;
-  box-shadow:0 6px 16px -6px rgba(0,6,18,0.77);
+  box-shadow:0 6px 16px -6px rgba(5,9,16,0.77);
   transition:transform .2s ease, background .2s ease;
 }
 .gx-nav svg{ width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
 .gx-prev{ left:4px; }
 .gx-next{ right:4px; }
-.gx-nav:hover{ background:#1c4a76; transform:scale(1.08); }
+.gx-nav:hover{ background:#24324a; transform:scale(1.08); }
 .gx-nav:focus-visible{ outline:3px solid var(--dx-label); outline-offset:2px; }
 
 /* dash indicators */
@@ -859,8 +859,8 @@ html body .dx .gx-blurb{ width:min(68ch, 100%); max-width:none; margin:30px auto
 html body .dx .gx-blurb{ width:100%; max-width:none; }
 .gx-track{ touch-action:pan-y; cursor:grab; }
 .gx-track:active{ cursor:grabbing; }
-.gx-dot.is-on, .gx-dot.is-on:hover{ background:#eb2f33; }
+.gx-dot.is-on, .gx-dot.is-on:hover{ background:#e15546; }
 /* red buttons */
-.gx-nav{ background:#eb2f33; }
-.gx-nav:hover{ background:#c4242a; }
-html body .dx .dx-index a:hover{ background:#eb2f33 !important; border-color:#eb2f33 !important; color:#fff !important; }
+.gx-nav{ background:#e15546; }
+.gx-nav:hover{ background:#c8473a; }
+html body .dx .dx-index a:hover{ background:#e15546 !important; border-color:#e15546 !important; color:#fff !important; }
