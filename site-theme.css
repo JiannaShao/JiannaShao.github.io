@@ -212,3 +212,19 @@ html body .ad-thumb.is-on{ outline-color:#eeaf9d; }
 html body .contact-links a span{ color:#eeaf9d !important; }
 html body .project-number{ color:#c8473a !important; }
 html body footer{ background:transparent !important; color:var(--t-muted) !important; }
+
+/* =========================================================
+   Red sidebar, pink brush + section headings, cream page titles
+   ========================================================= */
+:root{ --chrome-bg:#e15546; --chrome-ink:#eae4cc; }
+html body #snake-ghost{ stroke:rgba(24,35,53,.28) !important; }
+html body h2{ color:#eeaf9d !important; }
+html body .work-meta b{ color:#e15546 !important; }
+html body .dx .dx-title,
+html body .rx .rx-title,
+html body .ap-title,
+html body .project-hero h1{ color:#eae4cc !important; }
+/* name on the pink brush */
+html body .hero-name .hero-name-jianna{ color:#182335 !important; }
+html body .hero-name .teal-accent,
+html body .hero-name .hero-name-shao{ color:#e15546 !important; }

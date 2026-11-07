@@ -4119,7 +4119,7 @@ html body .project-hero .eyebrow{ margin-bottom:36px; }
 }
 .sp-bird{
   position:absolute;
-  top:14px;
+  top:-1px;
   left:0;
   z-index:3;
   width:clamp(64px, 8vw, 104px);

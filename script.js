@@ -278,7 +278,7 @@
   const buildBrush = (w, h) => {
     let seed = 7;
     const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
-    const shades = ['#e15546', '#e15546', '#d84e40', '#cc4739', '#e65f50', '#ea6a5b', '#dc5244', '#ee7666', '#c1412f', '#f08272'];   // coral brush
+    const shades = ['#eeaf9d', '#eeaf9d', '#e8a390', '#e29884', '#f1b9a8', '#f4c3b4', '#eaa794', '#f6cbbd', '#dc8d78', '#f2bdad'];   // pink brush
     const k = h / 520;
     return [BRUSH_SNAKE].map((S) => {
       const { pts, len } = snakePoints(w, h);

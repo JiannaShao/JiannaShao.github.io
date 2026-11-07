@@ -46,7 +46,7 @@ html.site-loading body{
 .site-loader-logo path:nth-of-type(2){ animation-delay:.38s; }
 @keyframes site-loader-draw{ to{ stroke-dashoffset:0; } }
 
-/* Thin navy progress line */
+/* Thin pink progress line */
 .site-loader-bar{
   width:min(180px, 46vw);
   height:2px;
@@ -58,7 +58,7 @@ html.site-loading body{
   display:block;
   height:100%;
   width:100%;
-  background:#24324a;
+  background:#eeaf9d;
   transform:scaleX(0);
   transform-origin:left center;
   transition:transform .3s ease;
