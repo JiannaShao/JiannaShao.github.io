@@ -3173,5 +3173,5 @@ html body .hero-name .hero-name-shao{ color:#182335 !important; }
 
 /* brush stroke nudged right so it sits more centred in the hero */
 @media (min-width:801px){
-  html body .hero-title-row > .hero-stroke{ transform:translateX(clamp(30px, 4.5vw, 70px)); }
+  html body .hero-title-row > .hero-stroke{ transform:translateX(clamp(15px, 2.25vw, 35px)); }
 }
