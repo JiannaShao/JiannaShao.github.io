@@ -327,3 +327,6 @@ html body .project-end-links a{
 }
 html body .gx-nav{ background:#FFA58A; border-color:#182335; }
 
+/* Library Work carousel arrows: round, no ring */
+html body .gx-nav{ border-radius:50% !important; border:0 !important; background:#FFA58A !important; color:#182335 !important; box-shadow:0 6px 16px -6px rgba(24,35,53,.35) !important; }
+html body .gx-nav:hover{ background:#182335 !important; color:#F9FCFB !important; }

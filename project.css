@@ -4023,7 +4023,7 @@ html body .sketchy-text-panel p:not(.small-label){ font-size:16px; }
   width:100%;
   height:1px;
   vertical-align:middle;
-  background:rgba(10,45,81,.14);
+  background:rgba(24,35,53,.14);
 }
 .vv-caret{
   display:inline-block;
@@ -4200,7 +4200,7 @@ html body .project-hero .eyebrow{ margin-bottom:36px; }
   min-height:600px;
   border-radius:44px 44px 22px 22px;
   border:1px solid #d3dbd8;
-  background:linear-gradient(90deg, rgba(10,45,81,.0) 0, rgba(10,45,81,.55) 18%, rgba(10,45,81,0) 40%),
+  background:linear-gradient(90deg, rgba(255,255,255,0) 0, rgba(255,255,255,.55) 18%, rgba(255,255,255,0) 40%),
     linear-gradient(180deg, #e9efed, #dfe7e4);
   box-shadow:inset -14px 0 24px rgba(5,9,16,0.09),
     inset 0 2px 0 rgba(255,255,255,.8),
@@ -4660,7 +4660,7 @@ html body .garden-subsection .sp-takeaway{ max-width:none; margin:56px 0 0; }
   height:46px;
   border:0;
   border-radius:50%;
-  background:rgba(10,45,81,.14);
+  background:rgba(24,35,53,.14);
   color:#fff;
   font-size:28px;
   line-height:1;
@@ -4668,7 +4668,7 @@ html body .garden-subsection .sp-takeaway{ max-width:none; margin:56px 0 0; }
 }
 .ad-viewer-close{ position:absolute; top:18px; right:22px; }
 .ad-viewer-close:hover,
-.ad-viewer-nav:hover{ background:rgba(10,45,81,.28); }
+.ad-viewer-nav:hover{ background:rgba(24,35,53,.28); }
 
 @media (max-width:760px){
   .ad-scene{ height:220vh; }
@@ -4697,8 +4697,8 @@ html body .garden-subsection .sp-takeaway{ max-width:none; margin:56px 0 0; }
   inset:0;
   pointer-events:none;
 }
-.ad-sheet.bow-l::after{ background:linear-gradient(100deg, rgba(0,0,0,.16), rgba(10,45,81,0) 30%, rgba(10,45,81,.18) 55%, rgba(0,0,0,.08)); }
-.ad-sheet.bow-r::after{ background:linear-gradient(260deg, rgba(0,0,0,.16), rgba(10,45,81,0) 30%, rgba(10,45,81,.18) 55%, rgba(0,0,0,.08)); }
+.ad-sheet.bow-l::after{ background:linear-gradient(100deg, rgba(0,0,0,.16), rgba(0,0,0,0) 30%, rgba(0,0,0,.07) 55%, rgba(0,0,0,.08)); }
+.ad-sheet.bow-r::after{ background:linear-gradient(260deg, rgba(0,0,0,.16), rgba(0,0,0,0) 30%, rgba(0,0,0,.07) 55%, rgba(0,0,0,.08)); }
 .ad-sheet.bow-l{ border-radius:0 40% 0 0 / 0 6% 0 0; overflow:hidden; }
 .ad-sheet.bow-r{ border-radius:40% 0 0 0 / 6% 0 0 0; overflow:hidden; }
 .ad-card .ad-sheet{ border-radius:5px; }
@@ -4832,8 +4832,8 @@ html body .ad-scene.is-out .ad-paper{
   transform:translate(-50%, -50%) rotateZ(var(--rz)) rotateX(var(--rx)) rotateY(var(--ry)) skewX(var(--sk)) scale(var(--s));
 }
 /* stronger bow: shading across the sheet plus a curled edge */
-html body .ad-sheet.bow-l::after{ background:linear-gradient(95deg, rgba(0,0,0,.22), rgba(10,45,81,0) 26%, rgba(10,45,81,.28) 52%, rgba(0,0,0,.12) 88%); }
-html body .ad-sheet.bow-r::after{ background:linear-gradient(265deg, rgba(0,0,0,.22), rgba(10,45,81,0) 26%, rgba(10,45,81,.28) 52%, rgba(0,0,0,.12) 88%); }
+html body .ad-sheet.bow-l::after{ background:linear-gradient(95deg, rgba(0,0,0,.22), rgba(0,0,0,0) 26%, rgba(0,0,0,.1) 52%, rgba(0,0,0,.12) 88%); }
+html body .ad-sheet.bow-r::after{ background:linear-gradient(265deg, rgba(0,0,0,.22), rgba(0,0,0,0) 26%, rgba(0,0,0,.1) 52%, rgba(0,0,0,.12) 88%); }
 html body .ad-sheet.bow-l{ border-radius:0 60% 0 30% / 0 10% 0 6%; }
 html body .ad-sheet.bow-r{ border-radius:60% 0 30% 0 / 10% 0 6% 0; }
 @media (max-width:760px){
@@ -5110,4 +5110,37 @@ html body .sp-arrange-bar button{ background:#e15546; }
   0%{ transform:rotateX(-80deg); }
   70%{ transform:rotateX(8deg); }
   100%{ transform:rotateX(0); }
+}
+
+
+/* =====================================================
+   Nov 7 — MATLAB maps in one row, context full width;
+   On Stage crossfade + every thumbnail visible; library nav
+===================================================== */
+@media (min-width:621px){
+  html body .project-three-grid .project-three-map-card{ grid-column:span 2; min-height:0; }
+  html body .project-three-grid .project-three-map-card img{ min-height:0; height:auto; aspect-ratio:auto; object-fit:contain; }
+  html body .project-three-grid .project-three-text-large{ grid-column:1 / -1; min-height:0; }
+}
+html body .project-three-grid{ align-items:start; }
+
+/* On Stage: two stacked photos crossfade */
+html body .ad-feature{ position:relative; }
+html body .ad-feature img{ position:absolute; inset:0; transition:opacity .7s ease; }
+html body .ad-feature img.is-leaving{ opacity:0; }
+/* all six thumbnails fit beside the photo, no scrolling */
+@media (min-width:761px){
+  html body .ad-strip{
+    align-self:stretch;
+    height:auto; max-height:none;
+    overflow:visible;
+    display:flex; flex-direction:column; gap:10px;
+    flex-basis:clamp(120px, 11vw, 160px);
+    scrollbar-width:none;
+  }
+  html body .ad-thumb{ flex:1 1 0; min-height:0; aspect-ratio:auto; height:auto; }
+}
+@media (max-width:760px){
+  html body .ad-strip{ overflow:visible; display:grid; grid-template-columns:repeat(6, 1fr); gap:6px; }
+  html body .ad-thumb{ width:auto; aspect-ratio:1 / 1; }
 }
