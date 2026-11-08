@@ -1,6 +1,6 @@
 /* =========================================================
    SITE THEME — Miami Nights palette: mint #F2ECE4 page, white #F9FCFB
-   cards, deep teal #0F4953 ink + sidebar, salmon #F98E6E buttons +
+   cards, navy #182335 ink + sidebar, salmon #FFA58A buttons +
    brush, pink #FFCFD2 text highlights only; navy #182335 sidebar + scroller.
    ========================================================= */
 :root{
@@ -8,16 +8,16 @@
   --t-card:#F9FCFB;
   --t-soft:#FFFFFF;
   --t-fill:#e2d8cc;
-  --t-ink:#0F4953;
-  --t-muted:#3d6168;
+  --t-ink:#182335;
+  --t-muted:#4a5468;
   --t-label:#C4593C;
-  --t-line:rgba(15,73,83,.16);
-  --t-stone:#F98E6E;
+  --t-line:rgba(24,35,53,.16);
+  --t-stone:#FFA58A;
   --t-red:#D96A4C;
   color-scheme:light;
 }
 html, body{ background:var(--t-page) !important; color:var(--t-ink); }
-::selection{ background:#FFCFD2; color:#0F4953; }
+::selection{ background:#FFCFD2; color:#182335; }
 
 /* sidebar */
 :root{ --chrome-bg:#182335; --chrome-ink:#F9FCFB; }
@@ -27,8 +27,8 @@ html body .ad-s-top{ background:#fbfbf8 !important; }
 html body .ad-s-front{ background:repeating-linear-gradient(#fdfdfb 0 2px, #d8d7d0 2px 3px) !important; }
 html body .ad-s-side{ background:repeating-linear-gradient(#f4f3ee 0 2px, #cfcec6 2px 3px) !important; }
 /* fridge note cards keep dark ink on cream paper */
-html body .sp-magnet-text{ color:#0F4953 !important; }
-html body .sp-magnet-text p:not(.small-label){ color:#2f5359 !important; }
+html body .sp-magnet-text{ color:#182335 !important; }
+html body .sp-magnet-text p:not(.small-label){ color:#3a4150 !important; }
 html body .sp-magnet-text .small-label{ color:#C4593C !important; }
 
 /* =========================================================
@@ -73,8 +73,8 @@ html body .back-to-top{ display:inline-flex; padding:10px 18px; }
     box-shadow:none !important;
   }
 }
-html body .contact-action.is-copied{ background:#F98E6E !important; border-color:#F98E6E !important; color:#0F4953 !important; }
-html body .gx-nav{ border-radius:0; border-color:#0F4953; background:#D96A4C; }
+html body .contact-action.is-copied{ background:#FFA58A !important; border-color:#FFA58A !important; color:#182335 !important; }
+html body .gx-nav{ border-radius:0; border-color:#182335; background:#D96A4C; }
 html body .gx-dot{ border-radius:0; }
 
 /* labels and small caps in a condensed face */
@@ -146,7 +146,7 @@ html body .art-grid-item, html body .art-grid img{
    CARDS ARE WHITE — not another shade of dark blue.
    Inside them the ink flips back to Egyptian blue.
    ========================================================= */
-:root{ --t-card:#F9FCFB; --t-soft:#FFFFFF; --t-line-rgb:15,73,83; }
+:root{ --t-card:#F9FCFB; --t-soft:#FFFFFF; --t-line-rgb:24,35,53; }
 html body .ad-prop,
 html body .ad-prop-media,
 html body .ad-stage .ad-props,
@@ -187,10 +187,10 @@ html body .sketchy-text-panel,
 html body .ss-text,
 html body .static-asset-card,
 html body .sp-takeaway{
-  --t-ink:#0F4953;
-  --t-muted:#3d6168;
+  --t-ink:#182335;
+  --t-muted:#4a5468;
   --t-label:#C4593C;
-  --t-line-rgb:15,73,83;
+  --t-line-rgb:24,35,53;
   color:var(--t-ink);
 }
 
@@ -207,8 +207,8 @@ html body .contact-section{ background:transparent !important; }
 
 /* salmon for secondary accents */
 html body .work-meta b{ color:#D96A4C !important; }
-html body .gx-dot.is-on, html body .gx-dot.is-on:hover{ background:#F98E6E; }
-html body .ad-thumb.is-on{ outline-color:#F98E6E; }
+html body .gx-dot.is-on, html body .gx-dot.is-on:hover{ background:#FFA58A; }
+html body .ad-thumb.is-on{ outline-color:#FFA58A; }
 html body .contact-links a span{ color:#D96A4C !important; }
 html body .project-number{ color:#C4593C !important; }
 html body footer{ background:transparent !important; color:var(--t-muted) !important; }
@@ -218,16 +218,16 @@ html body footer{ background:transparent !important; color:var(--t-muted) !impor
    ========================================================= */
 :root{ --chrome-bg:#182335; --chrome-ink:#F9FCFB; }
 html body #snake-ghost{ stroke:rgba(24,35,53,.18) !important; }
-html body h2{ color:#0F4953 !important; }
+html body h2{ color:#182335 !important; }
 html body .work-meta b{ color:#D96A4C !important; }
 html body .dx .dx-title,
 html body .rx .rx-title,
 html body h1.ap-title,
-html body .project-hero h1{ color:#0F4953 !important; }
+html body .project-hero h1{ color:#182335 !important; }
 /* name on the pink brush */
 html body .hero-name .hero-name-jianna{ color:#F9FCFB !important; }
 html body .hero-name .teal-accent,
-html body .hero-name .hero-name-shao{ color:#0F4953 !important; }
+html body .hero-name .hero-name-shao{ color:#182335 !important; }
 
 /* =========================================================
    BRIGHTER — cream panels behind sections, images and text.
@@ -249,10 +249,10 @@ html body .rx-present,
 html body .rx-outputs,
 html body main.portfolio{
   background:#F9FCFB !important;
-  --t-ink:#0F4953;
-  --t-muted:#3d6168;
+  --t-ink:#182335;
+  --t-muted:#4a5468;
   --t-label:#C4593C;
-  --t-line-rgb:15,73,83;
+  --t-line-rgb:24,35,53;
   --t-card:#F6F1EA;
   --t-soft:#FAF7F3;
   color:var(--t-ink);
@@ -262,7 +262,7 @@ html body main.portfolio{
 html body .t-panel h2, html body .t-panel h3,
 html body .work-card h3,
 html body .dx-step h2, html body .dx-step h3,
-html body .rx-present h2, html body .rx-outputs h3{ color:#0F4953 !important; }
+html body .rx-present h2, html body .rx-outputs h3{ color:#182335 !important; }
 html body .t-panel p, html body .work-card p,
 html body .dx-step p, html body .rx-body-wide p, html body .rx-setup p,
 html body .rx-present p, html body .rx-outputs p,
@@ -290,18 +290,18 @@ html body .project-end-links a{
   }
 }
 html body .contact-links a span{ color:#C4593C !important; }
-html body .contact-links a b{ color:#0F4953 !important; }
+html body .contact-links a b{ color:#182335 !important; }
 html body .resume-folder-label{ color:#C4593C !important; }
 html body .resume-section .resume-folders{ padding:28px 24px !important; gap:28px 40px; flex-shrink:1; }
 
 /* Lily palette touch-ups */
-html body .hero-postcard-hint{ color:#0F4953 !important; }
+html body .hero-postcard-hint{ color:#182335 !important; }
 html body .section .eyebrow, html body .eyebrow{ color:#D96A4C !important; }
 html body .section-heading,
 html body .project-hero hr,
-html body .section-heading + *{ border-color:rgba(249,142,110,.6) !important; }
-html body .work-result::before{ border-color:#F98E6E !important; }
-html body .resume-lightbox{ background:rgba(15,73,83,.82) !important; }
+html body .section-heading + *{ border-color:rgba(255,165,138,.6) !important; }
+html body .work-result::before{ border-color:#FFA58A !important; }
+html body .resume-lightbox{ background:rgba(24,35,53,.82) !important; }
 
 /* Miami Nights buttons: salmon with deep-teal text, teal on hover */
 html body .work-card .explore-btn,
@@ -310,9 +310,9 @@ html body .resume-peek-cta,
 html body .back-to-top,
 html body .mobile-notice-primary,
 html body .project-end-links a{
-  background:#F98E6E !important;
-  border-color:#F98E6E !important;
-  color:#0F4953 !important;
+  background:#FFA58A !important;
+  border-color:#FFA58A !important;
+  color:#182335 !important;
 }
 @media (hover:hover) and (pointer:fine){
   html body .work-card .explore-btn:hover,
@@ -320,10 +320,10 @@ html body .project-end-links a{
   html body .resume-peek:hover .resume-peek-cta,
   html body .back-to-top:hover,
   html body .project-end-links a:hover{
-    background:#0F4953 !important;
-    border-color:#0F4953 !important;
+    background:#182335 !important;
+    border-color:#182335 !important;
     color:#F9FCFB !important;
   }
 }
-html body .gx-nav{ background:#F98E6E; border-color:#0F4953; }
+html body .gx-nav{ background:#FFA58A; border-color:#182335; }
 

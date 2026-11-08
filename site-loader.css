@@ -30,7 +30,7 @@ html.site-loading body{
   width:76px;
   height:76px;
   fill:none;
-  stroke:#0F4953;
+  stroke:#182335;
   stroke-width:2.6;
   stroke-linecap:round;
   stroke-linejoin:round;
@@ -58,7 +58,7 @@ html.site-loading body{
   display:block;
   height:100%;
   width:100%;
-  background:#F98E6E;
+  background:#FFA58A;
   transform:scaleX(0);
   transform-origin:left center;
   transition:transform .3s ease;
