@@ -418,3 +418,25 @@ html body .rx .rx-body-wide p{ max-width:none; }
 
 /* symposium photo: keep the top of the picture when cropped */
 .rx-figure-photo img{ object-position:center top; }
+
+/* Part II — Duke: its own hero, separated from the Wesleyan study */
+.rx-part{
+  margin-top:clamp(72px, 10vh, 120px);
+  padding-top:clamp(56px, 8vh, 88px);
+  border-top:2px solid var(--t-ink);
+}
+.rx .rx-part-title{
+  margin:0 0 clamp(24px, 3.5vh, 40px);
+  font-family:var(--rx-serif) !important;
+  font-weight:400 !important;
+  font-size:clamp(40px, 6.4vw, 96px) !important;
+  line-height:.98 !important;
+  letter-spacing:-.02em !important;
+  color:var(--t-ink) !important;
+}
+.rx-duke-figs .rx-figure img{ background:#F9FCFB; object-fit:contain; }
+.rx-duke-body{ margin-top:clamp(18px, 2vw, 28px); }
+/* diagrams stack so their labels stay readable */
+.rx-photos.rx-duke-figs{ grid-template-columns:minmax(0, 1fr) !important; justify-items:center; }
+.rx-duke-figs .rx-figure{ width:100%; max-width:880px; }
+.rx-duke-figs .rx-figure img{ height:auto !important; aspect-ratio:auto !important; }

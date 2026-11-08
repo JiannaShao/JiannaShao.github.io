@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 470" font-family="Arial, Helvetica, sans-serif">
+  <rect width="800" height="470" fill="#F9FCFB"/>
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#182335"/></marker>
+    <pattern id="coil" width="16" height="40" patternUnits="userSpaceOnUse"><rect width="16" height="40" fill="#FFA58A"/><path d="M8 0 V40" stroke="#D96A4C" stroke-width="3"/></pattern>
+  </defs>
+  <!-- furnace halves -->
+  <rect x="250" y="118" width="300" height="52" rx="6" fill="url(#coil)" stroke="#182335" stroke-width="2.5"/>
+  <rect x="250" y="270" width="300" height="52" rx="6" fill="url(#coil)" stroke="#182335" stroke-width="2.5"/>
+  <text x="400" y="104" text-anchor="middle" font-size="15" font-weight="700" fill="#182335">Furnace (heated zone)</text>
+  <!-- quartz tube -->
+  <rect x="130" y="170" width="540" height="100" rx="50" fill="#EAF4F6" stroke="#182335" stroke-width="3"/>
+  <!-- inlet + outlet pipes -->
+  <rect x="40" y="208" width="92" height="24" fill="#d9dee4" stroke="#182335" stroke-width="2.5"/>
+  <rect x="668" y="208" width="92" height="24" fill="#d9dee4" stroke="#182335" stroke-width="2.5"/>
+  <path d="M48 220 H118" stroke="#182335" stroke-width="2.5" marker-end="url(#ar)"/>
+  <path d="M680 220 H752" stroke="#182335" stroke-width="2.5" marker-end="url(#ar)"/>
+  <text x="86" y="196" text-anchor="middle" font-size="13" fill="#182335">Precursor +</text>
+  <text x="86" y="180" text-anchor="middle" font-size="13" fill="#182335"></text>
+  <text x="86" y="258" text-anchor="middle" font-size="13" fill="#182335">carrier gas in</text>
+  <text x="714" y="196" text-anchor="middle" font-size="13" fill="#182335">By-products</text>
+  <text x="714" y="258" text-anchor="middle" font-size="13" fill="#182335">to pump</text>
+  <!-- gas molecules flowing in -->
+  <g fill="#182335">
+    <circle cx="165" cy="200" r="5"/><circle cx="178" cy="206" r="3.5" fill="#D96A4C"/>
+    <circle cx="200" cy="236" r="5"/><circle cx="213" cy="242" r="3.5" fill="#D96A4C"/>
+    <circle cx="232" cy="196" r="5"/><circle cx="245" cy="202" r="3.5" fill="#D96A4C"/>
+    <circle cx="268" cy="230" r="5"/><circle cx="281" cy="236" r="3.5" fill="#D96A4C"/>
+  </g>
+  <!-- broken apart in the hot zone, falling to the substrate -->
+  <g fill="#182335">
+    <circle cx="318" cy="200" r="4.5"/><circle cx="340" cy="214" r="4.5"/><circle cx="366" cy="198" r="4.5"/>
+    <circle cx="392" cy="222" r="4.5"/><circle cx="420" cy="204" r="4.5"/><circle cx="446" cy="226" r="4.5"/>
+  </g>
+  <g fill="#D96A4C">
+    <circle cx="480" cy="196" r="3.5"/><circle cx="505" cy="214" r="3.5"/><circle cx="560" cy="204" r="3.5"/><circle cx="610" cy="222" r="3.5"/>
+  </g>
+  <g stroke="#182335" stroke-width="1.6" stroke-dasharray="3 3">
+    <path d="M340 220 L352 240"/><path d="M392 228 L396 240"/><path d="M446 232 L436 240"/>
+  </g>
+  <!-- substrate + film -->
+  <rect x="330" y="246" width="140" height="12" fill="#182335"/>
+  <rect x="330" y="241" width="140" height="5" fill="#D96A4C"/>
+  <path d="M470 250 C500 300 540 330 560 352" fill="none" stroke="#182335" stroke-width="1.6"/>
+  <text x="566" y="366" font-size="13" fill="#182335">Thin film grows on the substrate</text>
+  <!-- steps -->
+  <g font-size="14" fill="#182335">
+    <circle cx="70" cy="405" r="13" fill="#FFA58A"/><text x="70" y="410" text-anchor="middle" font-weight="700">1</text>
+    <text x="92" y="410">Gases flow into a sealed tube</text>
+    <circle cx="420" cy="405" r="13" fill="#FFA58A"/><text x="420" y="410" text-anchor="middle" font-weight="700">2</text>
+    <text x="442" y="410">Heat breaks the precursor apart</text>
+    <circle cx="70" cy="443" r="13" fill="#FFA58A"/><text x="70" y="448" text-anchor="middle" font-weight="700">3</text>
+    <text x="92" y="448">Atoms settle and bond to the substrate</text>
+    <circle cx="420" cy="443" r="13" fill="#FFA58A"/><text x="420" y="448" text-anchor="middle" font-weight="700">4</text>
+    <text x="442" y="448">Leftover gases are pumped away</text>
+  </g>
+  <text x="40" y="44" font-size="20" font-weight="700" fill="#182335">Chemical vapor deposition (CVD)</text>
+  <text x="40" y="68" font-size="13" fill="#4a5468">How a thin solid film is built up from gases, one layer of atoms at a time</text>
+</svg>
