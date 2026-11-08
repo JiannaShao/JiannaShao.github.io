@@ -531,3 +531,24 @@ html body .side-submenu{ gap: 16px !important; }
 
 /* Palette accents (red) shared across pages */
 :root{ --pal-red:#e15546; --pal-wine:#c8473a; --pal-teal:#c8473a; --pal-deep:#24324a; --pal-ink:#182335; }
+
+/* =========================================================
+   Hover nudge without moving the hit area. Shifting the whole
+   link/button 4px made it slide out from under the pointer near
+   its left edge, so hover flickered on and off (most noticeable
+   on Portfolios). The row stays put; only its contents slide.
+   ========================================================= */
+@media (hover:hover) and (pointer:fine) and (min-width:801px){
+  html body .side-main-link:hover,
+  html body .side-dropdown-toggle:hover,
+  html body .side-submenu a:hover{ transform:none !important; }
+  html body .side-main-link > *,
+  html body .side-dropdown-toggle > *{ transition:transform .18s ease !important; }
+  html body .side-main-link:hover > *,
+  html body .side-dropdown-toggle:hover > .side-icon,
+  html body .side-dropdown-toggle:hover > .side-label{ transform:translateX(4px); }
+  html body .side-dropdown-toggle:hover > .side-dropdown-arrow{ transform:translateX(4px); }
+  html body .side-dropdown.is-open .side-dropdown-toggle:hover > .side-dropdown-arrow{ transform:translateX(4px) rotate(180deg) !important; }
+  html body .side-submenu a{ padding-left:0 !important; transition:color .16s ease, opacity .16s ease, padding-left .18s ease !important; }
+  html body .side-submenu a:hover{ padding-left:4px !important; }
+}
