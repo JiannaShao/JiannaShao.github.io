@@ -330,3 +330,49 @@ html body .gx-nav{ background:#FFA58A; border-color:#182335; }
 /* Library Work carousel arrows: round, no ring */
 html body .gx-nav{ border-radius:50% !important; border:0 !important; background:#FFA58A !important; color:#182335 !important; box-shadow:0 6px 16px -6px rgba(24,35,53,.35) !important; }
 html body .gx-nav:hover{ background:#182335 !important; color:#F9FCFB !important; }
+
+/* =========================================================
+   MOBILE FIT — cards never run past the right edge
+   ========================================================= */
+@media (max-width:700px){
+  html body .project-two-v16-layout{ grid-template-columns:minmax(0, 1fr) !important; gap:28px !important; }
+  html body .project-two-right-column{ width:100% !important; margin:0 !important; }
+  html body .t-panel,
+  html body .work-card,
+  html body #art .art-grid,
+  html body .contact-links,
+  html body .dx-skills,
+  html body .dx-step,
+  html body .gx-blurb,
+  html body .rx-body-wide,
+  html body .rx-setup,
+  html body .rx-photos,
+  html body .rx-present,
+  html body .rx-outputs,
+  html body main.portfolio{ padding:18px 16px !important; }
+  html body .resume-section .resume-folders{ padding:18px 16px !important; width:100%; max-width:100%; }
+  html body .resume-section .resume-folders .resume-peek{
+    flex-direction:column !important;
+    align-items:flex-start !important;
+    gap:12px !important;
+  }
+  html body .t-panel img, html body .t-panel video, html body .t-panel figure,
+  html body .rx img, html body .dx img{ max-width:100%; }
+  html body .t-panel > *, html body .project-section > *{ min-width:0; max-width:100%; }
+}
+/* decorative pieces (blueprint lines, sparks) never widen the page */
+html body main, html body .rx, html body .dx, html body .portfolio-header{ overflow-x:clip; }
+html body .resume-section .resume-folders{ max-width:100%; box-sizing:border-box; flex-wrap:wrap; }
+@media (max-width:1100px){
+  html body .resume-section .resume-heading-row > *{ max-width:100%; }
+}
+@media (max-width:420px){
+  html body .resume-section .resume-folder,
+  html body .resume-section .resume-peek{ max-width:100%; }
+}
+@media (max-width:700px){
+  html body .resume-section .resume-folders #cv-preview-button,
+  html body .resume-section .resume-folders #resume-preview-button{ flex-direction:column !important; align-items:flex-start !important; }
+  html body .resume-section .resume-folders #cv-preview-button .resume-peek-side{ align-items:flex-start !important; }
+  html body .resume-section .resume-folders .resume-folder:last-child{ align-self:flex-start !important; }
+}
