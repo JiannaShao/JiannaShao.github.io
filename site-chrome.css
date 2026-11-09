@@ -552,3 +552,17 @@ html body .side-submenu{ gap: 16px !important; }
   html body .side-submenu a{ padding-left:0 !important; transition:color .16s ease, opacity .16s ease, padding-left .18s ease !important; }
   html body .side-submenu a:hover{ padding-left:4px !important; }
 }
+
+/* An old stylesheet on the home page widened the rail on plain :hover
+   (190px) even when the menu wasn't open, e.g. when the page loads with
+   the pointer already over the rail, leaving a wide empty bar. The rail's
+   width now follows only the open state. */
+@media (min-width:801px){
+  html body .side-nav:hover:not(.hover-open):not(.mobile-open){ width:var(--chrome-rail) !important; }
+}
+@media (max-width:800px){
+  /* phones keep :hover after a tap; the old home-page rule then shrank the
+     open menu to 168px and cut it off. Same width hovered or not. */
+  html body .side-nav:hover,
+  html body .side-nav.mobile-open:hover{ width:272px !important; }
+}

@@ -17,6 +17,10 @@
     sideNav.addEventListener('mouseleave', () => {
       sideNav.classList.remove('hover-open');
     });
+    // the page can load with the pointer already over the rail (no mouseenter)
+    sideNav.addEventListener('mousemove', () => {
+      if (!MOBILE.matches && FINE_HOVER.matches && !sideNav.classList.contains('hover-open')) sideNav.classList.add('hover-open');
+    }, { passive: true });
 
     // Touch devices wider than phones: tapping the logo opens the rail first.
     const brand = sideNav.querySelector('.side-brand');
