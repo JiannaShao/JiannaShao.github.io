@@ -614,6 +614,7 @@ What is the dot product of the vector from us to Hill 2 and the vector from us t
           block: [[.474, 0, .54, 9]],
           minH: .64,
           font: .0122,
+          fontMin: 7.5,
           size: { context: .28, process: .28, logo: .3, 'duck-village': .2, bamboo: .095, kitchen: .1, guzheng: .2, 'pond-plants': .19, 'wishes-table': .1, bed: .14, goldfish: .105, dandelion: .12, pot: .1, 'park-sign': .21 },
           pos: {
             'logo': [0.032, 0.035],
@@ -710,10 +711,12 @@ What is the dot product of the vector from us to Hill 2 and the vector from us t
         const layout = () => {
           W = fridge.clientWidth;
           if (!W) return;
-          key = W >= 900 ? 'wide' : 'tall';
+          // side-by-side doors whenever there's room; magnets just get smaller.
+          // Only phone-narrow fridges switch to the tall single-door layout.
+          key = W >= 520 ? 'wide' : 'tall';
           fridge.classList.toggle('is-wide', key === 'wide');
           L = FRIDGE_LAYOUTS[key];
-          const fs = Math.min(L.fontMax || 99, W * L.font);
+          const fs = Math.max(L.fontMin || 0, Math.min(L.fontMax || 99, W * L.font));
           fridge.style.setProperty('--magnet-font', fs + 'px');
           fridge.style.height = 'auto';
           fridge.style.minHeight = (L.minH * W) + 'px';
@@ -1007,26 +1010,37 @@ What is the dot product of the vector from us to Hill 2 and the vector from us t
       const strip = g.querySelector('.ad-strip');
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       let cur = 0, timer = 0, paused = false;
+      let seq = 0;
       function show(i) {
         cur = (i + thumbs.length) % thumbs.length;
         const t = thumbs[cur];
         thumbs.forEach((x) => x.classList.toggle('is-on', x === t));
         const fig = g.querySelector('.ad-feature');
-        const old = fig.querySelector('img:not(.is-leaving):last-of-type');
-        if (old && old.getAttribute('src') === t.dataset.src) return;
+        const mine = ++seq;                      // only the latest request may finish
+        const top = fig.querySelector('img:last-of-type');
+        if (top && top.getAttribute('src') === t.dataset.src) {
+          // already showing (or fading to) this photo: make sure it's fully visible
+          top.style.opacity = 1;
+          [...fig.querySelectorAll('img')].forEach((im) => { if (im !== top) im.remove(); });
+          return;
+        }
         const next = new Image();
         next.decoding = 'async';
         next.alt = t.dataset.alt;
         next.style.opacity = 0;
-        next.onload = () => {
+        const reveal = () => {
+          if (mine !== seq) return;              // a newer photo was picked meanwhile
           fig.appendChild(next);
           requestAnimationFrame(() => requestAnimationFrame(() => { next.style.opacity = 1; }));
-          // drop the photos underneath once the new one has faded in
           setTimeout(() => {
+            if (mine !== seq || !next.isConnected) return;   // a newer photo owns the cleanup
             [...fig.querySelectorAll('img')].forEach((im) => { if (im !== next) im.remove(); });
           }, 750);
         };
+        next.onload = reveal;
+        next.onerror = reveal;
         next.src = t.dataset.src;
+        if (next.complete && next.naturalWidth) { next.onload = null; reveal(); }
       }
       function restart() {
         clearInterval(timer);
