@@ -3210,3 +3210,15 @@ html body .hero-name .hero-name-shao{ color:#182335 !important; }
     width:100% !important;
   }
 }
+
+/* "Click to open" follows the envelope's bottom edge. The 3D box is taller
+   than the envelope (room for it to open), and the envelope is sized by the
+   box's width, so the label is placed from the width, not the box bottom. */
+@media (min-width:801px){
+  html body .hero-postcard-wrap{ container-type:inline-size; }
+  html body .hero-postcard-hint{
+    top:calc(55% + 30.6cqw + 26px) !important;
+    bottom:auto !important;
+    transform:none !important;
+  }
+}

@@ -5164,3 +5164,30 @@ html body .ad-feature img.is-leaving{ opacity:0; }
   .ad-window{ height:clamp(170px, 46vw, 240px); }
   .ad-window-wide{ grid-column:1 / -1; order:-1; height:clamp(200px, 58vw, 280px); }
 }
+
+/* =====================================================
+   Mid-size windows (split screen, small laptops)
+===================================================== */
+@media (max-width:1180px){
+  /* section title above its summary instead of squeezed beside it */
+  html body .project-section > .section-heading{
+    display:block !important;
+  }
+  html body .project-section > .section-heading .section-summary{
+    max-width:62ch;
+    margin-top:14px !important;
+  }
+  /* "Part II  Sketchy Secret  description" wraps onto its own line */
+  html body .subsection-heading{ flex-wrap:wrap; }
+  html body .subsection-heading .subsection-description{ flex:1 1 100%; max-width:none; margin-top:8px; }
+  /* the four project links: two per row */
+  html body .project-jump{ grid-template-columns:repeat(2, minmax(0, 1fr)) !important; }
+  /* MATLAB level cards: context card full width, levels two per row */
+  html body .project-three-grid .project-three-text-card:not(.project-three-text-large){ grid-column:span 3; }
+}
+@media (max-width:1180px) and (min-width:801px){
+  html body .project-three-grid .project-three-text-card:last-child{ grid-column:1 / -1; }
+}
+@media (max-width:520px){
+  html body .project-jump{ grid-template-columns:minmax(0, 1fr) !important; }
+}
