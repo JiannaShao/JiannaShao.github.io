@@ -5144,3 +5144,23 @@ html body .ad-feature img.is-leaving{ opacity:0; }
   html body .ad-strip{ overflow:visible; display:grid; grid-template-columns:repeat(6, 1fr); gap:6px; }
   html body .ad-thumb{ width:auto; aspect-ratio:1 / 1; }
 }
+
+/* ADoaA: three photo "windows" between My Role and the drawer / props */
+.ad-windows{
+  display:grid;
+  grid-template-columns:minmax(0, 1fr) minmax(0, 1.4fr) minmax(0, 1fr);
+  gap:clamp(10px, 1.4vw, 18px);
+  margin:clamp(24px, 3vw, 36px) 0 clamp(8px, 1.5vw, 20px);
+}
+.ad-window{
+  margin:0;
+  height:clamp(220px, 24vw, 340px);
+  overflow:hidden;
+  background:#182335;
+}
+.ad-window img{ display:block; width:100%; height:100%; object-fit:cover; }
+@media (max-width:620px){
+  .ad-windows{ grid-template-columns:1fr 1fr; }
+  .ad-window{ height:clamp(170px, 46vw, 240px); }
+  .ad-window-wide{ grid-column:1 / -1; order:-1; height:clamp(200px, 58vw, 280px); }
+}
