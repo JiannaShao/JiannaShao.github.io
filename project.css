@@ -5191,3 +5191,6 @@ html body .ad-feature img.is-leaving{ opacity:0; }
 @media (max-width:520px){
   html body .project-jump{ grid-template-columns:minmax(0, 1fr) !important; }
 }
+/* a little room above a section reached from a link */
+html body .project-section[id]{ scroll-margin-top:24px; }
+@media (max-width:800px){ html body .project-section[id]{ scroll-margin-top:72px; } }
