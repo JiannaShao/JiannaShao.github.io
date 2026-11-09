@@ -1,6 +1,6 @@
 /* =========================================================
    SITE THEME — Miami Nights palette: mint #F2ECE4 page, white #F9FCFB
-   cards, navy #182335 ink + sidebar, salmon #FFA58A buttons +
+   cards, navy #182335 ink + sidebar, salmon #FFB29C buttons +
    brush, pink #FFCFD2 text highlights only; navy #182335 sidebar + scroller.
    ========================================================= */
 :root{
@@ -12,7 +12,7 @@
   --t-muted:#4a5468;
   --t-label:#C4593C;
   --t-line:rgba(24,35,53,.16);
-  --t-stone:#FFA58A;
+  --t-stone:#FFB29C;
   --t-red:#D96A4C;
   color-scheme:light;
 }
@@ -73,7 +73,7 @@ html body .back-to-top{ display:inline-flex; padding:10px 18px; }
     box-shadow:none !important;
   }
 }
-html body .contact-action.is-copied{ background:#FFA58A !important; border-color:#FFA58A !important; color:#182335 !important; }
+html body .contact-action.is-copied{ background:#FFB29C !important; border-color:#FFB29C !important; color:#182335 !important; }
 html body .gx-nav{ border-radius:0; border-color:#182335; background:#D96A4C; }
 html body .gx-dot{ border-radius:0; }
 
@@ -207,8 +207,8 @@ html body .contact-section{ background:transparent !important; }
 
 /* salmon for secondary accents */
 html body .work-meta b{ color:#D96A4C !important; }
-html body .gx-dot.is-on, html body .gx-dot.is-on:hover{ background:#FFA58A; }
-html body .ad-thumb.is-on{ outline-color:#FFA58A; }
+html body .gx-dot.is-on, html body .gx-dot.is-on:hover{ background:#FFB29C; }
+html body .ad-thumb.is-on{ outline-color:#FFB29C; }
 html body .contact-links a span{ color:#D96A4C !important; }
 html body .project-number{ color:#C4593C !important; }
 html body footer{ background:transparent !important; color:var(--t-muted) !important; }
@@ -299,8 +299,8 @@ html body .hero-postcard-hint{ color:#182335 !important; }
 html body .section .eyebrow, html body .eyebrow{ color:#D96A4C !important; }
 html body .section-heading,
 html body .project-hero hr,
-html body .section-heading + *{ border-color:rgba(255,165,138,.6) !important; }
-html body .work-result::before{ border-color:#FFA58A !important; }
+html body .section-heading + *{ border-color:rgba(255,178,156,.6) !important; }
+html body .work-result::before{ border-color:#FFB29C !important; }
 html body .resume-lightbox{ background:rgba(24,35,53,.82) !important; }
 
 /* Miami Nights buttons: salmon with deep-teal text, teal on hover */
@@ -310,8 +310,8 @@ html body .resume-peek-cta,
 html body .back-to-top,
 html body .mobile-notice-primary,
 html body .project-end-links a{
-  background:#FFA58A !important;
-  border-color:#FFA58A !important;
+  background:#FFB29C !important;
+  border-color:#FFB29C !important;
   color:#182335 !important;
 }
 @media (hover:hover) and (pointer:fine){
@@ -325,10 +325,10 @@ html body .project-end-links a{
     color:#F9FCFB !important;
   }
 }
-html body .gx-nav{ background:#FFA58A; border-color:#182335; }
+html body .gx-nav{ background:#FFB29C; border-color:#182335; }
 
 /* Library Work carousel arrows: round, no ring */
-html body .gx-nav{ border-radius:50% !important; border:0 !important; background:#FFA58A !important; color:#182335 !important; box-shadow:0 6px 16px -6px rgba(24,35,53,.35) !important; }
+html body .gx-nav{ border-radius:50% !important; border:0 !important; background:#FFB29C !important; color:#182335 !important; box-shadow:0 6px 16px -6px rgba(24,35,53,.35) !important; }
 html body .gx-nav:hover{ background:#182335 !important; color:#F9FCFB !important; }
 
 /* =========================================================

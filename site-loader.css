@@ -58,7 +58,7 @@ html.site-loading body{
   display:block;
   height:100%;
   width:100%;
-  background:#FFA58A;
+  background:#FFB29C;
   transform:scaleX(0);
   transform-origin:left center;
   transition:transform .3s ease;

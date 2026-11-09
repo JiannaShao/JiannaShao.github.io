@@ -15,7 +15,7 @@
     <!-- gantry -->
     <rect x="430" y="196" width="280" height="16" rx="3" fill="#182335"/>
     <!-- tool head -->
-    <rect x="535" y="182" width="72" height="66" rx="6" fill="#FFA58A" stroke="#182335" stroke-width="3"/>
+    <rect x="535" y="182" width="72" height="66" rx="6" fill="#FFB29C" stroke="#182335" stroke-width="3"/>
     <path d="M555 248 H587 L577 272 H565 Z" fill="#182335"/>
     <path d="M552 182 C552 160 560 150 575 140" fill="none" stroke="#182335" stroke-width="3"/>
     <path d="M590 182 C592 162 600 152 612 146" fill="none" stroke="#182335" stroke-width="3"/>
@@ -30,11 +30,11 @@
   <g>
     <rect x="110" y="438" width="120" height="32" rx="6" fill="#182335"/>
     <rect x="140" y="400" width="60" height="42" rx="8" fill="#182335"/>
-    <circle cx="170" cy="396" r="22" fill="#FFA58A" stroke="#182335" stroke-width="4"/>
+    <circle cx="170" cy="396" r="22" fill="#FFB29C" stroke="#182335" stroke-width="4"/>
     <path d="M170 396 L250 250" stroke="#182335" stroke-width="30" stroke-linecap="round"/>
-    <circle cx="250" cy="250" r="18" fill="#FFA58A" stroke="#182335" stroke-width="4"/>
+    <circle cx="250" cy="250" r="18" fill="#FFB29C" stroke="#182335" stroke-width="4"/>
     <path d="M250 250 L392 300" stroke="#182335" stroke-width="22" stroke-linecap="round"/>
-    <circle cx="392" cy="300" r="12" fill="#FFA58A" stroke="#182335" stroke-width="3"/>
+    <circle cx="392" cy="300" r="12" fill="#FFB29C" stroke="#182335" stroke-width="3"/>
     <path d="M392 300 L420 340" stroke="#182335" stroke-width="12" stroke-linecap="round"/>
     <path d="M412 344 L404 362 M432 336 L442 354" stroke="#182335" stroke-width="5" stroke-linecap="round"/>
     <rect x="402" y="358" width="44" height="9" fill="#d9dee4" stroke="#182335" stroke-width="1.5"/>
@@ -43,7 +43,7 @@
   <g>
     <rect x="60" y="110" width="170" height="92" rx="10" fill="#182335"/>
     <rect x="72" y="122" width="146" height="58" rx="4" fill="#26364f"/>
-    <path d="M84 140 H170 M84 152 H200 M84 164 H150" stroke="#FFA58A" stroke-width="4" stroke-linecap="round"/>
+    <path d="M84 140 H170 M84 152 H200 M84 164 H150" stroke="#FFB29C" stroke-width="4" stroke-linecap="round"/>
     <rect x="130" y="202" width="30" height="10" fill="#182335"/>
     <text x="145" y="232" text-anchor="middle" font-size="14" font-weight="700" fill="#182335">AI agent</text>
     <path d="M232 150 C320 150 400 150 470 186" fill="none" stroke="#182335" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#ar2)"/>
