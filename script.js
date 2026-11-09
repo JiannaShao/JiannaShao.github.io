@@ -218,9 +218,24 @@
     // the right-hand U-turn ends a little past the last letter (clear of the envelope)
     // phones: just past the name; wider screens: across the whole heading row,
     // running on behind the envelope / postcard
-    const width = phone
+    let width = phone
       ? (right - rowRect.left) - left + H0 * 0.13
       : rowRect.width - left;
+    if (phone) {
+      // stacked layout (postcard below): the name is centred, so the stroke is
+      // centred on the name, with the same margin past the text on both sides
+      let l = Infinity, r = -Infinity;
+      heroName.querySelectorAll('.hero-name-part').forEach((p) => {
+        const pr = p.getBoundingClientRect();
+        l = Math.min(l, pr.left); r = Math.max(r, pr.right);
+      });
+      const vw = document.documentElement.clientWidth;
+      const margin = Math.min(H0 * 0.32, 60);
+      width = Math.min(vw - 12, (r - l) + margin * 2);
+      const cx = (l + r) / 2;
+      const absLeft = Math.max(6, Math.min(vw - 6 - width, cx - width / 2));
+      heroStroke.style.left = `${absLeft - rowRect.left}px`;
+    }
     heroStroke.style.width = `${width}px`;   // 8% narrower
   };
   /* Background behind the name: one wide dry-brush stroke that snakes from the
