@@ -1,13 +1,13 @@
 /* =========================================================
-   SITE THEME — Miami Nights palette: mint #F2ECE4 page, white #F9FCFB
+   SITE THEME — Miami Nights palette: light grey #ECEDEE page, white #F9FCFB
    cards, navy #182335 ink + sidebar, salmon #FFB29C buttons +
    brush, pink #FFCFD2 text highlights only; navy #182335 sidebar + scroller.
    ========================================================= */
 :root{
-  --t-page:#F2ECE4;
+  --t-page:#ECEDEE;
   --t-card:#F9FCFB;
   --t-soft:#FFFFFF;
-  --t-fill:#e2d8cc;
+  --t-fill:#d9dbde;
   --t-ink:#182335;
   --t-muted:#4a5468;
   --t-label:#C4593C;
@@ -253,8 +253,8 @@ html body main.portfolio{
   --t-muted:#4a5468;
   --t-label:#C4593C;
   --t-line-rgb:24,35,53;
-  --t-card:#F6F1EA;
-  --t-soft:#FAF7F3;
+  --t-card:#F2F3F4;
+  --t-soft:#F7F8F9;
   color:var(--t-ink);
   padding:clamp(22px, 3vw, 44px) !important;
   box-sizing:border-box;
